@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
+    "preinstall": "npx only-allow yarn",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -11,8 +11,12 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@nextui-org/react": "^2.4.2",
+    "@nextui-org/system": "^2.2.2",
+    "@nextui-org/theme": "^2.2.6",
     "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.44.2",
+    "framer-motion": "^11.2.12",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18"
