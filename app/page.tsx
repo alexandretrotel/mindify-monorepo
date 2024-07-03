@@ -1,13 +1,10 @@
-import NavbarLayout from "@/components/Navbar";
-import { Features } from "@/components/Features";
+import Hero from "@/components/home/hero";
 
 export default function Home() {
   return (
     <>
-      <NavbarLayout />
-      <main className="flex min-h-screen items-center justify-center px-4 py-24 md:p-24">
-        <Features />
-      </main>
+      <Hero />
+      <main className="flex-1"></main>
     </>
   );
 }
