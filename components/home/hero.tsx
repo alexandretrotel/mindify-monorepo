@@ -6,7 +6,10 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section id="Accueil" className="relative isolate px-6 pt-14 lg:px-8">
+    <section
+      id="Accueil"
+      className="relative isolate flex h-screen items-center justify-center px-4"
+    >
       <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
         <div className="text-center">
           <div className="flex flex-col gap-2">

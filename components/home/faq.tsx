@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import TypographyH2 from "@/components/typography/h2";
 import TypographyH4 from "@/components/typography/h4";
+import Section from "../global/section";
 
 const faqItemsGeneral = [
   {
@@ -51,39 +52,37 @@ const faqItemsPro = [
 
 const Faq = () => {
   return (
-    <section id="FAQ" className="relative isolate px-6 pt-14 lg:px-8">
-      <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:py-28">
+    <Section id="FAQ">
+      <div className="flex flex-col gap-8">
+        <TypographyH2>Foire aux questions</TypographyH2>
+
         <div className="flex flex-col gap-8">
-          <TypographyH2>Foire aux questions</TypographyH2>
+          <div className="flex flex-col gap-2">
+            <TypographyH4>Général</TypographyH4>
+            <Accordion type="single" collapsible className="w-full">
+              {faqItemsGeneral.map((item, index) => (
+                <AccordionItem key={item.title} value={`item-${index}`}>
+                  <AccordionTrigger>{item.title}</AccordionTrigger>
+                  <AccordionContent>{item.content}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
 
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-2">
-              <TypographyH4>Général</TypographyH4>
-              <Accordion type="single" collapsible className="w-full">
-                {faqItemsGeneral.map((item, index) => (
-                  <AccordionItem key={item.title} value={`item-${index}`}>
-                    <AccordionTrigger>{item.title}</AccordionTrigger>
-                    <AccordionContent>{item.content}</AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <TypographyH4>Pro</TypographyH4>
-              <Accordion type="single" collapsible className="w-full">
-                {faqItemsPro.map((item, index) => (
-                  <AccordionItem key={item.title} value={`item-${index}`}>
-                    <AccordionTrigger>{item.title}</AccordionTrigger>
-                    <AccordionContent>{item.content}</AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </div>
+          <div className="flex flex-col gap-2">
+            <TypographyH4>Pro</TypographyH4>
+            <Accordion type="single" collapsible className="w-full">
+              {faqItemsPro.map((item, index) => (
+                <AccordionItem key={item.title} value={`item-${index}`}>
+                  <AccordionTrigger>{item.title}</AccordionTrigger>
+                  <AccordionContent>{item.content}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   );
 };
 
