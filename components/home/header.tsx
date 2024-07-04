@@ -20,7 +20,7 @@ const navigation = [
   { name: "Fonctionnalités", href: "#Fonctionnalités" },
   { name: "Témoignages", href: "#Témoignages" },
   { name: "Prix", href: "#Prix" },
-  { name: "FAQ", href: "#FAQ" }
+  { name: "FAQ", href: "#Faq" }
 ];
 
 export default function Header() {
@@ -36,11 +36,6 @@ export default function Header() {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const scrolltoHash = function (element_id: string) {
-    const element = document.getElementById(element_id);
-    element?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
-  };
 
   return (
     <header
@@ -110,10 +105,14 @@ export default function Header() {
                   <button
                     key={item.name}
                     onClick={() => {
+                      const element = document.querySelector(item.href);
+                      if (element) {
+                        element.scrollIntoView({ behavior: "smooth" });
+                      }
+
                       setMobileMenuOpen(false);
-                      scrolltoHash(item.href);
                     }}
-                    className="-mx-3 block rounded-md px-3 py-2 text-base font-medium hover:bg-slate-100 dark:hover:bg-slate-900"
+                    className="-mx-3 block w-full rounded-md px-3 py-2 text-left text-base font-medium transition-colors duration-300 hover:bg-slate-100 focus:bg-slate-100 focus:outline-none dark:hover:bg-slate-900 dark:focus:bg-slate-900"
                   >
                     {item.name}
                   </button>
