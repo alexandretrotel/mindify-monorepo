@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
@@ -25,9 +25,27 @@ const navigation = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrolltoHash = function (element_id: string) {
+    const element = document.getElementById(element_id);
+    element?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+  };
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 backdrop-blur-2xl transition-colors duration-300 ${isScrolled ? "border-b border-black/10 dark:border-white/10" : "border-b border-transparent"}`}
+    >
       <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
           <Link href="#">
@@ -89,13 +107,16 @@ export default function Header() {
             <div className="-my-6 divide-y divide-black/10 dark:divide-white/10">
               <div className="space-y-2 py-6">
                 {navigation.map((item) => (
-                  <Link
+                  <button
                     key={item.name}
-                    href={`/${item.href}`}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      scrolltoHash(item.href);
+                    }}
                     className="-mx-3 block rounded-md px-3 py-2 text-base font-medium hover:bg-slate-100 dark:hover:bg-slate-900"
                   >
                     {item.name}
-                  </Link>
+                  </button>
                 ))}
               </div>
               <div className="py-6">
