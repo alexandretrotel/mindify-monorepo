@@ -8,7 +8,7 @@ import { login } from "@/actions/auth";
 
 export default function LoginForm() {
   return (
-    <Card className="mx-auto max-w-sm w-full">
+    <Card className="mx-auto w-full max-w-sm border-none shadow-none">
       <CardHeader>
         <CardTitle className="text-2xl">Se connecter</CardTitle>
         <CardDescription>Rentre ton mail pour te connecter à ton compte.</CardDescription>
