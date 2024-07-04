@@ -52,7 +52,7 @@ const faqItemsPro = [
 
 const Faq = () => {
   return (
-    <Section id="FAQ">
+    <Section id="Faq">
       <div className="flex flex-col gap-8">
         <TypographyH2>Foire aux questions</TypographyH2>
 
