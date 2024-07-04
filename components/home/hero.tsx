@@ -22,7 +22,7 @@ const navigation = [
   { name: "Fonctionnalités", href: "#Fonctionnalités" },
   { name: "Témoignages", href: "#Témoignages" },
   { name: "Prix", href: "#Prix" },
-  { name: "Contact", href: "#Contact" }
+  { name: "FAQ", href: "#FAQ" }
 ];
 
 export default function Hero() {
