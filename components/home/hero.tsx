@@ -5,6 +5,7 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -33,10 +34,12 @@ export default function Hero() {
           <div className="flex lg:flex-1">
             <Link href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Savoir</span>
-              <img
+              <Image
                 className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
+                src="/next.svg"
+                alt="Savoir Logo"
+                width={32}
+                height={32}
               />
             </Link>
           </div>
@@ -77,10 +80,12 @@ export default function Hero() {
             <div className="flex items-center justify-between">
               <Link href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Savoir</span>
-                <img
+                <Image
                   className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt=""
+                  src="/next.svg"
+                  alt="Savoir Logo"
+                  width={32}
+                  height={32}
                 />
               </Link>
               <button
@@ -121,8 +126,8 @@ export default function Hero() {
           <div className="text-center">
             <H1>Prêt à changer ta vie?</H1>
             <TypographyP>
-              Accède à toutes les connaissances qu'on ne t'apprend pas à l'école pour devenir la
-              personne dont tu rêves.
+              Accède à toutes les connaissances qu&apos;on ne t&apos;apprend pas à l&apos;école pour
+              devenir la personne dont tu rêves.
             </TypographyP>
             <div className="mx-auto mt-10 flex items-center justify-center gap-x-6">
               <Button asChild>

@@ -29,7 +29,7 @@ export default function LoginForm() {
         <div className="mt-4 text-center text-sm">
           Pas encore de compte?{" "}
           <Link href="/signup" className="underline">
-            S'inscrire
+            S&apos;inscrire
           </Link>
         </div>
       </CardContent>

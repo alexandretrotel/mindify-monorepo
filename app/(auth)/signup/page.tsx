@@ -33,7 +33,7 @@ export default function SignupForm() {
             Créer un compte
           </Button>
           <Button variant="outline" className="w-full">
-            S'inscrire avec GitHub
+            S&apos;inscrire avec GitHub
           </Button>
         </div>
         <div className="mt-4 text-center text-sm">
