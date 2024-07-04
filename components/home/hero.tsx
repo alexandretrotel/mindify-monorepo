@@ -58,7 +58,7 @@ export default function Hero() {
               <NavigationMenuList>
                 {navigation.map((item) => (
                   <NavigationMenuItem key={item.name}>
-                    <Link href={`/#${item.href}`} legacyBehavior passHref>
+                    <Link href={`/${item.href}`} legacyBehavior passHref>
                       <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                         {item.name}
                       </NavigationMenuLink>
@@ -103,7 +103,7 @@ export default function Hero() {
                   {navigation.map((item) => (
                     <Link
                       key={item.name}
-                      href={`/#${item.href}`}
+                      href={`/${item.href}`}
                       className="-mx-3 block rounded-md px-3 py-2 text-base font-medium hover:bg-slate-900 hover:bg-opacity-5"
                     >
                       {item.name}
