@@ -8,7 +8,7 @@ import { signup } from "@/actions/auth";
 
 export default function SignupForm() {
   return (
-    <Card className="mx-auto max-w-sm w-full">
+    <Card className="mx-auto max-w-sm w-full border-none shadow-none">
       <CardHeader>
         <CardTitle className="text-xl">Créer un compte</CardTitle>
         <CardDescription>Rentre tes informations pour créer ton compte.</CardDescription>
