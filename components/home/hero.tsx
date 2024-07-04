@@ -95,14 +95,14 @@ export default function Hero() {
                     <Link
                       key={item.name}
                       href={`/${item.href}`}
-                      className="-mx-3 block rounded-md px-3 py-2 text-base font-medium hover:bg-slate-900 hover:bg-opacity-5"
+                      className="-mx-3 block rounded-md px-3 py-2 text-base font-medium hover:bg-slate-100 dark:hover:bg-slate-900"
                     >
                       {item.name}
                     </Link>
                   ))}
                 </div>
                 <div className="py-6">
-                  <Button asChild variant="outline">
+                  <Button asChild>
                     <Link href="/login">Se connecter</Link>
                   </Button>
                 </div>
