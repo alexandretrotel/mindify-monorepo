@@ -1,10 +1,13 @@
+import Header from "@/components/home/header";
 import Hero from "@/components/home/hero";
 
 export default function Home() {
   return (
     <>
-      <Hero />
-      <main className="flex-1"></main>
+      <Header />
+      <main className="flex-1">
+        <Hero />
+      </main>
     </>
   );
 }
