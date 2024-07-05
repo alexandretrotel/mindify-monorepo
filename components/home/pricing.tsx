@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +17,15 @@ import { CheckIcon } from "lucide-react";
 import Section from "@/components/global/section";
 import TypographyH2 from "@/components/typography/h2";
 
+const proPricePerMonth = 3;
+const ultraPricePerMonth = 5;
+
+const proPricePerYear = Math.floor(proPricePerMonth * 12 * 0.8); // 20% off
+const ultraPricePerYear = Math.floor(ultraPricePerMonth * 12 * 0.8); // 20% off
+
 export default function Pricing() {
+  const [isAnnual, setIsAnnual] = useState(false);
+
   return (
     <Section id="pricing" fullWidth>
       <div className="mx-auto max-w-5xl">
@@ -26,7 +37,7 @@ export default function Pricing() {
           <Label htmlFor="payment-schedule" className="me-3">
             Mensuel
           </Label>
-          <Switch id="payment-schedule" />
+          <Switch id="payment-schedule" checked={isAnnual} onCheckedChange={setIsAnnual} />
           <Label htmlFor="payment-schedule" className="relative ms-3">
             Annuel
             <span className="absolute -end-28 -top-10 start-auto">
@@ -81,7 +92,10 @@ export default function Pricing() {
             <CardHeader className="pb-2 text-center">
               <Badge className="mb-3 w-max self-center uppercase">Le + Populaire</Badge>
               <CardTitle className="!mb-7">Pro</CardTitle>
-              <span className="text-5xl font-bold">3€</span>
+              <span className="text-5xl font-bold">
+                {isAnnual ? proPricePerYear : proPricePerMonth}€{" "}
+                <span className="text-sm">/{isAnnual ? "an" : "mois"}</span>
+              </span>
             </CardHeader>
             <CardDescription className="mx-auto w-11/12 text-center">
               Connaissances illimitées
@@ -112,7 +126,10 @@ export default function Pricing() {
           <Card>
             <CardHeader className="pb-2 text-center">
               <CardTitle className="mb-7">Ultra</CardTitle>
-              <span className="text-5xl font-bold">5€</span>
+              <span className="text-5xl font-bold">
+                {isAnnual ? ultraPricePerYear : ultraPricePerMonth}€{" "}
+                <span className="text-sm">/{isAnnual ? "an" : "mois"}</span>
+              </span>
             </CardHeader>
             <CardDescription className="text-center">Connaissances illimitées et +</CardDescription>
             <CardContent>
