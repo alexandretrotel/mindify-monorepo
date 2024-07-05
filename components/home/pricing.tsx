@@ -14,104 +14,12 @@ import { CheckIcon } from "lucide-react";
 import Section from "@/components/global/section";
 import TypographyH2 from "@/components/typography/h2";
 
-interface PlanFeature {
-  type: string;
-  features: {
-    name: string;
-    free: boolean;
-    startup: boolean;
-    team: boolean;
-    enterprise: boolean;
-  }[];
-}
-
-const planFeatures: PlanFeature[] = [
-  {
-    type: "Financial data",
-    features: [
-      {
-        name: "Open/High/Low/Close",
-        free: true,
-        startup: true,
-        team: true,
-        enterprise: true
-      },
-      {
-        name: "Price-volume difference indicator	",
-        free: true,
-        startup: true,
-        team: true,
-        enterprise: true
-      }
-    ]
-  },
-  {
-    type: "On-chain data",
-    features: [
-      {
-        name: "Network growth",
-        free: true,
-        startup: false,
-        team: true,
-        enterprise: true
-      },
-      {
-        name: "Average token age consumed",
-        free: true,
-        startup: false,
-        team: true,
-        enterprise: true
-      },
-      {
-        name: "Exchange flow",
-        free: false,
-        startup: false,
-        team: true,
-        enterprise: true
-      },
-      {
-        name: "Total ERC20 exchange funds flow",
-        free: false,
-        startup: false,
-        team: true,
-        enterprise: true
-      }
-    ]
-  },
-  {
-    type: "Social data",
-    features: [
-      {
-        name: "Dev activity",
-        free: false,
-        startup: true,
-        team: false,
-        enterprise: true
-      },
-      {
-        name: "Topic search",
-        free: true,
-        startup: true,
-        team: true,
-        enterprise: true
-      },
-      {
-        name: "Relative social dominance",
-        free: true,
-        startup: true,
-        team: false,
-        enterprise: true
-      }
-    ]
-  }
-];
-
 export default function Pricing() {
   return (
-    <Section id="Prix" fullWidth>
+    <Section id="pricing" fullWidth>
       <div className="mx-auto max-w-5xl">
         <div className="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
-          <TypographyH2>Passe à Mindify Pro dès maintenant !</TypographyH2>
+          <TypographyH2>Choisissez votre abonnement</TypographyH2>
         </div>
 
         <div className="flex items-center justify-center">
@@ -149,7 +57,7 @@ export default function Pricing() {
               <CardTitle className="mb-7">Standard</CardTitle>
               <span className="text-5xl font-bold">Gratuit</span>
             </CardHeader>
-            <CardDescription className="text-center">Connaissances limitées</CardDescription>
+            <CardDescription className="text-center">Quelques connaissances</CardDescription>
             <CardContent>
               <ul className="mt-7 space-y-2.5 text-sm">
                 <li className="flex space-x-2">
@@ -206,7 +114,7 @@ export default function Pricing() {
               <CardTitle className="mb-7">Ultra</CardTitle>
               <span className="text-5xl font-bold">5€</span>
             </CardHeader>
-            <CardDescription className="text-center">Connaissances illimitées</CardDescription>
+            <CardDescription className="text-center">Connaissances illimitées et +</CardDescription>
             <CardContent>
               <ul className="mt-7 space-y-2.5 text-sm">
                 <li className="flex space-x-2">
