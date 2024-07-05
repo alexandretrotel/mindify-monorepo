@@ -78,7 +78,7 @@ const ReviewCard = ({
 
 const Testimonials = () => {
   return (
-    <Section id="Témoignages" fullWidth>
+    <Section id="testimonials" fullWidth>
       <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-background">
         <Marquee pauseOnHover className="[--duration:20s]">
           {firstRow.map((review) => (

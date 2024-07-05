@@ -16,11 +16,11 @@ import ToggleTheme from "@/components/global/toggleTheme";
 import H2 from "@/components/typography/h2";
 
 const navigation = [
-  { name: "Accueil", href: "#Accueil" },
-  { name: "Fonctionnalités", href: "#Fonctionnalités" },
-  { name: "Témoignages", href: "#Témoignages" },
-  { name: "Prix", href: "#Prix" },
-  { name: "FAQ", href: "#Faq" }
+  { name: "Accueil", href: "#hero" },
+  { name: "Fonctionnalités", href: "#features" },
+  { name: "Témoignages", href: "#testimonials" },
+  { name: "Prix", href: "#pricing" },
+  { name: "FAQ", href: "#faq" }
 ];
 
 export default function Header() {

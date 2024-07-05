@@ -16,7 +16,7 @@ import TypographyP from "../typography/p";
 const Hero = () => {
   return (
     <section
-      id="Accueil"
+      id="hero"
       className="relative isolate flex h-screen items-center justify-center px-4"
     >
       <div className="relative overflow-hidden">
@@ -53,7 +53,7 @@ const Hero = () => {
 
               <div className="absolute end-0 top-0 hidden -translate-y-12 translate-x-20 md:block">
                 <svg
-                  className="h-auto w-16 text-orange-500"
+                  className="h-auto w-16 text-primary"
                   width={121}
                   height={135}
                   viewBox="0 0 121 135"
@@ -83,7 +83,7 @@ const Hero = () => {
 
               <div className="absolute bottom-0 start-0 hidden -translate-x-32 translate-y-10 md:block">
                 <svg
-                  className="h-auto w-40 text-cyan-500"
+                  className="h-auto w-40 text-primary"
                   width={347}
                   height={188}
                   viewBox="0 0 347 188"
