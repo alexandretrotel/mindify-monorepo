@@ -54,7 +54,7 @@ const Faq = () => {
   return (
     <Section id="faq">
       <div className="flex flex-col gap-8">
-        <TypographyH2>Foire aux questions</TypographyH2>
+        <TypographyH2 center>Foire aux questions</TypographyH2>
 
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
