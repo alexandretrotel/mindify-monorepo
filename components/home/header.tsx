@@ -17,8 +17,8 @@ import H2 from "@/components/typography/h2";
 import Banner from "@/components/home/banner";
 
 const navigation = [
-  { name: "Accueil", href: "#hero" },
-  { name: "Fonctionnalités", href: "#features" },
+  { name: "Accueil", href: "#home" },
+  { name: "Notre service", href: "#service" },
   { name: "Témoignages", href: "#testimonials" },
   { name: "Prix", href: "#pricing" },
   { name: "FAQ", href: "#faq" }
