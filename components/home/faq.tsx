@@ -11,42 +11,42 @@ import Section from "../global/section";
 
 const faqItemsGeneral = [
   {
-    title: "Qu'est-ce que Savoir?",
+    title: "Qu'est-ce que Mindify ?",
     content:
-      "Savoir est une application web qui vous permet d'accéder à des connaissances sur divers sujets. Vous retrouverez des idées et des concepts extraits principalement de livres, de podcasts et de vidéos."
+      "Mindify est une application web qui vous permet d'accéder à des connaissances sur divers sujets. Vous retrouverez des idées et des concepts extraits principalement de livres, de podcasts et de vidéos."
   },
   {
-    title: "Pourquoi utiliser Savoir?",
+    title: "Pourquoi utiliser Mindify ?",
     content:
-      "Avec Savoir, vous pouvez apprendre de nouvelles choses et découvrir des idées qui peuvent changer votre vie."
+      "Avec Mindify, vous pouvez apprendre de nouvelles choses et découvrir des idées qui peuvent changer votre vie."
   },
   {
-    title: "Comment utiliser Savoir?",
+    title: "Comment utiliser Mindify ?",
     content:
-      "Pour utiliser Savoir, il vous suffit de vous inscrire et de commencer à explorer les différentes catégories de connaissances disponibles."
+      "Pour utiliser Mindify, il vous suffit de vous inscrire et de commencer à explorer les différentes catégories de connaissances disponibles."
   }
 ];
 
 const faqItemsPro = [
   {
-    title: "Qu'est-ce que Savoir Pro?",
+    title: "Qu'est-ce que Mindify Pro ?",
     content:
-      "Savoir Pro est une version premium de Savoir qui vous permet d'accéder à l'ensemble des connaissances disponibles sur la plateforme. Avec Savoir Pro, vous pouvez également accéder à des fonctionnalités exclusives."
+      "Mindify Pro est une version premium de Mindify qui vous permet d'accéder à l'ensemble des connaissances disponibles sur la plateforme. Avec Mindify Pro, vous pouvez également accéder à des fonctionnalités exclusives."
   },
   {
-    title: "Comment s'inscrire à Savoir Pro?",
+    title: "Comment s'inscrire à Mindify Pro ?",
     content:
-      "Pour vous inscrire à Savoir Pro, il vous suffit d'aller dans la section Prix et de cliquer sur le bouton Obtenir Savoir Pro."
+      "Pour vous inscrire à Mindify Pro, il vous suffit d'aller dans la section Prix et de cliquer sur le bouton Obtenir Mindify Pro."
   },
   {
-    title: "Est-ce possible d'annuler mon abonnement à Savoir Pro?",
+    title: "Est-ce possible d'annuler mon abonnement à Mindify Pro ?",
     content:
-      "Oui, vous pouvez annuler votre abonnement à Savoir Pro à tout moment en vous rendant dans la section Paramètres de votre compte."
+      "Oui, vous pouvez annuler votre abonnement à Mindify Pro à tout moment en vous rendant dans la section Paramètres de votre compte."
   },
   {
-    title: "Quand est-ce que mon abonnement à Savoir Pro sera activé?",
+    title: "Quand est-ce que mon abonnement à Mindify Pro sera activé ?",
     content:
-      "Votre abonnement à Savoir Pro sera activé dans les 24 heures suivant votre paiement le temps que nous vérifions votre paiement."
+      "Votre abonnement à Mindify Pro sera activé dans les 24 heures suivant votre paiement le temps que nous vérifions votre paiement."
   }
 ];
 
@@ -62,7 +62,7 @@ const Faq = () => {
             <Accordion type="single" collapsible className="w-full">
               {faqItemsGeneral.map((item, index) => (
                 <AccordionItem key={item.title} value={`item-${index}`}>
-                  <AccordionTrigger>{item.title}</AccordionTrigger>
+                  <AccordionTrigger className="text-left">{item.title}</AccordionTrigger>
                   <AccordionContent>{item.content}</AccordionContent>
                 </AccordionItem>
               ))}
@@ -74,7 +74,7 @@ const Faq = () => {
             <Accordion type="single" collapsible className="w-full">
               {faqItemsPro.map((item, index) => (
                 <AccordionItem key={item.title} value={`item-${index}`}>
-                  <AccordionTrigger>{item.title}</AccordionTrigger>
+                  <AccordionTrigger className="text-left">{item.title}</AccordionTrigger>
                   <AccordionContent>{item.content}</AccordionContent>
                 </AccordionItem>
               ))}

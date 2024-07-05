@@ -27,7 +27,7 @@ export default function SignupForm() {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="m@example.com" required />
+            <Input id="email" type="email" placeholder="email@mindify.fr" required />
           </div>
           <Button type="submit" className="w-full" formAction={signup}>
             Créer un compte
