@@ -10,18 +10,9 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
-import { CheckIcon, MinusIcon } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 import Section from "@/components/global/section";
-import TypographyH2 from "../typography/h2";
-import TypographyP from "../typography/p";
+import TypographyH2 from "@/components/typography/h2";
 
 interface PlanFeature {
   type: string;
