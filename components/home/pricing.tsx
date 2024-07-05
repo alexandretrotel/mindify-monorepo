@@ -17,11 +17,16 @@ import { CheckIcon } from "lucide-react";
 import Section from "@/components/global/section";
 import TypographyH2 from "@/components/typography/h2";
 
+const discount = 25;
+
 const proPricePerMonth = 3;
 const ultraPricePerMonth = 5;
 
-const proPricePerYear = Math.floor(proPricePerMonth * 12 * 0.8); // 20% off
-const ultraPricePerYear = Math.floor(ultraPricePerMonth * 12 * 0.8); // 20% off
+const originalProPricePerYear = proPricePerMonth * 12;
+const originalUltraPricePerYear = ultraPricePerMonth * 12;
+
+const proPricePerYear = Math.floor(proPricePerMonth * 12 * (1 - discount / 100));
+const ultraPricePerYear = Math.floor(ultraPricePerMonth * 12 * (1 - discount / 100));
 
 export default function Pricing() {
   const [isAnnual, setIsAnnual] = useState(false);
@@ -56,7 +61,7 @@ export default function Pricing() {
                     className="text-muted-foreground"
                   />
                 </svg>
-                <Badge className="mt-3 uppercase">Remise de 20%</Badge>
+                <Badge className="mt-3 uppercase">Remise de {discount}%</Badge>
               </span>
             </span>
           </Label>
@@ -93,6 +98,9 @@ export default function Pricing() {
               <Badge className="mb-3 w-max self-center uppercase">Le + Populaire</Badge>
               <CardTitle className="!mb-7">Pro</CardTitle>
               <span className="text-5xl font-bold">
+                <span className="text-muted-foreground line-through">
+                  {isAnnual && originalProPricePerYear + "€"}
+                </span>{" "}
                 {isAnnual ? proPricePerYear : proPricePerMonth}€{" "}
                 <span className="text-sm">/{isAnnual ? "an" : "mois"}</span>
               </span>
@@ -127,6 +135,9 @@ export default function Pricing() {
             <CardHeader className="pb-2 text-center">
               <CardTitle className="mb-7">Ultra</CardTitle>
               <span className="text-5xl font-bold">
+                <span className="text-muted-foreground line-through">
+                  {isAnnual && originalUltraPricePerYear + "€"}
+                </span>{" "}
                 {isAnnual ? ultraPricePerYear : ultraPricePerMonth}€{" "}
                 <span className="text-sm">/{isAnnual ? "an" : "mois"}</span>
               </span>
