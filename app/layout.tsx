@@ -12,9 +12,9 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "Savoir",
+  title: "Mindify",
   description:
-    "Savoir est une plateforme vous permettant d'élargir vos connaissances à partir de résumés de livres."
+    "Mindify est une plateforme vous permettant d'élargir vos connaissances à partir de résumés de livres."
 };
 
 export default function RootLayout({
