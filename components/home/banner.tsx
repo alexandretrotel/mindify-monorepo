@@ -12,12 +12,15 @@ export default function Banner() {
   const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const updateTimer = () => {
       setTimeLeft(calculateTimeLeft(launchDate));
-    }, 1000);
+    };
 
-    return () => clearTimeout(timer);
-  }, [timeLeft]);
+    updateTimer();
+    const timerId = setInterval(updateTimer, 1000);
+
+    return () => clearInterval(timerId);
+  }, []);
 
   if (!timeLeft) {
     return (
