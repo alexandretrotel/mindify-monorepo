@@ -17,7 +17,7 @@ export default function LoginForm() {
         <div className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="email@mindify.fr" required />
+            <Input id="email" type="email" placeholder="jean@mindify.fr" required />
           </div>
           <Button type="submit" className="w-full" formAction={login}>
             Se connecter
