@@ -26,15 +26,15 @@ export default function Banner() {
     timeLeft.seconds === 0
   ) {
     return (
-      <div className="flex w-full items-center justify-center gap-x-6 bg-primary px-6 py-2.5 text-primary sm:px-3.5">
-        <TypographyP>Mindify est maintenant disponible !</TypographyP>
+      <div className="hidden w-full items-center justify-center gap-x-6 bg-primary px-6 py-2.5 text-center text-primary sm:px-3.5 md:flex">
+        <TypographyP center>Mindify est maintenant disponible !</TypographyP>
       </div>
     );
   }
 
   return (
-    <div className="flex w-full items-center justify-center gap-x-6 bg-primary px-6 py-2.5 text-primary sm:px-3.5">
-      <TypographyP>
+    <div className="hidden w-full items-center justify-center gap-x-6 bg-primary px-6 py-2.5 text-primary sm:px-3.5 md:flex">
+      <TypographyP center>
         Lancement prévu dans <TypographySemibold>{timeLeft.days || 0} jours</TypographySemibold>,{" "}
         <TypographySemibold>{timeLeft.hours || 0} heures</TypographySemibold>,{" "}
         <TypographySemibold>{timeLeft.minutes || 0} minutes</TypographySemibold>, et{" "}
