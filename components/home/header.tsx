@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import ToggleTheme from "@/components/global/toggleTheme";
 import H2 from "@/components/typography/h2";
+import Banner from "@/components/home/banner";
 
 const navigation = [
   { name: "Accueil", href: "#hero" },
@@ -41,6 +42,7 @@ export default function Header() {
     <header
       className={`fixed inset-x-0 top-0 z-50 backdrop-blur-2xl transition-colors duration-300 ${isScrolled ? "border-b border-black/10 dark:border-white/10" : "border-b border-transparent"}`}
     >
+      <Banner />
       <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
           <Link href="#">

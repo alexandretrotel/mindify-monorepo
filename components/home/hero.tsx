@@ -24,7 +24,7 @@ const Hero = () => {
           <div className="text-center">
             <div className="mx-auto flex max-w-xl flex-col gap-2 text-center">
               <TypographyH1>Mindify</TypographyH1>
-              <TypographyP>
+              <TypographyP muted>
                 Deviens + intelligent avec des connaissances extraits de livres, articles, podcasts
                 et vidéos.
               </TypographyP>
