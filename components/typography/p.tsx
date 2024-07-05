@@ -1,3 +1,13 @@
-export default function TypographyP({ children }: { children: React.ReactNode }) {
-  return <p className="leading-7 text-muted-foreground">{children}</p>;
+export default function TypographyP({
+  children,
+  muted
+}: {
+  children: React.ReactNode;
+  muted?: boolean;
+}) {
+  return (
+    <p className={`leading-7 ${muted ? "text-muted-foreground" : "text-primary-foreground"}`}>
+      {children}
+    </p>
+  );
 }
