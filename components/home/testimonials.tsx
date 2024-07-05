@@ -79,7 +79,7 @@ const ReviewCard = ({
 const Testimonials = () => {
   return (
     <Section id="testimonials" fullWidth>
-      <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-background">
+      <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden">
         <Marquee pauseOnHover className="[--duration:20s]">
           {firstRow.map((review) => (
             <ReviewCard key={review.username} {...review} />

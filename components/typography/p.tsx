@@ -9,7 +9,7 @@ export default function TypographyP({
 }) {
   return (
     <p
-      className={`leading-7 ${muted ? "text-muted-foreground" : "text-primary-foreground"} ${center && "text-center"}`}
+      className={`${muted ? "text-muted-foreground" : "text-primary-foreground"} ${center && "text-center"}`}
     >
       {children}
     </p>
