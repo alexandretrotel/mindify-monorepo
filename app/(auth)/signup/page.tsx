@@ -18,16 +18,16 @@ export default function SignupForm() {
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
               <Label htmlFor="first-name">Prénom</Label>
-              <Input id="first-name" placeholder="Max" required />
+              <Input id="first-name" placeholder="Jean" required />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="last-name">Nom</Label>
-              <Input id="last-name" placeholder="Robinson" required />
+              <Input id="last-name" placeholder="Dupont" required />
             </div>
           </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="email@mindify.fr" required />
+            <Input id="email" type="email" placeholder="jean@mindify.fr" required />
           </div>
           <Button type="submit" className="w-full" formAction={signup}>
             Créer un compte

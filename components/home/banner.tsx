@@ -9,7 +9,7 @@ import TypographySemibold from "@/components/typography/semibold";
 const launchDate: Date = new Date("2024-09-02T12:00:00Z");
 
 export default function Banner() {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft(launchDate));
+  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -18,6 +18,19 @@ export default function Banner() {
 
     return () => clearTimeout(timer);
   }, [timeLeft]);
+
+  if (!timeLeft) {
+    return (
+      <div className="hidden w-full items-center justify-center gap-x-6 bg-primary px-6 py-2.5 text-center text-primary sm:px-3.5 md:flex">
+        <TypographyP center>
+          Lancement prévu dans <TypographySemibold>0 jours</TypographySemibold>,{" "}
+          <TypographySemibold>0 heures</TypographySemibold>,{" "}
+          <TypographySemibold>0 minutes</TypographySemibold>, et{" "}
+          <TypographySemibold>0 secondes</TypographySemibold>.
+        </TypographyP>
+      </div>
+    );
+  }
 
   if (
     timeLeft.days === 0 &&

@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme";
-
-import "./globals.css";
 import Head from "next/head";
+import { Theme } from "@radix-ui/themes";
+
+// Import global styles
+import "./globals.css";
+import "@radix-ui/themes/styles.css";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -29,7 +32,7 @@ export default function RootLayout({
       </Head>
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <Theme>{children}</Theme>
         </ThemeProvider>
       </body>
     </html>

@@ -17,7 +17,7 @@ const reviews = [
     img: "/avatar.jpg"
   },
   {
-    name: "John",
+    name: "Jean",
     username: "@john",
     body: "I'm at a loss for words. This is amazing. I love it.",
     img: "/avatar.jpg"
