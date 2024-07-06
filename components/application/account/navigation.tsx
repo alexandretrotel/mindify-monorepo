@@ -7,28 +7,22 @@ import {
 } from "@/components/ui/navigation-menu";
 import { BellRingIcon, CreditCardIcon, SettingsIcon, UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
 import type { AccountCategory } from "@/types/account/categories";
-import { useSearchParams } from "next/navigation";
+import AccountCategories from "@/components/application/account/accountCategories";
+import type { User } from "@supabase/supabase-js";
 
-export default function Navigation() {
-  const [category, setCategory] = useState<AccountCategory | null>(null);
-
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const category = searchParams.get("category") as AccountCategory;
-
-    if (category) {
-      setCategory(category);
-    } else {
-      setCategory("profile");
-    }
-  }, [searchParams]);
-
+export default function Navigation({
+  data,
+  category,
+  setCategory
+}: {
+  data: { user: User };
+  category: AccountCategory;
+  setCategory: React.Dispatch<React.SetStateAction<AccountCategory>>;
+}) {
   return (
-    <div className="flex h-full flex-col gap-4 md:flex-row">
-      <div className="-mt-2 overflow-x-auto overflow-y-hidden py-2 md:mt-0 md:w-1/5 md:py-0">
+    <div className="flex flex-col gap-4 md:flex-row">
+      <div className="hide-scrollbar overflow-x-auto md:w-1/5">
         <NavigationMenu className="w-full min-w-full justify-start">
           <NavigationMenuList className="flex w-full gap-2 space-x-0 md:flex-col">
             <NavigationMenuItem className="w-full">
@@ -78,7 +72,10 @@ export default function Navigation() {
           </NavigationMenuList>
         </NavigationMenu>
       </div>
-      <div className="h-full w-full rounded-md bg-slate-200"></div>
+
+      <div className="w-full">
+        <AccountCategories data={data} category={category} />
+      </div>
     </div>
   );
 }
