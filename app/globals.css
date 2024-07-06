@@ -136,3 +136,8 @@ a:hover {
   -webkit-backdrop-filter: blur(64px);
   backdrop-filter: blur(64px);
 }
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

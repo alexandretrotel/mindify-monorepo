@@ -28,7 +28,7 @@ export default function Navigation() {
 
   return (
     <div className="flex h-full flex-col gap-4 md:flex-row">
-      <div className="-mt-2 overflow-x-auto overflow-y-hidden py-2 md:mt-0 md:w-1/5 md:py-0">
+      <div className="hide-scrollbar -mt-2 overflow-x-auto overflow-y-hidden py-2 md:mt-0 md:w-1/5 md:py-0">
         <NavigationMenu className="w-full min-w-full justify-start">
           <NavigationMenuList className="flex w-full gap-2 space-x-0 md:flex-col">
             <NavigationMenuItem className="w-full">
