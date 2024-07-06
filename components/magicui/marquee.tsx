@@ -18,7 +18,7 @@ export default function Marquee({
   vertical = false,
   repeat = 4,
   ...props
-}: MarqueeProps) {
+}: Readonly<MarqueeProps>) {
   return (
     <div
       {...props}
