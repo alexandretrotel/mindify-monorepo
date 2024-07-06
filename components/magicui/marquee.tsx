@@ -18,12 +18,12 @@ export default function Marquee({
   vertical = false,
   repeat = 4,
   ...props
-}: MarqueeProps) {
+}: Readonly<MarqueeProps>) {
   return (
     <div
       {...props}
       className={cn(
-        "group flex overflow-hidden p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]",
+        "group flex overflow-hidden bg-background p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]",
         {
           "flex-row": !vertical,
           "flex-col": vertical
