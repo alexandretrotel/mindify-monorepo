@@ -16,6 +16,7 @@ import { Switch } from "@/components/ui/switch";
 import { CheckIcon } from "lucide-react";
 import Section from "@/components/global/section";
 import TypographyH2 from "@/components/typography/h2";
+import Link from "next/link";
 
 const discount = 25;
 
@@ -87,8 +88,8 @@ export default function Pricing() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" variant={"outline"}>
-                S&apos;inscrire
+              <Button className="w-full" variant={"outline"} asChild>
+                <Link href="/signup">S&apos;inscrire</Link>
               </Button>
             </CardFooter>
           </Card>
@@ -127,7 +128,9 @@ export default function Pricing() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button className="w-full">S&apos;abonner</Button>
+              <Button disabled className="w-full">
+                S&apos;abonner
+              </Button>
             </CardFooter>
           </Card>
 
@@ -160,7 +163,7 @@ export default function Pricing() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button variant="outline" className="w-full">
+              <Button disabled variant="outline" className="w-full">
                 S&apos;abonner
               </Button>
             </CardFooter>
