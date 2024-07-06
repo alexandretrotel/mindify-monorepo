@@ -6,7 +6,6 @@ import Head from "next/head";
 
 // Import global styles
 import "./globals.css";
-import "@radix-ui/themes/styles.css";
 
 const fontSans = FontSans({
   subsets: ["latin"],
