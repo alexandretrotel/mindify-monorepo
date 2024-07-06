@@ -36,15 +36,19 @@ export default function AuthProviders({ isSignup }: Readonly<{ isSignup?: boolea
       </form>
       <form action={handleSignInWithSocials} method="post">
         <input type="hidden" name="provider" value="google" />
-        <SubmitButton outline>S&apos;inscrire avec Google</SubmitButton>
+        <SubmitButton outline>{isSignup ? "S'inscrire" : "Se connecter"} avec Google</SubmitButton>
       </form>
       <form action={handleSignInWithSocials} method="post">
         <input type="hidden" name="provider" value="facebook" />
-        <SubmitButton outline>S&apos;inscrire avec Facebook</SubmitButton>
+        <SubmitButton outline>
+          {isSignup ? "S'inscrire" : "Se connecter"} avec Facebook
+        </SubmitButton>
       </form>
       <form action={handleSignInWithSocials} method="post">
         <input type="hidden" name="provider" value="linkedin_oidc" />
-        <SubmitButton outline>S&apos;inscrire avec Linkedin</SubmitButton>
+        <SubmitButton outline>
+          {isSignup ? "S'inscrire" : "Se connecter"} avec Linkedin
+        </SubmitButton>
       </form>
     </div>
   );
