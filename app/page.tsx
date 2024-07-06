@@ -24,15 +24,5 @@ export default async function Home() {
     );
   }
 
-  return (
-    <>
-      <Header />
-      <main className="flex-1">
-        <Hero />
-        <Testimonials />
-        <Pricing />
-        <Faq />
-      </main>
-    </>
-  );
+  return <>{data.user.email}</>;
 }
