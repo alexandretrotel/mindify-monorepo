@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme";
 import Head from "next/head";
-import { Theme } from "@radix-ui/themes";
 
 // Import global styles
 import "./globals.css";
@@ -32,7 +31,7 @@ export default function RootLayout({
       </Head>
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Theme>{children}</Theme>
+          {children}
         </ThemeProvider>
       </body>
     </html>
