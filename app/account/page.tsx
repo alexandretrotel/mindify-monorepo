@@ -18,8 +18,8 @@ export default async function Account() {
   }
 
   return (
-    <div className="mx-auto flex h-screen max-w-7xl flex-col gap-8 p-8 py-12">
-      <div className="flex w-full items-center justify-between">
+    <div className="mx-auto flex h-screen max-w-7xl flex-col gap-8 p-4 py-12 md:p-8">
+      <div className="flex w-full items-start justify-between">
         <div className="flex flex-col">
           <TypographyH3AsSpan>Mon compte</TypographyH3AsSpan>
           <TypographyP muted>

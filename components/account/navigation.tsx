@@ -27,10 +27,10 @@ export default function Navigation() {
   }, [searchParams]);
 
   return (
-    <div className="flex h-full gap-4">
-      <div className="w-1/5">
+    <div className="flex h-full flex-col gap-4 md:flex-row">
+      <div className="-mt-2 overflow-x-auto overflow-y-hidden py-2 md:mt-0 md:w-1/5 md:py-0">
         <NavigationMenu className="w-full min-w-full justify-start">
-          <NavigationMenuList className="flex w-full flex-col gap-2 space-x-0">
+          <NavigationMenuList className="flex w-full gap-2 space-x-0 md:flex-col">
             <NavigationMenuItem className="w-full">
               <Button
                 onClick={() => setCategory("profile")}
@@ -78,7 +78,7 @@ export default function Navigation() {
           </NavigationMenuList>
         </NavigationMenu>
       </div>
-      <div className="w-full rounded-md bg-slate-200"></div>
+      <div className="h-full w-full rounded-md bg-slate-200"></div>
     </div>
   );
 }

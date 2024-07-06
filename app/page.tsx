@@ -44,7 +44,7 @@ export default async function Home() {
 
   return (
     <>
-      <div className="mx-auto flex h-screen max-w-7xl flex-col justify-between p-8 py-12">
+      <div className="md:flew-row mx-auto flex h-screen max-w-7xl flex-col justify-between p-4 py-12 md:p-8">
         <header className="flex w-full items-center justify-between">
           <NavigationMenu className="flex items-center gap-4">
             <NavigationMenuList className="flex items-center gap-4">
@@ -74,7 +74,7 @@ export default async function Home() {
                 </Avatar>
               </DropdownMenuTrigger>
 
-              <DropdownMenuContent side="bottom">
+              <DropdownMenuContent side="bottom" className="mx-4">
                 <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
