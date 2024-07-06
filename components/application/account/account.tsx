@@ -25,7 +25,7 @@ export default function Account({
 
   return (
     <div className="fixed left-0 top-0 z-[1000] mx-auto flex h-full w-full items-start justify-center bg-background">
-      <div className="mx-4 flex h-full w-full flex-col justify-center gap-8 overflow-y-auto py-12 md:max-w-7xl md:p-8">
+      <div className="hide-scrollbar mx-4 flex w-full flex-col justify-center gap-8 overflow-y-auto py-12 md:max-w-7xl md:p-8">
         <div className="flex w-full items-start justify-between">
           <div className="flex flex-col">
             <TypographyH3AsSpan>Mon compte</TypographyH3AsSpan>
