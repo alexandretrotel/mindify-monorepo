@@ -174,10 +174,6 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
                 id="name-display"
                 name="name-display"
                 placeholder={userMetadata.name}
-                minLength={2}
-                maxLength={30}
-                value={name}
-                onChange={(event) => setName(event.target.value)}
               />
               <DialogTrigger asChild>
                 <Button variant="default" size="sm">
@@ -198,7 +194,16 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
                   Vous pouvez modifier votre nom pour qu&apos;il soit plus personnel.
                 </TypographySpan>
               </DialogDescription>
-              <Input type="text" id="name" name="name" placeholder={userMetadata.name} />
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                placeholder={userMetadata.name}
+                minLength={2}
+                maxLength={30}
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+              />
               <DialogFooter>
                 <LoadingButton
                   onClick={async () => {
