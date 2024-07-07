@@ -220,7 +220,7 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
         </div>
 
         <div className="flex flex-col gap-2">
-          <Dialog open={isBiographyModalOpen}>
+          <Dialog open={isBiographyModalOpen} onOpenChange={setIsBiographyModalOpen}>
             <Label htmlFor="bio" className="text-text text-sm font-medium">
               Bio
             </Label>
