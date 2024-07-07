@@ -178,7 +178,27 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
                 maxLength={30}
               />
               <DialogTrigger asChild>
-                <Button
+                <Button variant="default" size="sm">
+                  Modifier
+                </Button>
+              </DialogTrigger>
+            </div>
+            <TypographyP muted size="sm">
+              Le nom que les autres verront sur le site.
+            </TypographyP>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Modifier le nom</DialogTitle>
+              </DialogHeader>
+              <DialogDescription>
+                <TypographySpan muted>
+                  Vous pouvez modifier votre nom pour qu&apos;il soit plus personnel.
+                </TypographySpan>
+              </DialogDescription>
+              <Input type="text" id="name" name="name" placeholder={userMetadata.name} />
+              <DialogFooter>
+                <LoadingButton
                   onClick={async () => {
                     try {
                       const result = await userUpdateName(name);
@@ -204,29 +224,10 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
                   }}
                   variant="default"
                   size="sm"
+                  pending={isUpdating}
                 >
-                  Modifier
-                </Button>
-              </DialogTrigger>
-            </div>
-            <TypographyP muted size="sm">
-              Le nom que les autres verront sur le site.
-            </TypographyP>
-
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Modifier le nom</DialogTitle>
-              </DialogHeader>
-              <DialogDescription>
-                <TypographySpan muted>
-                  Vous pouvez modifier votre nom pour qu&apos;il soit plus personnel.
-                </TypographySpan>
-              </DialogDescription>
-              <Input type="text" id="name" name="name" placeholder={userMetadata.name} />
-              <DialogFooter>
-                <Button onClick={() => {}} variant="default" size="sm">
                   Enregistrer
-                </Button>
+                </LoadingButton>
               </DialogFooter>
             </DialogContent>
           </Dialog>
