@@ -5,7 +5,6 @@ import Testimonials from "@/components/home/testimonials";
 import Pricing from "@/components/home/pricing";
 import { createClient } from "@/utils/supabase/server";
 import Application from "@/components/application/application";
-import Account from "@/components/application/account/account";
 
 export default async function Home() {
   const supabase = createClient();
@@ -26,5 +25,5 @@ export default async function Home() {
     );
   }
 
-  return <Application data={data} />;
+  return <Application userMetadata={data.user.user_metadata} />;
 }

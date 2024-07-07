@@ -3,17 +3,17 @@ import AccountSubscription from "@/components/application/account/categories/acc
 import AccountNotifications from "@/components/application/account/categories/accountNotifications";
 import AccountSettings from "@/components/application/account/categories/accountSettings";
 import AccountProfile from "@/components/application/account/categories/accountProfile";
-import type { User } from "@supabase/supabase-js";
+import type { UserMetadata } from "@supabase/supabase-js";
 
 export default function AccountCategories({
-  data,
+  userMetadata,
   category
-}: {
-  data: { user: User };
+}: Readonly<{
+  userMetadata: UserMetadata;
   category: AccountCategory;
-}) {
+}>) {
   if (category === "profile") {
-    return <AccountProfile data={data} />;
+    return <AccountProfile userMetadata={userMetadata} />;
   }
 
   if (category === "subscription") {

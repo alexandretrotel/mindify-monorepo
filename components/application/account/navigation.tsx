@@ -9,17 +9,17 @@ import { BellRingIcon, CreditCardIcon, SettingsIcon, UserIcon } from "lucide-rea
 import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account/categories";
 import AccountCategories from "@/components/application/account/accountCategories";
-import type { User } from "@supabase/supabase-js";
+import type { UserMetadata } from "@supabase/supabase-js";
 
 export default function Navigation({
-  data,
+  userMetadata,
   category,
   setCategory
-}: {
-  data: { user: User };
+}: Readonly<{
+  userMetadata: UserMetadata;
   category: AccountCategory;
   setCategory: React.Dispatch<React.SetStateAction<AccountCategory>>;
-}) {
+}>) {
   return (
     <div className="flex flex-col gap-4 md:flex-row">
       <div className="hide-scrollbar h-full w-full overflow-x-auto md:w-1/5">
@@ -74,7 +74,7 @@ export default function Navigation({
       </div>
 
       <div className="w-full">
-        <AccountCategories data={data} category={category} />
+        <AccountCategories userMetadata={userMetadata} category={category} />
       </div>
     </div>
   );
