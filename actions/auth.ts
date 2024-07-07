@@ -22,7 +22,6 @@ export async function signInWithEmail(formData: FormData) {
   const supabase = createClient();
 
   let data;
-
   try {
     data = formDataSchema.parse({
       email: formData.get("email") as string

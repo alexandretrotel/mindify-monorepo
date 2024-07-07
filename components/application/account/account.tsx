@@ -6,21 +6,21 @@ import Navigation from "@/components/application/account/navigation";
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account/categories";
-import type { User } from "@supabase/supabase-js";
+import type { UserMetadata } from "@supabase/supabase-js";
 
 export default function Account({
-  data,
+  userMetadata,
   showMenu,
   setShowMenu,
   category,
   setCategory
-}: {
-  data: { user: User };
+}: Readonly<{
+  userMetadata: UserMetadata;
   showMenu: boolean;
   setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
   category: AccountCategory;
   setCategory: React.Dispatch<React.SetStateAction<AccountCategory>>;
-}) {
+}>) {
   if (!showMenu) return null;
 
   return (
@@ -40,7 +40,7 @@ export default function Account({
           </div>
         </div>
         <Separator />
-        <Navigation data={data} category={category} setCategory={setCategory} />
+        <Navigation userMetadata={userMetadata} category={category} setCategory={setCategory} />
       </div>
     </div>
   );

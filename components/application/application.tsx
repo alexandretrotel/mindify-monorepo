@@ -14,11 +14,11 @@ import { BellRingIcon, CreditCardIcon, LogOutIcon, SettingsIcon, UserIcon } from
 import Account from "@/components/application/account/account";
 import type { AccountCategory } from "@/types/account/categories";
 import { useState } from "react";
-import type { User } from "@supabase/supabase-js";
+import type { UserMetadata } from "@supabase/supabase-js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TypographyH2 from "@/components/typography/h2";
 
-export default function Application({ data }: { data: { user: User } }) {
+export default function Application({ userMetadata }: Readonly<{ userMetadata: UserMetadata }>) {
   const [category, setCategory] = useState<AccountCategory>("profile");
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
@@ -37,11 +37,8 @@ export default function Application({ data }: { data: { user: User } }) {
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Avatar>
-                    <AvatarImage
-                      src={data.user.user_metadata.avatar_url}
-                      alt={data.user.user_metadata.name}
-                    />
-                    <AvatarFallback>{data.user.user_metadata.name.slice(0, 1)}</AvatarFallback>
+                    <AvatarImage src={userMetadata.avatar_url} alt={userMetadata.name} />
+                    <AvatarFallback>{userMetadata.name.slice(0, 1)}</AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
 
@@ -86,11 +83,15 @@ export default function Application({ data }: { data: { user: User } }) {
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
-                    <form method="POST" action={signOut}>
-                      <button type="submit" className="flex items-center gap-2">
-                        <LogOutIcon className="h-4 w-4" /> Déconnexion
-                      </button>
-                    </form>
+                    <button
+                      onClick={async () => {
+                        await signOut();
+                      }}
+                      type="submit"
+                      className="flex items-center gap-2"
+                    >
+                      <LogOutIcon className="h-4 w-4" /> Déconnexion
+                    </button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -122,7 +123,7 @@ export default function Application({ data }: { data: { user: User } }) {
         setShowMenu={setShowMenu}
         category={category}
         setCategory={setCategory}
-        data={data}
+        userMetadata={userMetadata}
       />
     </>
   );
