@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signInWithEmail, signInWithSocials } from "@/actions/auth";
-import { SubmitButton } from "@/components/global/submitButton";
+import { SubmitButton } from "@/components/global/buttons/submitButton";
 import type { SocialProvider } from "@/types/auth/providers";
 import { z } from "zod";
 
