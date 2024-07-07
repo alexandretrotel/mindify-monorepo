@@ -85,7 +85,7 @@ export default function Header() {
       </nav>
       <Dialog className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
         <div className="fixed inset-0 z-50" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-black/10 dark:sm:ring-white/10">
+        <DialogPanel className="hide-scrollbar fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-black/10 dark:sm:ring-white/10">
           <div className="flex items-center justify-between">
             <Link href="#">
               <span className="sr-only">Mindify</span>

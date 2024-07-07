@@ -16,7 +16,7 @@ import TypographyP from "@/components/typography/p";
 const Hero = () => {
   return (
     <section id="home" className="relative isolate flex h-screen items-center justify-center px-4">
-      <div className="relative overflow-hidden text-center">
+      <div className="hide-scrollbar relative overflow-hidden text-center">
         <div className="mx-auto flex max-w-xl flex-col gap-2 text-center">
           <TypographyH1>Mindify</TypographyH1>
           <TypographyP muted>
