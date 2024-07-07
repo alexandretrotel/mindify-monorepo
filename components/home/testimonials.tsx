@@ -59,7 +59,7 @@ const ReviewCard = ({
   return (
     <figure
       className={cn(
-        "relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
+        "hide-scrollbar relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
         "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
         "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
       )}
@@ -79,7 +79,7 @@ const ReviewCard = ({
 const Testimonials = () => {
   return (
     <Section id="testimonials" fullWidth>
-      <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden">
+      <div className="hide-scrollbar relative flex h-full w-full flex-col items-center justify-center overflow-hidden">
         <Marquee pauseOnHover className="[--duration:20s]">
           {firstRow.map((review) => (
             <ReviewCard key={review.username} {...review} />
