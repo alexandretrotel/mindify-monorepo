@@ -22,7 +22,7 @@ import { useDropzone } from "react-dropzone";
 import { z } from "zod";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { userUpdateBio } from "@/actions/user";
+import { userUpdateName, userUpdateBio } from "@/actions/user";
 import { LoadingButton } from "@/components/global/buttons/loadingButton";
 
 const MAX_FILE_SIZE = 2000000; // 2MB
@@ -48,6 +48,8 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
   const [biography, setBiography] = useState<string>("");
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [isBiographyModalOpen, setIsBiographyModalOpen] = useState<boolean>(false);
+  const [isNameModalOpen, setIsNameModalOpen] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
   const { toast } = useToast();
@@ -161,7 +163,7 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
         </div>
 
         <div className="flex flex-col gap-2">
-          <Dialog>
+          <Dialog open={isNameModalOpen} onOpenChange={setIsNameModalOpen}>
             <Label htmlFor="name" className="text-text text-sm font-medium">
               Nom
             </Label>
@@ -172,9 +174,37 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
                 id="name-display"
                 name="name-display"
                 placeholder={userMetadata.name}
+                minLength={2}
+                maxLength={30}
               />
               <DialogTrigger asChild>
-                <Button variant="default" size="sm">
+                <Button
+                  onClick={async () => {
+                    try {
+                      const result = await userUpdateName(name);
+
+                      if (result) {
+                        toast({
+                          title: "Succès !",
+                          description: result.message
+                        });
+
+                        setIsNameModalOpen(false);
+                      }
+                    } catch (error) {
+                      console.error(error);
+                      toast({
+                        title: "Une erreur est survenue !",
+                        description: "Impossible de mettre à jour votre nom.",
+                        variant: "destructive"
+                      });
+                    } finally {
+                      setIsUpdating(false);
+                    }
+                  }}
+                  variant="default"
+                  size="sm"
+                >
                   Modifier
                 </Button>
               </DialogTrigger>
