@@ -23,7 +23,7 @@ import { z } from "zod";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
-const MAX_FILE_SIZE = 500000; // 500 Ko
+const MAX_FILE_SIZE = 2000000; // 2MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 const imageSchema = z.object({
@@ -31,7 +31,7 @@ const imageSchema = z.object({
     .any()
     .refine(
       (file) => file?.size <= MAX_FILE_SIZE,
-      `La taille de l'image doit être inférieure à 500 Ko.`
+      `La taille de l'image doit être inférieure à ${MAX_FILE_SIZE / 1000000} Mo.`
     )
     .refine(
       (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
