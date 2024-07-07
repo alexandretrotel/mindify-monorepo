@@ -64,7 +64,7 @@ export default function AccountProfile({ data }: { data: { user: User } }) {
     const result = imageSchema.safeParse({ image: imageFile });
 
     if (!result.success) {
-      setImageError(result.error.issues[0].message + " " + result.error.issues[1].message);
+      setImageError("L'image doit être de type jpeg, jpg, png ou webp et faire moins de 500 Ko.");
     } else {
       setImageFile(imageFile);
       setAllowImageUpload(true);
