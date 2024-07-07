@@ -6,6 +6,8 @@ import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster as Sonner } from "sonner";
+import { Toaster } from "@/components/ui/toaster";
 
 // Import global styles
 import "./globals.css";
@@ -40,6 +42,10 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextTopLoader color="#1FA856" />
           {children}
+
+          {/* Sonner & Toaster */}
+          <Sonner />
+          <Toaster />
 
           {/* Analytics and speed insights */}
           <Analytics />
