@@ -23,7 +23,7 @@ export default function Application({ data }: { data: { user: User } }) {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
-    <div>
+    <>
       <div className="md:flew-row mx-auto flex w-full max-w-7xl flex-col justify-between overflow-auto p-4 py-12 md:p-8">
         <Tabs defaultValue="summary-of-the-week" className="flex flex-col gap-4">
           <header className="flex w-full items-center justify-between">

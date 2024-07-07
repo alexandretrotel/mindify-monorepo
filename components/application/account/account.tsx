@@ -24,8 +24,8 @@ export default function Account({
   if (!showMenu) return null;
 
   return (
-    <div className="fixed left-0 top-0 z-[1000] mx-auto flex h-full w-full items-start justify-center bg-background">
-      <div className="hide-scrollbar mx-4 flex w-full flex-col justify-center gap-8 overflow-y-auto py-12 md:max-w-7xl md:p-8">
+    <div className="hide-scrollbar fixed top-0 z-[1000] mx-auto flex h-full w-full items-start justify-center overflow-y-auto bg-background">
+      <div className="flex w-full flex-col justify-center gap-8 px-4 py-12 md:max-w-7xl md:p-8">
         <div className="flex w-full items-start justify-between">
           <div className="flex flex-col">
             <TypographyH3AsSpan>Mon compte</TypographyH3AsSpan>
