@@ -176,6 +176,8 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
                 placeholder={userMetadata.name}
                 minLength={2}
                 maxLength={30}
+                value={name}
+                onChange={(event) => setName(event.target.value)}
               />
               <DialogTrigger asChild>
                 <Button variant="default" size="sm">
@@ -200,6 +202,8 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
               <DialogFooter>
                 <LoadingButton
                   onClick={async () => {
+                    setIsUpdating(true);
+
                     try {
                       const result = await userUpdateName(name);
 
@@ -291,6 +295,7 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
                 <LoadingButton
                   onClick={async () => {
                     setIsUpdating(true);
+
                     try {
                       const result = await userUpdateBio(biography);
 
