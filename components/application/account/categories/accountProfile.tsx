@@ -56,7 +56,7 @@ export default function AccountProfile({ data }: { data: { user: User } }) {
               </DialogHeader>
               <DialogDescription>
                 <TypographyP muted>
-                  Vous pouvez modifier votre avatar en téléchargeant une image.
+                  Vous pouvez modifier votre avatar en choisissant une image de votre choix.
                 </TypographyP>
               </DialogDescription>
               <DialogFooter>
