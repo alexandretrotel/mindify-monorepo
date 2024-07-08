@@ -92,7 +92,7 @@ export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata:
             <AvatarFallback>{userMetadata.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <DialogTrigger asChild>
-            <Button disabled variant="ghost" size="sm">
+            <Button  variant="ghost" size="sm">
               Modifier
             </Button>
           </DialogTrigger>
