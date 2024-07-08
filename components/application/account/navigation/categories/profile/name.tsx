@@ -51,6 +51,12 @@ export default function AccountName({ userMetadata }: Readonly<{ userMetadata: U
             onClick={async () => {
               setIsUpdating(true);
 
+              if (name === userMetadata.name) {
+                setIsUpdating(false);
+                setIsEditing(false);
+                return;
+              }
+
               try {
                 const result = await userUpdateName(name);
 
