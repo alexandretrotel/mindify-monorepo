@@ -1,8 +1,8 @@
 import type { AccountCategory } from "@/types/account/categories";
-import AccountSubscription from "@/components/application/account/categories/accountSubscription";
-import AccountNotifications from "@/components/application/account/categories/accountNotifications";
-import AccountSettings from "@/components/application/account/categories/accountSettings";
-import AccountProfile from "@/components/application/account/categories/accountProfile";
+import AccountSubscription from "@/components/application/account/navigation/categories/subscription";
+import AccountNotifications from "@/components/application/account/navigation/categories/notifications";
+import AccountSettings from "@/components/application/account/navigation/categories/settings";
+import AccountProfile from "@/components/application/account/navigation/categories/profile";
 import type { UserMetadata } from "@supabase/supabase-js";
 
 export default function AccountCategories({

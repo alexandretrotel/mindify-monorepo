@@ -8,7 +8,7 @@ import {
 import { BellRingIcon, CreditCardIcon, SettingsIcon, UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account/categories";
-import AccountCategories from "@/components/application/account/accountCategories";
+import AccountCategories from "@/components/application/account/navigation/categories";
 import type { UserMetadata } from "@supabase/supabase-js";
 
 export default function Navigation({

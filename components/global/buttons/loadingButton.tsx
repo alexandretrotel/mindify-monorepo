@@ -10,7 +10,8 @@ export function LoadingButton({
   variant,
   isFull,
   size,
-  pending
+  pending,
+  disabled
 }: Readonly<{
   children: React.ReactNode;
   onClick: () => void;
@@ -18,12 +19,13 @@ export function LoadingButton({
   isFull?: boolean;
   size?: "default" | "sm" | "lg" | "icon";
   pending: boolean;
+  disabled?: boolean;
 }>) {
   return (
     <Button
       className={`${isFull && "w-full"}`}
       variant={variant}
-      disabled={pending}
+      disabled={pending || disabled}
       onClick={onClick}
       size={size}
     >
