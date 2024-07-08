@@ -90,6 +90,12 @@ const avatarSchema = z.object({
 export async function userUpdateAvatar(formData: FormData) {
   const supabase = createClient();
 
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+
+  if (userError || !userData?.user) {
+    throw new Error("Utilisateur non authentifié.");
+  }
+
   let avatarData;
   try {
     avatarData = avatarSchema.parse({
@@ -100,11 +106,14 @@ export async function userUpdateAvatar(formData: FormData) {
     throw new Error("L'image doit être de type jpeg, jpg, png ou webp et faire moins de 500 Ko.");
   }
 
+  const fileExtension = avatarData.image.name.split(".").pop();
+  const fileName = `${userData.user.id}/avatar.${fileExtension}`;
+
   const { data: avatarStorageData, error: updateAvatarError } = await supabase.storage
     .from("avatars")
-    .upload(`public/${avatarData.image.name}`, avatarData.image, {
+    .upload(fileName, avatarData.image, {
       cacheControl: "3600",
-      upsert: false
+      upsert: true
     });
 
   if (updateAvatarError) {
@@ -112,9 +121,15 @@ export async function userUpdateAvatar(formData: FormData) {
     throw new Error("Impossible de mettre à jour l'avatar.");
   }
 
+  const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
+
+  if (!avatarUrl) {
+    throw new Error("Impossible d'obtenir l'URL publique de l'avatar.");
+  }
+
   const { error: updateAvatarUrlError } = await supabase.auth.updateUser({
     data: {
-      avatar_url: avatarStorageData.fullPath
+      avatar_url: avatarUrl.publicUrl
     }
   });
 
