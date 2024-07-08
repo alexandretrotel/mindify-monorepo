@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "@/actions/auth";
 import { BellRingIcon, CreditCardIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
-import Account from "@/components/application/account/account";
+import Account from "@/components/application/account";
 import type { AccountCategory } from "@/types/account/categories";
 import { useState } from "react";
 import type { UserMetadata } from "@supabase/supabase-js";
