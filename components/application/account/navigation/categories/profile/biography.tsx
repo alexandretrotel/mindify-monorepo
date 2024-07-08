@@ -18,7 +18,7 @@ export default function AccountBiography({
   const { toast } = useToast();
 
   useEffect(() => {
-    setBiography(userMetadata.biography ?? "Pas de bio.");
+    setBiography(userMetadata.biography ?? "Pas de biographie.");
   }, [userMetadata.biography]);
 
   return (
@@ -29,7 +29,7 @@ export default function AccountBiography({
 
       <Textarea
         disabled={!isEditing || isUpdating}
-        placeholder={userMetadata.biography ?? "Pas de bio."}
+        placeholder={userMetadata.biography ?? "Pas de biographie."}
         id="biography"
         name="biography"
         value={biography}
@@ -37,49 +37,44 @@ export default function AccountBiography({
       />
 
       {isEditing ? (
-        <div className="grid grid-cols-2 gap-2">
-          <Button onClick={() => setIsEditing(false)} variant="outline" size="sm">
-            Annuler
-          </Button>
-          <LoadingButton
-            onClick={async () => {
-              setIsUpdating(true);
+        <LoadingButton
+          onClick={async () => {
+            setIsUpdating(true);
 
-              if (biography === userMetadata.biography) {
-                setIsUpdating(false);
-                setIsEditing(false);
-                return;
-              }
+            if (biography === userMetadata.biography) {
+              setIsUpdating(false);
+              setIsEditing(false);
+              return;
+            }
 
-              try {
-                const result = await userUpdateBiography(biography);
+            try {
+              const result = await userUpdateBiography(biography);
 
-                if (result) {
-                  toast({
-                    title: "Succès !",
-                    description: result.message
-                  });
-
-                  setIsEditing(false);
-                }
-              } catch (error) {
-                console.error(error);
+              if (result) {
                 toast({
-                  title: "Une erreur est survenue !",
-                  description: "Impossible de mettre à jour la bio.",
-                  variant: "destructive"
+                  title: "Succès !",
+                  description: result.message
                 });
-              } finally {
-                setIsUpdating(false);
+
+                setIsEditing(false);
               }
-            }}
-            variant="default"
-            size="sm"
-            pending={isUpdating}
-          >
-            Enregistrer
-          </LoadingButton>
-        </div>
+            } catch (error) {
+              console.error(error);
+              toast({
+                title: "Une erreur est survenue !",
+                description: "Impossible de mettre à jour la bio.",
+                variant: "destructive"
+              });
+            } finally {
+              setIsUpdating(false);
+            }
+          }}
+          variant="default"
+          size="sm"
+          pending={isUpdating}
+        >
+          Enregistrer
+        </LoadingButton>
       ) : (
         <Button onClick={() => setIsEditing(true)} variant="default" size="sm">
           Modifier
