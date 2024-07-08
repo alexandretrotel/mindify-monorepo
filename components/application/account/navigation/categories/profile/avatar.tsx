@@ -17,11 +17,13 @@ import { useDropzone } from "react-dropzone";
 import { z } from "zod";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { userUpdateAvatar } from "@/actions/user";
+import { LoadingButton } from "@/components/global/buttons/loadingButton";
 
 const MAX_FILE_SIZE = 2000000; // 2MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
-const imageSchema = z.object({
+const avatarSchema = z.object({
   image: z
     .any()
     .refine(
@@ -38,6 +40,8 @@ export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata:
   const [imageError, setImageError] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [allowImageUpload, setAllowImageUpload] = useState<boolean>(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
   const { toast } = useToast();
@@ -56,7 +60,7 @@ export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata:
     const imageFile = acceptedImageFiles[0];
 
     // use zod to validate the image file
-    const result = imageSchema.safeParse({ image: imageFile });
+    const result = avatarSchema.safeParse({ image: imageFile });
 
     if (!result.success) {
       setImageError("L'image doit être de type jpeg, jpg, png ou webp et faire moins de 500 Ko.");
@@ -78,17 +82,17 @@ export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata:
 
   return (
     <div className="flex flex-col gap-2">
-      <Dialog>
+      <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
         <Label htmlFor="username" className="text-text text-sm font-medium">
           Avatar
         </Label>
         <div className="flex items-center gap-2">
           <Avatar>
             <AvatarImage src={userMetadata.avatar_url} alt={userMetadata.name} />
-            <AvatarFallback>{userMetadata.name.splice(0, 1)}</AvatarFallback>
+            <AvatarFallback>{userMetadata.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <DialogTrigger asChild>
-            <Button variant="ghost" size="sm">
+            <Button disabled variant="ghost" size="sm">
               Modifier
             </Button>
           </DialogTrigger>
@@ -131,9 +135,51 @@ export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata:
           </div>
 
           <DialogFooter>
-            <Button disabled={!allowImageUpload} onClick={() => {}} variant="default" size="sm">
+            <LoadingButton
+              onClick={async () => {
+                if (!imageFile) {
+                  setImageError("Veuillez sélectionner une image.");
+                  toast({
+                    title: "Une erreur est survenue !",
+                    description: "Veuillez sélectionner une image.",
+                    variant: "destructive"
+                  });
+                  return;
+                }
+
+                setIsUpdating(true);
+
+                try {
+                  const formData = new FormData();
+                  formData.append("image", imageFile);
+
+                  const result = await userUpdateAvatar(formData);
+
+                  if (result) {
+                    toast({
+                      title: "Succès !",
+                      description: "Votre avatar a été mis à jour."
+                    });
+                    setIsImageModalOpen(false);
+                  }
+                } catch (error) {
+                  console.error(error);
+                  toast({
+                    title: "Une erreur est survenue !",
+                    description: "Impossible de mettre à jour votre avatar.",
+                    variant: "destructive"
+                  });
+                } finally {
+                  setIsUpdating(false);
+                }
+              }}
+              variant="default"
+              size="sm"
+              disabled={!allowImageUpload}
+              pending={isUpdating}
+            >
               Télécharger
-            </Button>
+            </LoadingButton>
           </DialogFooter>
         </DialogContent>
       </Dialog>

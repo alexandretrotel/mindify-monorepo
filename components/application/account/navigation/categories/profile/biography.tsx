@@ -13,7 +13,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { userUpdateBio } from "@/actions/user";
+import { userUpdateBiography } from "@/actions/user";
 import { useToast } from "@/components/ui/use-toast";
 import type { UserMetadata } from "@supabase/supabase-js";
 
@@ -70,7 +70,7 @@ export default function AccountBiography({
                 setIsUpdating(true);
 
                 try {
-                  const result = await userUpdateBio(biography);
+                  const result = await userUpdateBiography(biography);
 
                   if (result) {
                     toast({

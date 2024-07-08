@@ -38,7 +38,7 @@ export default function Application({ userMetadata }: Readonly<{ userMetadata: U
                 <DropdownMenuTrigger>
                   <Avatar>
                     <AvatarImage src={userMetadata.avatar_url} alt={userMetadata.name} />
-                    <AvatarFallback>{userMetadata.name.slice(0, 1)}</AvatarFallback>
+                    <AvatarFallback>{userMetadata.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
 
