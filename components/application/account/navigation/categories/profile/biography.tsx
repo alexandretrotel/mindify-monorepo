@@ -45,6 +45,12 @@ export default function AccountBiography({
             onClick={async () => {
               setIsUpdating(true);
 
+              if (biography === userMetadata.biography) {
+                setIsUpdating(false);
+                setIsEditing(false);
+                return;
+              }
+
               try {
                 const result = await userUpdateBiography(biography);
 
