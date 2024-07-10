@@ -32,8 +32,8 @@ export default function Application({
         <Tabs defaultValue="summary-of-the-week" className="flex flex-col gap-4">
           <header className="flex w-full items-center justify-between">
             <TabsList className="grid grid-cols-3 md:w-1/2">
-              <TabsTrigger value="summary-of-the-week">Résumé</TabsTrigger>
               <TabsTrigger value="discover">Découvrir</TabsTrigger>
+              <TabsTrigger value="summary-of-the-week">Résumé</TabsTrigger>
               <TabsTrigger value="my-library">Ma librairie</TabsTrigger>
             </TabsList>
 
@@ -103,14 +103,14 @@ export default function Application({
           </header>
 
           <main>
-            <TabsContent value="summary-of-the-week">
-              <div className="flex w-full flex-col gap-4 rounded-md bg-slate-100 p-4">
-                <TypographyH2>Résumé de la semaine</TypographyH2>
-              </div>
-            </TabsContent>
             <TabsContent value="discover">
               <div className="flex w-full flex-col gap-4 rounded-md bg-slate-100 p-4">
                 <TypographyH2>Découvrir</TypographyH2>
+              </div>
+            </TabsContent>
+            <TabsContent value="summary-of-the-week">
+              <div className="flex w-full flex-col gap-4 rounded-md bg-slate-100 p-4">
+                <TypographyH2>Résumé de la semaine</TypographyH2>
               </div>
             </TabsContent>
             <TabsContent value="my-library">
