@@ -1,5 +1,4 @@
 import { LoadingButton } from "@/components/global/buttons/loadingButton";
-import TypographyP from "@/components/typography/p";
 import TypographySpan from "@/components/typography/span";
 import { Button } from "@/components/ui/button";
 import {
@@ -91,9 +90,9 @@ export default function AccountName({ userMetadata }: Readonly<{ userMetadata: U
           </Button>
         )}
       </div>
-      <TypographyP muted size="sm">
+      <TypographySpan muted size="sm">
         Le nom que les autres verront sur le site.
-      </TypographyP>
+      </TypographySpan>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import TypographyP from "@/components/typography/p";
+import TypographySpan from "@/components/typography/span";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { UserMetadata } from "@supabase/supabase-js";
@@ -16,10 +16,10 @@ export default function AccountMail({ userMetadata }: Readonly<{ userMetadata: U
         name="email-display"
         placeholder={userMetadata.email}
       />
-      <TypographyP muted size="sm">
+      <TypographySpan muted size="sm">
         L&apos;email que vous utilisez pour vous connecter. Elle est privée et ne peut pas être
         modifiée.
-      </TypographyP>
+      </TypographySpan>
     </div>
   );
 }
