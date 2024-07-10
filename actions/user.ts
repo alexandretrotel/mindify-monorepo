@@ -1,4 +1,5 @@
 "use server";
+import "server-only";
 
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
@@ -109,7 +110,7 @@ export async function userUpdateAvatar(formData: FormData) {
   const fileExtension = avatarData.image.name.split(".").pop();
   const fileName = `${userData.user.id}/avatar.${fileExtension}`;
 
-  const { data: avatarStorageData, error: updateAvatarError } = await supabase.storage
+  const { error: updateAvatarError } = await supabase.storage
     .from("avatars")
     .upload(fileName, avatarData.image, {
       cacheControl: "3600",

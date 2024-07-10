@@ -25,5 +25,9 @@ export default async function Home() {
     );
   }
 
-  return <Application userMetadata={data.user.user_metadata} />;
+  return (
+    <Application userMetadata={data.user.user_metadata}>
+      <></>
+    </Application>
+  );
 }
