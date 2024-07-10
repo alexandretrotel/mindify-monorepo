@@ -1,4 +1,5 @@
 "use client";
+import "client-only";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -18,7 +19,10 @@ import type { UserMetadata } from "@supabase/supabase-js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TypographyH2 from "@/components/typography/h2";
 
-export default function Application({ userMetadata }: Readonly<{ userMetadata: UserMetadata }>) {
+export default function Application({
+  children,
+  userMetadata
+}: Readonly<{ children: React.ReactNode; userMetadata: UserMetadata }>) {
   const [category, setCategory] = useState<AccountCategory>("profile");
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
@@ -114,6 +118,7 @@ export default function Application({ userMetadata }: Readonly<{ userMetadata: U
                 <TypographyH2>Ma librairie</TypographyH2>
               </div>
             </TabsContent>
+            {children}
           </main>
         </Tabs>
       </div>

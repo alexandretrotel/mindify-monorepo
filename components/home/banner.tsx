@@ -1,4 +1,5 @@
 "use client";
+import "client-only";
 
 import TypographyP from "@/components/typography/p";
 import { useEffect, useState } from "react";
