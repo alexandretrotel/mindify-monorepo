@@ -23,7 +23,7 @@ export default function Application({
   children,
   userMetadata
 }: Readonly<{ children: React.ReactNode; userMetadata: UserMetadata }>) {
-  const [category, setCategory] = useState<AccountCategory>("profile");
+  const [category, setCategory] = useState<AccountCategory>("discover");
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
