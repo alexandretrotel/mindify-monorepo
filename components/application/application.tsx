@@ -23,13 +23,13 @@ export default function Application({
   children,
   userMetadata
 }: Readonly<{ children: React.ReactNode; userMetadata: UserMetadata }>) {
-  const [category, setCategory] = useState<AccountCategory>("discover");
+  const [category, setCategory] = useState<AccountCategory>("profile");
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
     <>
       <div className="md:flew-row mx-auto flex w-full max-w-7xl flex-col justify-between p-4 py-12 md:p-8">
-        <Tabs defaultValue="summary-of-the-week" className="flex flex-col gap-4">
+        <Tabs defaultValue="discover" className="flex flex-col gap-4">
           <header className="flex w-full items-center justify-between">
             <TabsList className="grid grid-cols-3 md:w-1/2">
               <TabsTrigger value="discover">Découvrir</TabsTrigger>
