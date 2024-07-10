@@ -1,3 +1,13 @@
+function getTextSizeClass(size: string): string {
+  if (size === "md") {
+    return "text-md";
+  } else if (size === "lg") {
+    return "text-lg";
+  } else {
+    return "text-md"; // Default case
+  }
+}
+
 export default function TypographyP({
   children,
   muted,
@@ -12,15 +22,7 @@ export default function TypographyP({
   return (
     <p
       className={`${muted ? "text-muted-foreground" : "text-primary-foreground"} ${center && "text-center"} ${
-        size === "xs"
-          ? "text-xs"
-          : size === "sm"
-            ? "text-sm"
-            : size === "md"
-              ? "text-md"
-              : size === "lg"
-                ? "text-lg"
-                : "text-md"
+        size && getTextSizeClass(size)
       }`}
     >
       {children}
