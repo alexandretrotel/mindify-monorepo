@@ -13,7 +13,7 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
       <div className="flex flex-col">
         <TypographyH3AsSpan>Profil</TypographyH3AsSpan>
         <TypographyP muted>
-          Ce sont les informations que les autres verront sur le site.
+          Renseignez les informations que les autres utilisateurs verront sur votre profil.
         </TypographyP>
       </div>
 

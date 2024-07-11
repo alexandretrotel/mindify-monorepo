@@ -17,8 +17,8 @@ export default function AccountMail({ userMetadata }: Readonly<{ userMetadata: U
         placeholder={userMetadata.email}
       />
       <TypographySpan muted size="sm">
-        L&apos;email que vous utilisez pour vous connecter. Elle est privée et ne peut pas être
-        modifiée.
+        Ceci est l&apos;adresse email que vous utilisez pour vous connecter à votre compte Mindify.
+        Personne d&apos;autre que vous ne pouvez la voir. Vous ne pouvez pas la modifier.
       </TypographySpan>
     </div>
   );

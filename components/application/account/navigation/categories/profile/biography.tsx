@@ -82,7 +82,7 @@ export default function AccountBiography({
       )}
 
       <TypographySpan muted size="sm">
-        Une courte description de vous-même.
+        Décrivez-vous pour interagir avec des profils qui vous ressemblent.
       </TypographySpan>
     </div>
   );

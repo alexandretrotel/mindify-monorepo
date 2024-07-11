@@ -30,7 +30,7 @@ export default function Account({
           <div className="flex flex-col">
             <TypographyH3AsSpan>Mon compte</TypographyH3AsSpan>
             <TypographyP muted>
-              Gérez les paramètres de votre compte et définissez vos préférences de notification.
+              Gérez les paramètres de votre compte et définissez vos préférences.
             </TypographyP>
           </div>
           <div className="flex items-center gap-4">
