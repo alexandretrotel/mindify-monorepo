@@ -19,9 +19,9 @@ import Banner from "@/components/home/banner";
 
 const navigation = [
   { name: "Accueil", href: "#home" },
-  { name: "Notre service", href: "#service" },
+  { name: "Nos services", href: "#service" },
   { name: "Témoignages", href: "#testimonials" },
-  { name: "Prix", href: "#pricing" },
+  { name: "Offres", href: "#pricing" },
   { name: "FAQ", href: "#faq" }
 ];
 

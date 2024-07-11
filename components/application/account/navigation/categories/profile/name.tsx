@@ -91,7 +91,7 @@ export default function AccountName({ userMetadata }: Readonly<{ userMetadata: U
         )}
       </div>
       <TypographySpan muted size="sm">
-        Le nom que les autres verront sur le site.
+        Comment voulez-vous que l’on vous appelle ?
       </TypographySpan>
     </div>
   );

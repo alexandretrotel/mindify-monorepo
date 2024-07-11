@@ -36,7 +36,7 @@ const faqItemsPro = [
   {
     title: "Comment s'inscrire à Mindify Pro ?",
     content:
-      "Pour vous inscrire à Mindify Pro, il vous suffit d'aller dans la section Prix et de cliquer sur le bouton Obtenir Mindify Pro."
+      "Pour vous inscrire à Mindify Pro, il vous suffit d'aller dans la section Offres et de cliquer sur le bouton Obtenir Mindify Pro."
   },
   {
     title: "Est-ce possible d'annuler mon abonnement à Mindify Pro ?",
