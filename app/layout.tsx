@@ -40,7 +40,7 @@ export default function RootLayout({
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <NextTopLoader color="#1FA856" />
+          <NextTopLoader color="#1FA856" showSpinner={false} />
           {children}
 
           {/* Sonner & Toaster */}
