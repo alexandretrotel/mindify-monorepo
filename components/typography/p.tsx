@@ -1,12 +1,4 @@
-function getTextSizeClass(size: string): string {
-  if (size === "md") {
-    return "text-md";
-  } else if (size === "lg") {
-    return "text-lg";
-  } else {
-    return "text-md"; // Default case
-  }
-}
+import { getTextSizeClass } from "@/utils/typography/text";
 
 export default function TypographyP({
   children,

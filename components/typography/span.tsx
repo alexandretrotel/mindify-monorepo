@@ -1,28 +1,28 @@
 import React from "react";
+import { getTextSizeClass } from "@/utils/typography/text";
+
+const mutedCondition = (muted: boolean) =>
+  muted ? "text-muted-foreground" : "text-primary-foreground";
 
 export default function TypographySpan({
   children,
   muted,
   center,
-  size
-}: {
+  size,
+  defaultColor,
+  semibold
+}: Readonly<{
   children: React.ReactNode;
   muted?: boolean;
   center?: boolean;
   size?: "xs" | "sm" | "md" | "lg";
-}) {
+  defaultColor?: boolean;
+  semibold?: boolean;
+}>) {
   return (
     <span
-      className={`${muted ? "text-muted-foreground" : "text-primary-foreground"} ${center && "text-center"} ${
-        size === "xs"
-          ? "text-xs"
-          : size === "sm"
-            ? "text-sm"
-            : size === "md"
-              ? "text-md"
-              : size === "lg"
-                ? "text-lg"
-                : "text-md"
+      className={`${semibold && "font-semibold"} ${defaultColor ? "text-black dark:text-white" : muted && mutedCondition(muted)} ${center && "text-center"} ${
+        size && getTextSizeClass(size)
       }`}
     >
       {children}

@@ -5,6 +5,7 @@ import Testimonials from "@/components/home/testimonials";
 import Pricing from "@/components/home/pricing";
 import { createClient } from "@/utils/supabase/server";
 import Application from "@/components/application/application";
+import Footer from "@/components/home/footer";
 
 export default async function Home() {
   const supabase = createClient();
@@ -21,6 +22,7 @@ export default async function Home() {
           <Pricing />
           <Faq />
         </main>
+        <Footer />
       </>
     );
   }
