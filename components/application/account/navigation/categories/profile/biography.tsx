@@ -51,11 +51,6 @@ export default function AccountBiography({
               const result = await userUpdateBiography(biography);
 
               if (result) {
-                toast({
-                  title: "Succès !",
-                  description: result.message
-                });
-
                 setIsEditing(false);
               }
             } catch (error) {

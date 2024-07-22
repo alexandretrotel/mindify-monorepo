@@ -51,11 +51,6 @@ export default function AccountName({ userMetadata }: Readonly<{ userMetadata: U
                 const result = await userUpdateName(name);
 
                 if (result) {
-                  toast({
-                    title: "Succès !",
-                    description: result.message
-                  });
-
                   setIsEditing(false);
                 }
               } catch (error) {
