@@ -4,16 +4,31 @@ import AccountNotifications from "@/components/application/account/navigation/ca
 import AccountSettings from "@/components/application/account/navigation/categories/settings";
 import AccountProfile from "@/components/application/account/navigation/categories/profile";
 import type { UserMetadata } from "@supabase/supabase-js";
+import type { Topics, UserTopics } from "@/types/topics/topics";
+import { UUID } from "crypto";
 
 export default function AccountCategories({
+  userId,
   userMetadata,
-  category
+  category,
+  topics,
+  userTopics
 }: Readonly<{
+  userId: UUID;
   userMetadata: UserMetadata;
   category: AccountCategory;
+  topics: Topics;
+  userTopics: UserTopics;
 }>) {
   if (category === "profile") {
-    return <AccountProfile userMetadata={userMetadata} />;
+    return (
+      <AccountProfile
+        userId={userId}
+        userMetadata={userMetadata}
+        topics={topics}
+        userTopics={userTopics}
+      />
+    );
   }
 
   if (category === "subscription") {

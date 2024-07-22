@@ -6,6 +6,8 @@ import Pricing from "@/components/home/pricing";
 import { createClient } from "@/utils/supabase/server";
 import Application from "@/components/application/application";
 import Footer from "@/components/home/footer";
+import type { Topics, UserTopics } from "@/types/topics/topics";
+import { UUID } from "crypto";
 
 export default async function Home() {
   const supabase = createClient();
@@ -27,8 +29,16 @@ export default async function Home() {
     );
   }
 
+  const { data: topics } = await supabase.from("topics").select("*");
+  const { data: userTopics } = await supabase.from("user_topics").select("*");
+
   return (
-    <Application userMetadata={data.user.user_metadata}>
+    <Application
+      userId={data.user.id as UUID}
+      userMetadata={data.user.user_metadata}
+      topics={topics as Topics}
+      userTopics={userTopics as UserTopics}
+    >
       <></>
     </Application>
   );

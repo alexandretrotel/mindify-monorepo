@@ -6,8 +6,16 @@ import AccountBiography from "@/components/application/account/navigation/catego
 import AccountMail from "@/components/application/account/navigation/categories/profile/mail";
 import AccountName from "@/components/application/account/navigation/categories/profile/name";
 import AccountAvatar from "@/components/application/account/navigation/categories/profile/avatar";
+import AccountTopics from "@/components/application/account/navigation/categories/profile/topics";
+import type { Topics, UserTopics } from "@/types/topics/topics";
+import { UUID } from "crypto";
 
-export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata: UserMetadata }>) {
+export default function AccountProfile({
+  userId,
+  userMetadata,
+  topics,
+  userTopics
+}: Readonly<{ userId: UUID; userMetadata: UserMetadata; topics: Topics; userTopics: UserTopics }>) {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col">
@@ -24,6 +32,7 @@ export default function AccountProfile({ userMetadata }: Readonly<{ userMetadata
         <AccountName userMetadata={userMetadata} />
         <AccountMail userMetadata={userMetadata} />
         <AccountBiography userMetadata={userMetadata} />
+        <AccountTopics userId={userId} topics={topics} userTopics={userTopics} />
       </div>
     </div>
   );
