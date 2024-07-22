@@ -25,9 +25,6 @@ export async function addTopic(user_id: UUID, topic_id: number) {
 export async function removeTopic(user_id: UUID, topic_id: number) {
   const supabase = createClient();
 
-  console.log("user_id", user_id);
-  console.log("topic_id", topic_id);
-
   const { error } = await supabase
     .from("user_topics")
     .delete()
