@@ -7,19 +7,27 @@ import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account/categories";
 import type { UserMetadata } from "@supabase/supabase-js";
+import type { Topics, UserTopics } from "@/types/topics/topics";
+import { UUID } from "crypto";
 
 export default function Account({
+  userId,
   userMetadata,
   showMenu,
   setShowMenu,
   category,
-  setCategory
+  setCategory,
+  topics,
+  userTopics
 }: Readonly<{
+  userId: UUID;
   userMetadata: UserMetadata;
   showMenu: boolean;
   setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
   category: AccountCategory;
   setCategory: React.Dispatch<React.SetStateAction<AccountCategory>>;
+  topics: Topics;
+  userTopics: UserTopics;
 }>) {
   if (!showMenu) return null;
 
@@ -40,7 +48,14 @@ export default function Account({
           </div>
         </div>
         <Separator />
-        <Navigation userMetadata={userMetadata} category={category} setCategory={setCategory} />
+        <Navigation
+          userId={userId}
+          userMetadata={userMetadata}
+          category={category}
+          setCategory={setCategory}
+          topics={topics}
+          userTopics={userTopics}
+        />
       </div>
     </div>
   );

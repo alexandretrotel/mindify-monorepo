@@ -18,11 +18,22 @@ import { useState } from "react";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TypographyH2 from "@/components/typography/h2";
+import type { Topics, UserTopics } from "@/types/topics/topics";
+import { UUID } from "crypto";
 
 export default function Application({
   children,
-  userMetadata
-}: Readonly<{ children: React.ReactNode; userMetadata: UserMetadata }>) {
+  userId,
+  userMetadata,
+  topics,
+  userTopics
+}: Readonly<{
+  children: React.ReactNode;
+  userId: UUID;
+  userMetadata: UserMetadata;
+  topics: Topics;
+  userTopics: UserTopics;
+}>) {
   const [category, setCategory] = useState<AccountCategory>("profile");
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
@@ -124,11 +135,14 @@ export default function Application({
       </div>
 
       <Account
+        userId={userId}
         showMenu={showMenu}
         setShowMenu={setShowMenu}
         category={category}
         setCategory={setCategory}
         userMetadata={userMetadata}
+        topics={topics}
+        userTopics={userTopics}
       />
     </>
   );

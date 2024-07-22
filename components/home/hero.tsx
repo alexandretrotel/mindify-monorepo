@@ -2,11 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  BookOpenTextIcon,
   BrainIcon,
-  BriefcaseIcon,
   ClockIcon,
   HeartIcon,
   LeafIcon,
+  MicroscopeIcon,
   PiggyBank,
   SearchIcon
 } from "lucide-react";
@@ -16,7 +17,7 @@ import TypographyP from "@/components/typography/p";
 const Hero = () => {
   return (
     <section id="home" className="relative isolate flex h-screen items-center justify-center px-4">
-      <div className="hide-scrollbar relative overflow-hidden text-center">
+      <div className="hide-scrollbar relative text-center">
         <div className="mx-auto flex max-w-xl flex-col gap-2 text-center">
           <TypographyH1>Mindify</TypographyH1>
           <TypographyP muted>
@@ -94,10 +95,10 @@ const Hero = () => {
             </svg>
           </div>
         </div>
-        <div className="mt-10 flex flex-wrap justify-center gap-2 sm:mt-20">
+        <div className="mx-auto mt-10 flex max-w-lg flex-wrap justify-center gap-2 sm:mt-20">
           <Button variant={"outline"}>
-            <BriefcaseIcon className="mr-2 h-auto w-3 flex-shrink-0" />
-            Vie professionnelle
+            <BookOpenTextIcon className="mr-2 h-auto w-3 flex-shrink-0" />
+            Philosophie
           </Button>
           <Button variant={"outline"}>
             <ClockIcon className="mr-2 h-auto w-3 flex-shrink-0" />
@@ -118,6 +119,10 @@ const Hero = () => {
           <Button variant={"outline"}>
             <BrainIcon className="mr-2 h-auto w-3 flex-shrink-0" />
             Psychologie
+          </Button>
+          <Button variant={"outline"}>
+            <MicroscopeIcon className="mr-2 h-auto w-3 flex-shrink-0" />
+            Science
           </Button>
         </div>
       </div>
