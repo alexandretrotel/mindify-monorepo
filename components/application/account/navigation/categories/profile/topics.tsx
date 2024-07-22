@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useOptimistic } from "react";
 import { Label } from "@/components/ui/label";
 import type { Topics, UserTopics } from "@/types/topics/topics";
 import { removeTopic, addTopic } from "@/actions/topics";
 import { useToast } from "@/components/ui/use-toast";
-import { LoadingButton } from "@/components/global/buttons/loadingButton";
+import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
 import TypographySpan from "@/components/typography/span";
+import Image from "next/image";
 
 const isChecked = (userTopics: UserTopics, topicId: number) => {
   return userTopics.some((userTopic) => userTopic.topic_id === topicId);
@@ -20,6 +21,7 @@ const Topics = ({
   topics: Topics;
   userTopics: UserTopics;
 }) => {
+  const [optimisticUserTopics, setOptimisticUserTopics] = useOptimistic<UserTopics>(userTopics);
   const [isLoading, setIsLoading] = useState<boolean[]>(Array(topics.length).fill(false));
 
   const { toast } = useToast();
@@ -30,6 +32,19 @@ const Topics = ({
       next[topicId] = true;
       return next;
     });
+
+    const newOptimisticState = isChecked(optimisticUserTopics, topicId)
+      ? optimisticUserTopics.filter((userTopic) => userTopic.topic_id !== topicId)
+      : [
+          ...optimisticUserTopics,
+          {
+            user_id: userId,
+            topic_id: topicId,
+            created_at: new Date()
+          }
+        ];
+
+    setOptimisticUserTopics(newOptimisticState);
 
     try {
       if (isChecked(userTopics, topicId)) {
@@ -44,6 +59,9 @@ const Topics = ({
         description: "Impossible de mettre à jour l'intérêt.",
         variant: "destructive"
       });
+
+      // rollback the optimistic state
+      setOptimisticUserTopics(optimisticUserTopics);
     } finally {
       setIsLoading((prev) => {
         const next = [...prev];
@@ -60,19 +78,28 @@ const Topics = ({
       </Label>
 
       <div className="flex flex-wrap items-center gap-2">
-        {userTopics &&
-          topics &&
-          topics.map((topic) => (
-            <LoadingButton
-              key={topic.id}
-              disabled={isLoading[topic.id]}
-              pending={isLoading[topic.id]}
-              variant={isChecked(userTopics, topic.id) ? "default" : "outline"}
-              onClick={() => handleTopicClick(topic.id)}
-            >
-              {topic.name}
-            </LoadingButton>
-          ))}
+        {topics?.map((topic) => (
+          <Button
+            key={topic.id}
+            disabled={isLoading[topic.id]}
+            variant={isChecked(optimisticUserTopics, topic.id) ? "default" : "outline"}
+            onClick={() => handleTopicClick(topic.id)}
+          >
+            <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
+              <Image
+                src={
+                  isChecked(optimisticUserTopics, topic.id)
+                    ? (topic.white_icon as string)
+                    : (topic.black_icon as string)
+                }
+                alt={topic.name}
+                fill={true}
+                objectFit="cover"
+              />
+            </span>
+            {topic.name}
+          </Button>
+        ))}
       </div>
 
       <TypographySpan muted size="sm">
