@@ -13,8 +13,10 @@ import {
 } from "lucide-react";
 import TypographyH1 from "@/components/typography/h1";
 import TypographyP from "@/components/typography/p";
+import type { Topics } from "@/types/topics/topics";
+import Image from "next/image";
 
-const Hero = () => {
+const Hero = ({ topics }: { topics: Topics }) => {
   return (
     <section id="home" className="relative isolate flex h-screen items-center justify-center px-4">
       <div className="hide-scrollbar relative text-center">
@@ -96,34 +98,19 @@ const Hero = () => {
           </div>
         </div>
         <div className="mx-auto mt-10 flex max-w-lg flex-wrap justify-center gap-2 sm:mt-20">
-          <Button variant={"outline"}>
-            <BookOpenTextIcon className="mr-2 h-auto w-3 flex-shrink-0" />
-            Philosophie
-          </Button>
-          <Button variant={"outline"}>
-            <ClockIcon className="mr-2 h-auto w-3 flex-shrink-0" />
-            Productivité
-          </Button>
-          <Button variant={"outline"}>
-            <HeartIcon className="mr-2 h-auto w-3 flex-shrink-0" />
-            Santé
-          </Button>
-          <Button variant={"outline"}>
-            <PiggyBank className="mr-2 h-auto w-3 flex-shrink-0" />
-            Finance
-          </Button>
-          <Button variant={"outline"}>
-            <LeafIcon className="mr-2 h-auto w-3 flex-shrink-0" />
-            Environnement
-          </Button>
-          <Button variant={"outline"}>
-            <BrainIcon className="mr-2 h-auto w-3 flex-shrink-0" />
-            Psychologie
-          </Button>
-          <Button variant={"outline"}>
-            <MicroscopeIcon className="mr-2 h-auto w-3 flex-shrink-0" />
-            Science
-          </Button>
+          {topics?.map((topic) => (
+            <Button key={topic.id} variant={"outline"}>
+              <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
+                <Image
+                  src={topic.black_icon as string}
+                  alt={topic.name}
+                  fill={true}
+                  objectFit="cover"
+                />
+              </span>
+              {topic.name}
+            </Button>
+          ))}
         </div>
       </div>
     </section>

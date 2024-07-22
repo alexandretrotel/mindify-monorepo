@@ -12,6 +12,7 @@ import { UUID } from "crypto";
 export default async function Home() {
   const supabase = createClient();
 
+  const { data: topics } = await supabase.from("topics").select("*");
   const { data, error } = await supabase.auth.getUser();
 
   if (error || !data?.user) {
@@ -19,7 +20,7 @@ export default async function Home() {
       <>
         <Header />
         <main className="flex-1">
-          <Hero />
+          <Hero topics={topics as Topics} />
           <Testimonials />
           <Pricing />
           <Faq />
@@ -29,7 +30,6 @@ export default async function Home() {
     );
   }
 
-  const { data: topics } = await supabase.from("topics").select("*");
   const { data: userTopics } = await supabase.from("user_topics").select("*");
 
   return (
