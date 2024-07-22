@@ -16,6 +16,8 @@ import {
 import ToggleTheme from "@/components/global/toggleTheme";
 import H2 from "@/components/typography/h2";
 import Banner from "@/components/home/banner";
+import Logo from "@/public/logos/mindify-square.svg";
+import Image from "next/image";
 
 const navigation = [
   { name: "Accueil", href: "#home" },
@@ -48,7 +50,7 @@ export default function Header() {
         <div className="flex lg:flex-1">
           <Link href="/">
             <span className="sr-only">Mindify</span>
-            <H2>Mindify</H2>
+            <Image src={Logo} alt="Mindify" width={48} height={48} />
           </Link>
         </div>
         <div className="flex items-center gap-4 lg:hidden">
