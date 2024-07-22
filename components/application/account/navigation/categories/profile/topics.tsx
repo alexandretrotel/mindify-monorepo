@@ -22,8 +22,24 @@ const Topics = ({
   topics: Topics;
   userTopics: UserTopics;
 }) => {
-  const [optimisticUserTopics, setOptimisticUserTopics] = useOptimistic<UserTopics>(userTopics);
   const [isLoading, setIsLoading] = useState<boolean[]>(Array(topics.length).fill(false));
+  const [optimisticUserTopics, setOptimisticUserTopics] = useOptimistic<UserTopics, number>(
+    userTopics,
+    (state, topicId) => {
+      if (isChecked(state, topicId)) {
+        return state.filter((userTopic) => userTopic.topic_id !== topicId);
+      } else {
+        return [
+          ...state,
+          {
+            user_id: userId,
+            topic_id: topicId,
+            created_at: new Date()
+          }
+        ];
+      }
+    }
+  );
 
   const { toast } = useToast();
   const { theme } = useTheme();
@@ -35,18 +51,7 @@ const Topics = ({
       return next;
     });
 
-    const newOptimisticState = isChecked(optimisticUserTopics, topicId)
-      ? optimisticUserTopics.filter((userTopic) => userTopic.topic_id !== topicId)
-      : [
-          ...optimisticUserTopics,
-          {
-            user_id: userId,
-            topic_id: topicId,
-            created_at: new Date()
-          }
-        ];
-
-    setOptimisticUserTopics(newOptimisticState);
+    setOptimisticUserTopics(topicId);
 
     try {
       if (isChecked(userTopics, topicId)) {
@@ -61,9 +66,6 @@ const Topics = ({
         description: "Impossible de mettre à jour l'intérêt.",
         variant: "destructive"
       });
-
-      // rollback the optimistic state
-      setOptimisticUserTopics(optimisticUserTopics);
     } finally {
       setIsLoading((prev) => {
         const next = [...prev];
