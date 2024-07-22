@@ -63,7 +63,8 @@ export default function Pricing() {
                     className="text-muted-foreground"
                   />
                 </svg>
-                <Badge className="mt-3 uppercase">Remise de {discount}%</Badge>
+                <Badge className="mt-3 hidden uppercase md:block">Remise de {discount}%</Badge>
+                <Badge className="mt-3 block uppercase md:hidden">-{discount}%</Badge>
               </span>
             </span>
           </Label>

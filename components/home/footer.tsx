@@ -1,9 +1,13 @@
+"use client";
+
 import { JSX, SVGProps } from "react";
 import Link from "next/link";
-import H2 from "@/components/typography/h2";
 import TypographyP from "@/components/typography/p";
 import TypographySpan from "@/components/typography/span";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
+import Logo from "@/public/logos/mindify-square.svg";
+import TypographyH2 from "@/components/typography/h2";
 
 const navigation = {
   support: [
@@ -76,8 +80,9 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
         <div className="flex flex-col items-start justify-between gap-8 md:flex-row">
           <div className="flex max-w-sm flex-col gap-4">
-            <Link href="/">
-              <H2>Mindify</H2>
+            <Link href="/" className="flex items-center gap-2">
+              <Image src={Logo} alt="Mindify" width={32} height={32} />
+              <TypographyH2>Mindify</TypographyH2>
             </Link>
             <TypographyP muted>
               La lecture à portée de main, la connaissance pour vous demain.
