@@ -5,7 +5,7 @@ import { SearchIcon } from "lucide-react";
 import TypographyH1 from "@/components/typography/h1";
 import TypographyP from "@/components/typography/p";
 import type { Topics } from "@/types/topics/topics";
-import Image from "next/image";
+import TopicIconHero from "@/components/home/hero/topicIconHero";
 
 const Hero = ({ topics }: { topics: Topics }) => {
   return (
@@ -93,14 +93,7 @@ const Hero = ({ topics }: { topics: Topics }) => {
             ?.toSorted((a, b) => a.name.localeCompare(b.name))
             ?.map((topic) => (
               <Button key={topic.id} variant={"outline"}>
-                <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
-                  <Image
-                    src={topic.black_icon as string}
-                    alt={topic.name}
-                    fill={true}
-                    objectFit="cover"
-                  />
-                </span>
+                <TopicIconHero topic={topic} />
                 {topic.name}
               </Button>
             ))}

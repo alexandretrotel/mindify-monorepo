@@ -1,12 +1,13 @@
 import React, { useState, useOptimistic } from "react";
 import { Label } from "@/components/ui/label";
-import type { Topics, UserTopics } from "@/types/topics/topics";
+import type { Topic, Topics, UserTopics } from "@/types/topics/topics";
 import { removeTopic, addTopic } from "@/actions/topics";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
 import TypographySpan from "@/components/typography/span";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const isChecked = (userTopics: UserTopics, topicId: number) => {
   return userTopics.some((userTopic) => userTopic.topic_id === topicId);
@@ -25,6 +26,7 @@ const Topics = ({
   const [isLoading, setIsLoading] = useState<boolean[]>(Array(topics.length).fill(false));
 
   const { toast } = useToast();
+  const { theme } = useTheme();
 
   const handleTopicClick = async (topicId: number) => {
     setIsLoading((prev) => {
@@ -71,6 +73,10 @@ const Topics = ({
     }
   };
 
+  const setIconColorFromTheme = (theme: string, topic: Topic): string => {
+    return theme === "dark" ? (topic.white_icon as string) : (topic.black_icon as string);
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <Label htmlFor="topics" className="text-text text-sm font-medium">
@@ -92,7 +98,7 @@ const Topics = ({
                   src={
                     isChecked(optimisticUserTopics, topic.id)
                       ? (topic.white_icon as string)
-                      : (topic.black_icon as string)
+                      : setIconColorFromTheme(theme as string, topic)
                   }
                   alt={topic.name}
                   fill={true}
