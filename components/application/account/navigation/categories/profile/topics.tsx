@@ -78,28 +78,30 @@ const Topics = ({
       </Label>
 
       <div className="flex flex-wrap items-center gap-2">
-        {topics?.map((topic) => (
-          <Button
-            key={topic.id}
-            disabled={isLoading[topic.id]}
-            variant={isChecked(optimisticUserTopics, topic.id) ? "default" : "outline"}
-            onClick={() => handleTopicClick(topic.id)}
-          >
-            <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
-              <Image
-                src={
-                  isChecked(optimisticUserTopics, topic.id)
-                    ? (topic.white_icon as string)
-                    : (topic.black_icon as string)
-                }
-                alt={topic.name}
-                fill={true}
-                objectFit="cover"
-              />
-            </span>
-            {topic.name}
-          </Button>
-        ))}
+        {topics
+          ?.toSorted((a, b) => a.name.localeCompare(b.name))
+          .map((topic) => (
+            <Button
+              key={topic.id}
+              disabled={isLoading[topic.id]}
+              variant={isChecked(optimisticUserTopics, topic.id) ? "default" : "outline"}
+              onClick={() => handleTopicClick(topic.id)}
+            >
+              <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
+                <Image
+                  src={
+                    isChecked(optimisticUserTopics, topic.id)
+                      ? (topic.white_icon as string)
+                      : (topic.black_icon as string)
+                  }
+                  alt={topic.name}
+                  fill={true}
+                  objectFit="cover"
+                />
+              </span>
+              {topic.name}
+            </Button>
+          ))}
       </div>
 
       <TypographySpan muted size="sm">
