@@ -52,9 +52,6 @@ const Topics = ({
   const { resolvedTheme } = useTheme();
 
   const handleTopicClick = async (topicId: number) => {
-  const { theme } = useTheme();
-
-  const handleTopicClick = async (topicId: number) => {
     setOptimisticUserTopics(topicId);
 
     try {
@@ -71,10 +68,6 @@ const Topics = ({
         variant: "destructive"
       });
     }
-  };
-
-  const setIconColorFromTheme = (theme: string, topic: Topic): string => {
-    return theme === "dark" ? (topic.white_icon as string) : (topic.black_icon as string);
   };
 
   return (
