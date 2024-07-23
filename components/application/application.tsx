@@ -20,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TypographyH2 from "@/components/typography/h2";
 import type { Topics, UserTopics } from "@/types/topics/topics";
 import { UUID } from "crypto";
+import Discover from "@/components/application/tabs/discover";
 
 export default function Application({
   children,
@@ -40,7 +41,7 @@ export default function Application({
   return (
     <>
       <div className="md:flew-row mx-auto flex w-full max-w-7xl flex-col justify-between p-4 py-12 md:p-8">
-        <Tabs defaultValue="discover" className="flex flex-col gap-4">
+        <Tabs defaultValue="discover" className="flex flex-col gap-12">
           <header className="flex w-full items-center justify-between">
             <TabsList className="grid grid-cols-3 md:w-1/2">
               <TabsTrigger value="discover">Découvrir</TabsTrigger>
@@ -115,9 +116,7 @@ export default function Application({
 
           <main>
             <TabsContent value="discover">
-              <div className="flex w-full flex-col gap-4 rounded-md bg-slate-100 p-4">
-                <TypographyH2>Découvrir</TypographyH2>
-              </div>
+              <Discover topics={topics} />
             </TabsContent>
             <TabsContent value="summary-of-the-week">
               <div className="flex w-full flex-col gap-4 rounded-md bg-slate-100 p-4">

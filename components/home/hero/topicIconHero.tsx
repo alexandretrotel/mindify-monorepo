@@ -13,7 +13,7 @@ const TopicIconHero = ({ topic }: { topic: Topic }) => {
 
   return (
     <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
-      <Image src={icon as string} alt={topic.name} fill={true} objectFit="cover" />
+      <Image src={icon as string} alt={topic.name} fill={true} className="object-cover" />
     </span>
   );
 };

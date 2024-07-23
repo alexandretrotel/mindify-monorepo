@@ -9,17 +9,10 @@ import TypographySpan from "@/components/typography/span";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { Loader2Icon } from "lucide-react";
+import { setIconColorFromTheme } from "@/utils/theme/icon";
 
 const isChecked = (userTopics: UserTopics, topicId: number): boolean => {
   return userTopics.some((userTopic) => userTopic.topic_id === topicId);
-};
-
-const setIconColorFromTheme = (theme: string, topic: Topic, invert: boolean): string => {
-  if (invert) {
-    return theme === "dark" ? (topic.black_icon as string) : (topic.white_icon as string);
-  } else {
-    return theme === "dark" ? (topic.white_icon as string) : (topic.black_icon as string);
-  }
 };
 
 const Topics = ({
@@ -59,7 +52,7 @@ const Topics = ({
       newState[topicId] = true;
       return newState;
     });
-      
+
     setOptimisticUserTopics(topicId);
 
     try {
@@ -109,7 +102,7 @@ const Topics = ({
                   }
                   alt={topic.name}
                   fill={true}
-                  objectFit="cover"
+                  className="object-cover"
                 />
               </span>
               {topic.name}
