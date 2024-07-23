@@ -1,4 +1,4 @@
-import React, { useOptimistic } from "react";
+import React, { useOptimistic, useState } from "react";
 import { Label } from "@/components/ui/label";
 import type { Topic, Topics, UserTopics } from "@/types/topics/topics";
 import { removeTopic, addTopic } from "@/actions/topics";
@@ -8,6 +8,7 @@ import { UUID } from "crypto";
 import TypographySpan from "@/components/typography/span";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { Loader2Icon } from "lucide-react";
 
 const isChecked = (userTopics: UserTopics, topicId: number): boolean => {
   return userTopics.some((userTopic) => userTopic.topic_id === topicId);
@@ -30,6 +31,7 @@ const Topics = ({
   topics: Topics;
   userTopics: UserTopics;
 }) => {
+  const [isLoading, setIsLoading] = useState(Array.from({ length: topics.length }, () => false));
   const [optimisticUserTopics, setOptimisticUserTopics] = useOptimistic<UserTopics, number>(
     userTopics,
     (state, topicId) => {
@@ -52,6 +54,12 @@ const Topics = ({
   const { resolvedTheme } = useTheme();
 
   const handleTopicClick = async (topicId: number) => {
+    setIsLoading((prev) => {
+      const newState = [...prev];
+      newState[topicId] = true;
+      return newState;
+    });
+
     setOptimisticUserTopics(topicId);
 
     try {
@@ -67,13 +75,20 @@ const Topics = ({
         description: "Impossible de mettre à jour l'intérêt.",
         variant: "destructive"
       });
+    } finally {
+      setIsLoading((prev) => {
+        const newState = [...prev];
+        newState[topicId] = false;
+        return newState;
+      });
     }
   };
 
   return (
     <div className="flex flex-col gap-2">
-      <Label htmlFor="topics" className="text-text text-sm font-medium">
+      <Label htmlFor="topics" className="text-text flex items-center gap-2 text-sm font-medium">
         Intérêts
+        {isLoading?.some((loading) => loading) && <Loader2Icon className="h-3 w-3 animate-spin" />}
       </Label>
 
       <div className="flex flex-wrap items-center gap-2">
