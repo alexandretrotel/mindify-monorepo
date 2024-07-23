@@ -41,11 +41,10 @@ export default function Application({
   return (
     <>
       <div className="md:flew-row mx-auto flex w-full max-w-7xl flex-col justify-between p-4 py-12 md:p-8">
-        <Tabs defaultValue="discover" className="flex flex-col gap-12">
+        <Tabs defaultValue="discover" className="flex flex-col gap-6 md:gap-12">
           <header className="flex w-full items-center justify-between">
-            <TabsList className="grid grid-cols-3 md:w-1/2">
+            <TabsList className="grid grid-cols-2 md:w-1/2">
               <TabsTrigger value="discover">Découvrir</TabsTrigger>
-              <TabsTrigger value="summary-of-the-week">Résumé</TabsTrigger>
               <TabsTrigger value="my-library">Ma librairie</TabsTrigger>
             </TabsList>
 
@@ -116,13 +115,9 @@ export default function Application({
 
           <main>
             <TabsContent value="discover">
-              <Discover topics={topics} />
+              <Discover topics={topics} userTopics={userTopics} />
             </TabsContent>
-            <TabsContent value="summary-of-the-week">
-              <div className="flex w-full flex-col gap-4 rounded-md bg-slate-100 p-4">
-                <TypographyH2>Résumé de la semaine</TypographyH2>
-              </div>
-            </TabsContent>
+
             <TabsContent value="my-library">
               <div className="flex w-full flex-col gap-4 rounded-md bg-slate-100 p-4">
                 <TypographyH2>Ma librairie</TypographyH2>
