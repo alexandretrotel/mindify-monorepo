@@ -1,4 +1,4 @@
-import React, { useState, useOptimistic } from "react";
+import React, { useOptimistic } from "react";
 import { Label } from "@/components/ui/label";
 import type { Topic, Topics, UserTopics } from "@/types/topics/topics";
 import { removeTopic, addTopic } from "@/actions/topics";
@@ -9,8 +9,16 @@ import TypographySpan from "@/components/typography/span";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 
-const isChecked = (userTopics: UserTopics, topicId: number) => {
+const isChecked = (userTopics: UserTopics, topicId: number): boolean => {
   return userTopics.some((userTopic) => userTopic.topic_id === topicId);
+};
+
+const setIconColorFromTheme = (theme: string, topic: Topic, invert: boolean): string => {
+  if (invert) {
+    return theme === "dark" ? (topic.black_icon as string) : (topic.white_icon as string);
+  } else {
+    return theme === "dark" ? (topic.white_icon as string) : (topic.black_icon as string);
+  }
 };
 
 const Topics = ({
@@ -22,7 +30,6 @@ const Topics = ({
   topics: Topics;
   userTopics: UserTopics;
 }) => {
-  const [isLoading, setIsLoading] = useState<boolean[]>(Array(topics.length).fill(false));
   const [optimisticUserTopics, setOptimisticUserTopics] = useOptimistic<UserTopics, number>(
     userTopics,
     (state, topicId) => {
@@ -42,15 +49,9 @@ const Topics = ({
   );
 
   const { toast } = useToast();
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   const handleTopicClick = async (topicId: number) => {
-    setIsLoading((prev) => {
-      const next = [...prev];
-      next[topicId] = true;
-      return next;
-    });
-
     setOptimisticUserTopics(topicId);
 
     try {
@@ -66,17 +67,7 @@ const Topics = ({
         description: "Impossible de mettre à jour l'intérêt.",
         variant: "destructive"
       });
-    } finally {
-      setIsLoading((prev) => {
-        const next = [...prev];
-        next[topicId] = false;
-        return next;
-      });
     }
-  };
-
-  const setIconColorFromTheme = (theme: string, topic: Topic): string => {
-    return theme === "dark" ? (topic.white_icon as string) : (topic.black_icon as string);
   };
 
   return (
@@ -91,7 +82,6 @@ const Topics = ({
           .map((topic) => (
             <Button
               key={topic.id}
-              disabled={isLoading[topic.id]}
               variant={isChecked(optimisticUserTopics, topic.id) ? "default" : "outline"}
               onClick={() => handleTopicClick(topic.id)}
             >
@@ -99,8 +89,8 @@ const Topics = ({
                 <Image
                   src={
                     isChecked(optimisticUserTopics, topic.id)
-                      ? (topic.white_icon as string)
-                      : setIconColorFromTheme(theme as string, topic)
+                      ? setIconColorFromTheme(resolvedTheme as string, topic, true)
+                      : setIconColorFromTheme(resolvedTheme as string, topic, false)
                   }
                   alt={topic.name}
                   fill={true}
