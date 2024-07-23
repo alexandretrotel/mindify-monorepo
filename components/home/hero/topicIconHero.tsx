@@ -7,9 +7,9 @@ import type { Topic } from "@/types/topics/topics";
 import { useTheme } from "next-themes";
 
 const TopicIconHero = ({ topic }: { topic: Topic }) => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
-  const icon = theme === "dark" ? topic.white_icon : topic.black_icon;
+  const icon = resolvedTheme === "dark" ? topic.white_icon : topic.black_icon;
 
   return (
     <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
