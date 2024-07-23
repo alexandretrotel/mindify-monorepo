@@ -106,7 +106,7 @@ export default function Footer() {
           </div>
           <div className="flex flex-col items-start gap-8 md:flex-row md:gap-16">
             <div className="flex flex-col gap-4">
-              <TypographySpan defaultColor semibold>
+              <TypographySpan isDefaultColor semibold>
                 Support
               </TypographySpan>
               <ul className="flex flex-col gap-4">
@@ -124,7 +124,7 @@ export default function Footer() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <TypographySpan defaultColor semibold>
+              <TypographySpan isDefaultColor semibold>
                 Légal
               </TypographySpan>
               <ul className="flex flex-col gap-4">
