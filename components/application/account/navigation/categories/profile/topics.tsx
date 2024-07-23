@@ -59,7 +59,7 @@ const Topics = ({
       newState[topicId] = true;
       return newState;
     });
-
+      
     setOptimisticUserTopics(topicId);
 
     try {
