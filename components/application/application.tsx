@@ -17,7 +17,7 @@ import type { AccountCategory } from "@/types/account/categories";
 import { useState } from "react";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import TypographyH2 from "@/components/typography/h2";
+import MyLibrary from "@/components/application/tabs/myLibrary";
 import type { Topics, UserTopics } from "@/types/topics/topics";
 import { UUID } from "crypto";
 import Discover from "@/components/application/tabs/discover";
@@ -119,9 +119,7 @@ export default function Application({
             </TabsContent>
 
             <TabsContent value="my-library">
-              <div className="flex w-full flex-col gap-4 rounded-md bg-slate-100 p-4">
-                <TypographyH2>Ma librairie</TypographyH2>
-              </div>
+              <MyLibrary topics={topics} />
             </TabsContent>
             {children}
           </main>

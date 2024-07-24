@@ -3,7 +3,7 @@ import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 import TypographyP from "@/components/typography/p";
 import React from "react";
 import Statistics from "@/components/application/tabs/discover/statistics";
-import type { Topic, Topics, UserTopic, UserTopics } from "@/types/topics/topics";
+import type { Topic, Topics, UserTopics } from "@/types/topics/topics";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { setIconColorFromTheme } from "@/utils/theme/icon";
@@ -22,7 +22,7 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopi
   const { resolvedTheme } = useTheme();
 
   return (
-    <div className="mx-auto flex max-w-full flex-col items-start gap-16 lg:flex-row lg:justify-between">
+    <div className="mx-auto flex max-w-full flex-col items-start gap-8 md:gap-16 lg:flex-row lg:justify-between">
       <div className="flex w-full flex-col gap-4 lg:hidden">
         <Statistics />
       </div>
@@ -84,8 +84,8 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopi
                 ?.filter((topic) =>
                   userTopics?.find((userTopic) => userTopic.topic_id === topic.id)
                 )
-                ?.toSorted((a, b) => a.name.localeCompare(b.name))
-                .reduce((acc: Topic[][], topic: Topic, index: number) => {
+                ?.sort((a, b) => a.name.localeCompare(b.name))
+                ?.reduce((acc: Topic[][], topic: Topic, index: number) => {
                   const chunkIndex = Math.floor(index / 6);
                   if (!acc[chunkIndex]) {
                     acc[chunkIndex] = [];
@@ -93,7 +93,7 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopi
                   acc[chunkIndex].push(topic);
                   return acc;
                 }, [])
-                .map((topicChunk, index) => (
+                ?.map((topicChunk, index) => (
                   <CarouselItem key={index} className="pl-4">
                     <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
                       {topicChunk.map((topic: Topic) => (

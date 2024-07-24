@@ -1,6 +1,6 @@
 import React, { useOptimistic, useState } from "react";
 import { Label } from "@/components/ui/label";
-import type { Topic, Topics, UserTopics } from "@/types/topics/topics";
+import type { Topics, UserTopics } from "@/types/topics/topics";
 import { removeTopic, addTopic } from "@/actions/topics";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
@@ -46,6 +46,8 @@ const Topics = ({
   const { toast } = useToast();
   const { resolvedTheme } = useTheme();
 
+  const sortedTopics = [...topics]?.sort((a, b) => a.name.localeCompare(b.name));
+
   const handleTopicClick = async (topicId: number) => {
     setIsLoading((prev) => {
       const newState = [...prev];
@@ -85,29 +87,27 @@ const Topics = ({
       </Label>
 
       <div className="flex flex-wrap items-center gap-2">
-        {topics
-          ?.toSorted((a, b) => a.name.localeCompare(b.name))
-          .map((topic) => (
-            <Button
-              key={topic.id}
-              variant={isChecked(optimisticUserTopics, topic.id) ? "default" : "outline"}
-              onClick={() => handleTopicClick(topic.id)}
-            >
-              <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
-                <Image
-                  src={
-                    isChecked(optimisticUserTopics, topic.id)
-                      ? setIconColorFromTheme(resolvedTheme as string, topic, true)
-                      : setIconColorFromTheme(resolvedTheme as string, topic, false)
-                  }
-                  alt={topic.name}
-                  fill={true}
-                  className="object-cover"
-                />
-              </span>
-              {topic.name}
-            </Button>
-          ))}
+        {sortedTopics?.map((topic) => (
+          <Button
+            key={topic.id}
+            variant={isChecked(optimisticUserTopics, topic.id) ? "default" : "outline"}
+            onClick={() => handleTopicClick(topic.id)}
+          >
+            <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
+              <Image
+                src={
+                  isChecked(optimisticUserTopics, topic.id)
+                    ? setIconColorFromTheme(resolvedTheme as string, topic, true)
+                    : setIconColorFromTheme(resolvedTheme as string, topic, false)
+                }
+                alt={topic.name}
+                fill={true}
+                className="object-cover"
+              />
+            </span>
+            {topic.name}
+          </Button>
+        ))}
       </div>
 
       <TypographySpan muted size="sm">
