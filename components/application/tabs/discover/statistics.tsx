@@ -3,6 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import TypographyH3 from "@/components/typography/h3";
 import { Area, AreaChart, Bar, BarChart, Rectangle, XAxis, YAxis } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRightIcon } from "lucide-react";
 
 const Statistics = () => {
   const [summariesReadThisWeek, setSummariesReadThisWeek] = React.useState<number>(0);
@@ -11,9 +13,23 @@ const Statistics = () => {
 
   return (
     <>
-      <TypographyH3>Mes statistiques</TypographyH3>
+      <div className="block md:hidden">
+        <TypographyH3>Mes statistiques</TypographyH3>
+      </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
+        <Card className="col-span-2 lg:col-span-1 lg:max-w-md">
+          <CardHeader className="space-y-0">
+            <CardTitle className="text-xl tabular-nums">Mon profil</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Button className="flex w-full items-center">
+              Voir mon profil
+              <ArrowUpRightIcon className="ml-1 h-4 w-4" />
+            </Button>
+          </CardContent>
+        </Card>
+
         <Card className="lg:max-w-md">
           <CardHeader className="space-y-0 md:pb-2">
             <CardDescription>Cette semaine</CardDescription>
@@ -24,7 +40,7 @@ const Statistics = () => {
               </span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="hidden md:block">
+          <CardContent className="hidden lg:block">
             <ChartContainer
               config={{
                 steps: {
@@ -122,7 +138,7 @@ const Statistics = () => {
               </span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="hidden p-0 md:block">
+          <CardContent className="hidden p-0 lg:block">
             <ChartContainer
               config={{
                 time: {
