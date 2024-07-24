@@ -16,6 +16,9 @@ const Statistics = () => {
       <div className="block md:hidden">
         <TypographyH3>Mes statistiques</TypographyH3>
       </div>
+      <div className="block md:hidden">
+        <TypographyH3>Mes statistiques</TypographyH3>
+      </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
         <Card className="col-span-2 hidden lg:col-span-1 lg:block lg:max-w-md">
