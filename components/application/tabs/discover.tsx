@@ -3,7 +3,7 @@ import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 import TypographyP from "@/components/typography/p";
 import React from "react";
 import Statistics from "@/components/application/tabs/discover/statistics";
-import type { Topics, UserTopic, UserTopics } from "@/types/topics/topics";
+import type { Topic, Topics, UserTopic, UserTopics } from "@/types/topics/topics";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { setIconColorFromTheme } from "@/utils/theme/icon";
@@ -42,7 +42,7 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopi
             </div>
 
             <CarouselContent className="-ml-4">
-              {Array.from({ length: 10 })
+              {Array.from({ length: 20 })
                 .slice(0, 15)
                 .map((_, index) => {
                   return (
@@ -82,28 +82,38 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopi
             <CarouselContent className="-ml-4">
               {topics
                 ?.filter((topic) =>
-                  userTopics?.find((userTopic: UserTopic) => userTopic.topic_id === topic.id)
+                  userTopics?.find((userTopic) => userTopic.topic_id === topic.id)
                 )
                 ?.toSorted((a, b) => a.name.localeCompare(b.name))
-                .map((topic) => {
-                  return (
-                    <CarouselItem key={topic.id} className="basis-1/2 pl-4 lg:basis-1/4">
-                      <Button asChild>
-                        <Link href={`/topic/${topic.slug}`} className="w-full">
-                          <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
-                            <Image
-                              src={setIconColorFromTheme(resolvedTheme as string, topic, true)}
-                              alt={topic.name}
-                              fill={true}
-                              className="object-cover"
-                            />
-                          </span>
-                          <TypographyH5AsSpan>{topic.name}</TypographyH5AsSpan>
-                        </Link>
-                      </Button>
-                    </CarouselItem>
-                  );
-                })}
+                .reduce((acc: Topic[][], topic: Topic, index: number) => {
+                  const chunkIndex = Math.floor(index / 6);
+                  if (!acc[chunkIndex]) {
+                    acc[chunkIndex] = [];
+                  }
+                  acc[chunkIndex].push(topic);
+                  return acc;
+                }, [])
+                .map((topicChunk, index) => (
+                  <CarouselItem key={index} className="pl-4">
+                    <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+                      {topicChunk.map((topic: Topic) => (
+                        <Button asChild key={topic.id} className="col-span-1">
+                          <Link href={`/topic/${topic.slug}`} className="w-full">
+                            <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
+                              <Image
+                                src={setIconColorFromTheme(resolvedTheme as string, topic, true)}
+                                alt={topic.name}
+                                fill={true}
+                                className="object-cover"
+                              />
+                            </span>
+                            <TypographyH5AsSpan>{topic.name}</TypographyH5AsSpan>
+                          </Link>
+                        </Button>
+                      ))}
+                    </div>
+                  </CarouselItem>
+                ))}
             </CarouselContent>
           </div>
         </Carousel>
@@ -122,7 +132,7 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopi
             </div>
 
             <CarouselContent className="-ml-4">
-              {Array.from({ length: 10 })
+              {Array.from({ length: 20 })
                 .slice(0, 15)
                 .map((_, index) => {
                   return (
