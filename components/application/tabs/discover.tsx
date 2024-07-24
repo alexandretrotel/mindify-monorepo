@@ -68,56 +68,60 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopi
           </div>
         </Carousel>
 
-        <Carousel
-          opts={{
-            align: "start",
-            slidesToScroll: "auto"
-          }}
-          className="w-full"
-        >
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col">
-              <TypographyH3>Vos intérêts</TypographyH3>
-              <TypographyP muted>Explorez des résumés extraits de vos sujets préférés.</TypographyP>
-            </div>
+        {userTopics?.length > 0 && (
+          <Carousel
+            opts={{
+              align: "start",
+              slidesToScroll: "auto"
+            }}
+            className="w-full"
+          >
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col">
+                <TypographyH3>Vos intérêts</TypographyH3>
+                <TypographyP muted>
+                  Explorez des résumés extraits de vos sujets préférés.
+                </TypographyP>
+              </div>
 
-            <CarouselContent className="-ml-4">
-              {sortedTopics
-                ?.filter((topic) =>
-                  userTopics?.find((userTopic) => userTopic.topic_id === topic.id)
-                )
-                ?.reduce((acc: Topic[][], topic: Topic, index: number) => {
-                  const chunkIndex = Math.floor(index / 6);
-                  if (!acc[chunkIndex]) {
-                    acc[chunkIndex] = [];
-                  }
-                  acc[chunkIndex].push(topic);
-                  return acc;
-                }, [])
-                ?.map((topicChunk, index) => (
-                  <CarouselItem key={index} className="pl-4">
-                    <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-                      {topicChunk.map((topic: Topic) => (
-                        <Button asChild key={topic.id} className="col-span-1">
-                          <Link href={`/topic/${topic.slug}`} className="w-full">
-                            <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
-                              <Image
-                                src={setIconColorFromTheme(resolvedTheme as string, topic, true)}
-                                alt={topic.name}
-                                fill={true}
-                                className="object-cover"
-                              />
-                            </span>
-                            <TypographyH5AsSpan>{topic.name}</TypographyH5AsSpan>
-                          </Link>
-                        </Button>
-                      ))}
-                    </div>
-                  </CarouselItem>
-                ))}
-            </CarouselContent>
-          </div>
-        </Carousel>
+              <CarouselContent className="-ml-4">
+                {sortedTopics
+                  ?.filter((topic) =>
+                    userTopics?.find((userTopic) => userTopic.topic_id === topic.id)
+                  )
+                  ?.reduce((acc: Topic[][], topic: Topic, index: number) => {
+                    const chunkIndex = Math.floor(index / 6);
+                    if (!acc[chunkIndex]) {
+                      acc[chunkIndex] = [];
+                    }
+                    acc[chunkIndex].push(topic);
+                    return acc;
+                  }, [])
+                  ?.map((topicChunk, index) => (
+                    <CarouselItem key={index} className="pl-4">
+                      <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+                        {topicChunk.map((topic: Topic) => (
+                          <Button asChild key={topic.id} className="col-span-1">
+                            <Link href={`/topic/${topic.slug}`} className="w-full">
+                              <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
+                                <Image
+                                  src={setIconColorFromTheme(resolvedTheme as string, topic, true)}
+                                  alt={topic.name}
+                                  fill={true}
+                                  className="object-cover"
+                                />
+                              </span>
+                              <TypographyH5AsSpan>{topic.name}</TypographyH5AsSpan>
+                            </Link>
+                          </Button>
+                        ))}
+                      </div>
+                    </CarouselItem>
+                  ))}
+              </CarouselContent>
+            </div>
+          </Carousel>
+        )}
 
         <Carousel
           opts={{
