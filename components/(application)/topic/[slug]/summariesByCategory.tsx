@@ -25,10 +25,10 @@ const SummariesByCategory = ({ topic, summaries }: { topic: Topic; summaries: Su
   const [totalPages, setTotalPages] = React.useState<number>(0);
 
   useEffect(() => {
-    if (!summaries) return;
-
-    setTotalPages(Math.ceil(summaries?.length / itemsPerPage));
-  }, []);
+    if (summaries) {
+      setTotalPages(Math.ceil(summaries?.length / itemsPerPage));
+    }
+  }, [summaries]);
 
   const paginatedSummaries = summaries?.slice(
     (currentPage - 1) * itemsPerPage,

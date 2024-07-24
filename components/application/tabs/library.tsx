@@ -1,3 +1,6 @@
+"use client";
+import "client-only";
+
 import React, { useEffect } from "react";
 import TypographyH3 from "@/components/typography/h3";
 import { Input } from "@/components/ui/input";

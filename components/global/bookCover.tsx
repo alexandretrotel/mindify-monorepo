@@ -14,8 +14,8 @@ const BookCover = ({
   category: string;
 }) => {
   return (
-    <Card className="h-auto w-full flex-shrink-0 rounded-md hover:border-primary active:border-black">
-      <div className="h-48 w-full rounded-t-md bg-slate-200" />
+    <Card className="h-auto w-full flex-shrink-0 overflow-hidden rounded-md hover:border-primary active:border-black">
+      <div className="h-48 w-full bg-slate-200" />
       <div className="p-4">
         <TypographySpan isPrimaryColor size="xs">
           {category}

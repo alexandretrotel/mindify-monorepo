@@ -1,8 +1,13 @@
 import SummariesByCategory from "@/components/(application)/topic/[slug]/summariesByCategory";
-import TypographyH2 from "@/components/typography/h2";
+import AccountDropdown from "@/components/global/accountDropdown";
+import BackHome from "@/components/global/buttons/backHome";
+import TypographyH3 from "@/components/typography/h3";
 import TypographyP from "@/components/typography/p";
+import { Badge } from "@/components/ui/badge";
 import type { Summaries } from "@/types/summary/summary";
+import type { UserTopics } from "@/types/topics/topics";
 import { createClient } from "@/utils/supabase/server";
+import type { UUID } from "crypto";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -20,6 +25,15 @@ const Topic = async ({ params }: { params: { slug: string } }) => {
 
   const supabase = createClient();
 
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error || !data?.user) {
+    redirect("/");
+  }
+
+  const userMetadata = data.user.user_metadata;
+  const userId = data.user.id as UUID;
+
   const { data: topics } = await supabase.from("topics").select("*");
 
   if (!topics) {
@@ -32,18 +46,34 @@ const Topic = async ({ params }: { params: { slug: string } }) => {
     redirect("/");
   }
 
-  return (
-    <div className="mx-auto mb-8 flex max-w-7xl flex-col gap-8 lg:py-12">
-      <div className="flex flex-col">
-        <TypographyH2>{topic.name}</TypographyH2>
-        <TypographyP muted>
-          Explorez notre collection des meilleurs livres dans la catégorie{" "}
-          {topic?.name?.toLowerCase()}.
-        </TypographyP>
-      </div>
+  const { data: userTopics } = await supabase.from("user_topics").select("*").eq("user_id", userId);
 
-      <div className="flex flex-col gap-4">
-        <SummariesByCategory topic={topic} summaries={summaries} />
+  return (
+    <div className="mx-auto mb-8 flex max-w-7xl flex-col gap-6 md:gap-12 lg:py-12">
+      <div className="flex flex-col gap-8">
+        <div className="flex flex-col">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <TypographyH3>{topic.name}</TypographyH3>
+              <Badge>{summaries.length} résumés</Badge>
+            </div>
+
+            <AccountDropdown
+              userMetadata={userMetadata}
+              userId={userId}
+              topics={topics}
+              userTopics={userTopics as UserTopics}
+            />
+          </div>
+          <TypographyP muted>
+            Explorez notre collection des meilleurs livres dans la catégorie{" "}
+            {topic?.name?.toLowerCase()}.
+          </TypographyP>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <SummariesByCategory topic={topic} summaries={summaries} />
+        </div>
       </div>
     </div>
   );
