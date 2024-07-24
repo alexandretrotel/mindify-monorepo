@@ -21,7 +21,7 @@ const statuts = [
   { id: 2, name: "Nouveau" },
   { id: 3, name: "Enregistré" },
   { id: 4, name: "Terminé" }
-];
+ ];
 
 const Library = ({ topics }: { topics: Topics }) => {
   const [book, setBook] = React.useState<string | undefined>(undefined);
