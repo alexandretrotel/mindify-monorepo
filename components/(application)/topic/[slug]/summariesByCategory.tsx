@@ -25,10 +25,10 @@ const SummariesByCategory = ({ topic, summaries }: { topic: Topic; summaries: Su
   const [totalPages, setTotalPages] = React.useState<number>(0);
 
   useEffect(() => {
-    if (!summaries) return;
-
-    setTotalPages(Math.ceil(summaries?.length / itemsPerPage));
-  }, []);
+    if (summaries) {
+      setTotalPages(Math.ceil(summaries?.length / itemsPerPage));
+    }
+  }, [summaries]);
 
   const paginatedSummaries = summaries?.slice(
     (currentPage - 1) * itemsPerPage,
@@ -63,7 +63,7 @@ const SummariesByCategory = ({ topic, summaries }: { topic: Topic; summaries: Su
       {/* Summaries */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {paginatedSummaries?.map((summary, index) => (
-          <Link href={`/summary/${index}`} key={index}>
+          <Link href={`/summary/${summary.author_slug}/${summary.slug}`} key={index}>
             <BookCover title={summary.title} author={summary.author} category={topic.name} />
           </Link>
         ))}

@@ -36,7 +36,7 @@ const Statistics = () => {
             <CardTitle className="text-4xl tabular-nums">
               {summariesReadThisWeek}{" "}
               <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
-                résumés
+                {summariesReadThisWeek > 1 ? "résumés" : "résumé"}
               </span>
             </CardTitle>
           </CardHeader>

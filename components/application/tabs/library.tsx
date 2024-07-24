@@ -1,3 +1,6 @@
+"use client";
+import "client-only";
+
 import React, { useEffect } from "react";
 import TypographyH3 from "@/components/typography/h3";
 import { Input } from "@/components/ui/input";
@@ -15,13 +18,24 @@ import {
 import type { Topics } from "@/types/topics/topics";
 import BookCover from "@/components/global/bookCover";
 import Link from "next/link";
+import type { Summaries } from "@/types/summary/summary";
 
 const statuts = [
   { id: 1, name: "Pas commencé" },
   { id: 2, name: "Nouveau" },
   { id: 3, name: "Enregistré" },
   { id: 4, name: "Terminé" }
- ];
+];
+
+const summaries: Summaries = Array.from({ length: 20 })?.map((_, index) => ({
+  id: index,
+  title: "The Lean Startup",
+  author: "Eric Ries",
+  image: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+  created_at: new Date(),
+  slug: "the-lean-startup",
+  author_slug: "eric-ries"
+})) as Summaries;
 
 const Library = ({ topics }: { topics: Topics }) => {
   const [book, setBook] = React.useState<string | undefined>(undefined);
@@ -100,8 +114,8 @@ const Library = ({ topics }: { topics: Topics }) => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {Array.from({ length: 20 }).map((_, index) => (
-          <Link href="/" key={index}>
+        {summaries?.map((summary, index) => (
+          <Link href={`/summary/${summary.author_slug}/${summary.slug}`} key={index}>
             <BookCover title="L'art de la guerre" author="Sun Tzu" category="Histoire" />
           </Link>
         ))}

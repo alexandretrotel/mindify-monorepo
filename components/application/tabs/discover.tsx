@@ -17,6 +17,17 @@ import {
   CarouselNext,
   CarouselPrevious
 } from "@/components/ui/carousel";
+import type { Summaries } from "@/types/summary/summary";
+
+const summaries: Summaries = Array.from({ length: 20 })?.map((_, index) => ({
+  id: index,
+  title: "The Lean Startup",
+  author: "Eric Ries",
+  image: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+  created_at: new Date(),
+  slug: "the-lean-startup",
+  author_slug: "eric-ries"
+})) as Summaries;
 
 const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopics }) => {
   const { resolvedTheme } = useTheme();
@@ -44,21 +55,15 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopi
             </div>
 
             <CarouselContent className="-ml-4">
-              {Array.from({ length: 20 })
-                .slice(0, 15)
-                .map((_, index) => {
-                  return (
-                    <CarouselItem key={index} className="basis-1/2 pl-4 lg:basis-1/3">
-                      <Link href="/">
-                        <BookCover
-                          title="L'art de la guerre"
-                          author="Sun Tzu"
-                          category="Histoire"
-                        />
-                      </Link>
-                    </CarouselItem>
-                  );
-                })}
+              {summaries?.slice(0, 15)?.map((summary, index) => {
+                return (
+                  <CarouselItem key={index} className="basis-1/2 pl-4 lg:basis-1/3">
+                    <Link href={`/summary/${summary.author_slug}/${summary.slug}`}>
+                      <BookCover title="L'art de la guerre" author="Sun Tzu" category="Histoire" />
+                    </Link>
+                  </CarouselItem>
+                );
+              })}
             </CarouselContent>
 
             <div className="hidden lg:block">
@@ -139,21 +144,15 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopi
             </div>
 
             <CarouselContent className="-ml-4">
-              {Array.from({ length: 20 })
-                .slice(0, 15)
-                .map((_, index) => {
-                  return (
-                    <CarouselItem key={index} className="basis-1/2 pl-4 lg:basis-1/3">
-                      <Link href="/">
-                        <BookCover
-                          title="L'art de la guerre"
-                          author="Sun Tzu"
-                          category="Histoire"
-                        />
-                      </Link>
-                    </CarouselItem>
-                  );
-                })}
+              {summaries?.slice(0, 15)?.map((summary, index) => {
+                return (
+                  <CarouselItem key={index} className="basis-1/2 pl-4 lg:basis-1/3">
+                    <Link href={`/summary/${summary.author_slug}/${summary.slug}`}>
+                      <BookCover title="L'art de la guerre" author="Sun Tzu" category="Histoire" />
+                    </Link>
+                  </CarouselItem>
+                );
+              })}
             </CarouselContent>
 
             <div className="hidden lg:block">
