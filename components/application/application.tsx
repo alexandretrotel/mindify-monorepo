@@ -29,7 +29,7 @@ export default function Application({
   topics,
   userTopics
 }: Readonly<{
-  children: React.ReactNode;
+  children?: React.ReactNode;
   userId: UUID;
   userMetadata: UserMetadata;
   topics: Topics;

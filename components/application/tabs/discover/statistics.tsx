@@ -23,7 +23,7 @@ const Statistics = () => {
             <CardTitle className="text-xl tabular-nums">Mon profil</CardTitle>
           </CardHeader>
           <CardContent>
-            <Button className="flex w-full items-center">
+            <Button className="flex w-full items-center" disabled>
               Voir mon profil
               <ArrowUpRightIcon className="ml-1 h-4 w-4" />
             </Button>
