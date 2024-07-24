@@ -17,10 +17,10 @@ import BookCover from "@/components/global/bookCover";
 import Link from "next/link";
 
 const statuts = [
-  { id: 1, name: "Pas commencés" },
-  { id: 2, name: "Nouveautés" },
-  { id: 3, name: "Enregistrés" },
-  { id: 4, name: "Terminés" }
+  { id: 1, name: "Pas commencé" },
+  { id: 2, name: "Nouveau" },
+  { id: 3, name: "Enregistré" },
+  { id: 4, name: "Terminé" }
 ];
 
 const Library = ({ topics }: { topics: Topics }) => {
