@@ -18,7 +18,7 @@ const Statistics = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
-        <Card className="col-span-2 lg:col-span-1 lg:max-w-md">
+        <Card className="col-span-2 hidden lg:col-span-1 lg:block lg:max-w-md">
           <CardHeader className="space-y-0">
             <CardTitle className="text-xl tabular-nums">Mon profil</CardTitle>
           </CardHeader>
