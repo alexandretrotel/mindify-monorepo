@@ -1,3 +1,6 @@
+"use client";
+import "client-only";
+
 import type { UserMetadata } from "@supabase/supabase-js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Library from "@/components/application/tabs/library";

@@ -20,7 +20,7 @@ const summaries: Summaries = Array.from({ length: 10 }).map((_, index) => ({
   slug: "the-lean-startup"
 })) as Summaries;
 
-const Topic = async ({ params }: { params: { slug: string } }) => {
+const Page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
 
   const supabase = createClient();
@@ -49,10 +49,10 @@ const Topic = async ({ params }: { params: { slug: string } }) => {
   const { data: userTopics } = await supabase.from("user_topics").select("*").eq("user_id", userId);
 
   return (
-    <div className="mx-auto mb-8 flex max-w-7xl flex-col gap-6 md:gap-12 lg:py-12">
+    <div className="mx-auto mb-8 flex max-w-7xl flex-col gap-6 md:gap-12">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-4">
               <TypographyH3>{topic.name}</TypographyH3>
               <Badge>{summaries.length} résumés</Badge>
@@ -79,4 +79,4 @@ const Topic = async ({ params }: { params: { slug: string } }) => {
   );
 };
 
-export default Topic;
+export default Page;

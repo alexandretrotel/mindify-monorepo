@@ -3,7 +3,15 @@ import "client-only";
 
 import React from "react";
 import { signOut } from "@/actions/auth";
-import { BellRingIcon, CreditCardIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
+import {
+  BellRingIcon,
+  CreditCardIcon,
+  HomeIcon,
+  LogOutIcon,
+  SettingsIcon,
+  UserIcon,
+  UserPenIcon
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +26,7 @@ import type { AccountCategory } from "@/types/account/categories";
 import Account from "@/components/global/account";
 import type { UUID } from "crypto";
 import type { Topics, UserTopics } from "@/types/topics/topics";
+import Link from "next/link";
 
 const AccountDropdown = ({
   userMetadata,
@@ -44,8 +53,21 @@ const AccountDropdown = ({
         </DropdownMenuTrigger>
 
         <DropdownMenuContent side="bottom" className="mx-4">
-          <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
+          <DropdownMenuLabel>Menu</DropdownMenuLabel>
+          <DropdownMenuItem>
+            <Link href="/" className="flex items-center gap-2">
+              <HomeIcon className="h-4 w-4" /> Accueil
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem disabled>
+            <Link href="/" className="flex items-center gap-2">
+              <UserIcon className="h-4 w-4" /> Mon profil
+            </Link>
+          </DropdownMenuItem>
+
           <DropdownMenuSeparator />
+
+          <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
           <DropdownMenuItem
             onClick={() => {
               setShowMenu(true);
@@ -53,7 +75,7 @@ const AccountDropdown = ({
             }}
             className="flex items-center gap-2"
           >
-            <UserIcon className="h-4 w-4" /> Profil
+            <UserPenIcon className="h-4 w-4" /> Compte
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {

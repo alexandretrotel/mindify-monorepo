@@ -1,3 +1,11 @@
-export default function TypographyH3AsSpan({ children }: { children: React.ReactNode }) {
-  return <span className="text-2xl font-semibold">{children}</span>;
+export default function TypographyH3AsSpan({
+  children,
+  muted
+}: {
+  children: React.ReactNode;
+  muted?: boolean;
+}) {
+  return (
+    <span className={`text-2xl font-semibold ${muted && "text-muted-foreground"}`}>{children}</span>
+  );
 }
