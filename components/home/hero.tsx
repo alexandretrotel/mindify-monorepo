@@ -8,7 +8,7 @@ import type { Topics } from "@/types/topics/topics";
 import TopicIconHero from "@/components/home/hero/topicIconHero";
 
 const Hero = ({ topics }: { topics: Topics }) => {
-  const sortedTopics = [...topics]?.sort((a, b) => a.name.localeCompare(b.name));
+  const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
 
   return (
     <section id="home" className="relative isolate flex h-screen items-center justify-center px-4">

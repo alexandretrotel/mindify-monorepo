@@ -46,7 +46,7 @@ const Topics = ({
   const { toast } = useToast();
   const { resolvedTheme } = useTheme();
 
-  const sortedTopics = [...topics]?.sort((a, b) => a.name.localeCompare(b.name));
+  const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
 
   const handleTopicClick = async (topicId: number) => {
     setIsLoading((prev) => {

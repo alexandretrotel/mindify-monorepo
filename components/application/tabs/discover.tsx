@@ -21,6 +21,8 @@ import {
 const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopics }) => {
   const { resolvedTheme } = useTheme();
 
+  const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
+
   return (
     <div className="mx-auto flex max-w-full flex-col items-start gap-8 md:gap-16 lg:flex-row lg:justify-between">
       <div className="flex w-full flex-col gap-4 lg:hidden">
@@ -80,11 +82,10 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopi
             </div>
 
             <CarouselContent className="-ml-4">
-              {topics
+              {sortedTopics
                 ?.filter((topic) =>
                   userTopics?.find((userTopic) => userTopic.topic_id === topic.id)
                 )
-                ?.sort((a, b) => a.name.localeCompare(b.name))
                 ?.reduce((acc: Topic[][], topic: Topic, index: number) => {
                   const chunkIndex = Math.floor(index / 6);
                   if (!acc[chunkIndex]) {

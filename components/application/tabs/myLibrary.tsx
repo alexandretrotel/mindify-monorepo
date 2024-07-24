@@ -1,33 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TypographyH3 from "@/components/typography/h3";
 import { Input } from "@/components/ui/input";
-import { SearchIcon, ChevronsUpDown, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { SearchIcon } from "lucide-react";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem
-} from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 import type { Topics } from "@/types/topics/topics";
 import BookCover from "@/components/global/bookCover";
 import Link from "next/link";
 
 const statuts = [
-  { name: "Enregistrés", slug: "saved" },
-  { name: "Terminés", slug: "completed" }
+  { id: 1, name: "Enregistrés" },
+  { id: 2, name: "Terminés" }
 ];
 
 const MyLibrary = ({ topics }: { topics: Topics }) => {
   const [book, setBook] = React.useState<string | undefined>(undefined);
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [selectedTopic, setSelectedTopic] = React.useState<string>("");
-  const [selectedStatut, setSelectedStatut] = React.useState<string>("");
+  const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(undefined);
+  const [selectedStatut, setSelectedStatut] = React.useState<string | undefined>(undefined);
 
-  const sortedTopics = [...topics]?.sort((a, b) => a.name.localeCompare(b.name));
+  const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
+
+  useEffect(() => {
+    if (selectedTopic === "Par catégorie") {
+      setSelectedTopic(undefined);
+    }
+
+    if (selectedStatut === "Par statut") {
+      setSelectedStatut(undefined);
+    }
+  }, [selectedTopic, selectedStatut]);
 
   return (
     <div className="flex w-full flex-col gap-4">
@@ -45,82 +54,46 @@ const MyLibrary = ({ topics }: { topics: Topics }) => {
           />
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="grid grid-cols-2 gap-4">
           {/* Catégories */}
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" aria-expanded={open} className="w-[200px] justify-between">
-                {selectedTopic
-                  ? sortedTopics?.find((topic) => topic.slug === selectedTopic)?.name
-                  : "Toutes les catégories"}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
-              <Command>
-                <CommandInput placeholder="Filtrer par catégorie" />
-                <CommandEmpty>Pas de catégorie trouvée</CommandEmpty>
-                <CommandGroup>
-                  {sortedTopics?.map((topic) => (
-                    <CommandItem
-                      key={topic.slug}
-                      value={topic.slug}
-                      onSelect={(currentValue) => {
-                        setSelectedTopic(currentValue === selectedTopic ? "" : currentValue);
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          selectedTopic === topic.slug ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                      {topic.name}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </Command>
-            </PopoverContent>
-          </Popover>
+          <Select value={selectedTopic ?? "Par catégorie"} onValueChange={setSelectedTopic}>
+            <SelectTrigger className="w-full">
+              <SelectValue>{selectedTopic ?? "Par catégorie"}</SelectValue>
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="Par catégorie">Par catégorie</SelectItem>
+                <SelectSeparator />
+                <SelectLabel>Catégories</SelectLabel>
+                {sortedTopics.map((topic) => (
+                  <SelectItem key={topic.id} value={topic.name}>
+                    {topic.name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
 
           {/* Enregistrés, terminés, etc */}
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" aria-expanded={open} className="w-[200px] justify-between">
-                {selectedStatut
-                  ? statuts?.find((statut) => statut.slug === selectedStatut)?.name
-                  : "Tous les statuts"}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
-              <Command>
-                <CommandInput placeholder="Filtrer par statut" />
-                <CommandEmpty>Pas de statut trouvé</CommandEmpty>
-                <CommandGroup>
-                  {statuts?.map((statut) => (
-                    <CommandItem
-                      key={statut.slug}
-                      value={statut.slug}
-                      onSelect={(currentValue) => {
-                        setSelectedStatut(currentValue === selectedStatut ? "" : currentValue);
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          selectedStatut === statut.slug ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                      {statut.name}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </Command>
-            </PopoverContent>
-          </Popover>
+          <Select value={selectedStatut ?? "Par statut"} onValueChange={setSelectedStatut}>
+            <SelectTrigger className="w-full">
+              <SelectValue>{selectedStatut ?? "Par statut"}</SelectValue>
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="Par statut">Par statut</SelectItem>
+                <SelectSeparator />
+                <SelectLabel>Statuts</SelectLabel>
+                {statuts.map((statut) => (
+                  <SelectItem key={statut.id} value={statut.name}>
+                    {statut.name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
