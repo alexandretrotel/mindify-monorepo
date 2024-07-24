@@ -59,7 +59,7 @@ const MyLibrary = ({ topics }: { topics: Topics }) => {
         <div className="grid grid-cols-2 gap-4">
           {/* Catégories */}
           <Select value={selectedTopic ?? "Par catégorie"} onValueChange={setSelectedTopic}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full lg:min-w-[200px]">
               <SelectValue>{selectedTopic ?? "Par catégorie"}</SelectValue>
             </SelectTrigger>
 
@@ -79,7 +79,7 @@ const MyLibrary = ({ topics }: { topics: Topics }) => {
 
           {/* Enregistrés, terminés, etc */}
           <Select value={selectedStatut ?? "Par statut"} onValueChange={setSelectedStatut}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full lg:min-w-[200px]">
               <SelectValue>{selectedStatut ?? "Par statut"}</SelectValue>
             </SelectTrigger>
 
