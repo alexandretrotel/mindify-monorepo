@@ -17,11 +17,11 @@ import BookCover from "@/components/global/bookCover";
 import Link from "next/link";
 
 const statuts = [
-  { id: 1, name: "Pas commencés" },
-  { id: 2, name: "Nouveautés" },
-  { id: 3, name: "Enregistrés" },
-  { id: 4, name: "Terminés" }
-];
+  { id: 1, name: "Pas commencé" },
+  { id: 2, name: "Nouveau" },
+  { id: 3, name: "Enregistré" },
+  { id: 4, name: "Terminé" }
+ ];
 
 const Library = ({ topics }: { topics: Topics }) => {
   const [book, setBook] = React.useState<string | undefined>(undefined);
@@ -49,7 +49,7 @@ const Library = ({ topics }: { topics: Topics }) => {
           <SearchIcon className="absolute left-2 top-3 flex h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Titre, auteur, catégorie..."
+            placeholder="Titre, auteur, etc..."
             className="w-full rounded-lg bg-background pl-8"
             value={book ?? ""}
             onChange={(e) => setBook(e.target.value)}

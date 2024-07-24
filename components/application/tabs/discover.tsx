@@ -78,13 +78,19 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopi
           <div className="flex flex-col gap-4">
             <div className="flex flex-col">
               <TypographyH3>Vos intérêts</TypographyH3>
-              <TypographyP muted>Explorez des résumés extraits de vos sujets préférés.</TypographyP>
+              <TypographyP muted>
+                {userTopics?.length > 0
+                  ? "Explorez des résumés extraits de vos sujets préférés."
+                  : "Explorez des résumés en fonction de certains sujets."}
+              </TypographyP>
             </div>
 
             <CarouselContent className="-ml-4">
               {sortedTopics
                 ?.filter((topic) =>
-                  userTopics?.find((userTopic) => userTopic.topic_id === topic.id)
+                  userTopics?.length > 0
+                    ? userTopics?.find((userTopic) => userTopic.topic_id === topic.id)
+                    : true
                 )
                 ?.reduce((acc: Topic[][], topic: Topic, index: number) => {
                   const chunkIndex = Math.floor(index / 6);

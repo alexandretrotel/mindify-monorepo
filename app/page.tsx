@@ -38,8 +38,6 @@ export default async function Home() {
       userMetadata={data.user.user_metadata}
       topics={topics as Topics}
       userTopics={userTopics as UserTopics}
-    >
-      <></>
-    </Application>
+    />
   );
 }
