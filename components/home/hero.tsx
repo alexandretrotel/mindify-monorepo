@@ -8,6 +8,8 @@ import type { Topics } from "@/types/topics/topics";
 import TopicIconHero from "@/components/home/hero/topicIconHero";
 
 const Hero = ({ topics }: { topics: Topics }) => {
+  const sortedTopics = [...topics]?.sort((a, b) => a.name.localeCompare(b.name));
+
   return (
     <section id="home" className="relative isolate flex h-screen items-center justify-center px-4">
       <div className="hide-scrollbar relative text-center">
@@ -89,14 +91,12 @@ const Hero = ({ topics }: { topics: Topics }) => {
           </div>
         </div>
         <div className="mx-auto mt-10 flex max-w-lg flex-wrap justify-center gap-2 sm:mt-20">
-          {topics
-            ?.toSorted((a, b) => a.name.localeCompare(b.name))
-            ?.map((topic) => (
-              <Button key={topic.id} variant={"outline"}>
-                <TopicIconHero topic={topic} />
-                {topic.name}
-              </Button>
-            ))}
+          {sortedTopics?.map((topic) => (
+            <Button key={topic.id} variant={"outline"}>
+              <TopicIconHero topic={topic} />
+              {topic.name}
+            </Button>
+          ))}
         </div>
       </div>
     </section>
