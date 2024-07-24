@@ -23,7 +23,7 @@ const statuts = [
   { id: 4, name: "Terminés" }
 ];
 
-const MyLibrary = ({ topics }: { topics: Topics }) => {
+const Library = ({ topics }: { topics: Topics }) => {
   const [book, setBook] = React.useState<string | undefined>(undefined);
   const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(undefined);
   const [selectedStatut, setSelectedStatut] = React.useState<string | undefined>(undefined);
@@ -42,7 +42,7 @@ const MyLibrary = ({ topics }: { topics: Topics }) => {
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <TypographyH3>Ma librairie</TypographyH3>
+      <TypographyH3>Librairie</TypographyH3>
 
       <div className="flex w-full flex-col justify-between gap-4 md:flex-row">
         <div className="min-w-md relative max-w-md flex-1">
@@ -110,4 +110,4 @@ const MyLibrary = ({ topics }: { topics: Topics }) => {
   );
 };
 
-export default MyLibrary;
+export default Library;

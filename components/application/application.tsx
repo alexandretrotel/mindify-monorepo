@@ -17,7 +17,7 @@ import type { AccountCategory } from "@/types/account/categories";
 import { useState } from "react";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import MyLibrary from "@/components/application/tabs/myLibrary";
+import Library from "@/components/application/tabs/library";
 import type { Topics, UserTopics } from "@/types/topics/topics";
 import { UUID } from "crypto";
 import Discover from "@/components/application/tabs/discover";
@@ -45,7 +45,7 @@ export default function Application({
           <header className="flex w-full items-center justify-between">
             <TabsList className="grid grid-cols-2 md:w-1/2">
               <TabsTrigger value="discover">Découvrir</TabsTrigger>
-              <TabsTrigger value="my-library">Ma librairie</TabsTrigger>
+              <TabsTrigger value="my-library">Librairie</TabsTrigger>
             </TabsList>
 
             <div className="flex items-center gap-4">
@@ -119,7 +119,7 @@ export default function Application({
             </TabsContent>
 
             <TabsContent value="my-library">
-              <MyLibrary topics={topics} />
+              <Library topics={topics} />
             </TabsContent>
             {children}
           </main>
