@@ -17,11 +17,13 @@ import BookCover from "@/components/global/bookCover";
 import Link from "next/link";
 
 const statuts = [
-  { id: 1, name: "Enregistrés" },
-  { id: 2, name: "Terminés" }
+  { id: 1, name: "Pas commencés" },
+  { id: 2, name: "Nouveautés" },
+  { id: 3, name: "Enregistrés" },
+  { id: 4, name: "Terminés" }
 ];
 
-const MyLibrary = ({ topics }: { topics: Topics }) => {
+const Library = ({ topics }: { topics: Topics }) => {
   const [book, setBook] = React.useState<string | undefined>(undefined);
   const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(undefined);
   const [selectedStatut, setSelectedStatut] = React.useState<string | undefined>(undefined);
@@ -40,14 +42,14 @@ const MyLibrary = ({ topics }: { topics: Topics }) => {
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <TypographyH3>Ma librairie</TypographyH3>
+      <TypographyH3>Librairie</TypographyH3>
 
       <div className="flex w-full flex-col justify-between gap-4 md:flex-row">
         <div className="min-w-md relative max-w-md flex-1">
           <SearchIcon className="absolute left-2 top-3 flex h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Rechercher un résumé"
+            placeholder="Titre, auteur, catégorie..."
             className="w-full rounded-lg bg-background pl-8"
             value={book ?? ""}
             onChange={(e) => setBook(e.target.value)}
@@ -57,7 +59,7 @@ const MyLibrary = ({ topics }: { topics: Topics }) => {
         <div className="grid grid-cols-2 gap-4">
           {/* Catégories */}
           <Select value={selectedTopic ?? "Par catégorie"} onValueChange={setSelectedTopic}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full lg:min-w-[200px]">
               <SelectValue>{selectedTopic ?? "Par catégorie"}</SelectValue>
             </SelectTrigger>
 
@@ -77,7 +79,7 @@ const MyLibrary = ({ topics }: { topics: Topics }) => {
 
           {/* Enregistrés, terminés, etc */}
           <Select value={selectedStatut ?? "Par statut"} onValueChange={setSelectedStatut}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full lg:min-w-[200px]">
               <SelectValue>{selectedStatut ?? "Par statut"}</SelectValue>
             </SelectTrigger>
 
@@ -108,4 +110,4 @@ const MyLibrary = ({ topics }: { topics: Topics }) => {
   );
 };
 
-export default MyLibrary;
+export default Library;
