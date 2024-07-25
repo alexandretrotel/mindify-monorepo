@@ -51,6 +51,7 @@ export default function Navigation({
                 variant={category === "subscription" ? "default" : "ghost"}
                 className="flex w-full items-center justify-start gap-2"
                 size="sm"
+                disabled
               >
                 <CreditCardIcon className="h-4 w-4" />
                 Abonnement
@@ -62,6 +63,7 @@ export default function Navigation({
                 variant={category === "notifications" ? "default" : "ghost"}
                 className="flex w-full items-center justify-start gap-2"
                 size="sm"
+                disabled
               >
                 <BellRingIcon className="h-4 w-4" />
                 Notifications
@@ -73,6 +75,7 @@ export default function Navigation({
                 variant={category === "settings" ? "default" : "ghost"}
                 className="flex w-full items-center justify-start gap-2"
                 size="sm"
+                disabled
               >
                 <SettingsIcon className="h-4 w-4" />
                 Paramètres

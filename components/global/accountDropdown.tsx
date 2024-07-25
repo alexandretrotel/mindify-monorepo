@@ -83,6 +83,7 @@ const AccountDropdown = ({
               setCategory("subscription");
             }}
             className="flex items-center gap-2"
+            disabled
           >
             <CreditCardIcon className="h-4 w-4" /> Abonnement
           </DropdownMenuItem>
@@ -92,6 +93,7 @@ const AccountDropdown = ({
               setCategory("notifications");
             }}
             className="flex items-center gap-2"
+            disabled
           >
             <BellRingIcon className="h-4 w-4" /> Notifications
           </DropdownMenuItem>
@@ -101,6 +103,7 @@ const AccountDropdown = ({
               setCategory("settings");
             }}
             className="flex items-center gap-2"
+            disabled
           >
             <SettingsIcon className="h-4 w-4" /> Paramètres
           </DropdownMenuItem>
