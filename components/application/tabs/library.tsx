@@ -26,8 +26,6 @@ const statuts = [
   { id: 3, name: "Terminé" }
 ];
 
-
-
 const summaries: Summaries = Array.from({ length: 20 })?.map((_, index) => ({
   id: index,
   title: "The Lean Startup",
