@@ -84,7 +84,7 @@ const Library = ({
         .map((userSummaryStatus) => userSummaryStatus.summary_id);
 
       filteredSummaries = filteredSummaries.filter((summary) => !summaryIds.includes(summary.id));
-    } else {
+    } else if (selectedStatus === "completed" || selectedStatus === "saved") {
       const summaryIds = userSummaryStatuses
         .filter((userSummaryStatus) => userSummaryStatus.status === selectedStatus)
         .map((userSummaryStatus) => userSummaryStatus.summary_id);
