@@ -22,7 +22,9 @@ const BookCover = ({
       <div className="h-48 w-full bg-slate-200" />
       <div className="p-4">
         <TypographyH5AsSpan>{title}</TypographyH5AsSpan>
-        <TypographyP muted>{author}</TypographyP>
+        <TypographyP muted size="sm">
+          {author}
+        </TypographyP>
         <TypographySpan isPrimaryColor size="xs">
           {category} • {sourceToString(source)}
         </TypographySpan>
