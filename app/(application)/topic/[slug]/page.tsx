@@ -16,7 +16,8 @@ const summaries: Summaries = Array.from({ length: 10 }).map((_, index) => ({
   author: "Eric Ries",
   image: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
   created_at: new Date(),
-  slug: "the-lean-startup"
+  slug: "the-lean-startup",
+  source: "book"
 })) as Summaries;
 
 const Page = async ({ params }: { params: { slug: string } }) => {

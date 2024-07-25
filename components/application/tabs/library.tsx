@@ -115,7 +115,12 @@ const Library = ({ topics }: { topics: Topics }) => {
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {summaries?.map((summary, index) => (
           <Link href={`/summary/${summary.author_slug}/${summary.slug}`} key={index}>
-            <BookCover title="L'art de la guerre" author="Sun Tzu" category="Histoire" />
+            <BookCover
+              title="L'art de la guerre"
+              author="Sun Tzu"
+              category="Histoire"
+              source="book"
+            />
           </Link>
         ))}
       </div>

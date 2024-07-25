@@ -1,4 +1,4 @@
-export type Source = "Livre" | "Article" | "Podcast" | "Vidéo";
+export type Source = "book" | "article" | "podcast" | "video";
 
 export type Summary = {
   id: number;

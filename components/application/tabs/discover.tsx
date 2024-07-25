@@ -62,7 +62,12 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: Topics }
                 return (
                   <CarouselItem key={index} className="basis-1/2 pl-4 lg:basis-1/3">
                     <Link href={`/summary/${summary.author_slug}/${summary.slug}`}>
-                      <BookCover title="L'art de la guerre" author="Sun Tzu" category="Histoire" />
+                      <BookCover
+                        title="L'art de la guerre"
+                        author="Sun Tzu"
+                        category="Histoire"
+                        source="book"
+                      />
                     </Link>
                   </CarouselItem>
                 );
@@ -146,7 +151,12 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: Topics }
                 return (
                   <CarouselItem key={index} className="basis-1/2 pl-4 lg:basis-1/3">
                     <Link href={`/summary/${summary.author_slug}/${summary.slug}`}>
-                      <BookCover title="L'art de la guerre" author="Sun Tzu" category="Histoire" />
+                      <BookCover
+                        title="L'art de la guerre"
+                        author="Sun Tzu"
+                        category="Histoire"
+                        source="book"
+                      />
                     </Link>
                   </CarouselItem>
                 );
