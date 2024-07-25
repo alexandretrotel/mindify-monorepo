@@ -4,7 +4,7 @@ import TypographyH3 from "@/components/typography/h3";
 import TypographyP from "@/components/typography/p";
 import { Badge } from "@/components/ui/badge";
 import type { Summaries } from "@/types/summary/summary";
-import type { UserTopics } from "@/types/topics/topics";
+import type { Topics } from "@/types/topics/topics";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
 import { redirect } from "next/navigation";
@@ -45,7 +45,11 @@ const Page = async ({ params }: { params: { slug: string } }) => {
     redirect("/");
   }
 
-  const { data: userTopics } = await supabase.from("user_topics").select("*").eq("user_id", userId);
+  const { data: userTopicsData } = await supabase
+    .from("user_topics")
+    .select("topics(*)")
+    .eq("user_id", userId);
+  const userTopics = userTopicsData?.flatMap((data) => data?.topics) as Topics;
 
   return (
     <div className="mx-auto mb-8 flex max-w-7xl flex-col gap-6 md:gap-12">
@@ -67,7 +71,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
               userMetadata={userMetadata}
               userId={userId}
               topics={topics}
-              userTopics={userTopics as UserTopics}
+              userTopics={userTopics}
             />
           </div>
         </div>

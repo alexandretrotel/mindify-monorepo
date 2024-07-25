@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account/categories";
 import AccountCategories from "@/components/application/account/navigation/categories";
 import type { UserMetadata } from "@supabase/supabase-js";
-import type { Topics, UserTopics } from "@/types/topics/topics";
+import type { Topics } from "@/types/topics/topics";
 import { UUID } from "crypto";
 
 export default function Navigation({
@@ -27,7 +27,7 @@ export default function Navigation({
   category: AccountCategory;
   setCategory: React.Dispatch<React.SetStateAction<AccountCategory>>;
   topics: Topics;
-  userTopics: UserTopics;
+  userTopics: Topics;
 }>) {
   return (
     <div className="flex flex-col gap-4 md:flex-row">

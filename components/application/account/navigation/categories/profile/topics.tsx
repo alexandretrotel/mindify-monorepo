@@ -1,6 +1,6 @@
 import React, { useOptimistic, useState } from "react";
 import { Label } from "@/components/ui/label";
-import type { Topics, UserTopics } from "@/types/topics/topics";
+import type { Topics } from "@/types/topics/topics";
 import { removeTopic, addTopic } from "@/actions/topics";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
@@ -11,8 +11,8 @@ import { useTheme } from "next-themes";
 import { Loader2Icon } from "lucide-react";
 import { setIconColorFromTheme } from "@/utils/theme/icon";
 
-const isChecked = (userTopics: UserTopics, topicId: number): boolean => {
-  return userTopics.some((userTopic) => userTopic.topic_id === topicId);
+const isChecked = (userTopics: Topics, topicId: number): boolean => {
+  return userTopics.some((userTopic) => userTopic.id === topicId);
 };
 
 const Topics = ({
@@ -22,21 +22,24 @@ const Topics = ({
 }: {
   userId: UUID;
   topics: Topics;
-  userTopics: UserTopics;
+  userTopics: Topics;
 }) => {
   const [isLoading, setIsLoading] = useState(Array.from({ length: topics.length }, () => false));
-  const [optimisticUserTopics, setOptimisticUserTopics] = useOptimistic<UserTopics, number>(
+  const [optimisticUserTopics, setOptimisticUserTopics] = useOptimistic<Topics, number>(
     userTopics,
     (state, topicId) => {
       if (isChecked(state, topicId)) {
-        return state.filter((userTopic) => userTopic.topic_id !== topicId);
+        return state.filter((userTopic) => userTopic.id !== topicId);
       } else {
         return [
           ...state,
           {
-            user_id: userId,
-            topic_id: topicId,
-            created_at: new Date()
+            id: topicId,
+            name: topics.find((topic) => topic.id === topicId)?.name as string,
+            icon: topics.find((topic) => topic.id === topicId)?.black_icon,
+            black_icon: topics.find((topic) => topic.id === topicId)?.white_icon,
+            created_at: new Date(),
+            slug: topics.find((topic) => topic.id === topicId)?.slug as string
           }
         ];
       }
