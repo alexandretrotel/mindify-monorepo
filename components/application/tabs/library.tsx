@@ -36,6 +36,16 @@ const summaries: Summaries = Array.from({ length: 20 })?.map((_, index) => ({
   author_slug: "eric-ries"
 })) as Summaries;
 
+const summaries: Summaries = Array.from({ length: 20 })?.map((_, index) => ({
+  id: index,
+  title: "The Lean Startup",
+  author: "Eric Ries",
+  image: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+  created_at: new Date(),
+  slug: "the-lean-startup",
+  author_slug: "eric-ries"
+})) as Summaries;
+
 const Library = ({ topics }: { topics: Topics }) => {
   const [book, setBook] = React.useState<string | undefined>(undefined);
   const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(undefined);
