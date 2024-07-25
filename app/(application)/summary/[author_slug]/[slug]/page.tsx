@@ -168,73 +168,80 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
               </div>
             </div>
 
-            <div className="order-1 flex w-full flex-col gap-8 lg:order-2">
-              <Card>
-                <Collapsible defaultOpen>
-                  <CollapsibleTrigger className="w-full">
-                    <CardHeader className="w-full">
-                      <div className="flex w-full items-center justify-between gap-4">
-                        <TypographyH3AsSpan>Table des matières</TypographyH3AsSpan>
-                        <ChevronDownIcon className="h-5 w-5" />
-                      </div>
-                    </CardHeader>
-                  </CollapsibleTrigger>
+            <div className="relative order-1 w-full lg:order-2">
+              <div className="w-full lg:sticky lg:right-0 lg:top-0 lg:pt-8">
+                <div className="flex w-full flex-col gap-8">
+                  <Card>
+                    <Collapsible defaultOpen>
+                      <CollapsibleTrigger className="w-full">
+                        <CardHeader className="w-full">
+                          <div className="flex w-full items-center justify-between gap-4">
+                            <TypographyH3AsSpan>Table des matières</TypographyH3AsSpan>
+                            <ChevronDownIcon className="h-5 w-5" />
+                          </div>
+                        </CardHeader>
+                      </CollapsibleTrigger>
 
-                  <CollapsibleContent>
-                    <CardContent>
-                      <ul className="flex flex-col gap-2">
-                        <li>
-                          <Link
-                            href="#introduction"
-                            className="text-sm text-primary hover:underline"
-                          >
-                            1. Introduction
-                          </Link>
-                        </li>
-                        {summaryChapter?.titles?.map((title, index) => (
-                          <li key={title}>
-                            <Link
-                              href={"#chapter" + String(index + 1)}
-                              className="text-sm text-primary hover:underline"
-                            >
-                              {index + 2}. {title}
-                            </Link>
-                          </li>
-                        ))}
-                        <li>
-                          <Link href="#conclusion" className="text-sm text-primary hover:underline">
-                            {summaryChapter?.titles?.length
-                              ? summaryChapter?.titles?.length + 2
-                              : 2}
-                            . Conclusion
-                          </Link>
-                        </li>
-                      </ul>
-                    </CardContent>
-                  </CollapsibleContent>
-                </Collapsible>
-              </Card>
+                      <CollapsibleContent>
+                        <CardContent>
+                          <ul className="flex flex-col gap-2">
+                            <li>
+                              <Link
+                                href="#introduction"
+                                className="text-sm text-primary hover:underline"
+                              >
+                                1. Introduction
+                              </Link>
+                            </li>
+                            {summaryChapter?.titles?.map((title, index) => (
+                              <li key={title}>
+                                <Link
+                                  href={"#chapter" + String(index + 1)}
+                                  className="text-sm text-primary hover:underline"
+                                >
+                                  {index + 2}. {title}
+                                </Link>
+                              </li>
+                            ))}
+                            <li>
+                              <Link
+                                href="#conclusion"
+                                className="text-sm text-primary hover:underline"
+                              >
+                                {summaryChapter?.titles?.length
+                                  ? summaryChapter?.titles?.length + 2
+                                  : 2}
+                                . Conclusion
+                              </Link>
+                            </li>
+                          </ul>
+                        </CardContent>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </Card>
 
-              <Card>
-                <Collapsible>
-                  <CollapsibleTrigger className="w-full">
-                    <CardHeader className="w-full">
-                      <div className="flex w-full items-center justify-between gap-4">
-                        <TypographyH3AsSpan>À propos de l&apos;auteur</TypographyH3AsSpan>
-                        <ChevronDownIcon className="h-5 w-5" />
-                      </div>
-                    </CardHeader>
-                  </CollapsibleTrigger>
+                  <Card>
+                    <Collapsible>
+                      <CollapsibleTrigger className="w-full">
+                        <CardHeader className="w-full">
+                          <div className="flex w-full items-center justify-between gap-4">
+                            <TypographyH3AsSpan>À propos de l&apos;auteur</TypographyH3AsSpan>
+                            <ChevronDownIcon className="h-5 w-5" />
+                          </div>
+                        </CardHeader>
+                      </CollapsibleTrigger>
 
-                  <CollapsibleContent>
-                    <CardContent>
-                      <TypographySpan isDefaultColor>
-                        {author.description ?? "Aucune description disponible."}
-                      </TypographySpan>
-                    </CardContent>
-                  </CollapsibleContent>
-                </Collapsible>
-              </Card>
+                      <CollapsibleContent>
+                        <CardContent>
+                          <TypographySpan isDefaultColor>
+                            {author.description ?? "Aucune description disponible."}
+                          </TypographySpan>
+                        </CardContent>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </Card>
+                </div>
+              </div>
             </div>
           </div>
         </div>
