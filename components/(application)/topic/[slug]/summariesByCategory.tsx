@@ -68,7 +68,7 @@ const SummariesByCategory = ({ topic, summaries }: { topic: Topic; summaries: Su
               title={summary.title}
               author={summary.author}
               category={topic.name}
-              source={summary.source}
+              source={summary.source_type}
             />
           </Link>
         ))}

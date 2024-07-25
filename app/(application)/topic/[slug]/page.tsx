@@ -3,22 +3,12 @@ import AccountDropdown from "@/components/global/accountDropdown";
 import TypographyH3 from "@/components/typography/h3";
 import TypographyP from "@/components/typography/p";
 import { Badge } from "@/components/ui/badge";
-import type { Summaries } from "@/types/summary/summary";
+import type { Authors, Summaries } from "@/types/summary/summary";
 import type { Topics } from "@/types/topics/topics";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
 import { redirect } from "next/navigation";
 import React from "react";
-
-const summaries: Summaries = Array.from({ length: 10 }).map((_, index) => ({
-  id: index,
-  title: "The Lean Startup",
-  author: "Eric Ries",
-  image: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
-  created_at: new Date(),
-  slug: "the-lean-startup",
-  source: "book"
-})) as Summaries;
 
 const Page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
@@ -52,6 +42,19 @@ const Page = async ({ params }: { params: { slug: string } }) => {
     .eq("user_id", userId);
   const userTopics = userTopicsData?.flatMap((data) => data?.topics) as Topics;
 
+  const { data: authorsData } = await supabase.from("authors").select("*");
+  const authors = authorsData as Authors;
+
+  const { data: summariesData } = await supabase
+    .from("summaries")
+    .select("*")
+    .eq("topic_id", topic.id);
+  const summaries = summariesData?.map((summary) => ({
+    ...summary,
+    topic: topics?.find((topic) => topic.id === summary.topic_id)?.name,
+    author_slug: authors?.find((author) => author.id === summary.author_id)?.slug
+  })) as Summaries;
+
   return (
     <div className="mx-auto mb-8 flex max-w-7xl flex-col gap-6 md:gap-12">
       <div className="flex flex-col gap-8">
@@ -63,7 +66,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
                 <Badge>{summaries.length} résumés</Badge>
               </div>
               <TypographyP muted>
-                Explorez notre collection des meilleurs livres dans la catégorie{" "}
+                Explorez notre collection des meilleurs résumés dans la catégorie{" "}
                 {topic?.name?.toLowerCase()}.
               </TypographyP>
             </div>

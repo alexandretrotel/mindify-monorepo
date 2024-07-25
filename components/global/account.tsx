@@ -47,7 +47,9 @@ export default function Account({
             </Button>
           </div>
         </div>
+
         <Separator />
+
         <Navigation
           userId={userId}
           userMetadata={userMetadata}
