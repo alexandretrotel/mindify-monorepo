@@ -22,7 +22,7 @@ const summary: Summary = {
   slug: "the-lean-startup",
   author_slug: "eric-ries",
   topic: "Startups",
-  source: "Livre",
+  source: "book",
   source_url: "https://example.com",
   reading_time: 10
 };
