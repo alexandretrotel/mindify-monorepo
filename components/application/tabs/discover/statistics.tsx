@@ -9,9 +9,6 @@ import type { UserReads } from "@/types/user";
 import type { Summaries } from "@/types/summary/summary";
 
 const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries: Summaries }) => {
-  const [readingHour, setReadingHour] = React.useState<number>(0);
-  const [readingMinute, setReadingMinute] = React.useState<number>(0);
-
   const summariesRead = userReads?.length;
 
   const weekReadsData = Array.from({ length: 7 }, (_, i) => {
@@ -63,7 +60,7 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
         <TypographyH3>Mes statistiques</TypographyH3>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
+      <div className="grid grid-cols-2 gap-4 lg:h-full lg:grid-cols-1">
         <Card className="col-span-2 hidden lg:col-span-1 lg:block lg:max-w-md">
           <CardHeader className="space-y-0">
             <CardTitle className="text-xl tabular-nums">Mon profil</CardTitle>
