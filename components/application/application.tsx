@@ -8,19 +8,29 @@ import type { Topics } from "@/types/topics/topics";
 import { UUID } from "crypto";
 import Discover from "@/components/application/tabs/discover";
 import AccountDropdown from "@/components/global/accountDropdown";
+import type { Authors, Summaries } from "@/types/summary/summary";
+import type { UserReads, UserSummaryStatuses } from "@/types/user";
 
 export default function Application({
   children,
   userId,
   userMetadata,
   topics,
-  userTopics
+  userTopics,
+  summaries,
+  userReads,
+  authors,
+  userSummaryStatuses
 }: Readonly<{
   children?: React.ReactNode;
   userId: UUID;
   userMetadata: UserMetadata;
   topics: Topics;
   userTopics: Topics;
+  summaries: Summaries;
+  userReads: UserReads;
+  authors: Authors;
+  userSummaryStatuses: UserSummaryStatuses;
 }>) {
   return (
     <div className="md:flew-row mx-auto flex w-full max-w-7xl flex-col justify-between p-4 py-12 md:p-8">
@@ -43,11 +53,21 @@ export default function Application({
 
         <main>
           <TabsContent value="discover">
-            <Discover topics={topics} userTopics={userTopics} />
+            <Discover
+              topics={topics}
+              userTopics={userTopics}
+              summaries={summaries}
+              userReads={userReads}
+            />
           </TabsContent>
 
           <TabsContent value="my-library">
-            <Library topics={topics} />
+            <Library
+              topics={topics}
+              summaries={summaries}
+              authors={authors}
+              userSummaryStatuses={userSummaryStatuses}
+            />
           </TabsContent>
           {children}
         </main>

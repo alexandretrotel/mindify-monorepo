@@ -1,10 +1,10 @@
 export type Topic = {
   id: number;
   name: string;
-  white_icon?: string;
-  black_icon?: string;
-  created_at: Date;
   slug: string;
+  black_icon?: string;
+  white_icon?: string;
+  created_at: Date;
 };
 
 export type Topics = Topic[];

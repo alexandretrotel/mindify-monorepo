@@ -18,18 +18,19 @@ import {
   CarouselPrevious
 } from "@/components/ui/carousel";
 import type { Summaries } from "@/types/summary/summary";
+import type { UserReads } from "@/types/user";
 
-const summaries: Summaries = Array.from({ length: 20 })?.map((_, index) => ({
-  id: index,
-  title: "The Lean Startup",
-  author: "Eric Ries",
-  image: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
-  created_at: new Date(),
-  slug: "the-lean-startup",
-  author_slug: "eric-ries"
-})) as Summaries;
-
-const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: Topics }) => {
+const Discover = ({
+  topics,
+  userTopics,
+  summaries,
+  userReads
+}: {
+  topics: Topics;
+  userTopics: Topics;
+  summaries: Summaries;
+  userReads: UserReads;
+}) => {
   const { resolvedTheme } = useTheme();
 
   const sortedUserTopics = userTopics
@@ -37,13 +38,16 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: Topics }
     : [];
   const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
 
+  const summariesMatchingUserTopics = summaries?.filter((summary) =>
+    userTopics?.some((userTopic) => userTopic.id === summary.topic_id)
+  );
+  const popularSummaries = [...summaries]?.sort(
+    (a, b) => (b.number_of_reads as number) - (a.number_of_reads as number)
+  );
+
   return (
     <div className="mx-auto flex max-w-full flex-col items-start gap-8 md:gap-16 lg:flex-row lg:justify-between">
-      <div className="flex w-full flex-col gap-4 lg:hidden">
-        <Statistics />
-      </div>
-
-      <div className="flex max-w-full flex-col gap-16 lg:min-w-0 lg:grow">
+      <div className="order-2 flex max-w-full flex-col gap-16 lg:order-1 lg:min-w-0 lg:grow">
         <Carousel
           opts={{
             align: "start",
@@ -58,20 +62,22 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: Topics }
             </div>
 
             <CarouselContent className="-ml-4">
-              {summaries?.slice(0, 15)?.map((summary, index) => {
-                return (
-                  <CarouselItem key={index} className="basis-1/2 pl-4 lg:basis-1/3">
-                    <Link href={`/summary/${summary.author_slug}/${summary.slug}`}>
-                      <BookCover
-                        title="L'art de la guerre"
-                        author="Sun Tzu"
-                        category="Histoire"
-                        source="book"
-                      />
-                    </Link>
-                  </CarouselItem>
-                );
-              })}
+              {(summariesMatchingUserTopics?.length > 0 ? summariesMatchingUserTopics : summaries)
+                ?.slice(0, 15)
+                ?.map((summary, index) => {
+                  return (
+                    <CarouselItem key={index} className="basis-1/2 pl-4 lg:basis-1/3">
+                      <Link href={`/summary/${summary.author_slug}/${summary.slug}`}>
+                        <BookCover
+                          title={summary.title}
+                          author={summary.author}
+                          category={summary.topic}
+                          source={summary.source_type}
+                        />
+                      </Link>
+                    </CarouselItem>
+                  );
+                })}
             </CarouselContent>
 
             <div className="hidden lg:block">
@@ -147,15 +153,15 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: Topics }
             </div>
 
             <CarouselContent className="-ml-4">
-              {summaries?.slice(0, 15)?.map((summary, index) => {
+              {popularSummaries?.slice(0, 15)?.map((summary, index) => {
                 return (
                   <CarouselItem key={index} className="basis-1/2 pl-4 lg:basis-1/3">
                     <Link href={`/summary/${summary.author_slug}/${summary.slug}`}>
                       <BookCover
-                        title="L'art de la guerre"
-                        author="Sun Tzu"
-                        category="Histoire"
-                        source="book"
+                        title={summary.title}
+                        author={summary.author}
+                        category={summary.topic}
+                        source={summary.source_type}
                       />
                     </Link>
                   </CarouselItem>
@@ -171,8 +177,8 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: Topics }
         </Carousel>
       </div>
 
-      <div className="hidden w-full max-w-xs flex-col gap-4 lg:flex">
-        <Statistics />
+      <div className="order-1 flex w-full flex-col gap-4 lg:order-2 lg:max-w-xs">
+        <Statistics userReads={userReads} />
       </div>
     </div>
   );

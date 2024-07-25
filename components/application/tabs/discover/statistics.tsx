@@ -5,11 +5,28 @@ import { Area, AreaChart, Bar, BarChart, Rectangle, XAxis, YAxis } from "rechart
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRightIcon } from "lucide-react";
+import type { UserReads } from "@/types/user";
 
-const Statistics = () => {
-  const [summariesReadThisWeek, setSummariesReadThisWeek] = React.useState<number>(0);
+const Statistics = ({ userReads }: { userReads: UserReads }) => {
   const [readingHour, setReadingHour] = React.useState<number>(0);
   const [readingMinute, setReadingMinute] = React.useState<number>(0);
+
+  const summariesReadThisWeek = userReads?.length;
+
+  const weekReadsData = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - (6 - i));
+    const formattedDate = date.toISOString().split("T")[0];
+    const reads = userReads?.filter((read) => {
+      const readDate = new Date(read.created_at);
+      return (
+        readDate.getDate() === date.getDate() &&
+        readDate.getMonth() === date.getMonth() &&
+        readDate.getFullYear() === date.getFullYear()
+      );
+    }).length;
+    return { date: formattedDate, reads };
+  });
 
   return (
     <>
@@ -43,8 +60,8 @@ const Statistics = () => {
           <CardContent className="hidden lg:block">
             <ChartContainer
               config={{
-                steps: {
-                  label: "Steps",
+                reads: {
+                  label: "Nombre de résumés lus",
                   color: "hsl(var(--chart-1))"
                 }
               }}
@@ -55,40 +72,11 @@ const Statistics = () => {
                   left: -4,
                   right: -4
                 }}
-                data={[
-                  {
-                    date: "2024-01-01",
-                    steps: 2000
-                  },
-                  {
-                    date: "2024-01-02",
-                    steps: 2100
-                  },
-                  {
-                    date: "2024-01-03",
-                    steps: 2200
-                  },
-                  {
-                    date: "2024-01-04",
-                    steps: 1300
-                  },
-                  {
-                    date: "2024-01-05",
-                    steps: 1400
-                  },
-                  {
-                    date: "2024-01-06",
-                    steps: 2500
-                  },
-                  {
-                    date: "2024-01-07",
-                    steps: 1600
-                  }
-                ]}
+                data={weekReadsData}
               >
                 <Bar
-                  dataKey="steps"
-                  fill="var(--color-steps)"
+                  dataKey="reads"
+                  fill="var(--color-reads)"
                   radius={5}
                   fillOpacity={0.6}
                   activeBar={<Rectangle fillOpacity={0.8} />}

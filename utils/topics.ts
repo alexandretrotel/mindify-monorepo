@@ -1,6 +1,6 @@
 import type { Source } from "@/types/summary/summary";
 
-export const sourceToString = (source: Source) => {
+export const sourceToString = (source: Source): string => {
   switch (source) {
     case "book":
       return "Livre";
@@ -11,6 +11,6 @@ export const sourceToString = (source: Source) => {
     case "video":
       return "Vidéo";
     default:
-      return "Autre";
+      return "Par source";
   }
 };
