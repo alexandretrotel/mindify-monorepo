@@ -128,7 +128,10 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
 
           <div className="flex w-full flex-col justify-between gap-8 lg:flex-row lg:gap-16">
             <div className="order-2 flex max-w-3xl flex-col gap-8 lg:order-1 lg:min-w-0 lg:grow">
-              <TypographySpan isDefaultColor>{summary.introduction}</TypographySpan>
+              <div className="flex flex-col gap-4">
+                <TypographyH2>Introduction</TypographyH2>
+                <TypographySpan isDefaultColor>{summary.introduction}</TypographySpan>
+              </div>
 
               <div className="flex flex-col gap-8">
                 {chapters.map((chapter, index) => (
