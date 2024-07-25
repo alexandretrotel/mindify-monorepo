@@ -9,7 +9,7 @@ import { UUID } from "crypto";
 import Discover from "@/components/application/tabs/discover";
 import AccountDropdown from "@/components/global/accountDropdown";
 import type { Authors, Summaries } from "@/types/summary/summary";
-import type { UserReads, UserSummaryStatuses } from "@/types/user";
+import type { UserReads, UserLibrary } from "@/types/user";
 
 export default function Application({
   children,
@@ -20,7 +20,7 @@ export default function Application({
   summaries,
   userReads,
   authors,
-  userSummaryStatuses
+  userLibrary
 }: Readonly<{
   children?: React.ReactNode;
   userId: UUID;
@@ -30,7 +30,7 @@ export default function Application({
   summaries: Summaries;
   userReads: UserReads;
   authors: Authors;
-  userSummaryStatuses: UserSummaryStatuses;
+  userLibrary: UserLibrary;
 }>) {
   return (
     <div className="md:flew-row mx-auto flex w-full max-w-7xl flex-col justify-between p-4 py-12 md:p-8">
@@ -58,6 +58,7 @@ export default function Application({
               userTopics={userTopics}
               summaries={summaries}
               userReads={userReads}
+              userLibrary={userLibrary}
             />
           </TabsContent>
 
@@ -66,7 +67,8 @@ export default function Application({
               topics={topics}
               summaries={summaries}
               authors={authors}
-              userSummaryStatuses={userSummaryStatuses}
+              userReads={userReads}
+              userLibrary={userLibrary}
             />
           </TabsContent>
           {children}

@@ -18,18 +18,20 @@ import {
   CarouselPrevious
 } from "@/components/ui/carousel";
 import type { Summaries } from "@/types/summary/summary";
-import type { UserReads } from "@/types/user";
+import type { UserLibrary, UserReads } from "@/types/user";
 
 const Discover = ({
   topics,
   userTopics,
   summaries,
-  userReads
+  userReads,
+  userLibrary
 }: {
   topics: Topics;
   userTopics: Topics;
   summaries: Summaries;
   userReads: UserReads;
+  userLibrary: UserLibrary;
 }) => {
   const { resolvedTheme } = useTheme();
 
@@ -43,6 +45,9 @@ const Discover = ({
   );
   const popularSummaries = [...summaries]?.sort(
     (a, b) => (b.number_of_reads as number) - (a.number_of_reads as number)
+  );
+  const savedSummaries = summaries?.filter((summary) =>
+    userLibrary?.some((library) => library.summary_id === summary.id)
   );
 
   return (
@@ -62,11 +67,11 @@ const Discover = ({
             </div>
 
             <CarouselContent className="-ml-4">
-              {(summariesMatchingUserTopics?.length > 0 ? summariesMatchingUserTopics : summaries)
+              {(summariesMatchingUserTopics?.length >= 3 ? summariesMatchingUserTopics : summaries)
                 ?.slice(0, 15)
-                ?.map((summary, index) => {
+                ?.map((summary) => {
                   return (
-                    <CarouselItem key={index} className="basis-1/2 pl-4 lg:basis-1/3">
+                    <CarouselItem key={summary.id} className="basis-1/2 pl-4 lg:basis-1/3">
                       <Link href={`/summary/${summary.author_slug}/${summary.slug}`}>
                         <BookCover
                           title={summary.title}
@@ -105,7 +110,7 @@ const Discover = ({
             </div>
 
             <CarouselContent className="-ml-4">
-              {(sortedUserTopics?.length > 0 ? sortedUserTopics : sortedTopics)
+              {(sortedUserTopics?.length >= 3 ? sortedUserTopics : sortedTopics)
                 ?.reduce((acc: Topic[][], topic: Topic, index: number) => {
                   const chunkIndex = Math.floor(index / 6);
                   if (!acc[chunkIndex]) {
@@ -153,9 +158,9 @@ const Discover = ({
             </div>
 
             <CarouselContent className="-ml-4">
-              {popularSummaries?.slice(0, 15)?.map((summary, index) => {
+              {popularSummaries?.slice(0, 15)?.map((summary) => {
                 return (
-                  <CarouselItem key={index} className="basis-1/2 pl-4 lg:basis-1/3">
+                  <CarouselItem key={summary.id} className="basis-1/2 pl-4 lg:basis-1/3">
                     <Link href={`/summary/${summary.author_slug}/${summary.slug}`}>
                       <BookCover
                         title={summary.title}
@@ -175,10 +180,49 @@ const Discover = ({
             </div>
           </div>
         </Carousel>
+
+        {savedSummaries?.length >= 3 && (
+          <Carousel
+            opts={{
+              align: "start",
+              slidesToScroll: "auto"
+            }}
+            className="w-full"
+          >
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col">
+                <TypographyH3>Votre librairie</TypographyH3>
+                <TypographyP muted>Retrouvez les résumés que vous avez sauvegardés.</TypographyP>
+              </div>
+
+              <CarouselContent className="-ml-4">
+                {savedSummaries?.map((summary) => {
+                  return (
+                    <CarouselItem key={summary.id} className="basis-1/2 pl-4 lg:basis-1/3">
+                      <Link href={`/summary/${summary.author_slug}/${summary.slug}`}>
+                        <BookCover
+                          title={summary.title}
+                          author={summary.author}
+                          category={summary.topic}
+                          source={summary.source_type}
+                        />
+                      </Link>
+                    </CarouselItem>
+                  );
+                })}
+              </CarouselContent>
+
+              <div className="hidden lg:block">
+                <CarouselPrevious />
+                <CarouselNext />
+              </div>
+            </div>
+          </Carousel>
+        )}
       </div>
 
       <div className="order-1 flex w-full flex-col gap-4 lg:order-2 lg:max-w-xs">
-        <Statistics userReads={userReads} />
+        <Statistics userReads={userReads} summaries={summaries} />
       </div>
     </div>
   );

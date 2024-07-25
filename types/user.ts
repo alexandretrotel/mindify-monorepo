@@ -41,15 +41,14 @@ export type Status = {
 
 export type Statuses = Status[];
 
-export type UserSummaryStatus = {
+export type UserLibraryItem = {
   id: number;
   user_id: UUID;
   summary_id: number;
-  status: SummaryStatus;
   created_at: Date;
 };
 
-export type UserSummaryStatuses = UserSummaryStatus[];
+export type UserLibrary = UserLibraryItem[];
 
 export type UserTopic = {
   user_id: UUID;

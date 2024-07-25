@@ -9,7 +9,7 @@ import Footer from "@/components/home/footer";
 import type { Topics } from "@/types/topics/topics";
 import { UUID } from "crypto";
 import type { Authors, Summaries } from "@/types/summary/summary";
-import type { UserReads, UserSummaryStatuses } from "@/types/user";
+import type { UserReads, UserLibrary } from "@/types/user";
 
 export default async function Home() {
   const supabase = createClient();
@@ -54,11 +54,11 @@ export default async function Home() {
     .eq("user_id", data.user.id);
   const userTopics = userTopicsData?.flatMap((data) => data?.topics) as Topics;
 
-  const { data: userSummaryStatusesData } = await supabase
-    .from("user_summary_statuses")
+  const { data: userLibraryData } = await supabase
+    .from("user_library")
     .select("*")
     .eq("user_id", data.user.id);
-  const userSummaryStatuses: UserSummaryStatuses = userSummaryStatusesData as UserSummaryStatuses;
+  const userLibrary: UserLibrary = userLibraryData as UserLibrary;
 
   return (
     <Application
@@ -69,7 +69,7 @@ export default async function Home() {
       summaries={summaries}
       userReads={userReads}
       authors={authors}
-      userSummaryStatuses={userSummaryStatuses}
+      userLibrary={userLibrary}
     />
   );
 }
