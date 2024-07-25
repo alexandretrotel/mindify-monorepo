@@ -3,7 +3,7 @@ import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 import TypographyP from "@/components/typography/p";
 import React from "react";
 import Statistics from "@/components/application/tabs/discover/statistics";
-import type { Topic, Topics, UserTopics } from "@/types/topics/topics";
+import type { Topic, Topics } from "@/types/topics/topics";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { setIconColorFromTheme } from "@/utils/theme/icon";
@@ -29,9 +29,12 @@ const summaries: Summaries = Array.from({ length: 20 })?.map((_, index) => ({
   author_slug: "eric-ries"
 })) as Summaries;
 
-const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopics }) => {
+const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: Topics }) => {
   const { resolvedTheme } = useTheme();
 
+  const sortedUserTopics = userTopics
+    ? [...userTopics]?.sort((a, b) => a.name.localeCompare(b.name))
+    : [];
   const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
 
   return (
@@ -84,19 +87,14 @@ const Discover = ({ topics, userTopics }: { topics: Topics; userTopics: UserTopi
             <div className="flex flex-col">
               <TypographyH3>Vos intérêts</TypographyH3>
               <TypographyP muted>
-                {userTopics?.length > 0
+                {sortedUserTopics?.length > 0
                   ? "Explorez des résumés extraits de vos sujets préférés."
                   : "Explorez des résumés en fonction de certains sujets."}
               </TypographyP>
             </div>
 
             <CarouselContent className="-ml-4">
-              {sortedTopics
-                ?.filter((topic) =>
-                  userTopics?.length > 0
-                    ? userTopics?.find((userTopic) => userTopic.topic_id === topic.id)
-                    : true
-                )
+              {(sortedUserTopics?.length > 0 ? sortedUserTopics : sortedTopics)
                 ?.reduce((acc: Topic[][], topic: Topic, index: number) => {
                   const chunkIndex = Math.floor(index / 6);
                   if (!acc[chunkIndex]) {

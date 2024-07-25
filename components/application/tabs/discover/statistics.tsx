@@ -13,7 +13,7 @@ const Statistics = () => {
 
   return (
     <>
-      <div className="block md:hidden">
+      <div className="block lg:hidden">
         <TypographyH3>Mes statistiques</TypographyH3>
       </div>
 

@@ -22,9 +22,8 @@ import type { Summaries } from "@/types/summary/summary";
 
 const statuts = [
   { id: 1, name: "Pas commencé" },
-  { id: 2, name: "Nouveau" },
-  { id: 3, name: "Enregistré" },
-  { id: 4, name: "Terminé" }
+  { id: 2, name: "Enregistré" },
+  { id: 3, name: "Terminé" }
 ];
 
 const summaries: Summaries = Array.from({ length: 20 })?.map((_, index) => ({

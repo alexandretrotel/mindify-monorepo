@@ -25,7 +25,7 @@ import type { UserMetadata } from "@supabase/supabase-js";
 import type { AccountCategory } from "@/types/account/categories";
 import Account from "@/components/global/account";
 import type { UUID } from "crypto";
-import type { Topics, UserTopics } from "@/types/topics/topics";
+import type { Topics } from "@/types/topics/topics";
 import Link from "next/link";
 
 const AccountDropdown = ({
@@ -37,7 +37,7 @@ const AccountDropdown = ({
   userMetadata: UserMetadata;
   userId: UUID;
   topics: Topics;
-  userTopics: UserTopics;
+  userTopics: Topics;
 }) => {
   const [showMenu, setShowMenu] = React.useState<boolean>(false);
   const [category, setCategory] = React.useState<AccountCategory>("profile");
@@ -83,6 +83,7 @@ const AccountDropdown = ({
               setCategory("subscription");
             }}
             className="flex items-center gap-2"
+            disabled
           >
             <CreditCardIcon className="h-4 w-4" /> Abonnement
           </DropdownMenuItem>
@@ -92,6 +93,7 @@ const AccountDropdown = ({
               setCategory("notifications");
             }}
             className="flex items-center gap-2"
+            disabled
           >
             <BellRingIcon className="h-4 w-4" /> Notifications
           </DropdownMenuItem>
@@ -101,6 +103,7 @@ const AccountDropdown = ({
               setCategory("settings");
             }}
             className="flex items-center gap-2"
+            disabled
           >
             <SettingsIcon className="h-4 w-4" /> Paramètres
           </DropdownMenuItem>

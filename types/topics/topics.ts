@@ -7,12 +7,4 @@ export type Topic = {
   slug: string;
 };
 
-export type UserTopic = {
-  user_id: string;
-  topic_id: number;
-  created_at: Date;
-};
-
 export type Topics = Topic[];
-
-export type UserTopics = UserTopic[];
