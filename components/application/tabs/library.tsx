@@ -21,8 +21,9 @@ import Link from "next/link";
 import type { Authors, Source, Sources, Summaries } from "@/types/summary/summary";
 import { sourceToString } from "@/utils/topics";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
-import type { Statuses, SummaryStatus, UserSummaryStatuses } from "@/types/user";
+import type { Statuses, SummaryStatus, UserLibrary, UserReads } from "@/types/user";
 import { statusToString } from "@/utils/summary";
+import Fuse from "fuse.js";
 
 const statuses: Statuses = [
   { id: 1, name: "Pas commencé", value: "not_started" },
@@ -36,12 +37,14 @@ const Library = ({
   topics,
   summaries,
   authors,
-  userSummaryStatuses
+  userReads,
+  userLibrary
 }: {
   topics: Topics;
   summaries: Summaries;
   authors: Authors;
-  userSummaryStatuses: UserSummaryStatuses;
+  userReads: UserReads;
+  userLibrary: UserLibrary;
 }) => {
   const [book, setBook] = React.useState<string | undefined>(undefined);
   const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(undefined);
@@ -50,6 +53,22 @@ const Library = ({
   const [filteredSummaries, setFilteredSummaries] = React.useState<Summaries>(summaries);
 
   const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
+
+  const fuse = React.useMemo(() => {
+    return new Fuse(summaries, {
+      keys: [
+        "title",
+        "author",
+        "slug",
+        "author_slug",
+        "topic",
+        "source_type",
+        "introduction",
+        "conclusion"
+      ],
+      threshold: 0.3
+    });
+  }, [summaries]);
 
   useEffect(() => {
     if (selectedTopic === "Par catégorie") {
@@ -78,22 +97,39 @@ const Library = ({
       );
     }
 
+    const readSummaryIds = userReads?.map((userRead) => userRead.summary_id) ?? [];
+
     if (selectedStatus === "not_started") {
-      const summaryIds = userSummaryStatuses
-        .filter((userSummaryStatus) => userSummaryStatus.status === "completed")
-        .map((userSummaryStatus) => userSummaryStatus.summary_id);
+      filteredSummaries = filteredSummaries.filter(
+        (summary) => !readSummaryIds.includes(summary.id)
+      );
+    } else if (selectedStatus === "completed") {
+      filteredSummaries = filteredSummaries.filter((summary) =>
+        readSummaryIds.includes(summary.id)
+      );
+    } else if (selectedStatus === "saved") {
+      const savedSummaryIds = userLibrary?.map((library) => library.summary_id) ?? [];
+      filteredSummaries = filteredSummaries.filter((summary) =>
+        savedSummaryIds.includes(summary.id)
+      );
+    }
 
-      filteredSummaries = filteredSummaries.filter((summary) => !summaryIds.includes(summary.id));
-    } else if (selectedStatus === "completed" || selectedStatus === "saved") {
-      const summaryIds = userSummaryStatuses
-        .filter((userSummaryStatus) => userSummaryStatus.status === selectedStatus)
-        .map((userSummaryStatus) => userSummaryStatus.summary_id);
-
-      filteredSummaries = filteredSummaries.filter((summary) => summaryIds.includes(summary.id));
+    if (book) {
+      const result = fuse.search(book);
+      filteredSummaries = result.map((res) => res.item);
     }
 
     setFilteredSummaries(filteredSummaries);
-  }, [selectedSource, selectedStatus, selectedTopic, summaries, userSummaryStatuses]);
+  }, [
+    book,
+    fuse,
+    selectedSource,
+    selectedStatus,
+    selectedTopic,
+    summaries,
+    userLibrary,
+    userReads
+  ]);
 
   return (
     <div className="flex w-full flex-col gap-4">
@@ -111,7 +147,7 @@ const Library = ({
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {/* Catégories */}
           <Select value={selectedTopic ?? "Par catégorie"} onValueChange={setSelectedTopic}>
             <SelectTrigger className="w-full lg:min-w-[200px]">
@@ -178,8 +214,8 @@ const Library = ({
 
       {filteredSummaries?.length > 0 ? (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {filteredSummaries?.map((summary, index) => (
-            <Link href={`/summary/${summary.author_slug}/${summary.slug}`} key={index}>
+          {filteredSummaries?.map((summary) => (
+            <Link href={`/summary/${summary.author_slug}/${summary.slug}`} key={summary.id}>
               <BookCover
                 title={summary.title}
                 author={summary.author}

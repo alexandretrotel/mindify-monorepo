@@ -4,27 +4,20 @@ import type { UUID } from "crypto";
 import { redirect } from "next/navigation";
 import AccountDropdown from "@/components/global/accountDropdown";
 import TypographyH1 from "@/components/typography/h1";
-import type { Author, Authors, Summary } from "@/types/summary/summary";
+import type { Author, Authors, Summary, SummaryChapter } from "@/types/summary/summary";
 import type { Topics } from "@/types/topics/topics";
 import TypographySpan from "@/components/typography/span";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowUpRightIcon, CheckIcon, ClockIcon, LibraryBigIcon } from "lucide-react";
+import { ArrowUpRightIcon, ChevronDownIcon, ClockIcon } from "lucide-react";
 import { sourceToString } from "@/utils/topics";
 import TypographyH2 from "@/components/typography/h2";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-
-const chapters = [
-  {
-    title: "Chapitre 1",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec dui nec nunc consectetur lacinia. Integer sit amet nisl nec nisi ultricies ultricies. Nam sodales, nunc eget ultricies luctus, orci nunc ultricies metus, in ultricies justo justo ac nunc. Nullam nec dui nec nunc consectetur lacinia. Integer sit amet nisl nec nisi ultricies ultricies. Nam sodales, nunc eget ultricies luctus, orci nunc ultricies metus, in ultricies justo justo ac nunc."
-  },
-  {
-    title: "Chapitre 2",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec dui nec nunc consectetur lacinia. Integer sit amet nisl nec nisi ultricies ultricies. Nam sodales, nunc eget ultricies luctus, orci nunc ultricies metus, in ultricies justo justo ac nunc. Nullam nec dui nec nunc consectetur lacinia. Integer sit amet nisl nec nisi ultricies ultricies. Nam sodales, nunc eget ultricies luctus, orci nunc ultricies metus, in ultricies justo justo ac nunc."
-  }
-];
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import type { UserLibrary, UserReads } from "@/types/user";
+import AddToLibraryButton from "@/components/(application)/summary/[author_slug]/[slug]/addToLibraryButton";
+import MarkAsReadButton from "@/components/(application)/summary/[author_slug]/[slug]/markAsReadButton";
 
 const Page = async ({ params }: { params: { author_slug: string; slug: string } }) => {
   const { slug, author_slug } = params;
@@ -66,9 +59,27 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
     topic: topics?.find((topic) => topic.id === summaryData.topic_id)?.name
   } as Summary;
 
-  const isSummarySaved: boolean = false;
-  const isSummaryRead: boolean = false;
-  const summaryReads: number = 87;
+  const { data: summaryChaptersData } = await supabase
+    .from("summary_chapters")
+    .select("*")
+    .eq("summary_id", summary.id)
+    .single();
+  const summaryChapter: SummaryChapter = summaryChaptersData as SummaryChapter;
+
+  const { data: userReadsData } = await supabase
+    .from("user_reads")
+    .select("*")
+    .eq("user_id", userId);
+  const userReads: UserReads = userReadsData as UserReads;
+
+  const { data: userLibraryData } = await supabase
+    .from("user_library")
+    .select("*")
+    .eq("user_id", userId);
+  const userLibrary: UserLibrary = userLibraryData as UserLibrary;
+
+  const isSummarySaved: boolean = userLibrary.some((library) => library.summary_id === summary.id);
+  const isSummaryRead: boolean = userReads.some((read) => read.summary_id === summary.id);
 
   return (
     <div className="mx-auto mb-8 flex max-w-7xl flex-col gap-6 md:gap-12">
@@ -94,16 +105,11 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
 
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
-                {isSummarySaved ? (
-                  <Button variant="default" size="sm" className="flex items-center gap-2">
-                    Enregistré <CheckIcon className="h-4 w-4" />
-                  </Button>
-                ) : (
-                  <Button variant="outline" size="sm" className="flex items-center gap-2">
-                    <LibraryBigIcon className="h-4 w-4" />
-                    Ajouter à ma bibliothèque
-                  </Button>
-                )}
+                <AddToLibraryButton
+                  userId={userId}
+                  summaryId={summary.id}
+                  isSummarySaved={isSummarySaved}
+                />
 
                 {summary.source_url && (
                   <Button variant="link" className="text-muted-foreground" asChild>
@@ -115,7 +121,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
                 )}
               </div>
 
-              {summary.reading_time && (
+              {!!summary.reading_time && (
                 <div className="flex items-center gap-2">
                   <ClockIcon className="h-4 w-4 text-muted-foreground" />{" "}
                   <TypographySpan muted>
@@ -128,76 +134,106 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
 
           <div className="flex w-full flex-col justify-between gap-8 lg:flex-row lg:gap-16">
             <div className="order-2 flex max-w-3xl flex-col gap-8 lg:order-1 lg:min-w-0 lg:grow">
-              <div className="flex flex-col gap-4">
+              <div id="introduction" className="flex flex-col gap-4">
                 <TypographyH2>Introduction</TypographyH2>
                 <TypographySpan isDefaultColor>{summary.introduction}</TypographySpan>
               </div>
 
               <div className="flex flex-col gap-8">
-                {chapters.map((chapter, index) => (
+                {summaryChapter?.titles?.map((title, index) => (
                   <div
-                    key={chapter.title}
+                    key={title}
                     id={"chapter" + String(index + 1)}
                     className="flex flex-col gap-4"
                   >
-                    <TypographyH2>{chapter.title}</TypographyH2>
-                    <TypographySpan isDefaultColor>{chapter.text}</TypographySpan>
+                    <TypographyH2>{title}</TypographyH2>
+                    <TypographySpan isDefaultColor>{summaryChapter.texts[index]}</TypographySpan>
                   </div>
                 ))}
               </div>
 
-              <div className="flex flex-col gap-4">
+              <div id="conclusion" className="flex flex-col gap-4">
                 <TypographyH2>Conclusion</TypographyH2>
                 <TypographySpan isDefaultColor>{summary.conclusion}</TypographySpan>
               </div>
 
               <div className="flex flex-col gap-4">
                 <div className="w-full md:w-fit">
-                  {isSummaryRead ? (
-                    <Button variant="default" className="flex items-center gap-2">
-                      Déjà lu <CheckIcon className="h-4 w-4" />
-                    </Button>
-                  ) : (
-                    <Button variant="outline" className="flex items-center gap-2">
-                      Fini de lire ?
-                    </Button>
-                  )}
+                  <MarkAsReadButton
+                    isSummaryRead={isSummaryRead}
+                    userId={userId}
+                    summaryId={summary.id}
+                  />
                 </div>
               </div>
             </div>
 
             <div className="order-1 flex w-full flex-col gap-8 lg:order-2">
               <Card>
-                <CardHeader>
-                  <TypographyH3AsSpan>Table des matières</TypographyH3AsSpan>
-                </CardHeader>
+                <Collapsible defaultOpen>
+                  <CollapsibleTrigger className="w-full">
+                    <CardHeader className="w-full">
+                      <div className="flex w-full items-center justify-between gap-4">
+                        <TypographyH3AsSpan>Table des matières</TypographyH3AsSpan>
+                        <ChevronDownIcon className="h-5 w-5" />
+                      </div>
+                    </CardHeader>
+                  </CollapsibleTrigger>
 
-                <CardContent>
-                  <ul className="flex flex-col gap-2">
-                    {chapters.map((chapter, index) => (
-                      <li key={chapter.title}>
-                        <Link
-                          href={`#${"chapter" + String(index + 1)}`}
-                          className="text-sm text-muted-foreground hover:underline"
-                        >
-                          {chapter.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
+                  <CollapsibleContent>
+                    <CardContent>
+                      <ul className="flex flex-col gap-2">
+                        <li>
+                          <Link
+                            href="#introduction"
+                            className="text-sm text-primary hover:underline"
+                          >
+                            1. Introduction
+                          </Link>
+                        </li>
+                        {summaryChapter?.titles?.map((title, index) => (
+                          <li key={title}>
+                            <Link
+                              href={"#chapter" + String(index + 1)}
+                              className="text-sm text-primary hover:underline"
+                            >
+                              {index + 2}. {title}
+                            </Link>
+                          </li>
+                        ))}
+                        <li>
+                          <Link href="#conclusion" className="text-sm text-primary hover:underline">
+                            {summaryChapter?.titles?.length
+                              ? summaryChapter?.titles?.length + 2
+                              : 2}
+                            . Conclusion
+                          </Link>
+                        </li>
+                      </ul>
+                    </CardContent>
+                  </CollapsibleContent>
+                </Collapsible>
               </Card>
 
               <Card>
-                <CardHeader>
-                  <TypographyH3AsSpan>À propos de l&apos;auteur</TypographyH3AsSpan>
-                </CardHeader>
+                <Collapsible>
+                  <CollapsibleTrigger className="w-full">
+                    <CardHeader className="w-full">
+                      <div className="flex w-full items-center justify-between gap-4">
+                        <TypographyH3AsSpan>À propos de l&apos;auteur</TypographyH3AsSpan>
+                        <ChevronDownIcon className="h-5 w-5" />
+                      </div>
+                    </CardHeader>
+                  </CollapsibleTrigger>
 
-                <CardContent>
-                  <TypographySpan isDefaultColor>
-                    {author.description ?? "Aucune description disponible."}
-                  </TypographySpan>
-                </CardContent>
+                  <CollapsibleContent>
+                    <CardContent>
+                      <TypographySpan isDefaultColor>
+                        {author.description ?? "Aucune description disponible."}
+                      </TypographySpan>
+                    </CardContent>
+                  </CollapsibleContent>
+                </Collapsible>
               </Card>
             </div>
           </div>

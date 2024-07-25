@@ -6,12 +6,13 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { Button } from "@/components/ui/button";
 import { ArrowUpRightIcon } from "lucide-react";
 import type { UserReads } from "@/types/user";
+import type { Summaries } from "@/types/summary/summary";
 
-const Statistics = ({ userReads }: { userReads: UserReads }) => {
+const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries: Summaries }) => {
   const [readingHour, setReadingHour] = React.useState<number>(0);
   const [readingMinute, setReadingMinute] = React.useState<number>(0);
 
-  const summariesReadThisWeek = userReads?.length;
+  const summariesRead = userReads?.length;
 
   const weekReadsData = Array.from({ length: 7 }, (_, i) => {
     const date = new Date();
@@ -27,6 +28,34 @@ const Statistics = ({ userReads }: { userReads: UserReads }) => {
     }).length;
     return { date: formattedDate, reads };
   });
+
+  const weekReadTimeData = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - (6 - i));
+    const formattedDate = date.toISOString().split("T")[0];
+    const reads = userReads?.filter((read) => {
+      const readDate = new Date(read.created_at);
+      return (
+        readDate.getDate() === date.getDate() &&
+        readDate.getMonth() === date.getMonth() &&
+        readDate.getFullYear() === date.getFullYear()
+      );
+    });
+    const time = reads.reduce((acc, read) => {
+      const summary = summaries.find((summary) => summary.id === read.summary_id);
+      return acc + (summary?.reading_time || 0);
+    }, 0);
+    return { date: formattedDate, time };
+  });
+
+  // now we can calculate the total reading time
+  const totalReadingTime = userReads?.reduce((acc, read) => {
+    const summary = summaries.find((summary) => summary.id === read.summary_id);
+    return acc + (summary?.reading_time ?? 0);
+  }, 0);
+  const totalReadingTimeInMinutes = Math.floor(totalReadingTime % 60);
+  const totalReadingTimeInHours = Math.floor((totalReadingTime - totalReadingTimeInMinutes) / 60);
+  const remainingMinutes = totalReadingTime % 60;
 
   return (
     <>
@@ -49,11 +78,11 @@ const Statistics = ({ userReads }: { userReads: UserReads }) => {
 
         <Card className="lg:max-w-md">
           <CardHeader className="space-y-0 md:pb-2">
-            <CardDescription>Cette semaine</CardDescription>
+            <CardDescription>Résumés lus</CardDescription>
             <CardTitle className="text-4xl tabular-nums">
-              {summariesReadThisWeek}{" "}
+              {summariesRead}{" "}
               <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
-                {summariesReadThisWeek > 1 ? "résumés" : "résumé"}
+                {summariesRead > 1 ? "résumés" : "résumé"}
               </span>
             </CardTitle>
           </CardHeader>
@@ -116,13 +145,13 @@ const Statistics = ({ userReads }: { userReads: UserReads }) => {
           <CardHeader className="space-y-0 md:pb-0">
             <CardDescription>Temps de lecture</CardDescription>
             <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
-              {readingHour}
+              {totalReadingTimeInHours}
               <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
                 h
               </span>
-              {readingMinute}
+              {remainingMinutes}
               <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
-                min
+                {remainingMinutes > 1 ? "mins" : "min"}
               </span>
             </CardTitle>
           </CardHeader>
@@ -137,36 +166,7 @@ const Statistics = ({ userReads }: { userReads: UserReads }) => {
             >
               <AreaChart
                 accessibilityLayer
-                data={[
-                  {
-                    date: "2024-01-01",
-                    time: 8.5
-                  },
-                  {
-                    date: "2024-01-02",
-                    time: 7.2
-                  },
-                  {
-                    date: "2024-01-03",
-                    time: 8.1
-                  },
-                  {
-                    date: "2024-01-04",
-                    time: 6.2
-                  },
-                  {
-                    date: "2024-01-05",
-                    time: 5.2
-                  },
-                  {
-                    date: "2024-01-06",
-                    time: 8.1
-                  },
-                  {
-                    date: "2024-01-07",
-                    time: 7.0
-                  }
-                ]}
+                data={weekReadTimeData}
                 margin={{
                   left: 0,
                   right: 0,
@@ -184,7 +184,7 @@ const Statistics = ({ userReads }: { userReads: UserReads }) => {
                 </defs>
                 <Area
                   dataKey="time"
-                  type="natural"
+                  type="monotone"
                   fill="url(#fillTime)"
                   fillOpacity={0.4}
                   stroke="var(--color-time)"
@@ -197,7 +197,7 @@ const Statistics = ({ userReads }: { userReads: UserReads }) => {
                       Temps de lecture
                       <div className="flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
                         {value}
-                        <span className="font-normal text-muted-foreground">h</span>
+                        <span className="font-normal text-muted-foreground">mins</span>
                       </div>
                     </div>
                   )}
