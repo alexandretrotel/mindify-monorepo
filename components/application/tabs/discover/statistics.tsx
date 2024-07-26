@@ -30,9 +30,7 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
   const minDate = new Date(
     Math.min(...userReads.map((read) => new Date(read.created_at).getTime()))
   );
-  const maxDate = new Date(
-    Math.max(...userReads.map((read) => new Date(read.created_at).getTime()))
-  );
+  const maxDate = new Date();
 
   const dateRange = getDateRange(minDate, maxDate);
 
