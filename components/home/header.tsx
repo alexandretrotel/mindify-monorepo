@@ -27,7 +27,7 @@ const navigation = [
   { name: "FAQ", href: "#faq" }
 ];
 
-export default function Header() {
+export default function Header({ isUserConnected }: { isUserConnected: boolean }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -81,7 +81,11 @@ export default function Header() {
         </div>
         <div className="hidden gap-4 lg:flex lg:flex-1 lg:justify-end">
           <Button asChild variant="outline">
-            <Link href="/login">Se connecter</Link>
+            {isUserConnected ? (
+              <Link href="/app">Lancer l&apos;app</Link>
+            ) : (
+              <Link href="/login">Se connecter</Link>
+            )}
           </Button>
           <ToggleTheme />
         </div>
@@ -125,7 +129,11 @@ export default function Header() {
               </div>
               <div className="py-6">
                 <Button asChild>
-                  <Link href="/login">Se connecter</Link>
+                  {isUserConnected ? (
+                    <Link href="/app">Lancer l&apos;app</Link>
+                  ) : (
+                    <Link href="/login">Se connecter</Link>
+                  )}
                 </Button>
               </div>
             </div>
