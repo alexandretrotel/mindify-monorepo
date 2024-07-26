@@ -13,7 +13,7 @@ export default async function Home() {
   const { data: topics } = await supabase.from("topics").select("*");
   const { data, error } = await supabase.auth.getUser();
 
-  const isUserConnected = !error && data?.user;
+  const isUserConnected = !error && !!data?.user;
 
   return (
     <>
