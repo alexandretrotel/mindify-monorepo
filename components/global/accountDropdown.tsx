@@ -55,12 +55,12 @@ const AccountDropdown = ({
         <DropdownMenuContent side="bottom" className="mx-4">
           <DropdownMenuLabel>Menu</DropdownMenuLabel>
           <DropdownMenuItem>
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/app" className="flex items-center gap-2">
               <HomeIcon className="h-4 w-4" /> Accueil
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem disabled>
-            <Link href="/" className="flex items-center gap-2">
+            <Link href={`/app/profile`} className="flex items-center gap-2">
               <UserIcon className="h-4 w-4" /> Mon profil
             </Link>
           </DropdownMenuItem>
