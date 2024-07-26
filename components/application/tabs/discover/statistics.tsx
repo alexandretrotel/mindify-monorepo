@@ -8,6 +8,7 @@ import { ArrowUpRightIcon } from "lucide-react";
 import type { UserReads } from "@/types/user";
 import type { Summaries } from "@/types/summary/summary";
 import { getDateRange } from "@/utils/date";
+import Link from "next/link";
 
 const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries: Summaries }) => {
   const summariesRead = userReads?.length;
@@ -61,7 +62,7 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
   const remainingMinutes = totalReadingTime % 60;
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <div className="block lg:hidden">
         <TypographyH3>Mes statistiques</TypographyH3>
       </div>
@@ -72,9 +73,11 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
             <CardTitle className="text-xl tabular-nums">Mon profil</CardTitle>
           </CardHeader>
           <CardContent>
-            <Button className="flex w-full items-center" disabled>
-              Voir mon profil
-              <ArrowUpRightIcon className="ml-1 h-4 w-4" />
+            <Button asChild>
+              <Link href="/app/profile" className="flex w-full items-center">
+                Voir mon profil
+                <ArrowUpRightIcon className="ml-1 h-4 w-4" />
+              </Link>
             </Button>
           </CardContent>
         </Card>
@@ -201,7 +204,7 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
           </CardContent>
         </Card>
       </div>
-    </>
+    </div>
   );
 };
 

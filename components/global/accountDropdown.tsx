@@ -59,7 +59,7 @@ const AccountDropdown = ({
               <HomeIcon className="h-4 w-4" /> Accueil
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem disabled>
+          <DropdownMenuItem>
             <Link href={`/app/profile`} className="flex items-center gap-2">
               <UserIcon className="h-4 w-4" /> Mon profil
             </Link>

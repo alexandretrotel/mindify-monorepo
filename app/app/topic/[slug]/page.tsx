@@ -63,7 +63,9 @@ const Page = async ({ params }: { params: { slug: string } }) => {
             <div className="flex flex-col">
               <div className="flex items-center gap-4">
                 <TypographyH3>{topic.name}</TypographyH3>
-                <Badge>{summaries.length} résumés</Badge>
+                <Badge>
+                  {summaries.length} {summaries.length > 1 ? "résumés" : "résumé"}
+                </Badge>
               </div>
               <TypographyP muted>
                 Explorez notre collection des meilleurs résumés dans la catégorie{" "}
