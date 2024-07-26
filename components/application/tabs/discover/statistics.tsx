@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpRightIcon } from "lucide-react";
 import type { UserReads } from "@/types/user";
 import type { Summaries } from "@/types/summary/summary";
+import { getDateRange } from "@/utils/date";
 
 const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries: Summaries }) => {
   const summariesRead = userReads?.length;
@@ -26,9 +27,16 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
     return { date: formattedDate, reads };
   });
 
-  const weekReadTimeData = Array.from({ length: 7 }, (_, i) => {
-    const date = new Date();
-    date.setDate(date.getDate() - (6 - i));
+  const minDate = new Date(
+    Math.min(...userReads.map((read) => new Date(read.created_at).getTime()))
+  );
+  const maxDate = new Date(
+    Math.max(...userReads.map((read) => new Date(read.created_at).getTime()))
+  );
+
+  const dateRange = getDateRange(minDate, maxDate);
+
+  const weekReadTimeData = dateRange.map((date) => {
     const formattedDate = date.toISOString().split("T")[0];
     const reads = userReads?.filter((read) => {
       const readDate = new Date(read.created_at);
@@ -40,7 +48,7 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
     });
     const time = reads.reduce((acc, read) => {
       const summary = summaries.find((summary) => summary.id === read.summary_id);
-      return acc + (summary?.reading_time || 0);
+      return acc + (summary?.reading_time ?? 0);
     }, 0);
     return { date: formattedDate, time };
   });
@@ -189,19 +197,6 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
                   fill="url(#fillTime)"
                   fillOpacity={0.4}
                   stroke="var(--color-time)"
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent hideLabel />}
-                  formatter={(value) => (
-                    <div className="flex min-w-[120px] flex-col text-xs text-muted-foreground">
-                      Temps de lecture
-                      <div className="flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                        {value}
-                        <span className="font-normal text-muted-foreground">mins</span>
-                      </div>
-                    </div>
-                  )}
                 />
               </AreaChart>
             </ChartContainer>
