@@ -1,3 +1,4 @@
+import AccountDropdown from "@/components/global/accountDropdown";
 import BookCover from "@/components/global/bookCover";
 import TypographyH2 from "@/components/typography/h2";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
@@ -52,95 +53,104 @@ const Page = async () => {
   return (
     <div className="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-6 md:gap-12">
       <div className="flex w-full flex-col justify-between gap-8 lg:flex-row lg:gap-16">
-        <div className="order-2 flex max-w-3xl flex-col gap-8 lg:order-1 lg:min-w-0 lg:grow">
-          <div className="flex items-center gap-4">
+        <div className="order-2 flex flex-col gap-8 lg:order-1 lg:min-w-0 lg:grow">
+          <div className="flex items-center justify-between gap-8">
             <div className="flex flex-col">
               <TypographyH2>{userMetadata?.name}</TypographyH2>
               <TypographyP size="sm" muted>
                 {userMetadata?.biography}
               </TypographyP>
             </div>
+
+            <AccountDropdown
+              userMetadata={userMetadata}
+              userId={userId}
+              topics={topics}
+              userTopics={[]}
+            />
           </div>
 
-          <Tabs defaultValue="reads">
-            <div className="flex flex-col gap-4">
-              <div className="flex items-start justify-between gap-8">
-                <TabsList>
-                  <TabsTrigger value="reads">Résumés lus</TabsTrigger>
-                  <TabsTrigger value="saved">Enregistrés</TabsTrigger>
-                </TabsList>
+          <div className="max-w-3xl">
+            <Tabs defaultValue="reads">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-start justify-between gap-8">
+                  <TabsList>
+                    <TabsTrigger value="reads">Résumés lus</TabsTrigger>
+                    <TabsTrigger value="saved">Enregistrés</TabsTrigger>
+                  </TabsList>
 
-                <Button variant="outline" asChild>
-                  <Link
-                    href={`/app/profile/${userMetadata?.id}/summaries`}
-                    className="flex items-center"
+                  <Button variant="outline" asChild>
+                    <Link
+                      href={`/app/profile/${userMetadata?.id}/summaries`}
+                      className="flex items-center"
+                    >
+                      Voir tout
+                    </Link>
+                  </Button>
+                </div>
+
+                <TabsContent value="reads" className="w-full">
+                  <Carousel
+                    opts={{
+                      align: "start",
+                      slidesToScroll: "auto"
+                    }}
+                    className="w-full"
                   >
-                    Voir tout
-                  </Link>
-                </Button>
+                    <CarouselContent className="-ml-4">
+                      {userReadsSummaries.length > 0 ? (
+                        userReadsSummaries?.map((summary) => {
+                          return (
+                            <CarouselItem key={summary.id} className="basis-1/2 pl-4 md:basis-1/3">
+                              <Link href={`/app/summary/${summary.author_slug}/${summary.slug}`}>
+                                <BookCover
+                                  title={summary.title}
+                                  author={summary.author}
+                                  category={summary.topic}
+                                  source={summary.source_type}
+                                />
+                              </Link>
+                            </CarouselItem>
+                          );
+                        })
+                      ) : (
+                        <div className="flex h-96 flex-col items-center justify-center gap-4 text-center">
+                          <TypographyH3AsSpan>Aucun résumé</TypographyH3AsSpan>
+                        </div>
+                      )}
+                    </CarouselContent>
+                  </Carousel>
+                </TabsContent>
+
+                <TabsContent value="saved">
+                  <Carousel opts={{ align: "start", slidesToScroll: "auto" }} className="w-full">
+                    <CarouselContent className="-ml-4">
+                      {userLibrarySummaries.length > 0 ? (
+                        userLibrarySummaries?.map((summary) => {
+                          return (
+                            <CarouselItem key={summary.id} className="basis-1/2 pl-4 md:basis-1/3">
+                              <Link href={`/app/summary/${summary.author_slug}/${summary.slug}`}>
+                                <BookCover
+                                  title={summary.title}
+                                  author={summary.author}
+                                  category={summary.topic}
+                                  source={summary.source_type}
+                                />
+                              </Link>
+                            </CarouselItem>
+                          );
+                        })
+                      ) : (
+                        <div className="flex h-96 flex-col items-center justify-center gap-4 text-center">
+                          <TypographyH3AsSpan>Aucun résumé</TypographyH3AsSpan>
+                        </div>
+                      )}
+                    </CarouselContent>
+                  </Carousel>
+                </TabsContent>
               </div>
-
-              <TabsContent value="reads" className="w-full">
-                <Carousel
-                  opts={{
-                    align: "start",
-                    slidesToScroll: "auto"
-                  }}
-                  className="w-full"
-                >
-                  <CarouselContent className="-ml-4">
-                    {userReadsSummaries.length > 0 ? (
-                      userReadsSummaries?.map((summary) => {
-                        return (
-                          <CarouselItem key={summary.id} className="basis-1/2 pl-4 md:basis-1/3">
-                            <Link href={`/app/summary/${summary.author_slug}/${summary.slug}`}>
-                              <BookCover
-                                title={summary.title}
-                                author={summary.author}
-                                category={summary.topic}
-                                source={summary.source_type}
-                              />
-                            </Link>
-                          </CarouselItem>
-                        );
-                      })
-                    ) : (
-                      <div className="flex h-96 flex-col items-center justify-center gap-4 text-center">
-                        <TypographyH3AsSpan>Aucun résumé</TypographyH3AsSpan>
-                      </div>
-                    )}
-                  </CarouselContent>
-                </Carousel>
-              </TabsContent>
-
-              <TabsContent value="saved">
-                <Carousel opts={{ align: "start", slidesToScroll: "auto" }} className="w-full">
-                  <CarouselContent className="-ml-4">
-                    {userLibrarySummaries.length > 0 ? (
-                      userLibrarySummaries?.map((summary) => {
-                        return (
-                          <CarouselItem key={summary.id} className="basis-1/2 pl-4 md:basis-1/3">
-                            <Link href={`/app/summary/${summary.author_slug}/${summary.slug}`}>
-                              <BookCover
-                                title={summary.title}
-                                author={summary.author}
-                                category={summary.topic}
-                                source={summary.source_type}
-                              />
-                            </Link>
-                          </CarouselItem>
-                        );
-                      })
-                    ) : (
-                      <div className="flex h-96 flex-col items-center justify-center gap-4 text-center">
-                        <TypographyH3AsSpan>Aucun résumé</TypographyH3AsSpan>
-                      </div>
-                    )}
-                  </CarouselContent>
-                </Carousel>
-              </TabsContent>
-            </div>
-          </Tabs>
+            </Tabs>
+          </div>
         </div>
       </div>
     </div>
