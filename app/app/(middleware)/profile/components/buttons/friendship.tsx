@@ -33,9 +33,10 @@ const Friendship = ({ userId, profileId }: { userId: UUID; profileId: UUID }) =>
   const handleAskForFriend = async () => {
     if (isFriend) {
       return;
-    } else {
-      setIsFriend(true);
     }
+
+    setIsFriend(true);
+    setFriendStatus("pending");
 
     try {
       await askForFriend({ userId, profileId });
@@ -94,7 +95,7 @@ const Friendship = ({ userId, profileId }: { userId: UUID; profileId: UUID }) =>
   if (!isFriend) {
     return (
       <Button size="sm" onClick={handleAskForFriend}>
-        Ajouter en ami
+        Demander en ami
       </Button>
     );
   }
