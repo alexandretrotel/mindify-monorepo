@@ -201,16 +201,14 @@ export async function isFriend({ userId, profileId }: { userId: UUID; profileId:
 
 export async function getFriendsData({ userId }: { userId: UUID }) {
   const friendsIds = await getFriendsIds({ userId });
-
-  const friendsData = getUsersData({ usersIds: friendsIds });
+  const friendsData = await getUsersData({ usersIds: friendsIds });
 
   return friendsData;
 }
 
 export async function getPendingFriendsData({ userId }: { userId: UUID }) {
   const pendingFriendsIds = await getPendingFriendsIds({ userId });
-
-  const pendingFriendsData = getUsersData({ usersIds: pendingFriendsIds });
+  const pendingFriendsData = await getUsersData({ usersIds: pendingFriendsIds });
 
   return pendingFriendsData;
 }

@@ -147,20 +147,18 @@ export async function userUpdateAvatar(formData: FormData) {
 }
 
 export async function getUsersData({ usersIds }: { usersIds: UUID[] }) {
-  let users: User[] = [];
+  const users: User[] = await Promise.all(
+    usersIds.map(async (userId) => {
+      const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
 
-  usersIds.forEach(async (userId) => {
-    const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
+      if (error) {
+        console.error(error);
+        throw new Error("Impossible de récupérer les amis.");
+      }
 
-    if (error) {
-      console.error(error);
-      throw new Error("Impossible de récupérer les amis.");
-    }
-
-    if (data) {
-      users.push(data.user);
-    }
-  });
+      return data?.user;
+    })
+  );
 
   return users;
 }

@@ -164,7 +164,7 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                             </Avatar>
                             <div className="flex flex-col">
                               <TypographyP size="xs" muted>
-                                {friend.user_metadata.description}
+                                {friend.user_metadata.biography ?? "Aucune biographie"}
                               </TypographyP>
                             </div>
                           </div>
@@ -237,7 +237,7 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                                 )}
                               </div>
                               <TypographyP size="xs" muted>
-                                {friend.user_metadata.description}
+                                {friend.user_metadata.biography ?? "Aucune biographie"}
                               </TypographyP>
                             </div>
                           </div>

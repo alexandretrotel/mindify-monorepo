@@ -58,7 +58,7 @@ const Friends = ({
                       </Avatar>
                       <div className="flex flex-col">
                         <TypographyP size="xs" muted>
-                          {friend.user_metadata.description}
+                          {friend.user_metadata.biography ?? "Pas de biographie"}
                         </TypographyP>
                       </div>
                     </div>
