@@ -64,7 +64,7 @@ export async function signUpWithPassword(formData: FormData) {
   revalidatePath("/", "layout");
 
   if (!error || !globalError) {
-    redirect("/check-email");
+    redirect("/app/check-email");
   }
 }
 
@@ -131,7 +131,7 @@ export async function signInWithEmail(formData: FormData) {
   revalidatePath("/", "layout");
 
   if (!error || !globalError) {
-    redirect("/check-email");
+    redirect("/app/check-email");
   }
 }
 
