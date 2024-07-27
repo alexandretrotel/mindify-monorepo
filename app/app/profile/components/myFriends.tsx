@@ -12,7 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 import TypographyP from "@/components/typography/p";
-import TypographySpan from "@/components/typography/span";
 import {
   acceptFriendRequest,
   getFriendsData,
@@ -153,7 +152,7 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                   friends.map((friend) => {
                     return (
                       <div key={friend.id}>
-                        <div className="flex flex-col gap-4">
+                        <div className="flex items-center justify-between gap-4">
                           <div className="flex items-center gap-4">
                             <Avatar>
                               <AvatarImage
@@ -163,6 +162,7 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                               <AvatarFallback>{friend.user_metadata.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
+                              <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>
                               <TypographyP size="xs" muted>
                                 {friend.user_metadata.biography ?? "Aucune biographie"}
                               </TypographyP>
@@ -177,14 +177,6 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                               >
                                 Voir le profil
                               </Link>
-                            </Button>
-
-                            <Button
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => handleRemoveFriend(friend.id as UUID)}
-                            >
-                              Supprimer
                             </Button>
                           </div>
                         </div>
@@ -230,12 +222,7 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                               <AvatarFallback>{friend.user_metadata.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
-                              <div className="flex items-center gap-2">
-                                <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>
-                                {friend.user_metadata.online && (
-                                  <div className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
-                                )}
-                              </div>
+                              <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>
                               <TypographyP size="xs" muted>
                                 {friend.user_metadata.biography ?? "Aucune biographie"}
                               </TypographyP>
