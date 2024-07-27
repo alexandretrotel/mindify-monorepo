@@ -14,11 +14,11 @@ import { Label } from "@/components/ui/label";
 import type { UserMetadata } from "@supabase/supabase-js";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
-import { z } from "zod";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { userUpdateAvatar } from "@/actions/user";
 import { LoadingButton } from "@/components/global/buttons/loadingButton";
+import { Loader2Icon } from "lucide-react";
 
 export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata: UserMetadata }>) {
   const [imageError, setImageError] = useState<string | null>(null);
@@ -68,6 +68,7 @@ export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata:
       <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
         <Label htmlFor="username" className="text-text text-sm font-medium">
           Avatar
+          {isUpdating && <Loader2Icon className="h-3 w-3 animate-spin" />}
         </Label>
         <div className="flex items-center gap-2">
           <Avatar>

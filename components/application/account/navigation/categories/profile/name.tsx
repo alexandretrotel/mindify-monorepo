@@ -1,4 +1,3 @@
-import { LoadingButton } from "@/components/global/buttons/loadingButton";
 import TypographySpan from "@/components/typography/span";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +6,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import { userUpdateName } from "@/actions/user";
 import type { UserMetadata } from "@supabase/supabase-js";
+import { Loader2Icon } from "lucide-react";
 
 export default function AccountName({ userMetadata }: Readonly<{ userMetadata: UserMetadata }>) {
   const [name, setName] = useState<string>("");
@@ -23,6 +23,7 @@ export default function AccountName({ userMetadata }: Readonly<{ userMetadata: U
     <div className="flex flex-col gap-2">
       <Label htmlFor="name" className="text-text text-sm font-medium">
         Nom
+        {isUpdating && <Loader2Icon className="h-3 w-3 animate-spin" />}
       </Label>
 
       <div className="flex items-center gap-2">
@@ -37,7 +38,7 @@ export default function AccountName({ userMetadata }: Readonly<{ userMetadata: U
         />
 
         {isEditing ? (
-          <LoadingButton
+          <Button
             onClick={async () => {
               setIsUpdating(true);
 
@@ -66,10 +67,9 @@ export default function AccountName({ userMetadata }: Readonly<{ userMetadata: U
             }}
             variant="default"
             size="sm"
-            pending={isUpdating}
           >
             Enregistrer
-          </LoadingButton>
+          </Button>
         ) : (
           <Button onClick={() => setIsEditing(true)} variant="default" size="sm">
             Modifier
