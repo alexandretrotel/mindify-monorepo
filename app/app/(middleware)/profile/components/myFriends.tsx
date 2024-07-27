@@ -192,7 +192,7 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                             </Button>
                           </div>
                         </div>
-                        {friends.indexOf(friend) !== friends.length - 1 && (
+                        {filteredFriends.indexOf(friend) !== friends.length - 1 && (
                           <Separator className="my-4" />
                         )}
                       </div>
