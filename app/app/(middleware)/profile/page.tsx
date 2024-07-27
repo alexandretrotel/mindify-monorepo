@@ -25,6 +25,7 @@ import Friendship from "@/app/app/(middleware)/profile/components/buttons/friend
 import MyFriends from "@/app/app/(middleware)/profile/components/myFriends";
 import Friends from "@/app/app/(middleware)/profile/components/friends";
 import ReadingStreak from "@/app/app/(middleware)/profile/components/readingStreak";
+import TopicsList from "@/app/app/(middleware)/profile/components/topicsList";
 
 const Page = async ({
   searchParams
@@ -86,13 +87,9 @@ const Page = async ({
 
   return (
     <div className="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-4 md:gap-8">
-      <div className="flex w-full items-start justify-between gap-8">
+      <div className="flex w-full items-center justify-between gap-8">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col">
-            <TypographySpan size="sm" muted semibold>
-              Standard
-            </TypographySpan>
-
             <div className="flex items-center gap-2">
               <Avatar>
                 <AvatarImage src={profileMetadata?.avatar_url} alt={profileMetadata?.name} />
@@ -106,6 +103,7 @@ const Page = async ({
                   <TypographyH4AsSpan>{profileMetadata?.name}</TypographyH4AsSpan>
                   <ReadingStreak profileId={profileId} />
                 </div>
+
                 <TypographyP size="sm" muted>
                   {profileMetadata?.biography ?? "Aucune biographie"}
                 </TypographyP>
@@ -124,15 +122,7 @@ const Page = async ({
 
       <div className="flex w-full flex-wrap items-center gap-4">
         {!isMyProfile ? (
-          <>
-            <Friendship userId={userId} profileId={profileId} />
-
-            {isMyFriend && (
-              <Button size="sm" variant="destructive">
-                Bloquer
-              </Button>
-            )}
-          </>
+          <Friendship userId={userId} profileId={profileId} />
         ) : (
           <>
             <Button size="sm" disabled>
@@ -148,6 +138,14 @@ const Page = async ({
 
       <div className="flex w-full flex-col justify-between gap-8 lg:flex-row">
         <div className="flex max-w-2xl flex-col gap-8 lg:min-w-0 lg:grow">
+          <div className="flex flex-col gap-4">
+            <TypographySpan isDefaultColor size="lg" semibold>
+              Intérêts
+            </TypographySpan>
+
+            <TopicsList profileId={profileId} />
+          </div>
+
           <Tabs defaultValue="reads">
             <div className="flex flex-col gap-4">
               <div className="flex items-start justify-between gap-8">
