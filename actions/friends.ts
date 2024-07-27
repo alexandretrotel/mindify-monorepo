@@ -6,6 +6,7 @@ import { UUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { getUsersData } from "@/actions/user";
 import { friendStatus } from "@/types/user";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function askForFriend({ userId, profileId }: { userId: UUID; profileId: UUID }) {
   const supabase = createClient();
@@ -23,6 +24,26 @@ export async function askForFriend({ userId, profileId }: { userId: UUID; profil
 
   revalidatePath(`/app/profile/${profileId}`);
   return { message: "Demande d'ami envoyée avec succès." };
+}
+
+export async function cancelFriendRequest({
+  userId,
+  profileId
+}: {
+  userId: UUID;
+  profileId: UUID;
+}) {
+  const supabase = createClient();
+
+  try {
+    await supabase.from("user_friends").delete().eq("user_id", userId).eq("friend_id", profileId);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Impossible d'annuler la demande d'ami.");
+  }
+
+  revalidatePath(`/app/profile/${profileId}`);
+  return { message: "Demande d'ami annulée avec succès." };
 }
 
 export async function acceptFriendRequest({
@@ -145,9 +166,7 @@ export async function getFriendRequests({ userId }: { userId: UUID }) {
 }
 
 export async function getFriendsIds({ userId }: { userId: UUID }) {
-  const supabase = createClient();
-
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from("user_friends")
     .select("*")
     .eq("user_id", userId)
@@ -168,8 +187,8 @@ export async function getPendingFriendsIds({ userId }: { userId: UUID }) {
 
   const { data, error } = await supabase
     .from("user_friends")
-    .select("friend_id")
-    .eq("user_id", userId)
+    .select("user_id")
+    .eq("friend_id", userId)
     .eq("status", "pending");
 
   if (error) {
@@ -177,7 +196,7 @@ export async function getPendingFriendsIds({ userId }: { userId: UUID }) {
     throw new Error("Impossible de récupérer les amis en attente.");
   }
 
-  const pendingFriendsIds = data.flatMap((friend) => friend.friend_id) as UUID[];
+  const pendingFriendsIds = data.flatMap((friend) => friend.user_id) as UUID[];
 
   return pendingFriendsIds;
 }

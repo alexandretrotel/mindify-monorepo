@@ -1,7 +1,12 @@
 "use client";
 import "client-only";
 
-import { askForFriend, getFriendStatus, removeFriend } from "@/actions/friends";
+import {
+  askForFriend,
+  cancelFriendRequest,
+  getFriendStatus,
+  removeFriend
+} from "@/actions/friends";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
@@ -30,8 +35,12 @@ const Friendship = ({ userId, profileId }: { userId: UUID; profileId: UUID }) =>
 
   const { toast } = useToast();
 
-  const handleAskForFriend = async () => {
+  const handleAskForFriend = async ({ userId, profileId }: { userId: UUID; profileId: UUID }) => {
     if (isFriend) {
+      return;
+    }
+
+    if (friendStatus === "pending") {
       return;
     }
 
@@ -48,6 +57,7 @@ const Friendship = ({ userId, profileId }: { userId: UUID; profileId: UUID }) =>
     } catch (error) {
       console.error(error);
       setIsFriend(false);
+      setFriendStatus(undefined);
       toast({
         title: "Erreur",
         description: "Impossible d'envoyer la demande d'ami.",
@@ -56,7 +66,36 @@ const Friendship = ({ userId, profileId }: { userId: UUID; profileId: UUID }) =>
     }
   };
 
-  const handleRemoveFriend = async () => {
+  const handleCancelFriendRequest = async ({
+    userId,
+    profileId
+  }: {
+    userId: UUID;
+    profileId: UUID;
+  }) => {
+    setIsFriend(false);
+    setFriendStatus(undefined);
+
+    try {
+      await cancelFriendRequest({ userId, profileId });
+
+      toast({
+        title: "Demande annulée",
+        description: "La demande d'ami a été annulée avec succès."
+      });
+    } catch (error) {
+      console.error(error);
+      setIsFriend(true);
+      setFriendStatus("pending");
+      toast({
+        title: "Erreur",
+        description: "Impossible d'annuler la demande d'ami.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleRemoveFriend = async ({ userId, profileId }: { userId: UUID; profileId: UUID }) => {
     setIsFriend(false);
 
     try {
@@ -78,15 +117,19 @@ const Friendship = ({ userId, profileId }: { userId: UUID; profileId: UUID }) =>
 
   if (!isFriend && friendStatus === "pending") {
     return (
-      <Button size="sm" variant="outline" disabled>
-        Demande d&apos;ami envoyée
+      <Button
+        size="sm"
+        variant="destructive"
+        onClick={() => handleCancelFriendRequest({ userId, profileId })}
+      >
+        Annuler la demande d&apos;ami
       </Button>
     );
   }
 
   if (isFriend) {
     return (
-      <Button size="sm" variant="outline" onClick={handleRemoveFriend}>
+      <Button size="sm" variant="outline" onClick={() => handleRemoveFriend({ userId, profileId })}>
         Retirer de mes amis
       </Button>
     );
@@ -94,7 +137,7 @@ const Friendship = ({ userId, profileId }: { userId: UUID; profileId: UUID }) =>
 
   if (!isFriend) {
     return (
-      <Button size="sm" onClick={handleAskForFriend}>
+      <Button size="sm" onClick={() => handleAskForFriend({ userId, profileId })}>
         Demander en ami
       </Button>
     );

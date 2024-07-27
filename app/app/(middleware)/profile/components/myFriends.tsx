@@ -127,7 +127,7 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
           <TabsList>
             <TabsTrigger value="my-friends">Mes amis</TabsTrigger>
             <TabsTrigger value="friends-requests">
-              Demandes d&apos;amis ({pendingFriends.length})
+              Demandes d&apos;amis ({pendingFriends?.length ?? 0})
             </TabsTrigger>
           </TabsList>
         </div>
