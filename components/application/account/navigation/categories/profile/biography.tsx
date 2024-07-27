@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { userUpdateBiography } from "@/actions/user";
 import { useToast } from "@/components/ui/use-toast";
 import type { UserMetadata } from "@supabase/supabase-js";
+import { Loader2Icon } from "lucide-react";
 
 export default function AccountBiography({
   userMetadata
@@ -25,6 +26,7 @@ export default function AccountBiography({
     <div className="flex flex-col gap-2">
       <Label htmlFor="bio" className="text-text text-sm font-medium">
         Biographie
+        {isUpdating && <Loader2Icon className="h-3 w-3 animate-spin" />}
       </Label>
 
       <Textarea
@@ -37,7 +39,7 @@ export default function AccountBiography({
       />
 
       {isEditing ? (
-        <LoadingButton
+        <Button
           onClick={async () => {
             setIsUpdating(true);
 
@@ -66,10 +68,9 @@ export default function AccountBiography({
           }}
           variant="default"
           size="sm"
-          pending={isUpdating}
         >
           Enregistrer
-        </LoadingButton>
+        </Button>
       ) : (
         <Button onClick={() => setIsEditing(true)} variant="default" size="sm">
           Modifier
