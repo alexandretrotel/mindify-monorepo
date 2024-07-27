@@ -38,7 +38,11 @@ const TopicsList = ({ profileId }: { profileId: UUID }) => {
           <Button variant="outline">
             <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
               <Image
-                src={resolvedTheme === "dark" ? topic?.white_icon : topic?.black_icon}
+                src={
+                  resolvedTheme === "dark"
+                    ? (topic?.white_icon as string)
+                    : (topic?.black_icon as string)
+                }
                 alt={topic?.name}
                 fill={true}
                 className="object-cover"
