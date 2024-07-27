@@ -21,7 +21,7 @@ export default function AccountName({ userMetadata }: Readonly<{ userMetadata: U
 
   return (
     <div className="flex flex-col gap-2">
-      <Label htmlFor="name" className="text-text text-sm font-medium">
+      <Label htmlFor="name" className="flex items-center gap-2 text-sm font-medium">
         Nom
         {isUpdating && <Loader2Icon className="h-3 w-3 animate-spin" />}
       </Label>
