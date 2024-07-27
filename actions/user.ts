@@ -78,11 +78,11 @@ export async function userUpdateBiography(biography: string) {
 
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
-  "image/jpg",
   "image/png",
   "image/webp",
   "image/gif",
-  "image/svg+xml"
+  "image/avif",
+  "image/tiff"
 ];
 
 const avatarSchema = z.object({
@@ -110,7 +110,7 @@ export async function userUpdateAvatar(formData: FormData) {
     });
   } catch (error) {
     console.error(error);
-    throw new Error("L'image doit être de type jpeg, jpg, png ou webp et faire moins de 500 Ko.");
+    throw new Error("L'image doit être de type jpeg, jpg, png, tiff, webp ou avif.");
   }
 
   const fileName = `${userData.user.id}/avatar.webp`;
