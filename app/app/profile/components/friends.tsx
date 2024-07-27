@@ -13,6 +13,7 @@ import TypographyP from "@/components/typography/p";
 import { getFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
 import type { User, UserMetadata } from "@supabase/supabase-js";
+import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 
 const Friends = ({
   profileId,
@@ -57,8 +58,9 @@ const Friends = ({
                         <AvatarFallback>{friend.user_metadata.name.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
+                        <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>
                         <TypographyP size="xs" muted>
-                          {friend.user_metadata.description}
+                          {friend.user_metadata.biography ?? "Pas de biographie"}
                         </TypographyP>
                       </div>
                     </div>

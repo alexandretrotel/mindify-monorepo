@@ -85,7 +85,7 @@ const Friendship = ({ userId, profileId }: { userId: UUID; profileId: UUID }) =>
 
   if (isFriend) {
     return (
-      <Button size="sm" variant="outline" disabled onClick={handleRemoveFriend}>
+      <Button size="sm" variant="outline" onClick={handleRemoveFriend}>
         Retirer de mes amis
       </Button>
     );
@@ -93,7 +93,7 @@ const Friendship = ({ userId, profileId }: { userId: UUID; profileId: UUID }) =>
 
   if (!isFriend) {
     return (
-      <Button size="sm" variant="outline" onClick={handleAskForFriend}>
+      <Button size="sm" onClick={handleAskForFriend}>
         Ajouter en ami
       </Button>
     );

@@ -10,13 +10,19 @@ import { friendStatus } from "@/types/user";
 export async function askForFriend({ userId, profileId }: { userId: UUID; profileId: UUID }) {
   const supabase = await createClient();
 
-  const { error } = await supabase.from("user_friends").insert({
-    user_id: userId,
-    friend_id: profileId,
-    status: "pending"
-  });
+  try {
+    await supabase.from("user_friends").insert({
+      user_id: userId,
+      friend_id: profileId,
+      status: "pending"
+    });
 
-  if (error) {
+    await supabase.from("user_friends").insert({
+      user_id: profileId,
+      friend_id: userId,
+      status: "pending"
+    });
+  } catch (error) {
     console.error(error);
     throw new Error("Impossible d'envoyer la demande d'ami.");
   }
@@ -34,13 +40,19 @@ export async function acceptFriendRequest({
 }) {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from("user_friends")
-    .update({ status: "accepted" })
-    .eq("user_id", profileId)
-    .eq("friend_id", userId);
+  try {
+    await supabase.from("user_friends").upsert({
+      user_id: userId,
+      friend_id: profileId,
+      status: "accepted"
+    });
 
-  if (error) {
+    await supabase.from("user_friends").upsert({
+      user_id: profileId,
+      friend_id: userId,
+      status: "accepted"
+    });
+  } catch (error) {
     console.error(error);
     throw new Error("Impossible d'accepter la demande d'ami.");
   }
@@ -58,13 +70,10 @@ export async function rejectFriendRequest({
 }) {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from("user_friends")
-    .delete()
-    .eq("user_id", profileId)
-    .eq("friend_id", userId);
-
-  if (error) {
+  try {
+    await supabase.from("user_friends").delete().eq("user_id", profileId).eq("friend_id", userId);
+    await supabase.from("user_friends").delete().eq("user_id", userId).eq("friend_id", profileId);
+  } catch (error) {
     console.error(error);
     throw new Error("Impossible de rejeter la demande d'ami.");
   }
@@ -76,13 +85,10 @@ export async function rejectFriendRequest({
 export async function removeFriend({ userId, profileId }: { userId: UUID; profileId: UUID }) {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from("user_friends")
-    .delete()
-    .eq("user_id", userId)
-    .eq("friend_id", profileId);
-
-  if (error) {
+  try {
+    await supabase.from("user_friends").delete().eq("user_id", userId).eq("friend_id", profileId);
+    await supabase.from("user_friends").delete().eq("user_id", profileId).eq("friend_id", userId);
+  } catch (error) {
     console.error(error);
     throw new Error("Impossible de supprimer l'ami.");
   }
@@ -149,7 +155,7 @@ export async function getFriendsIds({ userId }: { userId: UUID }) {
 
   const { data, error } = await supabase
     .from("user_friends")
-    .select("friend_id")
+    .select("*")
     .eq("user_id", userId)
     .eq("status", "accepted");
 
@@ -201,16 +207,14 @@ export async function isFriend({ userId, profileId }: { userId: UUID; profileId:
 
 export async function getFriendsData({ userId }: { userId: UUID }) {
   const friendsIds = await getFriendsIds({ userId });
-
-  const friendsData = getUsersData({ usersIds: friendsIds });
+  const friendsData = await getUsersData({ usersIds: friendsIds });
 
   return friendsData;
 }
 
 export async function getPendingFriendsData({ userId }: { userId: UUID }) {
   const pendingFriendsIds = await getPendingFriendsIds({ userId });
-
-  const pendingFriendsData = getUsersData({ usersIds: pendingFriendsIds });
+  const pendingFriendsData = await getUsersData({ usersIds: pendingFriendsIds });
 
   return pendingFriendsData;
 }

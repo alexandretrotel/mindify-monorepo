@@ -12,7 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 import TypographyP from "@/components/typography/p";
-import TypographySpan from "@/components/typography/span";
 import {
   acceptFriendRequest,
   getFriendsData,
@@ -133,7 +132,9 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
         <div className="flex w-full items-center justify-between gap-8">
           <TabsList>
             <TabsTrigger value="my-friends">Mes amis</TabsTrigger>
-            <TabsTrigger value="friends-requests">Demandes d&apos;amis</TabsTrigger>
+            <TabsTrigger value="friends-requests">
+              Demandes d&apos;amis ({pendingFriends.length})
+            </TabsTrigger>
           </TabsList>
         </div>
 
@@ -151,7 +152,7 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                   friends.map((friend) => {
                     return (
                       <div key={friend.id}>
-                        <div className="flex flex-col gap-4">
+                        <div className="flex items-center justify-between gap-4">
                           <div className="flex items-center gap-4">
                             <Avatar>
                               <AvatarImage
@@ -161,8 +162,9 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                               <AvatarFallback>{friend.user_metadata.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
+                              <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>
                               <TypographyP size="xs" muted>
-                                {friend.user_metadata.description}
+                                {friend.user_metadata.biography ?? "Aucune biographie"}
                               </TypographyP>
                             </div>
                           </div>
@@ -175,14 +177,6 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                               >
                                 Voir le profil
                               </Link>
-                            </Button>
-
-                            <Button
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => handleRemoveFriend(friend.id as UUID)}
-                            >
-                              Supprimer
                             </Button>
                           </div>
                         </div>
@@ -210,12 +204,6 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                   <CardTitle>
                     <TypographyH3AsSpan>Demandes d&apos;amis</TypographyH3AsSpan>
                   </CardTitle>
-
-                  <div className="flex h-auto w-8 items-center justify-center rounded-full bg-primary p-2 text-center">
-                    <TypographySpan size="xs" muted={false}>
-                      {friends.length}
-                    </TypographySpan>
-                  </div>
                 </div>
               </CardHeader>
 
@@ -234,14 +222,9 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                               <AvatarFallback>{friend.user_metadata.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
-                              <div className="flex items-center gap-2">
-                                <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>
-                                {friend.user_metadata.online && (
-                                  <div className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
-                                )}
-                              </div>
+                              <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>
                               <TypographyP size="xs" muted>
-                                {friend.user_metadata.description}
+                                {friend.user_metadata.biography ?? "Aucune biographie"}
                               </TypographyP>
                             </div>
                           </div>

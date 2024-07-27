@@ -234,7 +234,7 @@ const Page = async ({
           </Tabs>
         </div>
 
-        <div className="flex w-full max-w-md flex-col gap-8">
+        <div className="flex w-full flex-col gap-8 lg:max-w-md">
           {isMyProfile ? (
             <MyFriends userId={userId} />
           ) : (
