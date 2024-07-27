@@ -133,7 +133,9 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
         <div className="flex w-full items-center justify-between gap-8">
           <TabsList>
             <TabsTrigger value="my-friends">Mes amis</TabsTrigger>
-            <TabsTrigger value="friends-requests">Demandes d&apos;amis</TabsTrigger>
+            <TabsTrigger value="friends-requests">
+              Demandes d&apos;amis ({pendingFriends.length})
+            </TabsTrigger>
           </TabsList>
         </div>
 
@@ -210,12 +212,6 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                   <CardTitle>
                     <TypographyH3AsSpan>Demandes d&apos;amis</TypographyH3AsSpan>
                   </CardTitle>
-
-                  <div className="flex h-auto w-8 items-center justify-center rounded-full bg-primary p-2 text-center">
-                    <TypographySpan size="xs" muted={false}>
-                      {friends.length}
-                    </TypographySpan>
-                  </div>
                 </div>
               </CardHeader>
 
