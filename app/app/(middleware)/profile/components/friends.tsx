@@ -52,8 +52,8 @@ const Friends = ({
                     <div className="flex items-center gap-4">
                       <Avatar>
                         <AvatarImage
-                          src={friend.user_metadata.avatar}
-                          alt={friend.user_metadata.name}
+                          src={friend?.user_metadata?.avatar_url}
+                          alt={friend?.user_metadata?.name ?? friend?.email?.split("@")[0]}
                         />
                         <AvatarFallback>
                           {friend?.user_metadata?.name
@@ -62,9 +62,11 @@ const Friends = ({
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
-                        <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>
+                        <TypographyH5AsSpan>
+                          {friend?.user_metadata?.name ?? friend?.email?.split("@")[0]}
+                        </TypographyH5AsSpan>
                         <TypographyP size="xs" muted>
-                          {friend.user_metadata.biography ?? "Pas de biographie"}
+                          {friend?.user_metadata?.biography ?? "Pas de biographie"}
                         </TypographyP>
                       </div>
                     </div>

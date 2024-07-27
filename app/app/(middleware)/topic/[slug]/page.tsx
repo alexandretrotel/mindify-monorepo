@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import type { Authors, Summaries } from "@/types/summary/summary";
 import type { Topics } from "@/types/topics/topics";
 import { createClient } from "@/utils/supabase/server";
+import type { UserMetadata } from "@supabase/supabase-js";
 import type { UUID } from "crypto";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -21,7 +22,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
     redirect("/");
   }
 
-  const userMetadata = data.user.user_metadata;
+  const userMetadata: UserMetadata = data.user.user_metadata;
   const userId = data.user.id as UUID;
 
   const { data: topics } = await supabase.from("topics").select("*");

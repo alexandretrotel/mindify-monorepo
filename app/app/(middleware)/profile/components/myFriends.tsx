@@ -162,8 +162,8 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                           <div className="flex items-center gap-4">
                             <Avatar>
                               <AvatarImage
-                                src={friend.user_metadata.avatar_url}
-                                alt={friend.user_metadata.name}
+                                src={friend?.user_metadata?.avatar_url}
+                                alt={friend?.user_metadata?.name ?? friend?.email?.split("@")[0]}
                               />
                               <AvatarFallback>
                                 {friend.user_metadata?.name
@@ -172,9 +172,11 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                               </AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
-                              <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>
+                              <TypographyH5AsSpan>
+                                {friend?.user_metadata?.name ?? friend?.email?.split("@")[0]}
+                              </TypographyH5AsSpan>
                               <TypographyP size="xs" muted>
-                                {friend.user_metadata.biography ?? "Aucune biographie"}
+                                {friend?.user_metadata?.biography ?? "Aucune biographie"}
                               </TypographyP>
                             </div>
                           </div>
@@ -226,8 +228,8 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                           <div className="flex items-center gap-4">
                             <Avatar>
                               <AvatarImage
-                                src={friend.user_metadata.avatar_url}
-                                alt={friend.user_metadata.name}
+                                src={friend?.user_metadata?.avatar_url}
+                                alt={friend?.user_metadata?.name ?? friend?.email?.split("@")[0]}
                               />
                               <AvatarFallback>
                                 {friend?.user_metadata?.name
@@ -236,9 +238,11 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                               </AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
-                              <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>
+                              <TypographyH5AsSpan>
+                                {friend?.user_metadata?.name ?? friend?.email?.split("@")[0]}
+                              </TypographyH5AsSpan>
                               <TypographyP size="xs" muted>
-                                {friend.user_metadata.biography ?? "Aucune biographie"}
+                                {friend?.user_metadata?.biography ?? "Aucune biographie"}
                               </TypographyP>
                             </div>
                           </div>

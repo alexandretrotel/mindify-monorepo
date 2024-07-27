@@ -19,6 +19,7 @@ import AddToLibraryButton from "@/components/(application)/summary/[author_slug]
 import MarkAsReadButton from "@/components/(application)/summary/[author_slug]/[slug]/markAsReadButton";
 import BookCover from "@/components/global/bookCover";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import type { UserMetadata } from "@supabase/supabase-js";
 
 const Page = async ({ params }: { params: { author_slug: string; slug: string } }) => {
   const { slug, author_slug } = params;
@@ -31,8 +32,8 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
     redirect("/");
   }
 
-  const userMetadata = data.user.user_metadata;
-  const userId = data.user.id as UUID;
+  const userMetadata: UserMetadata = data?.user?.user_metadata;
+  const userId = data?.user?.id as UUID;
 
   const { data: topics } = await supabase.from("topics").select("*");
 

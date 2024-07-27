@@ -15,14 +15,16 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
 
   const weekReadsData = Array.from({ length: 7 }, (_, i) => {
     const date = new Date();
-    date.setDate(date.getDate() - (6 - i));
+    date.setDate(date?.getDate() - (6 - i));
     const formattedDate = date.toISOString().split("T")[0];
     const reads = userReads?.filter((read) => {
-      const readDate = new Date(read.created_at);
+      const readDate = new Date(read?.created_at);
+      if (!readDate) return false;
+
       return (
-        readDate.getDate() === date.getDate() &&
-        readDate.getMonth() === date.getMonth() &&
-        readDate.getFullYear() === date.getFullYear()
+        readDate?.getDate() === date?.getDate() &&
+        readDate?.getMonth() === date?.getMonth() &&
+        readDate?.getFullYear() === date?.getFullYear()
       );
     }).length;
     return { date: formattedDate, reads };
@@ -37,11 +39,13 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
   const weekReadTimeData = dateRange.map((date: Date) => {
     const formattedDate = date.toISOString().split("T")[0];
     const reads = userReads?.filter((read) => {
-      const readDate = new Date(read.created_at);
+      const readDate = new Date(read?.created_at);
+      if (!readDate) return false;
+
       return (
-        readDate.getDate() === date.getDate() &&
-        readDate.getMonth() === date.getMonth() &&
-        readDate.getFullYear() === date.getFullYear()
+        readDate?.getDate() === date?.getDate() &&
+        readDate?.getMonth() === date?.getMonth() &&
+        readDate?.getFullYear() === date?.getFullYear()
       );
     });
     const time = reads.reduce((acc, read) => {
