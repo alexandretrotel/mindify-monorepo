@@ -19,12 +19,12 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { redirect } from "next/navigation";
 import { supabaseAdmin } from "@/utils/supabase/admin";
-import CopyProfileLinkButton from "@/app/app/profile/components/buttons/copyProfileLink";
+import CopyProfileLinkButton from "@/app/app/(middleware)/profile/components/buttons/copyProfileLink";
 import { isFriend } from "@/actions/friends";
-import Friendship from "@/app/app/profile/components/buttons/friendship";
-import MyFriends from "@/app/app/profile/components/myFriends";
-import Friends from "@/app/app/profile/components/friends";
-import ReadingStreak from "@/app/app/profile/components/readingStreak";
+import Friendship from "@/app/app/(middleware)/profile/components/buttons/friendship";
+import MyFriends from "@/app/app/(middleware)/profile/components/myFriends";
+import Friends from "@/app/app/(middleware)/profile/components/friends";
+import ReadingStreak from "@/app/app/(middleware)/profile/components/readingStreak";
 
 const Page = async ({
   searchParams
