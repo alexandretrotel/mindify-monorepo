@@ -72,7 +72,10 @@ const Discover = ({
                 ?.map((summary) => {
                   return (
                     <CarouselItem key={summary.id} className="basis-1/2 pl-4 lg:basis-1/3">
-                      <Link href={`/app/summary/${summary.author_slug}/${summary.slug}`}>
+                      <Link
+                        href={`/app/summary/${summary.author_slug}/${summary.slug}`}
+                        className="h-full"
+                      >
                         <BookCover
                           title={summary.title}
                           author={summary.author}
@@ -161,7 +164,10 @@ const Discover = ({
               {popularSummaries?.slice(0, 15)?.map((summary) => {
                 return (
                   <CarouselItem key={summary.id} className="basis-1/2 pl-4 lg:basis-1/3">
-                    <Link href={`/app/summary/${summary.author_slug}/${summary.slug}`}>
+                    <Link
+                      href={`/app/summary/${summary.author_slug}/${summary.slug}`}
+                      className="h-full"
+                    >
                       <BookCover
                         title={summary.title}
                         author={summary.author}
@@ -199,7 +205,10 @@ const Discover = ({
                 {savedSummaries?.map((summary) => {
                   return (
                     <CarouselItem key={summary.id} className="basis-1/2 pl-4 lg:basis-1/3">
-                      <Link href={`/app/summary/${summary.author_slug}/${summary.slug}`}>
+                      <Link
+                        href={`/app/summary/${summary.author_slug}/${summary.slug}`}
+                        className="h-full"
+                      >
                         <BookCover
                           title={summary.title}
                           author={summary.author}

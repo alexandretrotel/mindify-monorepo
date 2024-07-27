@@ -1,9 +1,12 @@
 "use server";
 import "server-only";
 
+import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { UUID } from "crypto";
+import type { User } from "@supabase/supabase-js";
 
 const nameSchema = z.object({
   name: z
@@ -141,4 +144,23 @@ export async function userUpdateAvatar(formData: FormData) {
 
   revalidatePath("/", "layout");
   return { message: "Avatar mis à jour avec succès." };
+}
+
+export async function getUsersData({ usersIds }: { usersIds: UUID[] }) {
+  let users: User[] = [];
+
+  usersIds.forEach(async (userId) => {
+    const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
+
+    if (error) {
+      console.error(error);
+      throw new Error("Impossible de récupérer les amis.");
+    }
+
+    if (data) {
+      users.push(data.user);
+    }
+  });
+
+  return users;
 }
