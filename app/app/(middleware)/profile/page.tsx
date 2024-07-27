@@ -89,11 +89,9 @@ const Page = async ({
       <div className="flex w-full items-start justify-between gap-8">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col">
-            {isMyProfile && (
-              <TypographySpan size="sm" muted semibold>
-                Standard
-              </TypographySpan>
-            )}
+            <TypographySpan size="sm" muted semibold>
+              Standard
+            </TypographySpan>
 
             <div className="flex items-center gap-2">
               <Avatar>

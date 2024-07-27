@@ -58,13 +58,13 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     images: [
       {
-        url: "https://mindify.fr/og-image.png",
+        url: "/og-image.png",
         width: 600,
         height: 600,
         alt: "Mindify"
       },
       {
-        url: "https://mindify.fr/og-alt.png",
+        url: "/og-alt.png",
         width: 1800,
         height: 1600,
         alt: "Mindify"
@@ -93,14 +93,14 @@ export const metadata: Metadata = {
       url: "/ios/512.png"
     }
   },
-  manifest: "https://mindify.fr/manifest.json",
+  manifest: "/manifest.json",
   twitter: {
     card: "summary_large_image",
     title: "Mindify",
     creator: "@trotelalexandre",
     description:
       "Mindify est une plateforme vous permettant d'élargir vos connaissances à partir de résumés de livres, de podcasts et de vidéos.",
-    images: { url: "https://mindify.fr/og-image.png", alt: "Mindify" }
+    images: { url: "/og-image.png", alt: "Mindify" }
   },
   appleWebApp: {
     title: "Mindify",
