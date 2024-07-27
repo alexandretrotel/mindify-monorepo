@@ -142,7 +142,7 @@ export async function userUpdateAvatar(formData: FormData) {
 
   const { error: updateAvatarUrlError } = await supabase.auth.updateUser({
     data: {
-      avatar_url: avatarUrl.publicUrl
+      picture: avatarUrl.publicUrl
     }
   });
 

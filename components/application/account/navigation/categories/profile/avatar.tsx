@@ -72,7 +72,7 @@ export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata:
         </Label>
         <div className="flex items-center gap-2">
           <Avatar>
-            <AvatarImage src={userMetadata.avatar_url} alt={userMetadata.name} />
+            <AvatarImage src={userMetadata.picture} alt={userMetadata.name} />
             <AvatarFallback>
               {userMetadata?.name ? userMetadata?.name?.charAt(0) : "J"}
             </AvatarFallback>
