@@ -48,7 +48,7 @@ const Friends = ({
             friends?.map((friend) => {
               return (
                 <>
-                  <div key={friend.id} className="flex flex-col gap-4">
+                  <div key={friend.id} className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
                       <Avatar>
                         <AvatarImage

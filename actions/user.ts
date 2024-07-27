@@ -162,3 +162,33 @@ export async function getUsersData({ usersIds }: { usersIds: UUID[] }) {
 
   return users;
 }
+
+export async function getUserReadingStreak({ userId }: { userId: UUID }) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("user_reads")
+    .select("read_at")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+  const dates = data?.flatMap((read) => new Date(read.read_at)) ?? [];
+
+  const currentDate = new Date();
+  const streak = dates.reduce((acc, date) => {
+    const diff = currentDate.getTime() - date.getTime();
+    const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+
+    if (diffDays === acc) {
+      return acc - 1;
+    }
+
+    return acc;
+  }, dates.length);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer la série de lecture.");
+  }
+
+  return streak;
+}
