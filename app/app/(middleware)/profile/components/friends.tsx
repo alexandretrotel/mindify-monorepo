@@ -72,7 +72,7 @@ const Friends = ({
                     </div>
 
                     <div className="flex items-center gap-4">
-                      <Button variant="outline" size="sm" asChild>
+                      <Button variant="secondary" size="sm" asChild>
                         <Link
                           href={`/app/profile?profileId=${friend.id}`}
                           className="flex items-center"
