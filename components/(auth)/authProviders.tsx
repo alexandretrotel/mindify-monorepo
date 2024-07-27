@@ -1,55 +1,114 @@
+"use client";
+import "client-only";
+
+import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signInWithEmail, signInWithSocials } from "@/actions/auth";
+import {
+  signInWithEmail,
+  signInWithPassword,
+  signInWithSocials,
+  signUpWithPassword
+} from "@/actions/auth";
 import { SubmitButton } from "@/components/global/buttons/submitButton";
 import type { SocialProvider } from "@/types/auth/providers";
-import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
-const providerSchema = z.custom<SocialProvider>();
+export default function AuthProviders({ isSignup }: Readonly<{ isSignup: boolean }>) {
+  const [password, setPassword] = React.useState<string | undefined>(undefined);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-export default function AuthProviders({ isSignup }: Readonly<{ isSignup?: boolean }>) {
-  const handleSignInWithSocials = async (formData: FormData) => {
-    "use server";
+  const { toast } = useToast();
 
-    let provider;
-
-    try {
-      provider = providerSchema.parse(formData.get("provider"));
-    } catch (error) {
-      console.error(error);
+  const handleSignInWithSocials = async (provider: SocialProvider) => {
+    if (isLoading) {
       return;
     }
 
-    if (provider) {
+    setIsLoading(true);
+
+    try {
       await signInWithSocials(provider);
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Impossible de se connecter avec ce fournisseur.",
+        variant: "destructive"
+      });
     }
+
+    setIsLoading(false);
+  };
+
+  const handleSignUpOrSignIn = async (formData: FormData) => {
+    if (isLoading) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    if (isSignup) {
+      try {
+        await signUpWithPassword(formData);
+      } catch (error) {
+        toast({
+          title: "Erreur",
+          description: "Impossible de s'inscrire.",
+          variant: "destructive"
+        });
+      }
+    } else {
+      try {
+        await signInWithPassword(formData);
+      } catch (error) {
+        toast({
+          title: "Erreur",
+          description: "Impossible de se connecter.",
+          variant: "destructive"
+        });
+      }
+    }
+
+    setIsLoading(false);
   };
 
   return (
     <div className="grid gap-4">
-      <form action={signInWithEmail} className="grid gap-4" method="post">
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" name="email" placeholder="jean@mindify.fr" required />
+      <form action={handleSignUpOrSignIn} className="grid gap-4" method="post">
+        <div className="grid gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" type="email" name="email" placeholder="jean@mindify.fr" required />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="password">Mot de passe</Label>
+            <Input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="***********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
         </div>
         <SubmitButton>{isSignup ? "S'inscrire" : "Se connecter"}</SubmitButton>
       </form>
-      <form action={handleSignInWithSocials} method="post">
-        <input type="hidden" name="provider" value="google" />
-        <SubmitButton outline>{isSignup ? "S'inscrire" : "Se connecter"} avec Google</SubmitButton>
-      </form>
-      <form action={handleSignInWithSocials} method="post">
-        <input type="hidden" name="provider" value="facebook" />
-        <SubmitButton outline>
-          {isSignup ? "S'inscrire" : "Se connecter"} avec Facebook
-        </SubmitButton>
-      </form>
-      <form action={handleSignInWithSocials} method="post">
-        <input type="hidden" name="provider" value="linkedin_oidc" />
-        <SubmitButton outline>
-          {isSignup ? "S'inscrire" : "Se connecter"} avec Linkedin
-        </SubmitButton>
-      </form>
+
+      <Button variant="outline" onClick={() => handleSignInWithSocials("google")}>
+        {isSignup ? "S'inscrire" : "Se connecter"} avec Google
+      </Button>
+
+      <Button variant="outline" onClick={() => handleSignInWithSocials("facebook")}>
+        {isSignup ? "S'inscrire" : "Se connecter"} avec Facebook
+      </Button>
+
+      <Button variant="outline" onClick={() => handleSignInWithSocials("linkedin_oidc")}>
+        {isSignup ? "S'inscrire" : "Se connecter"} avec Linkedin
+      </Button>
     </div>
   );
 }

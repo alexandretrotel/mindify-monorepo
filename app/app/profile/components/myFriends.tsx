@@ -22,10 +22,13 @@ import {
 import { UUID } from "crypto";
 import type { User } from "@supabase/supabase-js";
 import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
+import Fuse from "fuse.js";
 
 const MyFriends = ({ userId }: { userId: UUID }) => {
   const [pendingFriends, setPendingFriends] = React.useState<User[]>([]);
   const [friends, setFriends] = React.useState<User[]>([]);
+  const [friendsFilter, setFriendsFilter] = React.useState<string | undefined>(undefined);
 
   const { toast } = useToast();
 
@@ -126,6 +129,14 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
     }
   };
 
+  const fuse = new Fuse(friends, {
+    keys: ["user_metadata.name", "user_metadata.biography"]
+  });
+
+  const filteredFriends = friendsFilter
+    ? fuse.search(friendsFilter).map((result) => result.item)
+    : friends;
+
   return (
     <Tabs defaultValue="my-friends">
       <div className="flex flex-col gap-4">
@@ -143,13 +154,25 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
             <ScrollArea className="h-96 w-full">
               <CardHeader>
                 <CardTitle>
-                  <TypographyH3AsSpan>Mes amis</TypographyH3AsSpan>
+                  <div className="flex w-full items-center justify-between gap-4">
+                    <div className="flex-shrink-0">
+                      <TypographyH3AsSpan>Mes amis</TypographyH3AsSpan>
+                    </div>
+
+                    <div className="w-fit">
+                      <Input
+                        placeholder="Rechercher un ami"
+                        value={friendsFilter ?? ""}
+                        onChange={(e) => setFriendsFilter(e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </CardTitle>
               </CardHeader>
 
               <CardContent>
-                {friends?.length > 0 ? (
-                  friends.map((friend) => {
+                {filteredFriends?.length > 0 ? (
+                  filteredFriends.map((friend) => {
                     return (
                       <div key={friend.id}>
                         <div className="flex items-center justify-between gap-4">
@@ -188,7 +211,7 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                   })
                 ) : (
                   <TypographyP size="sm" muted>
-                    Vous n&apos;avez pas encore d&apos;amis.
+                    Aucun ami trouvé.
                   </TypographyP>
                 )}
               </CardContent>

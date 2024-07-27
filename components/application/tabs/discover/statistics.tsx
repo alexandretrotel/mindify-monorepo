@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpRightIcon } from "lucide-react";
 import type { UserReads } from "@/types/user";
 import type { Summaries } from "@/types/summary/summary";
-import { getDateRange } from "@/utils/date";
+import { getDateRangeUntilNow } from "@/utils/date";
 import Link from "next/link";
 
 const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries: Summaries }) => {
@@ -31,11 +31,10 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
   const minDate = new Date(
     Math.min(...userReads.map((read) => new Date(read.created_at).getTime()))
   );
-  const maxDate = new Date();
 
-  const dateRange = getDateRange(minDate, maxDate);
+  const dateRange = getDateRangeUntilNow(minDate);
 
-  const weekReadTimeData = dateRange.map((date) => {
+  const weekReadTimeData = dateRange.map((date: Date) => {
     const formattedDate = date.toISOString().split("T")[0];
     const reads = userReads?.filter((read) => {
       const readDate = new Date(read.created_at);

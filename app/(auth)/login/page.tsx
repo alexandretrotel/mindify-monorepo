@@ -11,7 +11,7 @@ export default function LoginForm() {
         <CardDescription>Rentre ton mail pour te connecter à ton compte.</CardDescription>
       </CardHeader>
       <CardContent>
-        <AuthProviders />
+        <AuthProviders isSignup={false} />
         <div className="mt-4 text-center text-sm">
           Pas encore de compte?{" "}
           <Link href="/signup" className="underline">

@@ -10,7 +10,7 @@ export default function SignupForm() {
         <CardDescription>Rentre tes informations pour créer ton compte.</CardDescription>
       </CardHeader>
       <CardContent>
-        <AuthProviders isSignup />
+        <AuthProviders isSignup={true} />
         <div className="mt-4 text-center text-sm">
           Déjà un compte?{" "}
           <Link href="/login" className="underline">

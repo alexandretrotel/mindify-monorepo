@@ -24,6 +24,7 @@ import { isFriend } from "@/actions/friends";
 import Friendship from "@/app/app/profile/components/buttons/friendship";
 import MyFriends from "@/app/app/profile/components/myFriends";
 import Friends from "@/app/app/profile/components/friends";
+import ReadingStreak from "@/app/app/profile/components/readingStreak";
 
 const Page = async ({
   searchParams
@@ -101,7 +102,10 @@ const Page = async ({
               </Avatar>
 
               <div className="flex flex-col">
-                <TypographyH4AsSpan>{profileMetadata?.name}</TypographyH4AsSpan>
+                <div className="flex items-center gap-2">
+                  <TypographyH4AsSpan>{profileMetadata?.name}</TypographyH4AsSpan>
+                  <ReadingStreak profileId={profileId} />
+                </div>
                 <TypographyP size="sm" muted>
                   {profileMetadata?.biography ?? "Aucune biographie"}
                 </TypographyP>
