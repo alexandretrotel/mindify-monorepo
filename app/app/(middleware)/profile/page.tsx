@@ -98,7 +98,9 @@ const Page = async ({
             <div className="flex items-center gap-2">
               <Avatar>
                 <AvatarImage src={profileMetadata?.avatar_url} alt={profileMetadata?.name} />
-                <AvatarFallback>{profileMetadata?.name.charAt(0)}</AvatarFallback>
+                <AvatarFallback>
+                  {profileMetadata?.name ? profileMetadata?.name ? profileMetadata?.name?.charAt(0) : "J" : "J"}
+                </AvatarFallback>
               </Avatar>
 
               <div className="flex flex-col">

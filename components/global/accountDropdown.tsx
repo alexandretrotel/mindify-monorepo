@@ -48,7 +48,7 @@ const AccountDropdown = ({
         <DropdownMenuTrigger>
           <Avatar>
             <AvatarImage src={userMetadata.avatar_url} alt={userMetadata.name} />
-            <AvatarFallback>{userMetadata.name.charAt(0)}</AvatarFallback>
+            <AvatarFallback>{profileMetadata?.name ? profileMetadata?.name?.charAt(0) : "J"}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
 
