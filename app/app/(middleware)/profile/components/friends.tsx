@@ -55,7 +55,11 @@ const Friends = ({
                           src={friend.user_metadata.avatar}
                           alt={friend.user_metadata.name}
                         />
-                        <AvatarFallback>{friend.user_metadata.name.charAt(0)}</AvatarFallback>
+                        <AvatarFallback>
+                          {friend?.user_metadata?.name
+                            ? friend?.user_metadata?.name?.charAt(0)
+                            : "J"}
+                        </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
                         <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>

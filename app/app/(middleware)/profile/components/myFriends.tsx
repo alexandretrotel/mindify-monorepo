@@ -16,8 +16,7 @@ import {
   acceptFriendRequest,
   getFriendsData,
   getPendingFriendsData,
-  rejectFriendRequest,
-  removeFriend
+  rejectFriendRequest
 } from "@/actions/friends";
 import { UUID } from "crypto";
 import type { User } from "@supabase/supabase-js";
@@ -52,27 +51,6 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
     fetchPendingFriends();
   }, [userId]);
 
-  const handleRemoveFriend = async (friendId: UUID) => {
-    setFriends(friends.filter((friend) => friend.id !== friendId));
-
-    try {
-      await removeFriend({ userId, profileId: friendId });
-
-      toast({
-        title: "Ami supprimé",
-        description: "L'ami a été supprimé avec succès."
-      });
-    } catch (error) {
-      console.error(error);
-      toast({
-        title: "Erreur",
-        description: "Impossible de supprimer l'ami.",
-        variant: "destructive"
-      });
-      setFriends(friends);
-    }
-  };
-
   const handleAcceptFriendRequest = async ({
     userId,
     profileId
@@ -80,6 +58,9 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
     userId: UUID;
     profileId: UUID;
   }) => {
+    const initialFriends = friends;
+    const initialPendingFriends = pendingFriends;
+
     setPendingFriends(pendingFriends.filter((friend) => friend.id !== profileId));
     setFriends([...friends, pendingFriends.find((friend) => friend.id === profileId) as User]);
 
@@ -97,8 +78,8 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
         description: "Impossible d'accepter la demande d'ami.",
         variant: "destructive"
       });
-      setPendingFriends(pendingFriends);
-      setFriends(friends);
+      setPendingFriends(initialPendingFriends);
+      setFriends(initialFriends);
     }
   };
 
@@ -109,6 +90,8 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
     userId: UUID;
     profileId: UUID;
   }) => {
+    const initialPendingFriends = pendingFriends;
+
     setPendingFriends(pendingFriends.filter((friend) => friend.id !== profileId));
 
     try {
@@ -125,7 +108,7 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
         description: "Impossible de rejeter la demande d'ami.",
         variant: "destructive"
       });
-      setPendingFriends(pendingFriends);
+      setPendingFriends(initialPendingFriends);
     }
   };
 
@@ -182,7 +165,11 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                                 src={friend.user_metadata.avatar_url}
                                 alt={friend.user_metadata.name}
                               />
-                              <AvatarFallback>{friend.user_metadata.name.charAt(0)}</AvatarFallback>
+                              <AvatarFallback>
+                                {friend.user_metadata?.name
+                                  ? friend?.user_metadata?.name?.charAt(0)
+                                  : "J"}
+                              </AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
                               <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>
@@ -242,7 +229,11 @@ const MyFriends = ({ userId }: { userId: UUID }) => {
                                 src={friend.user_metadata.avatar_url}
                                 alt={friend.user_metadata.name}
                               />
-                              <AvatarFallback>{friend.user_metadata.name.charAt(0)}</AvatarFallback>
+                              <AvatarFallback>
+                                {friend?.user_metadata?.name
+                                  ? friend?.user_metadata?.name?.charAt(0)
+                                  : "J"}
+                              </AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
                               <TypographyH5AsSpan>{friend.user_metadata.name}</TypographyH5AsSpan>

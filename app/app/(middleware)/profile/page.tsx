@@ -99,7 +99,7 @@ const Page = async ({
               <Avatar>
                 <AvatarImage src={profileMetadata?.avatar_url} alt={profileMetadata?.name} />
                 <AvatarFallback>
-                  {profileMetadata?.name ? profileMetadata?.name ? profileMetadata?.name?.charAt(0) : "J" : "J"}
+                  {profileMetadata?.name ? profileMetadata?.name?.charAt(0) : "J"}
                 </AvatarFallback>
               </Avatar>
 

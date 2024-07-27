@@ -89,7 +89,9 @@ export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata:
         <div className="flex items-center gap-2">
           <Avatar>
             <AvatarImage src={userMetadata.avatar_url} alt={userMetadata.name} />
-            <AvatarFallback>{profileMetadata?.name ? profileMetadata?.name?.charAt(0) : "J"}</AvatarFallback>
+            <AvatarFallback>
+              {userMetadata?.name ? userMetadata?.name?.charAt(0) : "J"}
+            </AvatarFallback>
           </Avatar>
           <DialogTrigger asChild>
             <Button variant="ghost" size="sm">
