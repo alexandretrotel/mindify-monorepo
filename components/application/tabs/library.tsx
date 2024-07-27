@@ -215,7 +215,11 @@ const Library = ({
       {filteredSummaries?.length > 0 ? (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {filteredSummaries?.map((summary) => (
-            <Link href={`/app/summary/${summary.author_slug}/${summary.slug}`} key={summary.id}>
+            <Link
+              key={summary.id}
+              href={`/app/summary/${summary.author_slug}/${summary.slug}`}
+              className="h-full"
+            >
               <BookCover
                 title={summary.title}
                 author={summary.author}

@@ -63,7 +63,11 @@ const SummariesByCategory = ({ topic, summaries }: { topic: Topic; summaries: Su
       {/* Summaries */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {paginatedSummaries?.map((summary) => (
-          <Link href={`/app/summary/${summary.author_slug}/${summary.slug}`} key={summary.id}>
+          <Link
+            key={summary.id}
+            href={`/app/summary/${summary.author_slug}/${summary.slug}`}
+            className="h-full"
+          >
             <BookCover
               title={summary.title}
               author={summary.author}

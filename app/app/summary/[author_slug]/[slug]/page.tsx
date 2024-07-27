@@ -296,6 +296,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
                       <Link
                         key={summary.id}
                         href={`/app/summary/${summary.author_slug}/${summary.slug}`}
+                        className="h-full"
                       >
                         <BookCover
                           title={summary.title}
