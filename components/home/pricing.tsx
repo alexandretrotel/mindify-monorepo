@@ -91,7 +91,7 @@ export default function Pricing() {
             </CardContent>
             <CardFooter>
               <Button className="w-full" variant={"outline"} asChild>
-                <Link href="/signup">S&apos;inscrire</Link>
+                <Link href="/app/signup">S&apos;inscrire</Link>
               </Button>
             </CardFooter>
           </Card>

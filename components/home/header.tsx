@@ -84,7 +84,7 @@ export default function Header({ isUserConnected }: { isUserConnected: boolean }
             {isUserConnected ? (
               <Link href="/app">Lancer l&apos;app</Link>
             ) : (
-              <Link href="/login">Se connecter</Link>
+              <Link href="/app/login">Se connecter</Link>
             )}
           </Button>
           <ToggleTheme />
@@ -132,7 +132,7 @@ export default function Header({ isUserConnected }: { isUserConnected: boolean }
                   {isUserConnected ? (
                     <Link href="/app">Lancer l&apos;app</Link>
                   ) : (
-                    <Link href="/login">Se connecter</Link>
+                    <Link href="/app/login">Se connecter</Link>
                   )}
                 </Button>
               </div>
