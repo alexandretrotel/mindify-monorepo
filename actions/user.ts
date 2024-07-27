@@ -1,6 +1,7 @@
 "use server";
 import "server-only";
 
+import sharp from "sharp";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
@@ -75,16 +76,18 @@ export async function userUpdateBiography(biography: string) {
   return { bio: bioData.bio, message: "Biographie mise à jour avec succès." };
 }
 
-const MAX_FILE_SIZE = 2000000; // 2MB
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/svg+xml"
+];
 
 const avatarSchema = z.object({
   image: z
     .any()
-    .refine(
-      (file: File) => file?.size <= MAX_FILE_SIZE,
-      `La taille de l'image doit être inférieure à ${MAX_FILE_SIZE / 1000000} Mo.`
-    )
     .refine(
       (file: File) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
       "Le type de fichier doit être une image (jpeg, jpg, png, webp)."
@@ -110,19 +113,25 @@ export async function userUpdateAvatar(formData: FormData) {
     throw new Error("L'image doit être de type jpeg, jpg, png ou webp et faire moins de 500 Ko.");
   }
 
-  const fileExtension = avatarData.image.name.split(".").pop();
-  const fileName = `${userData.user.id}/avatar.${fileExtension}`;
+  const fileName = `${userData.user.id}/avatar.webp`;
+
+  const imageBuffer = await avatarData.image.arrayBuffer();
+  const processedImageBuffer = await sharp(Buffer.from(imageBuffer))
+    .resize(200, 200)
+    .toFormat("webp")
+    .toBuffer();
 
   const { error: updateAvatarError } = await supabase.storage
     .from("avatars")
-    .upload(fileName, avatarData.image, {
+    .upload(fileName, processedImageBuffer, {
       cacheControl: "3600",
-      upsert: true
+      upsert: true,
+      contentType: "image/webp"
     });
 
   if (updateAvatarError) {
     console.error(updateAvatarError);
-    throw new Error("Impossible de mettre à jour l'avatar.");
+    throw new Error("Impossible de télécharger l'avatar.");
   }
 
   const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
