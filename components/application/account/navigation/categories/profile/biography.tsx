@@ -1,4 +1,3 @@
-import { LoadingButton } from "@/components/global/buttons/loadingButton";
 import TypographySpan from "@/components/typography/span";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -24,7 +23,7 @@ export default function AccountBiography({
 
   return (
     <div className="flex flex-col gap-2">
-      <Label htmlFor="bio" className="text-text text-sm font-medium">
+      <Label htmlFor="bio" className="flex items-center gap-2 text-sm font-medium">
         Biographie
         {isUpdating && <Loader2Icon className="h-3 w-3 animate-spin" />}
       </Label>

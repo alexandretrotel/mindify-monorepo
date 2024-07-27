@@ -66,7 +66,7 @@ export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata:
   return (
     <div className="flex flex-col gap-2">
       <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
-        <Label htmlFor="username" className="text-text text-sm font-medium">
+        <Label htmlFor="username" className="flex items-center gap-2 text-sm font-medium">
           Avatar
           {isUpdating && <Loader2Icon className="h-3 w-3 animate-spin" />}
         </Label>

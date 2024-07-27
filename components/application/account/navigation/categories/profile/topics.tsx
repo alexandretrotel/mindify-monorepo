@@ -84,7 +84,7 @@ const Topics = ({
 
   return (
     <div className="flex flex-col gap-2">
-      <Label htmlFor="topics" className="text-text flex items-center gap-2 text-sm font-medium">
+      <Label htmlFor="topics" className="flex items-center gap-2 text-sm font-medium">
         Intérêts
         {isLoading?.some((loading) => loading) && <Loader2Icon className="h-3 w-3 animate-spin" />}
       </Label>

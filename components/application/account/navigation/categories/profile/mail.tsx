@@ -6,7 +6,7 @@ import type { UserMetadata } from "@supabase/supabase-js";
 export default function AccountMail({ userMetadata }: Readonly<{ userMetadata: UserMetadata }>) {
   return (
     <div className="flex flex-col gap-2">
-      <Label htmlFor="email" className="text-text text-sm font-medium">
+      <Label htmlFor="email" className="flex items-center gap-2 text-sm font-medium">
         Email
       </Label>
       <Input
