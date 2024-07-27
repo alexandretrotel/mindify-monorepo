@@ -20,22 +20,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { userUpdateAvatar } from "@/actions/user";
 import { LoadingButton } from "@/components/global/buttons/loadingButton";
 
-const MAX_FILE_SIZE = 2000000; // 2MB
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-
-const avatarSchema = z.object({
-  image: z
-    .any()
-    .refine(
-      (file: File) => file?.size <= MAX_FILE_SIZE,
-      `La taille de l'image doit être inférieure à ${MAX_FILE_SIZE / 1000000} Mo.`
-    )
-    .refine(
-      (file: File) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      "Le type de fichier doit être une image (jpeg, jpg, png, webp)."
-    )
-});
-
 export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata: UserMetadata }>) {
   const [imageError, setImageError] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -59,15 +43,14 @@ export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata:
     // keep only the first image file
     const imageFile = acceptedImageFiles[0];
 
-    // use zod to validate the image file
-    const result = avatarSchema.safeParse({ image: imageFile });
-
-    if (!result.success) {
-      setImageError("L'image doit être de type jpeg, jpg, png ou webp et faire moins de 500 Ko.");
-    } else {
-      setImageFile(imageFile);
-      setAllowImageUpload(true);
+    // check if the file is an image
+    if (!imageFile) {
+      setImageError("Veuillez sélectionner une image.");
+      return;
     }
+
+    setImageFile(imageFile);
+    setAllowImageUpload(true);
   }, [acceptedFiles]);
 
   useEffect(() => {
