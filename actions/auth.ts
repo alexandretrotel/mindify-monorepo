@@ -29,7 +29,7 @@ const formDataSchema = z.object({
     .min(8, "Le mot de passe doit contenir au moins 8 caractères")
     .max(100, "Le mot de passe ne doit pas dépasser 100 caractères")
     .regex(/[a-z]/, "Le mot de passe doit contenir au moins une minuscule")
-    .regex(/[0-9]/, "Le mot de passe doit contenir au moins un chiffre")
+    .regex(/\d/, "Le mot de passe doit contenir au moins un chiffre")
 });
 
 const domain =
@@ -38,7 +38,6 @@ const domain =
 export async function signUpWithPassword(formData: FormData) {
   const supabase = createClient();
 
-  let globalError = false;
   let data;
   try {
     data = formDataSchema.parse({
@@ -46,7 +45,6 @@ export async function signUpWithPassword(formData: FormData) {
       password: formData.get("password") as string
     });
   } catch (error) {
-    globalError = true;
     console.error(error);
     throw new Error("Identifiants invalides");
   }
@@ -62,16 +60,12 @@ export async function signUpWithPassword(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-
-  if (!error || !globalError) {
-    redirect("/app/check-email");
-  }
+  redirect("/app/check-email");
 }
 
 export async function signInWithPassword(formData: FormData) {
   const supabase = createClient();
 
-  let globalError = false;
   let data;
   try {
     data = formDataSchema.parse({
@@ -79,7 +73,6 @@ export async function signInWithPassword(formData: FormData) {
       password: formData.get("password") as string
     });
   } catch (error) {
-    globalError = true;
     console.error(error);
     throw new Error("Identifiants invalides");
   }
@@ -95,16 +88,12 @@ export async function signInWithPassword(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-
-  if (!error || !globalError) {
-    redirect("/app");
-  }
+  redirect("/app");
 }
 
 export async function signInWithEmail(formData: FormData) {
   const supabase = createClient();
 
-  let globalError = false;
   let data;
   try {
     data = formDataMailSchema.parse({
@@ -119,7 +108,7 @@ export async function signInWithEmail(formData: FormData) {
     email: data.email,
     options: {
       shouldCreateUser: true,
-      emailRedirectTo: `${domain}`
+      emailRedirectTo: `${domain}/app`
     }
   });
 
@@ -129,10 +118,7 @@ export async function signInWithEmail(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-
-  if (!error || !globalError) {
-    redirect("/app/check-email");
-  }
+  redirect("/app/check-email");
 }
 
 export async function signInWithSocials(provider: SocialProvider) {
