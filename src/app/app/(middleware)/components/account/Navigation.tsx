@@ -9,7 +9,7 @@ import {
 import { BellRingIcon, CreditCardIcon, SettingsIcon, UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account";
-import AccountCategories from "@/src/app/app/(middleware)/components/account/navigation/Categories";
+import AccountCategories from "@/app/app/(middleware)/components/account/navigation/Categories";
 import type { UserMetadata } from "@supabase/supabase-js";
 import type { Topics } from "@/types/topics";
 import { UUID } from "crypto";

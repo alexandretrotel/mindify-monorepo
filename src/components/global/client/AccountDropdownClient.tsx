@@ -2,7 +2,7 @@
 import "client-only";
 
 import React from "react";
-import { signOut } from "@/src/actions/auth";
+import { signOut } from "@/actions/auth";
 import {
   BellRingIcon,
   CreditCardIcon,

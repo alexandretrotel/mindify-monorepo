@@ -1,7 +1,7 @@
 import React from "react";
 import type { UUID } from "crypto";
 import type { Topics } from "@/types/topics";
-import { getUserTopics } from "@/src/actions/topics";
+import { getUserTopics } from "@/actions/topics";
 import { createClient } from "@/utils/supabase/server";
 import ClientAccountDropdown from "@/components/global/client/AccountDropdownClient";
 
