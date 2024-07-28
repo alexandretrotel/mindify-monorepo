@@ -11,21 +11,27 @@ const Chapters = async ({ summaryId, summary }: { summaryId: number; summary: Su
     <>
       <div id="introduction" className="flex flex-col gap-4">
         <TypographyH2>Introduction</TypographyH2>
-        <TypographySpan isDefaultColor>{summary.introduction}</TypographySpan>
+        <TypographySpan size="lg" isDefaultColor>
+          {summary.introduction}
+        </TypographySpan>
       </div>
 
       <div className="flex flex-col gap-8">
         {summaryChapters?.titles?.map((title, index) => (
           <div key={title} id={"chapter" + String(index + 1)} className="flex flex-col gap-4">
             <TypographyH2>{title}</TypographyH2>
-            <TypographySpan isDefaultColor>{summaryChapters?.texts[index]}</TypographySpan>
+            <TypographySpan size="lg" isDefaultColor>
+              {summaryChapters?.texts[index]}
+            </TypographySpan>
           </div>
         ))}
       </div>
 
       <div id="conclusion" className="flex flex-col gap-4">
         <TypographyH2>Conclusion</TypographyH2>
-        <TypographySpan isDefaultColor>{summary.conclusion}</TypographySpan>
+        <TypographySpan size="lg" isDefaultColor>
+          {summary.conclusion}
+        </TypographySpan>
       </div>
     </>
   );
