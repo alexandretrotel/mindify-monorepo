@@ -19,7 +19,13 @@ import type { Summaries } from "@/types/summary/summary";
 
 const itemsPerPage = 8;
 
-const SummariesByCategory = ({ topic, summaries }: { topic: Topic; summaries: Summaries }) => {
+const SummariesByCategoryClient = ({
+  topic,
+  summaries
+}: {
+  topic: Topic;
+  summaries: Summaries;
+}) => {
   const [summarySearch, setSummarySearch] = React.useState<string | undefined>(undefined);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalPages, setTotalPages] = React.useState<number>(0);
@@ -102,4 +108,4 @@ const SummariesByCategory = ({ topic, summaries }: { topic: Topic; summaries: Su
   );
 };
 
-export default SummariesByCategory;
+export default SummariesByCategoryClient;

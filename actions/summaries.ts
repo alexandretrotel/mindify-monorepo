@@ -150,3 +150,19 @@ export async function getMostPopularSummariesFromSameTopic(
 
   return mostPopularSummariesFromSameTopic;
 }
+
+export async function countSummariesByTopicId(topicId: number) {
+  const supabase = createClient();
+
+  const { count, error } = await supabase
+    .from("summaries")
+    .select("*", { count: "exact", head: true })
+    .eq("topic_id", topicId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de compter les résumés.");
+  }
+
+  return count as number;
+}

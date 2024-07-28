@@ -74,3 +74,18 @@ export async function getTopicFromSummaryId(summary_id: number) {
 
   return topic;
 }
+
+export async function getTopicFromTopicSlug(slug: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from("topics").select("*").eq("slug", slug);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer l'intérêt.");
+  }
+
+  const topic = data[0] as Topic;
+
+  return topic;
+}

@@ -1,4 +1,6 @@
-import SummariesByCategory from "@/components/(application)/topic/[slug]/summariesByCategory";
+import { countSummariesByTopicId } from "@/actions/summaries";
+import { getTopicFromTopicSlug } from "@/actions/topics";
+import SummariesByCategory from "@/app/app/(middleware)/topic/[slug]/components/SummariesByCategory";
 import AccountDropdown from "@/components/global/accountDropdown";
 import TypographyH3 from "@/components/typography/h3";
 import TypographyP from "@/components/typography/p";
@@ -16,33 +18,11 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   const { data, error } = await supabase.auth.getUser();
 
   if (error || !data?.user) {
-    redirect("/");
+    redirect("/app/login");
   }
 
-  const { data: topics } = await supabase.from("topics").select("*");
-
-  if (!topics) {
-    redirect("/");
-  }
-
-  const topic = topics?.find((topic) => topic.slug === slug);
-
-  if (!topic) {
-    redirect("/");
-  }
-
-  const { data: authorsData } = await supabase.from("authors").select("*");
-  const authors = authorsData as Authors;
-
-  const { data: summariesData } = await supabase
-    .from("summaries")
-    .select("*")
-    .eq("topic_id", topic.id);
-  const summaries = summariesData?.map((summary) => ({
-    ...summary,
-    topic: topics?.find((topic) => topic.id === summary.topic_id)?.name,
-    author_slug: authors?.find((author) => author.id === summary.author_id)?.slug
-  })) as Summaries;
+  const topic = await getTopicFromTopicSlug(slug);
+  const numberOfSummaries = await countSummariesByTopicId(topic.id);
 
   return (
     <div className="mx-auto mb-8 flex max-w-7xl flex-col gap-6 md:gap-12">
@@ -53,7 +33,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
               <div className="flex items-center gap-4">
                 <TypographyH3>{topic.name}</TypographyH3>
                 <Badge>
-                  {summaries.length} {summaries.length > 1 ? "résumés" : "résumé"}
+                  {numberOfSummaries} {numberOfSummaries > 1 ? "résumés" : "résumé"}
                 </Badge>
               </div>
               <TypographyP muted>
@@ -67,7 +47,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <SummariesByCategory topic={topic} summaries={summaries} />
+          <SummariesByCategory topic={topic} />
         </div>
       </div>
     </div>
