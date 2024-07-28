@@ -34,7 +34,7 @@ const Discover = ({ userId }: { userId: UUID }) => {
 
       <div className="relative order-1 w-full lg:order-2 lg:max-w-xs">
         <div className="w-full lg:sticky lg:right-0 lg:top-0 lg:pt-8">
-          <Suspense fallback={<StatisticsSkeleton />}>
+          <Suspense fallback={<StatisticsSkeleton userId={userId} />}>
             <Statistics userId={userId} />
           </Suspense>
         </div>

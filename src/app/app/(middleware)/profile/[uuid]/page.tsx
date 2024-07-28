@@ -10,26 +10,22 @@ import React, { Suspense } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabaseAdmin } from "@/utils/supabase/admin";
-import CopyProfileLinkButton from "@/app/app/(middleware)/profile/components/header/CopyProfileLink";
-import Friendship from "@/app/app/(middleware)/profile/components/header/Friendship";
-import MyFriends from "@/app/app/(middleware)/profile/components/friends/MyFriends";
-import Friends from "@/app/app/(middleware)/profile/components/friends/Friends";
-import ReadingStreak from "@/app/app/(middleware)/profile/components/header/ReadingStreak";
-import TopicsList from "@/app/app/(middleware)/profile/components/topics/TopicsList";
+import CopyProfileLinkButton from "@/app/app/(middleware)/profile/[uuid]/components/header/CopyProfileLink";
+import Friendship from "@/app/app/(middleware)/profile/[uuid]/components/header/Friendship";
+import MyFriends from "@/app/app/(middleware)/profile/[uuid]/components/friends/MyFriends";
+import Friends from "@/app/app/(middleware)/profile/[uuid]/components/friends/Friends";
+import ReadingStreak from "@/app/app/(middleware)/profile/[uuid]/components/header/ReadingStreak";
+import TopicsList from "@/app/app/(middleware)/profile/[uuid]/components/topics/TopicsList";
 import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
 import { CircleHelpIcon } from "lucide-react";
-import LibrarySnippet from "@/app/app/(middleware)/profile/components/library/LibrarySnippet";
-import LibrarySnippetSkeleton from "@/app/app/(middleware)/profile/components/library/skeleton/LibrarySnippetSkeleton";
-import FriendsSkeleton from "@/app/app/(middleware)/profile/components/friends/skeleton/FriendsSkeleton";
-import MyFriendsSkeleton from "@/app/app/(middleware)/profile/components/friends/skeleton/MyFriendsSkeleton";
-import TopicsListSkeleton from "@/app/app/(middleware)/profile/components/topics/skeleton/TopicsListSkeleton";
+import LibrarySnippet from "@/app/app/(middleware)/profile/[uuid]/components/library/LibrarySnippet";
+import LibrarySnippetSkeleton from "@/app/app/(middleware)/profile/[uuid]/components/library/skeleton/LibrarySnippetSkeleton";
+import FriendsSkeleton from "@/app/app/(middleware)/profile/[uuid]/components/friends/skeleton/FriendsSkeleton";
+import MyFriendsSkeleton from "@/app/app/(middleware)/profile/[uuid]/components/friends/skeleton/MyFriendsSkeleton";
+import TopicsListSkeleton from "@/app/app/(middleware)/profile/[uuid]/components/topics/skeleton/TopicsListSkeleton";
 
-const Page = async ({
-  searchParams
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
-  let profileId: UUID = searchParams.profileId as UUID;
+const Page = async ({ params }: { params: { uuid: UUID } }) => {
+  const profileId = params.uuid;
 
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
   let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
@@ -38,14 +34,8 @@ const Page = async ({
 
   const { data: userData } = await supabase.auth.getUser();
   const userId: UUID = userData?.user?.id as UUID;
-  const userMetadata: UserMetadata = userData?.user?.user_metadata as UserMetadata;
 
   const isMyProfile = userId === profileId;
-
-  if (!profileId || userId === profileId) {
-    profileId = userId;
-    profileMetadata = userMetadata;
-  }
 
   return (
     <div className="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-4 md:gap-8">

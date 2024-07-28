@@ -66,10 +66,7 @@ const Friends = async ({
 
                     <div className="flex items-center gap-4">
                       <Button variant="secondary" size="sm" asChild>
-                        <Link
-                          href={`/app/profile?profileId=${friend.id}`}
-                          className="flex items-center"
-                        >
+                        <Link href={`/app/profile/${friend.id}`} className="flex items-center">
                           Voir le profil
                         </Link>
                       </Button>

@@ -62,7 +62,7 @@ const ClientAccountDropdown = ({
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href={`/app/profile`} className="flex items-center gap-2">
+            <Link href={`/app/profile/${userId}`} className="flex items-center gap-2">
               <UserIcon className="h-4 w-4" /> Mon profil
             </Link>
           </DropdownMenuItem>

@@ -19,7 +19,7 @@ const Statistics = async ({ userId }: { userId: UUID }) => {
     .eq("user_id", userId);
   const userReads: UserReads = userReadsData as UserReads;
 
-  return <StatisticsClient userReads={userReads} summaries={summaries} />;
+  return <StatisticsClient userReads={userReads} summaries={summaries} userId={userId} />;
 };
 
 export default Statistics;

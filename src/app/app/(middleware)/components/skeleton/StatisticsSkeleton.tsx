@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpRightIcon } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { UUID } from "crypto";
 
-const StatisticsSkeleton = async () => {
+const StatisticsSkeleton = async ({ userId }: { userId: UUID }) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="block lg:hidden">
@@ -21,7 +22,7 @@ const StatisticsSkeleton = async () => {
 
           <CardContent>
             <Button asChild>
-              <Link href="/app/profile" className="flex w-full items-center">
+              <Link href={`/app/profile/${userId}`} className="flex w-full items-center">
                 Voir mon profil
                 <ArrowUpRightIcon className="ml-1 h-4 w-4" />
               </Link>
