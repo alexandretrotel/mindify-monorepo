@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import Application from "@/components/application/application";
+import Application from "@/app/app/(middleware)/components/Application";
 import type { Topics } from "@/types/topics/topics";
 import type { Authors, Summaries } from "@/types/summary/summary";
 import type { UserReads, UserLibrary } from "@/types/user";

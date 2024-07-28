@@ -11,7 +11,6 @@ import { redirect } from "next/navigation";
 export default async function Home() {
   const supabase = createClient();
 
-  const { data: topics } = await supabase.from("topics").select("*");
   const { data, error } = await supabase.auth.getUser();
 
   const isUserConnected = !error && !!data?.user;
@@ -24,7 +23,7 @@ export default async function Home() {
     <>
       <Header isUserConnected={isUserConnected} />
       <main className="flex-1">
-        <Hero topics={topics as Topics} />
+        <Hero />
         <Testimonials />
         <Pricing />
         <Faq />

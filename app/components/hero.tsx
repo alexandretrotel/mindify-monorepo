@@ -4,12 +4,9 @@ import { Label } from "@/components/ui/label";
 import { SearchIcon } from "lucide-react";
 import TypographyH1 from "@/components/typography/h1";
 import TypographyP from "@/components/typography/p";
-import type { Topics } from "@/types/topics/topics";
-import TopicIconsHero from "@/app/components/hero/TopicIconsHero";
+import Topics from "@/app/components/hero/Topics";
 
-const Hero = ({ topics }: { topics: Topics }) => {
-  const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
-
+const Hero = async () => {
   return (
     <section id="home" className="relative isolate flex h-screen items-center justify-center px-4">
       <div className="hide-scrollbar relative text-center">
@@ -90,14 +87,7 @@ const Hero = ({ topics }: { topics: Topics }) => {
             </svg>
           </div>
         </div>
-        <div className="mx-auto mt-10 flex max-w-lg flex-wrap justify-center gap-2 sm:mt-20">
-          {sortedTopics?.map((topic) => (
-            <Button key={topic.id} variant={"outline"}>
-              <TopicIconsHero topic={topic} />
-              {topic.name}
-            </Button>
-          ))}
-        </div>
+        <Topics />
       </div>
     </section>
   );
