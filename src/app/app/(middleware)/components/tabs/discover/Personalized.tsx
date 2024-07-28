@@ -11,21 +11,12 @@ import Link from "next/link";
 import TypographyH3 from "@/components/typography/h3";
 import TypographyP from "@/components/typography/p";
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import { getUserPersonalizedSummariesFromInterests } from "@/actions/users";
 import type { UUID } from "crypto";
 import type { Summaries, Summary } from "@/types/summary";
 
-const Personalized = async () => {
+const Personalized = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
-
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data?.user) {
-    redirect("/app/login");
-  }
-
-  const userId: UUID = data?.user?.id as UUID;
 
   const summariesMatchingUserTopics = await getUserPersonalizedSummariesFromInterests(userId);
 

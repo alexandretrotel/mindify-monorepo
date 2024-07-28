@@ -9,23 +9,11 @@ import {
 } from "@/components/ui/carousel";
 import TypographyH3 from "@/components/typography/h3";
 import TypographyP from "@/components/typography/p";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import type { UUID } from "crypto";
 import { getUserSummariesFromLibrary } from "@/actions/users";
 import Link from "next/link";
 
-const SavedSummaries = async () => {
-  const supabase = createClient();
-
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data?.user) {
-    redirect("/app/login");
-  }
-
-  const userId = data?.user?.id as UUID;
-
+const SavedSummaries = async ({ userId }: { userId: UUID }) => {
   const savedSummaries = await getUserSummariesFromLibrary(userId);
 
   return (

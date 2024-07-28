@@ -11,16 +11,8 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import type { UUID } from "crypto";
 
-const Categories = async () => {
+const Categories = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
-
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data?.user) {
-    redirect("/app/login");
-  }
-
-  const userId = data?.user?.id as UUID;
 
   const { data: userTopicsData } = await supabase
     .from("user_topics")
