@@ -301,5 +301,19 @@ export async function getUserSummariesFromLibrary(userId: UUID) {
     .eq("user_id", userId);
   const userLibrary: Summaries = userLibraryData?.flatMap((data) => data?.summaries) as Summaries;
 
-  return userLibrary;
+  const { data: summariesData } = await supabase
+    .from("summaries")
+    .select("*, authors(*), topics(*)");
+
+  const userLibrarySummariesNotPopulated = summariesData?.filter((summary) =>
+    userLibrary?.some((library) => library.id === summary.id)
+  );
+
+  const userLibrarySummaries = userLibrarySummariesNotPopulated?.map((summary) => ({
+    ...summary,
+    topic: summary.topics?.name as string,
+    author_slug: summary.authors?.slug as string
+  })) as Summaries;
+
+  return userLibrarySummaries;
 }

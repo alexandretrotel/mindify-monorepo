@@ -11,17 +11,50 @@ import Link from "next/link";
 import TypographyH3 from "@/components/typography/h3";
 import TypographyP from "@/components/typography/p";
 import { createClient } from "@/utils/supabase/server";
-import type { Summaries } from "@/types/summary";
+import type { Summaries, Summary } from "@/types/summary";
 
 const Popular = async () => {
   const supabase = createClient();
 
-  const { data: popularSummariesData } = await supabase
-    .from("user_reads")
-    .select("summaries(*)")
-    .order("count", { ascending: false })
-    .limit(15);
-  const popularSummaries = popularSummariesData?.flatMap((data) => data.summaries) as Summaries;
+  const { data: popularSummariesData } = await supabase.from("user_reads").select("summaries(*)");
+  const popularSummariesPrepared = popularSummariesData?.flatMap(
+    (data) => data?.summaries
+  ) as Summaries;
+
+  const groupedPopularSummaries = popularSummariesPrepared?.reduce<{ [key: string]: Summary }>(
+    (acc, summary) => {
+      if (!acc[summary.id]) {
+        acc[summary.id] = {
+          ...summary,
+          number_of_reads: 1
+        };
+      } else {
+        (acc[summary.id].number_of_reads as number) += 1;
+      }
+
+      return acc;
+    },
+    {}
+  );
+
+  const popularSummariesNotPopulated = Object.values(groupedPopularSummaries)?.sort(
+    (a, b) => (b.number_of_reads as number) - (a.number_of_reads as number)
+  );
+
+  const { data: summariesData } = await supabase
+    .from("summaries")
+    .select("*, authors(*), topics(*)");
+  const summaries: Summaries = summariesData?.flatMap((summary) => {
+    return {
+      ...summary,
+      topic: summary.topics?.name as string,
+      author_slug: summary.authors?.slug as string
+    };
+  }) as Summaries;
+
+  const popularSummaries = popularSummariesNotPopulated?.map((summary) => {
+    return summaries?.find((s) => s.id === summary.id);
+  }) as Summaries;
 
   return (
     <Carousel
