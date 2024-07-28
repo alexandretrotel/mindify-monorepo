@@ -13,7 +13,7 @@ export default function TypographyP({
 }>) {
   return (
     <p
-      className={`${!!muted ? "text-muted-foreground" : "text-primary-foreground"} ${!!center && "text-center"} ${
+      className={`${muted ? "text-muted-foreground" : "text-primary-foreground"} ${!!center && "text-center"} ${
         !!size && getTextSizeClass(size)
       }`}
     >
