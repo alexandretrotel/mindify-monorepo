@@ -5,7 +5,7 @@ import { SearchIcon } from "lucide-react";
 import TypographyH1 from "@/components/typography/h1";
 import TypographyP from "@/components/typography/p";
 import type { Topics } from "@/types/topics/topics";
-import TopicIconsHero from "@/components/home/hero/topicIconsHero";
+import TopicIconsHero from "@/components/home/hero/TopicIconsHero";
 
 const Hero = ({ topics }: { topics: Topics }) => {
   const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
