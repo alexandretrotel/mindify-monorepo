@@ -2,7 +2,7 @@ import React from "react";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import TypographyP from "@/components/typography/p";
 import { Separator } from "@/components/ui/separator";
-import Navigation from "@/app/app/(middleware)/components/account/navigation";
+import Navigation from "@/app/app/(middleware)/components/account/Navigation";
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account/categories";

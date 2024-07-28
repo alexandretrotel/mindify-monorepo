@@ -1,10 +1,10 @@
-import Header from "@/components/home/Header";
-import Hero from "@/components/home/Hero";
-import Faq from "@/components/home/Faq";
-import Testimonials from "@/components/home/Testimonials";
-import Pricing from "@/components/home/Pricing";
+import Header from "@/app/components/Header";
+import Hero from "@/app/components/Hero";
+import Faq from "@/app/components/Faq";
+import Testimonials from "@/app/components/Testimonials";
+import Pricing from "@/app/components/Pricing";
 import { createClient } from "@/utils/supabase/server";
-import Footer from "@/components/home/Footer";
+import Footer from "@/app/components/Footer";
 import type { Topics } from "@/types/topics/topics";
 import { redirect } from "next/navigation";
 

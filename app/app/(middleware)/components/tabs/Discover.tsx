@@ -2,7 +2,7 @@ import TypographyH3 from "@/components/typography/h3";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 import TypographyP from "@/components/typography/p";
 import React from "react";
-import Statistics from "@/components/application/tabs/discover/Statistics";
+import Statistics from "@/app/app/(middleware)/components/tabs/discover/Statistics";
 import type { Topic, Topics } from "@/types/topics/topics";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
