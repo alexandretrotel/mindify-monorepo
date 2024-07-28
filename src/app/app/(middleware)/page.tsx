@@ -1,8 +1,9 @@
 import { createClient } from "@/utils/supabase/server";
-import Application from "@/src/app/app/(middleware)/components/Application";
+import Application from "@/app/app/(middleware)/components/Application";
 import type { Topics } from "@/types/topics";
 import type { Authors, Summaries } from "@/types/summary";
 import type { UserReads, UserLibrary } from "@/types/user";
+import AccountDropdown from "@/components/global/AccountDropdown";
 
 export default async function Home() {
   const supabase = createClient();
@@ -47,6 +48,8 @@ export default async function Home() {
       userReads={userReads}
       authors={authors}
       userLibrary={userLibrary}
-    />
+    >
+      <AccountDropdown />
+    </Application>
   );
 }

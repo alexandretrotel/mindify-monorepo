@@ -4,7 +4,7 @@ import "client-only";
 import React from "react";
 import type { User } from "@supabase/supabase-js";
 import { useToast } from "@/components/ui/use-toast";
-import { acceptFriendRequest, rejectFriendRequest } from "@/src/actions/friends";
+import { acceptFriendRequest, rejectFriendRequest } from "@/actions/friends";
 import { UUID } from "crypto";
 import Fuse from "fuse.js";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

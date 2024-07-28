@@ -10,20 +10,20 @@ import React, { Suspense } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabaseAdmin } from "@/utils/supabase/admin";
-import CopyProfileLinkButton from "@/src/app/app/(middleware)/profile/components/header/CopyProfileLink";
-import Friendship from "@/src/app/app/(middleware)/profile/components/header/Friendship";
-import MyFriends from "@/src/app/app/(middleware)/profile/components/friends/MyFriends";
-import Friends from "@/src/app/app/(middleware)/profile/components/friends/Friends";
-import ReadingStreak from "@/src/app/app/(middleware)/profile/components/header/ReadingStreak";
+import CopyProfileLinkButton from "@/app/app/(middleware)/profile/components/header/CopyProfileLink";
+import Friendship from "@/app/app/(middleware)/profile/components/header/Friendship";
+import MyFriends from "@/app/app/(middleware)/profile/components/friends/MyFriends";
+import Friends from "@/app/app/(middleware)/profile/components/friends/Friends";
+import ReadingStreak from "@/app/app/(middleware)/profile/components/header/ReadingStreak";
 import TopicsList, {
   TopicsListSkeleton
-} from "@/src/app/app/(middleware)/profile/components/topics/TopicsList";
+} from "@/app/app/(middleware)/profile/components/topics/TopicsList";
 import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
 import { CircleHelpIcon } from "lucide-react";
-import LibrarySnippet from "@/src/app/app/(middleware)/profile/components/library/LibrarySnippet";
-import LibrarySnippetSkeleton from "@/src/app/app/(middleware)/profile/components/library/skeleton/LibrarySnippetSkeleton";
-import FriendsSkeleton from "@/src/app/app/(middleware)/profile/components/friends/skeleton/FriendsSkeleton";
-import MyFriendsSkeleton from "@/src/app/app/(middleware)/profile/components/friends/skeleton/MyFriendsSkeleton";
+import LibrarySnippet from "@/app/app/(middleware)/profile/components/library/LibrarySnippet";
+import LibrarySnippetSkeleton from "@/app/app/(middleware)/profile/components/library/skeleton/LibrarySnippetSkeleton";
+import FriendsSkeleton from "@/app/app/(middleware)/profile/components/friends/skeleton/FriendsSkeleton";
+import MyFriendsSkeleton from "@/app/app/(middleware)/profile/components/friends/skeleton/MyFriendsSkeleton";
 
 const Page = async ({
   searchParams

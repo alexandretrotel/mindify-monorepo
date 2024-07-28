@@ -2,10 +2,9 @@
 import "client-only";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Library from "@/src/app/app/(middleware)/components/tabs/Library";
+import Library from "@/app/app/(middleware)/components/tabs/Library";
 import type { Topics } from "@/types/topics";
-import Discover from "@/src/app/app/(middleware)/components/tabs/Discover";
-import AccountDropdown from "@/components/global/AccountDropdown";
+import Discover from "@/app/app/(middleware)/components/tabs/Discover";
 import type { Authors, Summaries } from "@/types/summary";
 import type { UserReads, UserLibrary } from "@/types/user";
 
@@ -34,9 +33,7 @@ export default function Application({
           <TabsTrigger value="my-library">Librairie</TabsTrigger>
         </TabsList>
 
-        <div className="flex items-center gap-4">
-          <AccountDropdown />
-        </div>
+        <div className="flex items-center gap-4">{children}</div>
       </header>
 
       <main>
@@ -59,7 +56,6 @@ export default function Application({
             userLibrary={userLibrary}
           />
         </TabsContent>
-        {children}
       </main>
     </Tabs>
   );
