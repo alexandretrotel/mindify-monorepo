@@ -4,13 +4,8 @@ import "client-only";
 import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  signInWithEmail,
-  signInWithPassword,
-  signInWithSocials,
-  signUpWithPassword
-} from "@/actions/auth";
-import { SubmitButton } from "@/components/global/buttons/submitButton";
+import { signInWithPassword, signInWithSocials, signUpWithPassword } from "@/actions/auth";
+import { SubmitButton } from "@/components/global/buttons/SubmitButton";
 import type { SocialProvider } from "@/types/auth/providers";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";

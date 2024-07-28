@@ -1,4 +1,4 @@
-import AccountDropdown from "@/components/global/accountDropdown";
+import AccountDropdown from "@/components/global/AccountDropdown";
 import TypographyH4AsSpan from "@/components/typography/h4AsSpan";
 import TypographyP from "@/components/typography/p";
 import TypographySpan from "@/components/typography/span";
@@ -18,7 +18,7 @@ import ReadingStreak from "@/app/app/(middleware)/profile/components/header/Read
 import TopicsList, {
   TopicsListSkeleton
 } from "@/app/app/(middleware)/profile/components/topics/TopicsList";
-import ResponsiveTooltip from "@/components/global/responsiveTooltip";
+import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
 import { CircleHelpIcon } from "lucide-react";
 import LibrarySnippet from "@/app/app/(middleware)/profile/components/library/LibrarySnippet";
 import LibrarySnippetSkeleton from "@/app/app/(middleware)/profile/components/library/skeleton/LibrarySnippetSkeleton";

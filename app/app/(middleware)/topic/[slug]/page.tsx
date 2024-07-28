@@ -1,7 +1,7 @@
 import { countSummariesByTopicId } from "@/actions/summaries";
 import { getTopicFromTopicSlug } from "@/actions/topics";
 import SummariesByCategory from "@/app/app/(middleware)/topic/[slug]/components/SummariesByCategory";
-import AccountDropdown from "@/components/global/accountDropdown";
+import AccountDropdown from "@/components/global/AccountDropdown";
 import TypographyH3 from "@/components/typography/h3";
 import TypographyP from "@/components/typography/p";
 import { Badge } from "@/components/ui/badge";

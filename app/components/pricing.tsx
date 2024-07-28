@@ -15,7 +15,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { CheckIcon } from "lucide-react";
-import Section from "@/components/global/section";
+import Section from "@/components/global/Section";
 import TypographyH2 from "@/components/typography/h2";
 import Link from "next/link";
 

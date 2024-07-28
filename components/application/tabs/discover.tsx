@@ -6,7 +6,7 @@ import Statistics from "@/components/application/tabs/discover/statistics";
 import type { Topic, Topics } from "@/types/topics/topics";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import BookCover from "@/components/global/bookCover";
+import BookCover from "@/components/global/BookCover";
 import {
   Carousel,
   CarouselContent,
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/carousel";
 import type { Summaries } from "@/types/summary/summary";
 import type { UserLibrary, UserReads } from "@/types/user";
-import TopicIcon from "@/components/global/topicIcon";
+import TopicIcon from "@/components/global/TopicIcon";
 
 const Discover = ({
   topics,

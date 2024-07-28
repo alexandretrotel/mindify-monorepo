@@ -6,7 +6,7 @@ import Image from "next/image";
 import type { Topic } from "@/types/topics/topics";
 import { useTheme } from "next-themes";
 
-const TopicIconHero = ({ topic }: { topic: Topic }) => {
+const TopicIconsHero = ({ topic }: { topic: Topic }) => {
   const { resolvedTheme } = useTheme();
 
   const icon = resolvedTheme === "dark" ? topic.white_icon : topic.black_icon;
@@ -18,4 +18,4 @@ const TopicIconHero = ({ topic }: { topic: Topic }) => {
   );
 };
 
-export default TopicIconHero;
+export default TopicIconsHero;

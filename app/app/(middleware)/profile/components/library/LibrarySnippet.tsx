@@ -4,7 +4,7 @@ import Link from "next/link";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import BookCover from "@/components/global/bookCover";
+import BookCover from "@/components/global/BookCover";
 import type { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 import type { Authors, Summaries } from "@/types/summary/summary";

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/magicui/marquee";
 import Image from "next/image";
-import Section from "@/components/global/section";
+import Section from "@/components/global/Section";
 
 const reviews = [
   {

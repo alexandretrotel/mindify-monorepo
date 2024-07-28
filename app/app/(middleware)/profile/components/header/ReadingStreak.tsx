@@ -4,7 +4,7 @@ import { FlameIcon } from "lucide-react";
 import { getUserReadingStreak } from "@/actions/users";
 
 import React from "react";
-import ResponsiveTooltip from "@/components/global/responsiveTooltip";
+import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
 
 const ReadingStreak = async ({ profileId }: { profileId: UUID }) => {
   const readingStreak = await getUserReadingStreak({ userId: profileId });

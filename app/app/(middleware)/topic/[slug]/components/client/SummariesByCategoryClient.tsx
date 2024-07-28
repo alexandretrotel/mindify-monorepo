@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import type { Topic } from "@/types/topics/topics";
 import { SearchIcon } from "lucide-react";
 import React, { useEffect } from "react";
-import BookCover from "@/components/global/bookCover";
+import BookCover from "@/components/global/BookCover";
 import Link from "next/link";
 import {
   Pagination,

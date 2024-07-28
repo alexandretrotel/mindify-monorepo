@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { getMostPopularSummariesFromSameTopic } from "@/actions/summaries";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import BookCover from "@/components/global/bookCover";
+import BookCover from "@/components/global/BookCover";
 import type { Summary } from "@/types/summary/summary";
 import TypographyH2 from "@/components/typography/h2";
 import type { UUID } from "crypto";

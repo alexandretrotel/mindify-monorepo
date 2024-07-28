@@ -23,7 +23,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { UserMetadata } from "@supabase/supabase-js";
 import type { AccountCategory } from "@/types/account/categories";
-import Account from "@/components/global/account";
+import Account from "@/components/global/Account";
 import type { UUID } from "crypto";
 import type { Topics } from "@/types/topics/topics";
 import Link from "next/link";

@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Library from "@/components/application/tabs/library";
 import type { Topics } from "@/types/topics/topics";
 import Discover from "@/components/application/tabs/discover";
-import AccountDropdown from "@/components/global/accountDropdown";
+import AccountDropdown from "@/components/global/AccountDropdown";
 import type { Authors, Summaries } from "@/types/summary/summary";
 import type { UserReads, UserLibrary } from "@/types/user";
 

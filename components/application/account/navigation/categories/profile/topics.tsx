@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
 import TypographySpan from "@/components/typography/span";
 import { Loader2Icon } from "lucide-react";
-import TopicIcon from "@/components/global/topicIcon";
+import TopicIcon from "@/components/global/TopicIcon";
 
 const isChecked = (userTopics: Topics, topicId: number): boolean => {
   return userTopics.some((userTopic) => userTopic.id === topicId);

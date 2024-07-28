@@ -3,7 +3,7 @@ import { UUID } from "crypto";
 import React from "react";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import { getUserTopics } from "@/actions/topics";
-import TopicIcon from "@/components/global/topicIcon";
+import TopicIcon from "@/components/global/TopicIcon";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const TopicsListSkeleton = () => {

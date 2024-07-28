@@ -17,7 +17,7 @@ import { useDropzone } from "react-dropzone";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { userUpdateAvatar } from "@/actions/users";
-import { LoadingButton } from "@/components/global/buttons/loadingButton";
+import { LoadingButton } from "@/components/global/buttons/LoadingButton";
 import { Loader2Icon } from "lucide-react";
 
 export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata: UserMetadata }>) {

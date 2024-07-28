@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import TypographyH2 from "@/components/typography/h2";
 import TypographyH4AsSpan from "@/components/typography/h4AsSpan";
-import Section from "@/components/global/section";
+import Section from "@/components/global/Section";
 
 const faqItemsGeneral = [
   {

@@ -16,7 +16,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import type { Topics } from "@/types/topics/topics";
-import BookCover from "@/components/global/bookCover";
+import BookCover from "@/components/global/BookCover";
 import Link from "next/link";
 import type { Authors, Source, Sources, Summaries } from "@/types/summary/summary";
 import { sourceToString } from "@/utils/topics";

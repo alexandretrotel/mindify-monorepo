@@ -3,7 +3,7 @@ import type { UUID } from "crypto";
 import type { Topics } from "@/types/topics/topics";
 import { getUserTopics } from "@/actions/topics";
 import { createClient } from "@/utils/supabase/server";
-import ClientAccountDropdown from "@/components/global/clientAccountDropdown";
+import ClientAccountDropdown from "@/components/global/client/AccountDropdownClient";
 
 const AccountDropdown = async () => {
   const supabase = createClient();
