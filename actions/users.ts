@@ -9,7 +9,7 @@ import { z } from "zod";
 import { UUID } from "crypto";
 import type { User } from "@supabase/supabase-js";
 import type { UserLibrary, UserReads } from "@/types/user";
-import { differenceInDays, parseISO } from "date-fns";
+import { differenceInDays } from "date-fns";
 
 const nameSchema = z.object({
   name: z
@@ -183,29 +183,25 @@ export async function getUserReadingStreak({ userId }: { userId: UUID }) {
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
 
-  const streak = data?.reduce((acc, read, index) => {
-    if (index === 0) {
-      return 1;
-    }
-
-    const previousRead = data[index - 1];
-    const previousReadDate = parseISO(previousRead?.read_at);
-    const currentDate = parseISO(read?.read_at);
-
-    const daysDifference = differenceInDays(currentDate, previousReadDate);
-
-    if (daysDifference === 1) {
-      return acc + 1;
-    } else if (daysDifference > 1) {
-      return 0;
-    }
-
-    return acc;
-  }, 0);
-
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer la série de lecture.");
+  }
+
+  const dates = data?.map((read) => read?.read_at) as Date[];
+
+  let streak = 0;
+  let currentDate = new Date();
+
+  for (const element of dates) {
+    const diff = differenceInDays(currentDate, element);
+
+    if (diff === 1) {
+      streak++;
+      currentDate = element;
+    } else {
+      break;
+    }
   }
 
   return streak;
