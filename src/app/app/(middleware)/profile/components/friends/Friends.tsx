@@ -12,6 +12,8 @@ import { UUID } from "crypto";
 import type { UserMetadata } from "@supabase/supabase-js";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 
+export const revalidate = 0;
+
 const Friends = async ({
   profileId,
   profileMetadata

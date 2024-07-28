@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import TypographyH3 from "@/components/typography/h3";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRightIcon } from "lucide-react";

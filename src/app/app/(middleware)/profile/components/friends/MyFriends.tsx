@@ -4,6 +4,8 @@ import { getFriendsData, getPendingFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
 import MyFriendClient from "./client/MyFriendClient";
 
+export const revalidate = 0;
+
 const MyFriends = async ({ userId }: { userId: UUID }) => {
   const friends = await getFriendsData({ userId });
   const pendingFriends = await getPendingFriendsData({ userId });
