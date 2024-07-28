@@ -59,3 +59,18 @@ export async function getUserTopics(user_id: UUID) {
 
   return topics;
 }
+
+export async function getTopicFromSummaryId(summary_id: number) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from("summaries").select("topics(*)").eq("id", summary_id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer l'intérêt.");
+  }
+
+  const topic = data?.flatMap((item: { topics: Topics }) => item.topics)[0];
+
+  return topic;
+}

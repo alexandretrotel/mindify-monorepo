@@ -3,6 +3,8 @@ import "server-only";
 import { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
+import { getAuthorFromSlug } from "@/actions/authors";
+import type { Summary } from "@/types/summary/summary";
 
 export async function addSummaryToLibrary(userId: UUID, summaryId: number) {
   const supabase = createClient();
@@ -72,4 +74,25 @@ export async function markSummaryAsUnread(userId: UUID, summaryId: number) {
 
   revalidatePath("/(application)", "layout");
   return { error };
+}
+
+export async function getSummaryFromSlugs(author_slug: string, slug: string) {
+  const supabase = createClient();
+
+  const author = await getAuthorFromSlug(author_slug);
+
+  const { data, error } = await supabase
+    .from("summaries")
+    .select("*")
+    .eq("slug", slug)
+    .eq("author_id", author.id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer le résumé.");
+  }
+
+  const summary = data[0] as Summary;
+
+  return summary;
 }

@@ -4,7 +4,7 @@ import "server-only";
 import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
 import { revalidatePath } from "next/cache";
-import { getUsersData } from "@/actions/user";
+import { getUsersData } from "@/actions/users";
 import { friendStatus } from "@/types/user";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
