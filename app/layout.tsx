@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { cn } from "@/lib/utils";
 import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme";
@@ -9,10 +9,10 @@ import NextTopLoader from "nextjs-toploader";
 import { Toaster as Sonner } from "sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { headers } from "next/headers";
-import type { Viewport } from "next";
 
 // Import global styles
 import "./globals.css";
+import "@radix-ui/themes/styles.css";
 
 const fontSans = FontSans({
   subsets: ["latin"],

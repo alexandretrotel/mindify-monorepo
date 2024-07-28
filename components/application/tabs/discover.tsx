@@ -6,9 +6,6 @@ import Statistics from "@/components/application/tabs/discover/statistics";
 import type { Topic, Topics } from "@/types/topics/topics";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { setIconColorFromTheme } from "@/utils/theme/icon";
-import Image from "next/image";
-import { useTheme } from "next-themes";
 import BookCover from "@/components/global/bookCover";
 import {
   Carousel,
@@ -19,6 +16,7 @@ import {
 } from "@/components/ui/carousel";
 import type { Summaries } from "@/types/summary/summary";
 import type { UserLibrary, UserReads } from "@/types/user";
+import TopicIcon from "@/components/global/topicIcon";
 
 const Discover = ({
   topics,
@@ -33,8 +31,6 @@ const Discover = ({
   userReads: UserReads;
   userLibrary: UserLibrary;
 }) => {
-  const { resolvedTheme } = useTheme();
-
   const sortedUserTopics = userTopics
     ? [...userTopics]?.sort((a, b) => a.name.localeCompare(b.name))
     : [];
@@ -128,14 +124,7 @@ const Discover = ({
                       {topicChunk.map((topic: Topic) => (
                         <Button asChild key={topic.id} className="col-span-1">
                           <Link href={`/app/topic/${topic.slug}`} className="w-full">
-                            <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
-                              <Image
-                                src={setIconColorFromTheme(resolvedTheme as string, topic, true)}
-                                alt={topic.name}
-                                fill={true}
-                                className="object-cover"
-                              />
-                            </span>
+                            <TopicIcon isChecked={true} topic={topic} />
                             <TypographyH5AsSpan>{topic.name}</TypographyH5AsSpan>
                           </Link>
                         </Button>

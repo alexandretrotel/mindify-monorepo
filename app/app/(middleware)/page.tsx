@@ -1,10 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
 import Application from "@/components/application/application";
 import type { Topics } from "@/types/topics/topics";
-import { UUID } from "crypto";
 import type { Authors, Summaries } from "@/types/summary/summary";
 import type { UserReads, UserLibrary } from "@/types/user";
-import type { UserMetadata } from "@supabase/supabase-js";
 
 export default async function Home() {
   const supabase = createClient();
@@ -43,8 +41,6 @@ export default async function Home() {
 
   return (
     <Application
-      userId={data?.user?.id as UUID}
-      userMetadata={data?.user?.user_metadata as UserMetadata}
       topics={topics as Topics}
       userTopics={userTopics}
       summaries={summaries}

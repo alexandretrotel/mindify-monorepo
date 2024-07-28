@@ -1,11 +1,9 @@
 "use client";
 import "client-only";
 
-import type { UserMetadata } from "@supabase/supabase-js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Library from "@/components/application/tabs/library";
 import type { Topics } from "@/types/topics/topics";
-import { UUID } from "crypto";
 import Discover from "@/components/application/tabs/discover";
 import AccountDropdown from "@/components/global/accountDropdown";
 import type { Authors, Summaries } from "@/types/summary/summary";
@@ -13,8 +11,6 @@ import type { UserReads, UserLibrary } from "@/types/user";
 
 export default function Application({
   children,
-  userId,
-  userMetadata,
   topics,
   userTopics,
   summaries,
@@ -23,8 +19,6 @@ export default function Application({
   userLibrary
 }: Readonly<{
   children?: React.ReactNode;
-  userId: UUID;
-  userMetadata: UserMetadata;
   topics: Topics;
   userTopics: Topics;
   summaries: Summaries;
@@ -41,12 +35,7 @@ export default function Application({
         </TabsList>
 
         <div className="flex items-center gap-4">
-          <AccountDropdown
-            userMetadata={userMetadata}
-            userId={userId}
-            topics={topics}
-            userTopics={userTopics}
-          />
+          <AccountDropdown />
         </div>
       </header>
 

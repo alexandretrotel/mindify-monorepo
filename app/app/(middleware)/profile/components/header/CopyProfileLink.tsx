@@ -9,9 +9,14 @@ import { useToast } from "@/components/ui/use-toast";
 const CopyProfileLink = ({ userId }: { userId: UUID }) => {
   const { toast } = useToast();
 
+  let window;
+  if (typeof window === "undefined") {
+    return null;
+  }
+
   const handleCopyLink = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(`https://mindify.fr/app/profile?profileId=${userId}`);
+      navigator.clipboard.writeText(`${window.location.origin}/profile/${userId}`);
 
       toast({
         title: "Lien copié",

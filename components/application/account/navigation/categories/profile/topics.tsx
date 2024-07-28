@@ -6,10 +6,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
 import TypographySpan from "@/components/typography/span";
-import Image from "next/image";
-import { useTheme } from "next-themes";
 import { Loader2Icon } from "lucide-react";
-import { setIconColorFromTheme } from "@/utils/theme/icon";
+import TopicIcon from "@/components/global/topicIcon";
 
 const isChecked = (userTopics: Topics, topicId: number): boolean => {
   return userTopics.some((userTopic) => userTopic.id === topicId);
@@ -47,7 +45,6 @@ const Topics = ({
   );
 
   const { toast } = useToast();
-  const { resolvedTheme } = useTheme();
 
   const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
 
@@ -96,18 +93,7 @@ const Topics = ({
             variant={isChecked(optimisticUserTopics, topic.id) ? "default" : "outline"}
             onClick={() => handleTopicClick(topic.id)}
           >
-            <span className="relative mr-2 h-3 w-3 flex-shrink-0 overflow-hidden">
-              <Image
-                src={
-                  isChecked(optimisticUserTopics, topic.id)
-                    ? setIconColorFromTheme(resolvedTheme as string, topic, true)
-                    : setIconColorFromTheme(resolvedTheme as string, topic, false)
-                }
-                alt={topic.name}
-                fill={true}
-                className="object-cover"
-              />
-            </span>
+            <TopicIcon isChecked={isChecked(optimisticUserTopics, topic.id)} topic={topic} />
             {topic.name}
           </Button>
         ))}

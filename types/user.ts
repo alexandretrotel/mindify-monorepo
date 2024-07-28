@@ -1,11 +1,11 @@
 import { UUID } from "crypto";
 
-export type friendStatus = "pending" | "accepted" | "blocked";
+export type FriendStatus = "pending" | "accepted" | "blocked";
 
 export type UserFriend = {
   user_id: UUID;
   friend_id: UUID;
-  status: friendStatus;
+  status: FriendStatus;
   created_at: Date;
 };
 

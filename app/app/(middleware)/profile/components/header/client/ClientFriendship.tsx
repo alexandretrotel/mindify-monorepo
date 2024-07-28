@@ -1,29 +1,26 @@
 "use client";
 import "client-only";
 
-import {
-  askForFriend,
-  cancelFriendRequest,
-  getFriendStatus,
-  removeFriend
-} from "@/actions/friends";
+import { askForFriend, cancelFriendRequest, removeFriend } from "@/actions/friends";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
 import { useToast } from "@/components/ui/use-toast";
+import type { FriendStatus } from "@/types/user";
 
-const Friendship = ({ userId, profileId }: { userId: UUID; profileId: UUID }) => {
+const ClientFriendship = ({
+  userId,
+  profileId,
+  initialFriendStatus
+}: {
+  userId: UUID;
+  profileId: UUID;
+  initialFriendStatus: FriendStatus;
+}) => {
   const [isFriend, setIsFriend] = React.useState<boolean>(false);
-  const [friendStatus, setFriendStatus] = React.useState<string | undefined>(undefined);
-
-  React.useEffect(() => {
-    const fetchFriendStatus = async () => {
-      const friendStatus = await getFriendStatus({ userId, profileId });
-      setFriendStatus(friendStatus);
-    };
-
-    fetchFriendStatus();
-  }, [profileId, userId]);
+  const [friendStatus, setFriendStatus] = React.useState<FriendStatus | undefined>(
+    initialFriendStatus
+  );
 
   React.useEffect(() => {
     if (friendStatus === "accepted") {
@@ -129,7 +126,11 @@ const Friendship = ({ userId, profileId }: { userId: UUID; profileId: UUID }) =>
 
   if (isFriend) {
     return (
-      <Button size="sm" variant="destructive" onClick={() => handleRemoveFriend({ userId, profileId })}>
+      <Button
+        size="sm"
+        variant="destructive"
+        onClick={() => handleRemoveFriend({ userId, profileId })}
+      >
         Retirer de mes amis
       </Button>
     );
@@ -144,4 +145,4 @@ const Friendship = ({ userId, profileId }: { userId: UUID; profileId: UUID }) =>
   }
 };
 
-export default Friendship;
+export default ClientFriendship;

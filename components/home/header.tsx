@@ -27,7 +27,7 @@ const navigation = [
   { name: "FAQ", href: "#faq" }
 ];
 
-export default function Header({ isUserConnected }: { isUserConnected: boolean }) {
+export default function Header({ isUserConnected }: Readonly<{ isUserConnected: boolean }>) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -43,14 +43,15 @@ export default function Header({ isUserConnected }: { isUserConnected: boolean }
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 backdrop-blur-2xl transition-colors duration-300 ${isScrolled ? "border-b border-black/10 dark:border-white/10" : "border-b border-transparent"}`}
+      className={`sticky inset-x-0 top-0 z-50 backdrop-blur-2xl transition-colors duration-300 ${isScrolled ? "border-b border-black/10 dark:border-white/10" : "border-b border-transparent"}`}
     >
       <Banner />
       <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
-          <Link href="/">
+          <Link href="/" className="flex items-center gap-2">
             <span className="sr-only">Mindify</span>
-            <Image src={Logo} alt="Mindify" width={48} height={48} />
+            <Image src={Logo} alt="Mindify" width={32} height={32} />
+            <H2>Mindify</H2>
           </Link>
         </div>
         <div className="flex items-center gap-4 lg:hidden">

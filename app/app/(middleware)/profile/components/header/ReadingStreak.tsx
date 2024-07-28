@@ -1,6 +1,4 @@
-"use client";
 import TypographySpan from "@/components/typography/span";
-import "client-only";
 import { UUID } from "crypto";
 import { FlameIcon } from "lucide-react";
 import { getUserReadingStreak } from "@/actions/user";
@@ -8,17 +6,8 @@ import { getUserReadingStreak } from "@/actions/user";
 import React from "react";
 import ResponsiveTooltip from "@/components/global/responsiveTooltip";
 
-const ReadingStreak = ({ profileId }: { profileId: UUID }) => {
-  const [readingStreak, setReadingStreak] = React.useState<number | null>(null);
-
-  React.useEffect(() => {
-    const fetchReadingStreak = async () => {
-      const readingStreak = await getUserReadingStreak({ userId: profileId });
-      setReadingStreak(readingStreak);
-    };
-
-    fetchReadingStreak();
-  }, [profileId]);
+const ReadingStreak = async ({ profileId }: { profileId: UUID }) => {
+  const readingStreak = await getUserReadingStreak({ userId: profileId });
 
   if (!readingStreak) {
     return;

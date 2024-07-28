@@ -1,6 +1,3 @@
-"use client";
-import "client-only";
-
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -12,27 +9,17 @@ import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import TypographyP from "@/components/typography/p";
 import { getFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
-import type { User, UserMetadata } from "@supabase/supabase-js";
+import type { UserMetadata } from "@supabase/supabase-js";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 
-const Friends = ({
+const Friends = async ({
   profileId,
   profileMetadata
 }: {
   profileId: UUID;
   profileMetadata: UserMetadata;
 }) => {
-  const [friends, setFriends] = React.useState<User[]>([]);
-
-  React.useEffect(() => {
-    const fetchFriends = async () => {
-      const friends = await getFriendsData({ userId: profileId });
-
-      setFriends(friends);
-    };
-
-    fetchFriends();
-  }, [profileId]);
+  const friends = await getFriendsData({ userId: profileId });
 
   return (
     <Card>
@@ -53,7 +40,10 @@ const Friends = ({
                       <Avatar>
                         <AvatarImage
                           src={friend?.user_metadata?.picture}
-                          alt={friend?.user_metadata?.name ?? friend?.user_metadata?.email?.split("@")[0]}
+                          alt={
+                            friend?.user_metadata?.name ??
+                            friend?.user_metadata?.email?.split("@")[0]
+                          }
                         />
                         <AvatarFallback>
                           {friend?.user_metadata?.name
@@ -63,7 +53,8 @@ const Friends = ({
                       </Avatar>
                       <div className="flex flex-col">
                         <TypographyH5AsSpan>
-                          {friend?.user_metadata?.name ?? friend?.user_metadata?.email?.split("@")[0]}
+                          {friend?.user_metadata?.name ??
+                            friend?.user_metadata?.email?.split("@")[0]}
                         </TypographyH5AsSpan>
                         <TypographyP size="xs" muted>
                           {friend?.user_metadata?.biography ?? "Pas de biographie"}

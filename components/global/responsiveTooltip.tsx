@@ -31,7 +31,7 @@ const ResponsiveTooltip = ({
         <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger asChild>{children}</TooltipTrigger>
-            <TooltipContent side={side} align={align}>
+            <TooltipContent side={side} align={align} className="max-w-sm">
               <TypographySpan muted>{text}</TypographySpan>
             </TooltipContent>
           </Tooltip>
@@ -41,7 +41,7 @@ const ResponsiveTooltip = ({
       <div className="block md:hidden">
         <Popover>
           <PopoverTrigger>{children}</PopoverTrigger>
-          <PopoverContent side={side} align={align}>
+          <PopoverContent side={side} align={align} className="max-w-sm">
             <TypographySpan muted>{text}</TypographySpan>
           </PopoverContent>
         </Popover>

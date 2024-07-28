@@ -6,6 +6,7 @@ import Pricing from "@/components/home/pricing";
 import { createClient } from "@/utils/supabase/server";
 import Footer from "@/components/home/footer";
 import type { Topics } from "@/types/topics/topics";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const supabase = createClient();
@@ -14,6 +15,10 @@ export default async function Home() {
   const { data, error } = await supabase.auth.getUser();
 
   const isUserConnected = !error && !!data?.user;
+
+  if (!error && data?.user) {
+    redirect("/app");
+  }
 
   return (
     <>

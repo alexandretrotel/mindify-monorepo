@@ -1,31 +1,29 @@
 import AccountDropdown from "@/components/global/accountDropdown";
-import BookCover from "@/components/global/bookCover";
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import TypographyH4AsSpan from "@/components/typography/h4AsSpan";
 import TypographyP from "@/components/typography/p";
 import TypographySpan from "@/components/typography/span";
 import { Button } from "@/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { Summaries } from "@/types/summary/summary";
-import type { Topics } from "@/types/topics/topics";
-import type { UserLibrary, UserReads } from "@/types/user";
 import { createClient } from "@/utils/supabase/server";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { UUID } from "crypto";
-import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { redirect } from "next/navigation";
 import { supabaseAdmin } from "@/utils/supabase/admin";
-import CopyProfileLinkButton from "@/app/app/(middleware)/profile/components/buttons/copyProfileLink";
-import { isFriend } from "@/actions/friends";
-import Friendship from "@/app/app/(middleware)/profile/components/buttons/friendship";
-import MyFriends from "@/app/app/(middleware)/profile/components/myFriends";
-import Friends from "@/app/app/(middleware)/profile/components/friends";
-import ReadingStreak from "@/app/app/(middleware)/profile/components/readingStreak";
-import TopicsList from "@/app/app/(middleware)/profile/components/topicsList";
+import CopyProfileLinkButton from "@/app/app/(middleware)/profile/components/header/CopyProfileLink";
+import Friendship from "@/app/app/(middleware)/profile/components/header/Friendship";
+import MyFriends from "@/app/app/(middleware)/profile/components/friends/MyFriends";
+import Friends from "@/app/app/(middleware)/profile/components/friends/Friends";
+import ReadingStreak from "@/app/app/(middleware)/profile/components/header/ReadingStreak";
+import TopicsList, {
+  TopicsListSkeleton
+} from "@/app/app/(middleware)/profile/components/topics/TopicsList";
+import ResponsiveTooltip from "@/components/global/responsiveTooltip";
+import { CircleHelpIcon } from "lucide-react";
+import LibrarySnippet from "@/app/app/(middleware)/profile/components/library/LibrarySnippet";
+import LibrarySnippetSkeleton from "@/app/app/(middleware)/profile/components/library/skeleton/LibrarySnippetSkeleton";
+import FriendsSkeleton from "@/app/app/(middleware)/profile/components/friends/skeleton/FriendsSkeleton";
+import MyFriendsSkeleton from "@/app/app/(middleware)/profile/components/friends/skeleton/MyFriendsSkeleton";
 
 const Page = async ({
   searchParams
@@ -43,47 +41,17 @@ const Page = async ({
   const userId: UUID = userData?.user?.id as UUID;
   const userMetadata: UserMetadata = userData?.user?.user_metadata as UserMetadata;
 
-  if (profileId === userId) {
-    redirect("/app/profile");
-  }
-
   let isMyProfile = false;
-  if (!profileId) {
+  if (profileId === userId) {
     isMyProfile = true;
     profileId = userId;
     profileMetadata = userMetadata;
   }
 
-  const isMyFriend = await isFriend({ userId, profileId });
-
-  const { data: topicsData } = await supabase.from("topics").select("*");
-  const topics: Topics = topicsData as Topics;
-
-  const { data: profileReadsData } = await supabase
-    .from("user_reads")
-    .select("*")
-    .eq("user_id", profileId);
-  const profileReads: UserReads = profileReadsData as UserReads;
-
-  const { data: profileLibraryData } = await supabase
-    .from("user_library")
-    .select("*")
-    .eq("user_id", profileId);
-  const profileLibrary: UserLibrary = profileLibraryData as UserLibrary;
-
-  const readSummaryIds = profileReads?.map((profileRead) => profileRead.summary_id) ?? [];
-  const savedSummaryIds = profileLibrary?.map((profileLibrary) => profileLibrary.summary_id) ?? [];
-
-  const { data: summariesData } = await supabase.from("summaries").select("*");
-  const summaries: Summaries = summariesData?.map((summary) => ({
-    ...summary,
-    topic: topics?.find((topic) => topic.id === summary.topic_id)?.name
-  })) as Summaries;
-
-  const profileReadsSummaries = summaries?.filter((summary) => readSummaryIds.includes(summary.id));
-  const profileLibrarySummaries = summaries?.filter((summary) =>
-    savedSummaryIds.includes(summary.id)
-  );
+  if (!profileId) {
+    profileId = userId;
+    profileMetadata = userMetadata;
+  }
 
   return (
     <div className="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-4 md:gap-8">
@@ -112,12 +80,7 @@ const Page = async ({
           </div>
         </div>
 
-        <AccountDropdown
-          userMetadata={userMetadata}
-          userId={userId}
-          topics={topics}
-          userTopics={[]}
-        />
+        <AccountDropdown />
       </div>
 
       <div className="flex w-full flex-wrap items-center gap-4">
@@ -140,107 +103,38 @@ const Page = async ({
         <div className="flex max-w-2xl flex-col gap-8 lg:min-w-0 lg:grow">
           <div className="flex flex-col gap-4">
             <TypographySpan isDefaultColor size="lg" semibold>
-              Intérêts
+              <span className="flex items-center">
+                Intérêts{" "}
+                <ResponsiveTooltip
+                  text="Les intérêts communs aux vôtres sont affichés en vert."
+                  align="center"
+                  side="bottom"
+                  cursor="help"
+                >
+                  <CircleHelpIcon className="ml-1 h-4 w-4" />
+                </ResponsiveTooltip>
+              </span>
             </TypographySpan>
 
-            <TopicsList profileId={profileId} />
+            <Suspense fallback={<TopicsListSkeleton />}>
+              <TopicsList profileId={profileId} userId={userId} />
+            </Suspense>
           </div>
 
-          <Tabs defaultValue="reads">
-            <div className="flex flex-col gap-4">
-              <div className="flex items-start justify-between gap-8">
-                <TabsList>
-                  <TabsTrigger value="reads">Résumés lus</TabsTrigger>
-                  <TabsTrigger value="saved">Enregistrés</TabsTrigger>
-                </TabsList>
-
-                {profileReadsSummaries?.length > 0 ||
-                  (profileLibrarySummaries?.length > 0 && (
-                    <Button variant="outline" asChild>
-                      <Link
-                        href={`/app/profile/${profileId}/summaries`}
-                        className="flex items-center"
-                      >
-                        Voir tout
-                      </Link>
-                    </Button>
-                  ))}
-              </div>
-
-              <TabsContent value="reads" className="w-full">
-                <Carousel
-                  opts={{
-                    align: "start",
-                    slidesToScroll: "auto"
-                  }}
-                  className="w-full"
-                >
-                  {profileReadsSummaries.length > 0 ? (
-                    <CarouselContent className="-ml-4">
-                      {profileReadsSummaries?.map((summary) => {
-                        return (
-                          <CarouselItem key={summary.id} className="basis-1/2 pl-4 md:basis-1/3">
-                            <Link
-                              href={`/app/summary/${summary.author_slug}/${summary.slug}`}
-                              className="h-full"
-                            >
-                              <BookCover
-                                title={summary.title}
-                                author={summary.author}
-                                category={summary.topic}
-                                source={summary.source_type}
-                              />
-                            </Link>
-                          </CarouselItem>
-                        );
-                      })}
-                    </CarouselContent>
-                  ) : (
-                    <div className="flex h-96 flex-col items-center justify-center gap-4 text-center">
-                      <TypographyH3AsSpan>Aucun résumé</TypographyH3AsSpan>
-                    </div>
-                  )}
-                </Carousel>
-              </TabsContent>
-
-              <TabsContent value="saved">
-                <Carousel opts={{ align: "start", slidesToScroll: "auto" }} className="w-full">
-                  {profileLibrarySummaries.length > 0 ? (
-                    <CarouselContent className="-ml-4">
-                      {profileLibrarySummaries?.map((summary) => {
-                        return (
-                          <CarouselItem key={summary.id} className="basis-1/2 pl-4 md:basis-1/3">
-                            <Link
-                              href={`/app/summary/${summary.author_slug}/${summary.slug}`}
-                              className="h-full"
-                            >
-                              <BookCover
-                                title={summary.title}
-                                author={summary.author}
-                                category={summary.topic}
-                                source={summary.source_type}
-                              />
-                            </Link>
-                          </CarouselItem>
-                        );
-                      })}
-                    </CarouselContent>
-                  ) : (
-                    <div className="flex h-96 flex-col items-center justify-center gap-4 text-center">
-                      <TypographyH3AsSpan>Aucun résumé</TypographyH3AsSpan>
-                    </div>
-                  )}
-                </Carousel>
-              </TabsContent>
-            </div>
-          </Tabs>
+          <Suspense fallback={<LibrarySnippetSkeleton />}>
+            <LibrarySnippet profileId={profileId} />
+          </Suspense>
         </div>
 
         <div className="flex w-full flex-col gap-8 lg:max-w-md">
           {isMyProfile ? (
-            <MyFriends userId={userId} />
+            <Suspense fallback={<MyFriendsSkeleton />}>
+              <MyFriends userId={userId} />
+            </Suspense>
           ) : (
-            <Friends profileId={profileId} profileMetadata={profileMetadata} />
+            <Suspense fallback={<FriendsSkeleton />}>
+              <Friends profileId={profileId} profileMetadata={profileMetadata} />
+            </Suspense>
           )}
         </div>
       </div>

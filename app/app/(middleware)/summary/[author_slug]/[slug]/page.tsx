@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import AccountDropdown from "@/components/global/accountDropdown";
 import TypographyH1 from "@/components/typography/h1";
 import type { Author, Authors, Summaries, Summary, SummaryChapter } from "@/types/summary/summary";
-import type { Topics } from "@/types/topics/topics";
 import TypographySpan from "@/components/typography/span";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import Link from "next/link";
@@ -19,7 +18,6 @@ import AddToLibraryButton from "@/components/(application)/summary/[author_slug]
 import MarkAsReadButton from "@/components/(application)/summary/[author_slug]/[slug]/markAsReadButton";
 import BookCover from "@/components/global/bookCover";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import type { UserMetadata } from "@supabase/supabase-js";
 
 const Page = async ({ params }: { params: { author_slug: string; slug: string } }) => {
   const { slug, author_slug } = params;
@@ -32,7 +30,6 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
     redirect("/");
   }
 
-  const userMetadata: UserMetadata = data?.user?.user_metadata;
   const userId = data?.user?.id as UUID;
 
   const { data: topics } = await supabase.from("topics").select("*");
@@ -40,12 +37,6 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
   if (!topics) {
     redirect("/");
   }
-
-  const { data: userTopicsData } = await supabase
-    .from("user_topics")
-    .select("topics(*)")
-    .eq("user_id", userId);
-  const userTopics = userTopicsData?.flatMap((data) => data?.topics);
 
   const { data: authorsData } = await supabase.from("authors").select("*");
   const authors: Authors = authorsData as Authors;
@@ -114,20 +105,15 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
                 <div className="flex flex-col gap-2">
                   <TypographySpan isPrimaryColor>
                     <Link href={`/app/topic/${topic_slug}`} className="hover:underline">
-                      {summary.topic}
+                      {summary?.topic}
                     </Link>{" "}
-                    • {sourceToString(summary.source_type)}
+                    • {sourceToString(summary?.source_type)}
                   </TypographySpan>
-                  <TypographyH1>{summary.title}</TypographyH1>
-                  <TypographyH3AsSpan muted>Par {author.name}</TypographyH3AsSpan>
+                  <TypographyH1>{summary?.title}</TypographyH1>
+                  <TypographyH3AsSpan muted>Par {author?.name}</TypographyH3AsSpan>
                 </div>
 
-                <AccountDropdown
-                  userMetadata={userMetadata}
-                  userId={userId}
-                  topics={topics}
-                  userTopics={userTopics as Topics}
-                />
+                <AccountDropdown />
               </div>
 
               <div className="flex flex-col gap-2">
