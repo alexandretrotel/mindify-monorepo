@@ -33,12 +33,10 @@ export type Author = {
 
 export type Authors = Author[];
 
-export type SummaryChapter = {
+export type SummaryChapters = {
   id: number;
   summary_id: number;
   titles: string[];
   texts: string[];
   created_at: Date;
 };
-
-export type SummaryChapters = SummaryChapter[];

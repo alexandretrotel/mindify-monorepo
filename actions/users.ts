@@ -8,6 +8,8 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { UUID } from "crypto";
 import type { User } from "@supabase/supabase-js";
+import type { UserLibrary, UserReads } from "@/types/user";
+import { differenceInDays, parseISO } from "date-fns";
 
 const nameSchema = z.object({
   name: z
@@ -180,19 +182,26 @@ export async function getUserReadingStreak({ userId }: { userId: UUID }) {
     .select("read_at")
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
-  const dates = data?.flatMap((read) => new Date(read.read_at)) ?? [];
 
-  const currentDate = new Date();
-  const streak = dates.reduce((acc, date) => {
-    const diff = currentDate.getTime() - date.getTime();
-    const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+  const streak = data?.reduce((acc, read, index) => {
+    if (index === 0) {
+      return 1;
+    }
 
-    if (diffDays === acc) {
-      return acc - 1;
+    const previousRead = data[index - 1];
+    const previousReadDate = parseISO(previousRead?.read_at);
+    const currentDate = parseISO(read?.read_at);
+
+    const daysDifference = differenceInDays(currentDate, previousReadDate);
+
+    if (daysDifference === 1) {
+      return acc + 1;
+    } else if (daysDifference > 1) {
+      return 0;
     }
 
     return acc;
-  }, dates.length);
+  }, 0);
 
   if (error) {
     console.error(error);
@@ -200,4 +209,62 @@ export async function getUserReadingStreak({ userId }: { userId: UUID }) {
   }
 
   return streak;
+}
+
+export async function getUserReads({ userId }: { userId: UUID }) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("user_reads")
+    .select("summary_id")
+    .eq("user_id", userId);
+
+  const reads = data?.map((read) => read.summary_id) as UserReads;
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les lectures.");
+  }
+
+  return reads;
+}
+
+export async function hasUserSavedSummary({
+  userId,
+  summaryId
+}: {
+  userId: UUID;
+  summaryId: number;
+}) {
+  const supabase = createClient();
+
+  const { data: userLibraryData } = await supabase
+    .from("user_library")
+    .select("*")
+    .eq("user_id", userId);
+  const userLibrary: UserLibrary = userLibraryData as UserLibrary;
+
+  const isSummarySaved: boolean = userLibrary?.some((library) => library?.summary_id === summaryId);
+
+  return isSummarySaved;
+}
+
+export async function hasUserReadSummary({
+  userId,
+  summaryId
+}: {
+  userId: UUID;
+  summaryId: number;
+}) {
+  const supabase = createClient();
+
+  const { data: userReadsData } = await supabase
+    .from("user_reads")
+    .select("*")
+    .eq("user_id", userId);
+  const userReads: UserReads = userReadsData as UserReads;
+
+  const isSummaryRead: boolean = userReads.some((read) => read?.summary_id === summaryId);
+
+  return isSummaryRead;
 }

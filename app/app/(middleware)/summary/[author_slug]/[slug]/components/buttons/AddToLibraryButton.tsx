@@ -1,62 +1,18 @@
-"use client";
-import "client-only";
-
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { CheckIcon, LibraryBigIcon } from "lucide-react";
-import { addSummaryToLibrary, removeSummaryFromLibrary } from "@/actions/summaries";
+import React from "react";
 import { UUID } from "crypto";
-import { useToast } from "@/components/ui/use-toast";
+import { hasUserSavedSummary } from "@/actions/users";
+import AddToLibraryButtonClient from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/buttons/client/AddToLibraryButtonClient";
 
-const AddToLibraryButton = ({
-  userId,
-  summaryId,
-  isSummarySaved
-}: {
-  userId: UUID;
-  summaryId: number;
-  isSummarySaved: boolean;
-}) => {
-  const [optimisticSummarySaved, setOptimisticSummarySaved] = useState(isSummarySaved);
+const AddToLibraryButton = async ({ userId, summaryId }: { userId: UUID; summaryId: number }) => {
+  const isSummarySaved = await hasUserSavedSummary({ userId, summaryId });
 
-  const { toast } = useToast();
-
-  const handleClick = async () => {
-    setOptimisticSummarySaved(!optimisticSummarySaved);
-
-    if (optimisticSummarySaved) {
-      try {
-        await removeSummaryFromLibrary(userId, summaryId);
-      } catch (error) {
-        console.error(error);
-        setOptimisticSummarySaved(true);
-        toast({ title: "Une erreur s'est produite !", variant: "destructive" });
-      }
-    } else {
-      try {
-        await addSummaryToLibrary(userId, summaryId);
-      } catch (error) {
-        console.error(error);
-        setOptimisticSummarySaved(false);
-        toast({ title: "Une erreur s'est produite !", variant: "destructive" });
-      }
-    }
-  };
-
-  if (optimisticSummarySaved) {
-    return (
-      <Button variant="default" size="sm" className="flex items-center gap-2" onClick={handleClick}>
-        Enregistré <CheckIcon className="h-4 w-4" />
-      </Button>
-    );
-  } else {
-    return (
-      <Button variant="outline" size="sm" className="flex items-center gap-2" onClick={handleClick}>
-        <LibraryBigIcon className="h-4 w-4" />
-        Ajouter à ma bibliothèque
-      </Button>
-    );
-  }
+  return (
+    <AddToLibraryButtonClient
+      userId={userId}
+      summaryId={summaryId}
+      isSummarySaved={isSummarySaved}
+    />
+  );
 };
 
 export default AddToLibraryButton;

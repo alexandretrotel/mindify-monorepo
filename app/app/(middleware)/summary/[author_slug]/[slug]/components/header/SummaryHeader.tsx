@@ -9,8 +9,8 @@ import { getTopicFromSummaryId } from "@/actions/topics";
 import type { Summary } from "@/types/summary/summary";
 
 const SummaryHeader = async ({ summary }: { summary: Summary }) => {
-  const author = await getAuthorFromSummaryId(summary.id);
-  const topic = await getTopicFromSummaryId(summary.id);
+  const author = await getAuthorFromSummaryId(summary?.id);
+  const topic = await getTopicFromSummaryId(summary?.id);
   const topic_slug = topic?.slug;
 
   return (
