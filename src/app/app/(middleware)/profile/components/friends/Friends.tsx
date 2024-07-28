@@ -12,6 +12,8 @@ import { UUID } from "crypto";
 import type { UserMetadata } from "@supabase/supabase-js";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 
+export const revalidate = 0;
+
 const Friends = async ({
   profileId,
   profileMetadata
@@ -34,8 +36,8 @@ const Friends = async ({
           {friends?.length > 0 ? (
             friends?.map((friend) => {
               return (
-                <>
-                  <div key={friend.id} className="flex items-center justify-between gap-4">
+                <div key={friend.id}>
+                  <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
                       <Avatar>
                         <AvatarImage
@@ -74,7 +76,7 @@ const Friends = async ({
                     </div>
                   </div>
                   {friends.indexOf(friend) !== friends.length - 1 && <Separator className="my-4" />}
-                </>
+                </div>
               );
             })
           ) : (

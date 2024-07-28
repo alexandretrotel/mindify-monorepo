@@ -5,6 +5,8 @@ import { createClient } from "@/utils/supabase/server";
 import StatisticsClient from "@/app/app/(middleware)/components/client/StatisticsClient";
 import type { UUID } from "crypto";
 
+export const revalidate = 0;
+
 const Statistics = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
 

@@ -176,6 +176,7 @@ const StatisticsClient = ({
               </span>
             </CardTitle>
           </CardHeader>
+
           <CardContent className="hidden p-0 lg:block">
             <ChartContainer
               config={{

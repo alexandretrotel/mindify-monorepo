@@ -8,7 +8,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster as Sonner } from "sonner";
 import { Toaster } from "@/components/ui/toaster";
-// import { headers } from "next/headers";
 
 // Import global styles
 import "./globals.css";
@@ -128,8 +127,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const nonce = headers().get("x-nonce");
-
   return (
     <html lang="fr" suppressHydrationWarning>
       <Head>

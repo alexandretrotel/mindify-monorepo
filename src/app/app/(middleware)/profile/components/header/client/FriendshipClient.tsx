@@ -17,31 +17,17 @@ const ClientFriendship = ({
   profileId: UUID;
   initialFriendStatus: FriendStatus;
 }) => {
-  const [isFriend, setIsFriend] = React.useState<boolean>(false);
   const [friendStatus, setFriendStatus] = React.useState<FriendStatus | undefined>(
     initialFriendStatus
   );
 
-  React.useEffect(() => {
-    if (friendStatus === "accepted") {
-      setIsFriend(true);
-    } else {
-      setIsFriend(false);
-    }
-  }, [friendStatus]);
-
   const { toast } = useToast();
 
   const handleAskForFriend = async ({ userId, profileId }: { userId: UUID; profileId: UUID }) => {
-    if (isFriend) {
-      return;
-    }
-
     if (friendStatus === "pending") {
       return;
     }
 
-    setIsFriend(true);
     setFriendStatus("pending");
 
     try {
@@ -53,7 +39,6 @@ const ClientFriendship = ({
       });
     } catch (error) {
       console.error(error);
-      setIsFriend(false);
       setFriendStatus(undefined);
       toast({
         title: "Erreur",
@@ -70,7 +55,6 @@ const ClientFriendship = ({
     userId: UUID;
     profileId: UUID;
   }) => {
-    setIsFriend(false);
     setFriendStatus(undefined);
 
     try {
@@ -82,7 +66,6 @@ const ClientFriendship = ({
       });
     } catch (error) {
       console.error(error);
-      setIsFriend(true);
       setFriendStatus("pending");
       toast({
         title: "Erreur",
@@ -93,8 +76,6 @@ const ClientFriendship = ({
   };
 
   const handleRemoveFriend = async ({ userId, profileId }: { userId: UUID; profileId: UUID }) => {
-    setIsFriend(false);
-
     try {
       await removeFriend({ userId, profileId });
       toast({
@@ -103,7 +84,6 @@ const ClientFriendship = ({
       });
     } catch (error) {
       console.error(error);
-      setIsFriend(true);
       toast({
         title: "Erreur",
         description: "Impossible de retirer l'ami.",
@@ -112,7 +92,7 @@ const ClientFriendship = ({
     }
   };
 
-  if (!isFriend && friendStatus === "pending") {
+  if (friendStatus === "pending") {
     return (
       <Button
         size="sm"
@@ -124,7 +104,7 @@ const ClientFriendship = ({
     );
   }
 
-  if (isFriend) {
+  if (friendStatus === "accepted") {
     return (
       <Button
         size="sm"
@@ -136,13 +116,11 @@ const ClientFriendship = ({
     );
   }
 
-  if (!isFriend) {
-    return (
-      <Button size="sm" onClick={() => handleAskForFriend({ userId, profileId })}>
-        Demander en ami
-      </Button>
-    );
-  }
+  return (
+    <Button size="sm" onClick={() => handleAskForFriend({ userId, profileId })}>
+      Demander en ami
+    </Button>
+  );
 };
 
 export default ClientFriendship;

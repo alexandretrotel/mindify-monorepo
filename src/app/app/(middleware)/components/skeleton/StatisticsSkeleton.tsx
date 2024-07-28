@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import TypographyH3 from "@/components/typography/h3";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRightIcon } from "lucide-react";
@@ -18,6 +18,7 @@ const StatisticsSkeleton = async () => {
           <CardHeader className="space-y-0">
             <CardTitle className="text-xl tabular-nums">Mon profil</CardTitle>
           </CardHeader>
+
           <CardContent>
             <Button asChild>
               <Link href="/app/profile" className="flex w-full items-center">
@@ -34,6 +35,7 @@ const StatisticsSkeleton = async () => {
               <Skeleton className="mb-4 h-16 w-full" />
             </CardTitle>
           </CardHeader>
+
           <CardContent className="hidden lg:block">
             <Skeleton className="h-64 w-full" />
           </CardContent>
@@ -45,6 +47,7 @@ const StatisticsSkeleton = async () => {
               <Skeleton className="mb-4 h-16 w-full" />
             </CardTitle>
           </CardHeader>
+
           <CardContent className="hidden lg:block">
             <Skeleton className="h-64 w-full" />
           </CardContent>

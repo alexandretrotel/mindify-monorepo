@@ -42,7 +42,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.1.7",
-    "framer-motion": "^11.3.17",
+    "framer-motion": "^11.3.19",
     "fuse.js": "^7.0.0",
     "lucide-react": "^0.414.0",
     "next": "^14.2.5",
@@ -63,7 +63,7 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/node": "^20.14.12",
+    "@types/node": "^20.14.13",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.17.0",
@@ -75,7 +75,7 @@
     "prettier": "3.3.2",
     "prettier-eslint": "^16.3.0",
     "prettier-plugin-tailwindcss": "^0.6.5",
-    "tailwindcss": "^3.4.6",
+    "tailwindcss": "^3.4.7",
     "typescript": "^5.5.4"
   }
 }
