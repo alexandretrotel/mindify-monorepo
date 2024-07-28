@@ -1,33 +1,8 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { type NextRequest } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
-  const cspHeader = ``; // (to add later maybe)
-
-  // replace newline characters and spaces
-  const contentSecurityPolicyHeaderValue = cspHeader.replace(/\s{2,}/g, " ").trim();
-
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-nonce", nonce);
-
-  requestHeaders.set("Content-Security-Policy", contentSecurityPolicyHeaderValue);
-
-  const response = NextResponse.next({
-    request: {
-      headers: requestHeaders
-    }
-  });
-  response.headers.set("Content-Security-Policy", contentSecurityPolicyHeaderValue);
-
-  const sessionResponse = await updateSession(request);
-
-  // merge the session response headers with the CSP headers
-  sessionResponse.headers.forEach((value, key) => {
-    response.headers.set(key, value);
-  });
-
-  return response;
+  return await updateSession(request);
 }
 
 export const config = {

@@ -18,6 +18,7 @@ const StatisticsSkeleton = async () => {
           <CardHeader className="space-y-0">
             <CardTitle className="text-xl tabular-nums">Mon profil</CardTitle>
           </CardHeader>
+
           <CardContent>
             <Button asChild>
               <Link href="/app/profile" className="flex w-full items-center">
@@ -34,6 +35,7 @@ const StatisticsSkeleton = async () => {
               <Skeleton className="mb-4 h-16 w-full" />
             </CardTitle>
           </CardHeader>
+
           <CardContent className="hidden lg:block">
             <Skeleton className="h-64 w-full" />
           </CardContent>
@@ -45,6 +47,7 @@ const StatisticsSkeleton = async () => {
               <Skeleton className="mb-4 h-16 w-full" />
             </CardTitle>
           </CardHeader>
+
           <CardContent className="hidden lg:block">
             <Skeleton className="h-64 w-full" />
           </CardContent>

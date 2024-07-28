@@ -40,14 +40,9 @@ const Page = async ({
   const userId: UUID = userData?.user?.id as UUID;
   const userMetadata: UserMetadata = userData?.user?.user_metadata as UserMetadata;
 
-  let isMyProfile = false;
-  if (profileId === userId) {
-    isMyProfile = true;
-    profileId = userId;
-    profileMetadata = userMetadata;
-  }
+  const isMyProfile = userId === profileId;
 
-  if (!profileId) {
+  if (!profileId || userId === profileId) {
     profileId = userId;
     profileMetadata = userMetadata;
   }
@@ -83,9 +78,7 @@ const Page = async ({
       </div>
 
       <div className="flex w-full flex-wrap items-center gap-4">
-        {!isMyProfile ? (
-          <Friendship userId={userId} profileId={profileId} />
-        ) : (
+        {isMyProfile || !profileId ? (
           <>
             <Button size="sm" disabled>
               Modifier le profil
@@ -93,6 +86,8 @@ const Page = async ({
 
             <CopyProfileLinkButton userId={userId} />
           </>
+        ) : (
+          <Friendship userId={userId} profileId={profileId} />
         )}
       </div>
 
