@@ -5,6 +5,8 @@ import AccountDropdown from "@/components/global/AccountDropdown";
 import type { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import LibrarySkeleton from "@/app/app/(middleware)/components/skeleton/LibrarySkeleton";
+import { Suspense } from "react";
 
 export default async function Home() {
   const supabase = createClient();
@@ -35,7 +37,11 @@ export default async function Home() {
           <Discover userId={userId} />
         </TabsContent>
 
-        <TabsContent value="my-library">{/* <Library /> */}</TabsContent>
+        <TabsContent value="my-library">
+          <Suspense fallback={<LibrarySkeleton />}>
+            <Library userId={userId} />
+          </Suspense>
+        </TabsContent>
       </main>
     </Tabs>
   );
