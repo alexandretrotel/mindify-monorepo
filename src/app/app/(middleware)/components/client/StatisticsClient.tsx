@@ -1,3 +1,6 @@
+"use client";
+import "client-only";
+
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import TypographyH3 from "@/components/typography/h3";
@@ -10,7 +13,13 @@ import type { Summaries } from "@/types/summary";
 import { getDateRangeUntilNow } from "@/utils/date";
 import Link from "next/link";
 
-const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries: Summaries }) => {
+const StatisticsClient = ({
+  userReads,
+  summaries
+}: {
+  userReads: UserReads;
+  summaries: Summaries;
+}) => {
   const summariesRead = userReads?.length;
 
   const weekReadsData = Array.from({ length: 7 }, (_, i) => {
@@ -55,7 +64,6 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
     return { date: formattedDate, time };
   });
 
-  // now we can calculate the total reading time
   const totalReadingTime = userReads?.reduce((acc, read) => {
     const summary = summaries.find((summary) => summary.id === read.summary_id);
     return acc + (summary?.reading_time ?? 0);
@@ -211,4 +219,4 @@ const Statistics = ({ userReads, summaries }: { userReads: UserReads; summaries:
   );
 };
 
-export default Statistics;
+export default StatisticsClient;

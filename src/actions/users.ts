@@ -10,6 +10,8 @@ import { UUID } from "crypto";
 import type { User } from "@supabase/supabase-js";
 import type { UserLibrary, UserReads } from "@/types/user";
 import { differenceInDays } from "date-fns";
+import type { Topics } from "@/types/topics";
+import type { Summaries } from "@/types/summary";
 
 const nameSchema = z.object({
   name: z
@@ -263,4 +265,41 @@ export async function hasUserReadSummary({
   const isSummaryRead: boolean = userReads.some((read) => read?.summary_id === summaryId);
 
   return isSummaryRead;
+}
+
+export async function getUserPersonalizedSummariesFromInterests(userId: UUID) {
+  const supabase = createClient();
+
+  const { data: userTopicsData } = await supabase
+    .from("user_topics")
+    .select("topics(*)")
+    .eq("user_id", userId);
+  const userTopics = userTopicsData?.flatMap((data) => data?.topics) as Topics;
+
+  const { data: summariesData } = await supabase
+    .from("summaries")
+    .select("*, authors(*), topics(*)");
+  const summaries = summariesData?.map((summary) => ({
+    ...summary,
+    topic: summary.topics?.name as string,
+    author_slug: summary.authors?.slug as string
+  })) as Summaries;
+
+  const userPersonalizedSummaries = summaries?.filter((summary) =>
+    userTopics?.some((userTopic) => userTopic.id === summary.topic_id)
+  );
+
+  return userPersonalizedSummaries;
+}
+
+export async function getUserSummariesFromLibrary(userId: UUID) {
+  const supabase = createClient();
+
+  const { data: userLibraryData } = await supabase
+    .from("user_library")
+    .select("summaries(*)")
+    .eq("user_id", userId);
+  const userLibrary: Summaries = userLibraryData?.flatMap((data) => data?.summaries) as Summaries;
+
+  return userLibrary;
 }

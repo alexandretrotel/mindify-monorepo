@@ -6,7 +6,7 @@ import TypographyP from "@/components/typography/p";
 import TypographySpan from "@/components/typography/span";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import Logo from "@/public/logos/mindify-square.svg";
+import Logo from "@/../public/logos/mindify-square.svg";
 import TypographyH2 from "@/components/typography/h2";
 
 const navigation = {

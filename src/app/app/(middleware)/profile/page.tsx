@@ -15,15 +15,14 @@ import Friendship from "@/app/app/(middleware)/profile/components/header/Friends
 import MyFriends from "@/app/app/(middleware)/profile/components/friends/MyFriends";
 import Friends from "@/app/app/(middleware)/profile/components/friends/Friends";
 import ReadingStreak from "@/app/app/(middleware)/profile/components/header/ReadingStreak";
-import TopicsList, {
-  TopicsListSkeleton
-} from "@/app/app/(middleware)/profile/components/topics/TopicsList";
+import TopicsList from "@/app/app/(middleware)/profile/components/topics/TopicsList";
 import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
 import { CircleHelpIcon } from "lucide-react";
 import LibrarySnippet from "@/app/app/(middleware)/profile/components/library/LibrarySnippet";
 import LibrarySnippetSkeleton from "@/app/app/(middleware)/profile/components/library/skeleton/LibrarySnippetSkeleton";
 import FriendsSkeleton from "@/app/app/(middleware)/profile/components/friends/skeleton/FriendsSkeleton";
 import MyFriendsSkeleton from "@/app/app/(middleware)/profile/components/friends/skeleton/MyFriendsSkeleton";
+import TopicsListSkeleton from "@/app/app/(middleware)/profile/components/topics/skeleton/TopicsListSkeleton";
 
 const Page = async ({
   searchParams

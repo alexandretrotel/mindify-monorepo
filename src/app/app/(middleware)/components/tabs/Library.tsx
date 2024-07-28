@@ -33,19 +33,7 @@ const statuses: Statuses = [
 
 const sources: Sources = ["book", "article", "podcast", "video"] as Sources;
 
-const Library = ({
-  topics,
-  summaries,
-  authors,
-  userReads,
-  userLibrary
-}: {
-  topics: Topics;
-  summaries: Summaries;
-  authors: Authors;
-  userReads: UserReads;
-  userLibrary: UserLibrary;
-}) => {
+const Library = () => {
   const [book, setBook] = React.useState<string | undefined>(undefined);
   const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(undefined);
   const [selectedSource, setSelectedSource] = React.useState<string | undefined>(undefined);

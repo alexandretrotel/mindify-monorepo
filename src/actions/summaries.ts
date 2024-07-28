@@ -7,6 +7,8 @@ import { revalidatePath } from "next/cache";
 import { getAuthorFromSlug } from "@/actions/authors";
 import type { Authors, Summaries, Summary, SummaryChapters } from "@/types/summary";
 import { getUserReads } from "@/actions/users";
+import type { UserReads } from "@/types/user";
+import type { Topics } from "@/types/topics";
 
 export async function addSummaryToLibrary(userId: UUID, summaryId: number) {
   const supabase = createClient();
@@ -165,4 +167,35 @@ export async function countSummariesByTopicId(topicId: number) {
   }
 
   return count as number;
+}
+
+export async function getPopulatedSummaries({ userId }: { userId: UUID }) {
+  const supabase = createClient();
+
+  const { data } = await supabase.auth.getUser();
+
+  if (!data?.user) {
+    throw new Error("Impossible de récupérer les résumés.");
+  }
+
+  const { data: topicsData } = await supabase.from("topics").select("*");
+  const topics = topicsData as Topics;
+
+  const { data: authorData } = await supabase.from("authors").select("*");
+  const authors = authorData as Authors;
+
+  const { data: userReadsData } = await supabase.from("user_reads").select("*");
+  const userReads: UserReads = userReadsData?.filter(
+    (read) => read.user_id === data?.user?.id
+  ) as UserReads;
+
+  const { data: summariesData } = await supabase.from("summaries").select("*");
+  const summaries: Summaries = summariesData?.map((summary) => ({
+    ...summary,
+    topic: topics?.find((topic) => topic?.id === summary?.topic_id)?.name,
+    author_slug: authors?.find((author) => author?.id === summary?.author_id)?.slug,
+    number_of_reads: userReads?.filter((read) => read?.summary_id === summary?.id)?.length
+  })) as Summaries;
+
+  return summaries;
 }

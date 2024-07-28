@@ -16,7 +16,7 @@ import {
 import ToggleTheme from "@/components/global/ToggleTheme";
 import H2 from "@/components/typography/h2";
 import Banner from "@/app/components/Banner";
-import Logo from "@/public/logos/mindify-square.svg";
+import Logo from "@/../public/logos/mindify-square.svg";
 import Image from "next/image";
 
 const navigation = [
