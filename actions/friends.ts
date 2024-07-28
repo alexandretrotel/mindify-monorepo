@@ -5,13 +5,17 @@ import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { getUsersData } from "@/actions/users";
-import { friendStatus } from "@/types/user";
+import type { FriendStatus } from "@/types/user";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function askForFriend({ userId, profileId }: { userId: UUID; profileId: UUID }) {
   const supabase = createClient();
 
   try {
+    if (userId === profileId) {
+      throw new Error("Impossible de s'ajouter soi-même en ami.");
+    }
+
     await supabase.from("user_friends").insert({
       user_id: userId,
       friend_id: profileId,
@@ -56,6 +60,21 @@ export async function acceptFriendRequest({
   const supabase = createClient();
 
   try {
+    const { data, error } = await supabase
+      .from("user_friends")
+      .select("status")
+      .eq("user_id", profileId)
+      .eq("friend_id", userId);
+
+    if (error) {
+      console.error(error);
+      throw new Error("Impossible d'accepter la demande d'ami.");
+    }
+
+    if (data?.[0]?.status !== "pending") {
+      throw new Error("La demande d'ami n'existe pas ou a déjà été acceptée.");
+    }
+
     await supabase.from("user_friends").upsert({
       user_id: userId,
       friend_id: profileId,
@@ -84,6 +103,21 @@ export async function rejectFriendRequest({
   profileId: UUID;
 }) {
   const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("user_friends")
+    .select("status")
+    .eq("user_id", profileId)
+    .eq("friend_id", userId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de rejeter la demande d'ami.");
+  }
+
+  if (data?.[0]?.status !== "pending") {
+    throw new Error("La demande d'ami n'existe pas ou a déjà été acceptée.");
+  }
 
   try {
     await supabase.from("user_friends").delete().eq("user_id", profileId).eq("friend_id", userId);
@@ -114,6 +148,10 @@ export async function removeFriend({ userId, profileId }: { userId: UUID; profil
 
 export async function blockUser({ userId, profileId }: { userId: UUID; profileId: UUID }) {
   const supabase = createClient();
+
+  if (userId === profileId) {
+    throw new Error("Impossible de se bloquer soi-même.");
+  }
 
   const { error } = await supabase.from("user_friends").upsert({
     user_id: userId,
@@ -246,5 +284,5 @@ export async function getFriendStatus({ userId, profileId }: { userId: UUID; pro
     throw new Error("Impossible de récupérer le statut de l'ami.");
   }
 
-  return data?.[0]?.status as friendStatus;
+  return data?.[0]?.status as FriendStatus;
 }

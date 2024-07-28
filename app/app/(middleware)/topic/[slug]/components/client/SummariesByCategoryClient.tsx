@@ -59,7 +59,7 @@ const SummariesByCategoryClient = ({
         <SearchIcon className="absolute left-2 top-3 flex h-4 w-4 text-muted-foreground" />
         <Input
           type="search"
-          placeholder="Titre, auteur, etc..."
+          placeholder="Titre, auteur, mots-clés, etc..."
           className="w-full rounded-lg bg-background pl-8"
           value={summarySearch ?? ""}
           onChange={(e) => setSummarySearch(e.target.value)}
