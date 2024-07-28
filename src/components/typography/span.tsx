@@ -29,11 +29,11 @@ export default function TypographySpan({
 }>) {
   return (
     <span
-      className={`${semibold && "font-semibold"} ${primaryColor(
+      className={`${!!semibold && "font-semibold"} ${primaryColor(
         isPrimaryColor as boolean,
         isDefaultColor as boolean,
         muted as boolean
-      )} ${center && "text-center"} ${size && getTextSizeClass(size)}`}
+      )} ${!!center && "text-center"} ${!!size && getTextSizeClass(size)}`}
     >
       {children}
     </span>
