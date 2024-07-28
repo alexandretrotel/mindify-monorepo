@@ -4,7 +4,7 @@ import "client-only";
 import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signInWithPassword, signInWithSocials, signUpWithPassword } from "@/src/actions/auth";
+import { signInWithPassword, signInWithSocials, signUpWithPassword } from "@/actions/auth";
 import { SubmitButton } from "@/components/global/buttons/SubmitButton";
 import type { SocialProvider } from "@/types/auth";
 import { Button } from "@/components/ui/button";

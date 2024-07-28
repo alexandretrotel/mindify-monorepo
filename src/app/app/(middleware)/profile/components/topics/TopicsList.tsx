@@ -2,9 +2,8 @@ import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
 import React from "react";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
-import { getUserTopics } from "@/src/actions/topics";
+import { getUserTopics } from "@/actions/topics";
 import TopicIcon from "@/components/global/TopicIcon";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const TopicsList = async ({ profileId, userId }: { profileId: UUID; userId: UUID }) => {
   const topics = await getUserTopics(profileId);

@@ -1,4 +1,4 @@
-import { getSummaryChapters } from "@/src/actions/summaries";
+import { getSummaryChapters } from "@/actions/summaries";
 import React from "react";
 import TypographyH2 from "@/components/typography/h2";
 import TypographySpan from "@/components/typography/span";

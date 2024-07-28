@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getFriendsData, getPendingFriendsData } from "@/src/actions/friends";
+import { getFriendsData, getPendingFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
 import MyFriendClient from "./client/MyFriendClient";
 

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import Link from "next/link";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
-import { getSummaryChapters } from "@/src/actions/summaries";
+import { getSummaryChapters } from "@/actions/summaries";
 
 const TableOfContents = async ({ summaryId }: { summaryId: number }) => {
   const summaryChapters = await getSummaryChapters(summaryId);

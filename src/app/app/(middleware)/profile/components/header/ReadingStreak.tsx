@@ -1,7 +1,7 @@
 import TypographySpan from "@/components/typography/span";
 import { UUID } from "crypto";
 import { FlameIcon } from "lucide-react";
-import { getUserReadingStreak } from "@/src/actions/users";
+import { getUserReadingStreak } from "@/actions/users";
 
 import React from "react";
 import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";

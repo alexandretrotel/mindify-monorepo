@@ -4,9 +4,9 @@ import { Label } from "@/components/ui/label";
 import { SearchIcon } from "lucide-react";
 import TypographyH1 from "@/components/typography/h1";
 import TypographyP from "@/components/typography/p";
-import Topics from "@/src/app/components/hero/Topics";
+import Topics from "@/app/components/hero/Topics";
 import { Suspense } from "react";
-import TopicsSkeleton from "@/src/app/components/hero/skeleton/TopicsSkeleton";
+import TopicsSkeleton from "@/app/components/hero/skeleton/TopicsSkeleton";
 
 const Hero = async () => {
   return (

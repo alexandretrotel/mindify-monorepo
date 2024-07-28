@@ -7,7 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import TypographyP from "@/components/typography/p";
-import { getFriendsData } from "@/src/actions/friends";
+import { getFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
 import type { UserMetadata } from "@supabase/supabase-js";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";

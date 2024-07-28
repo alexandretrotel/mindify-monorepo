@@ -1,4 +1,4 @@
-import { getAuthorFromSummaryId } from "@/src/actions/authors";
+import { getAuthorFromSummaryId } from "@/actions/authors";
 import TypographySpan from "@/components/typography/span";
 import React from "react";
 import { ChevronDownIcon } from "lucide-react";

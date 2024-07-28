@@ -4,8 +4,8 @@ import { sourceToString } from "@/utils/topics";
 import TypographySpan from "@/components/typography/span";
 import TypographyH1 from "@/components/typography/h1";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
-import { getAuthorFromSummaryId } from "@/src/actions/authors";
-import { getTopicFromSummaryId } from "@/src/actions/topics";
+import { getAuthorFromSummaryId } from "@/actions/authors";
+import { getTopicFromSummaryId } from "@/actions/topics";
 import type { Summary } from "@/types/summary";
 
 const SummaryHeader = async ({ summary }: { summary: Summary }) => {

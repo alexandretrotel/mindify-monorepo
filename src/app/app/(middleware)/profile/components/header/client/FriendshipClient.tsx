@@ -1,7 +1,7 @@
 "use client";
 import "client-only";
 
-import { askForFriend, cancelFriendRequest, removeFriend } from "@/src/actions/friends";
+import { askForFriend, cancelFriendRequest, removeFriend } from "@/actions/friends";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";

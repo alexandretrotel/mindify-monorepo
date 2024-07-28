@@ -4,9 +4,9 @@ import "server-only";
 import { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { getAuthorFromSlug } from "@/src/actions/authors";
+import { getAuthorFromSlug } from "@/actions/authors";
 import type { Authors, Summaries, Summary, SummaryChapters } from "@/types/summary";
-import { getUserReads } from "@/src/actions/users";
+import { getUserReads } from "@/actions/users";
 
 export async function addSummaryToLibrary(userId: UUID, summaryId: number) {
   const supabase = createClient();

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { getMostPopularSummariesFromSameTopic } from "@/src/actions/summaries";
+import { getMostPopularSummariesFromSameTopic } from "@/actions/summaries";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import BookCover from "@/components/global/BookCover";
 import type { Summary } from "@/types/summary";
