@@ -5,7 +5,6 @@ import Testimonials from "@/app/components/Testimonials";
 import Pricing from "@/app/components/Pricing";
 import { createClient } from "@/utils/supabase/server";
 import Footer from "@/app/components/Footer";
-import type { Topics } from "@/types/topics/topics";
 import { redirect } from "next/navigation";
 
 export default async function Home() {

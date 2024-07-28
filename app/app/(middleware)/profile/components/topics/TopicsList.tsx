@@ -6,18 +6,6 @@ import { getUserTopics } from "@/actions/topics";
 import TopicIcon from "@/components/global/TopicIcon";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export const TopicsListSkeleton = () => {
-  return (
-    <div className="flex flex-wrap items-center gap-2">
-      {[...Array(12)].map((_, index) => (
-        <div key={index}>
-          <Skeleton className="h-8 w-20" />
-        </div>
-      ))}
-    </div>
-  );
-};
-
 const TopicsList = async ({ profileId, userId }: { profileId: UUID; userId: UUID }) => {
   const topics = await getUserTopics(profileId);
   const myTopics = await getUserTopics(userId);

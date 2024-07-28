@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import React from "react";
-import TopicIconsHero from "@/app/components/hero/TopicIconsHero";
+import TopicIconsHero from "@/app/components/hero/client/TopicIconsHero";
 import type { Topics } from "@/types/topics/topics";
 
 const Topics = async () => {

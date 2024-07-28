@@ -5,6 +5,8 @@ import { SearchIcon } from "lucide-react";
 import TypographyH1 from "@/components/typography/h1";
 import TypographyP from "@/components/typography/p";
 import Topics from "@/app/components/hero/Topics";
+import { Suspense } from "react";
+import TopicsSkeleton from "@/app/components/hero/skeleton/TopicsSkeleton";
 
 const Hero = async () => {
   return (
@@ -87,7 +89,9 @@ const Hero = async () => {
             </svg>
           </div>
         </div>
-        <Topics />
+        <Suspense fallback={<TopicsSkeleton />}>
+          <Topics />
+        </Suspense>
       </div>
     </section>
   );
