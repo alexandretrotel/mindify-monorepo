@@ -12,13 +12,16 @@ import type { UserReads } from "@/types/user";
 import type { Summaries } from "@/types/summary";
 import { getDateRangeUntilNow } from "@/utils/date";
 import Link from "next/link";
+import type { UUID } from "crypto";
 
 const StatisticsClient = ({
   userReads,
-  summaries
+  summaries,
+  userId
 }: {
   userReads: UserReads;
   summaries: Summaries;
+  userId: UUID;
 }) => {
   const summariesRead = userReads?.length;
 
@@ -85,7 +88,7 @@ const StatisticsClient = ({
           </CardHeader>
           <CardContent>
             <Button asChild>
-              <Link href="/app/profile" className="flex w-full items-center">
+              <Link href={`/app/profile/${userId}`} className="flex w-full items-center">
                 Voir mon profil
                 <ArrowUpRightIcon className="ml-1 h-4 w-4" />
               </Link>

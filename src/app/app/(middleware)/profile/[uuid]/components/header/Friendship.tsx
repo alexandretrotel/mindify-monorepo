@@ -1,5 +1,5 @@
 import { UUID } from "crypto";
-import FriendshipClient from "@/app/app/(middleware)/profile/components/header/client/FriendshipClient";
+import FriendshipClient from "@/app/app/(middleware)/profile/[uuid]/components/header/client/FriendshipClient";
 import { getFriendStatus } from "@/actions/friends";
 
 export const revalidate = 0;
