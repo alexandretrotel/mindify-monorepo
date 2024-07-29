@@ -89,7 +89,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
               <span className="flex items-center">
                 Intérêts{" "}
                 <ResponsiveTooltip
-                  text="Les intérêts communs aux vôtres sont affichés en vert."
+                  text="Les intérêts en communs avec vous sont affichés en couleur."
                   align="center"
                   side="bottom"
                   cursor="help"

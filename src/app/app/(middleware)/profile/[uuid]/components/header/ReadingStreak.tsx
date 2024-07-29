@@ -23,7 +23,7 @@ const ReadingStreak = async ({ profileId }: { profileId: UUID }) => {
 
       <TypographySpan isDefaultColor semibold>
         <ResponsiveTooltip
-          text="Ce chiffre représente le nombre de jours consécutifs de lecture."
+          text="Nombre de jours consécutifs de lecture."
           side="bottom"
           align="center"
           cursor="help"
