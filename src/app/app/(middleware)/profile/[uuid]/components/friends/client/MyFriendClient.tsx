@@ -22,11 +22,15 @@ import TypographySpan from "@/components/typography/span";
 const MyFriendClient = ({
   userId,
   initialFriends,
-  initialPendingFriends
+  initialPendingFriends,
+  friendsPicture,
+  pendingFriendsPicture
 }: {
   userId: UUID;
   initialFriends: User[];
   initialPendingFriends: User[];
+  friendsPicture: string[];
+  pendingFriendsPicture: string[];
 }) => {
   const [friends, setFriends] = React.useState<User[]>(initialFriends);
   const [pendingFriends, setPendingFriends] = React.useState<User[]>(initialPendingFriends);
@@ -128,14 +132,14 @@ const MyFriendClient = ({
 
             <CardContent>
               {filteredFriends?.length > 0 ? (
-                filteredFriends.map((friend) => {
+                filteredFriends.map((friend, index) => {
                   return (
                     <div key={friend.id}>
                       <div className="flex items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
                           <Avatar>
                             <AvatarImage
-                              src={friend?.user_metadata?.picture}
+                              src={friendsPicture[index]}
                               alt={
                                 friend?.user_metadata?.name ??
                                 friend?.user_metadata?.email?.split("@")[0]
@@ -195,14 +199,14 @@ const MyFriendClient = ({
 
             <CardContent>
               {pendingFriends.length > 0 ? (
-                pendingFriends.map((friend) => {
+                pendingFriends.map((friend, index) => {
                   return (
                     <div key={friend.id}>
                       <div className="flex flex-col gap-4">
                         <div className="flex items-center gap-4">
                           <Avatar>
                             <AvatarImage
-                              src={friend?.user_metadata?.picture}
+                              src={pendingFriendsPicture[index]}
                               alt={
                                 friend?.user_metadata?.name ??
                                 friend?.user_metadata?.email?.split("@")[0]

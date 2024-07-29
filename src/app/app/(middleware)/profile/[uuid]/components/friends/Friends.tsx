@@ -11,6 +11,7 @@ import { UUID } from "crypto";
 import type { UserMetadata } from "@supabase/supabase-js";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 import TypographySpan from "@/components/typography/span";
+import { getUserCustomAvatarFromUserId } from "@/actions/users";
 
 export const revalidate = 0;
 
@@ -22,6 +23,7 @@ const Friends = async ({
   profileMetadata: UserMetadata;
 }) => {
   const friends = await getFriendsData(profileId);
+  const profilePicture = await getUserCustomAvatarFromUserId(profileId);
 
   return (
     <Card>
@@ -41,7 +43,7 @@ const Friends = async ({
                     <div className="flex items-center gap-4">
                       <Avatar>
                         <AvatarImage
-                          src={friend?.user_metadata?.picture}
+                          src={profilePicture}
                           alt={
                             friend?.user_metadata?.name ??
                             friend?.user_metadata?.email?.split("@")[0]

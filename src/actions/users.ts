@@ -144,17 +144,6 @@ export async function userUpdateAvatar(formData: FormData) {
     throw new Error("Impossible d'obtenir l'URL publique de l'avatar.");
   }
 
-  const { error: updateAvatarUrlError } = await supabase.auth.updateUser({
-    data: {
-      picture: avatarUrl.publicUrl
-    }
-  });
-
-  if (updateAvatarUrlError) {
-    console.error(updateAvatarUrlError);
-    throw new Error("Impossible de mettre à jour l'URL de l'avatar.");
-  }
-
   revalidatePath("/", "layout");
   return { message: "Avatar mis à jour avec succès." };
 }
