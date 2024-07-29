@@ -7,7 +7,7 @@ import React from "react";
 import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
 
 const ReadingStreak = async ({ profileId }: { profileId: UUID }) => {
-  const readingStreak = await getUserReadingStreak({ userId: profileId });
+  const { currentStreak: readingStreak } = await getUserReadingStreak({ userId: profileId });
 
   if (!readingStreak) {
     return;

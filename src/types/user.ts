@@ -31,16 +31,6 @@ export type UserRead = {
 
 export type UserReads = UserRead[];
 
-export type SummaryStatus = "completed" | "saved" | "not_started";
-
-export type Status = {
-  id: number;
-  name: string;
-  value: SummaryStatus;
-};
-
-export type Statuses = Status[];
-
 export type UserLibraryItem = {
   id: number;
   user_id: UUID;

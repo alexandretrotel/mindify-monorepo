@@ -76,6 +76,8 @@ const ClientFriendship = ({
   };
 
   const handleRemoveFriend = async ({ userId, profileId }: { userId: UUID; profileId: UUID }) => {
+    setFriendStatus(undefined);
+
     try {
       await removeFriend({ userId, profileId });
       toast({
@@ -84,6 +86,7 @@ const ClientFriendship = ({
       });
     } catch (error) {
       console.error(error);
+      setFriendStatus("accepted");
       toast({
         title: "Erreur",
         description: "Impossible de retirer l'ami.",

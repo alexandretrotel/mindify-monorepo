@@ -1,4 +1,4 @@
-import type { SummaryStatus } from "@/types/user";
+import type { SummaryStatus } from "@/types/summary";
 
 export const statusToString = (status: SummaryStatus): string => {
   switch (status) {
