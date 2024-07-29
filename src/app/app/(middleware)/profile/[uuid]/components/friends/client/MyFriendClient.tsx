@@ -17,7 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { TabsContent } from "@/components/ui/tabs";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
-import TypographyP from "@/components/typography/p";
+import TypographySpan from "@/components/typography/span";
 
 const MyFriendClient = ({
   userId,
@@ -152,9 +152,9 @@ const MyFriendClient = ({
                               {friend?.user_metadata?.name ??
                                 friend?.user_metadata?.email?.split("@")[0]}
                             </TypographyH5AsSpan>
-                            <TypographyP size="xs" muted>
+                            <TypographySpan size="xs" muted>
                               {friend?.user_metadata?.biography ?? "Aucune biographie"}
-                            </TypographyP>
+                            </TypographySpan>
                           </div>
                         </div>
 
@@ -173,9 +173,9 @@ const MyFriendClient = ({
                   );
                 })
               ) : (
-                <TypographyP size="sm" muted>
+                <TypographySpan size="sm" muted>
                   Aucun ami trouvé.
-                </TypographyP>
+                </TypographySpan>
               )}
             </CardContent>
           </ScrollArea>
@@ -219,9 +219,9 @@ const MyFriendClient = ({
                               {friend?.user_metadata?.name ??
                                 friend?.user_metadata?.email?.split("@")[0]}
                             </TypographyH5AsSpan>
-                            <TypographyP size="xs" muted>
+                            <TypographySpan size="xs" muted>
                               {friend?.user_metadata?.biography ?? "Aucune biographie"}
-                            </TypographyP>
+                            </TypographySpan>
                           </div>
                         </div>
 
@@ -252,9 +252,9 @@ const MyFriendClient = ({
                   );
                 })
               ) : (
-                <TypographyP size="sm" muted>
+                <TypographySpan size="sm" muted>
                   Vous n&apos;avez pas de demandes d&apos;amis en attente.
-                </TypographyP>
+                </TypographySpan>
               )}
             </CardContent>
           </ScrollArea>

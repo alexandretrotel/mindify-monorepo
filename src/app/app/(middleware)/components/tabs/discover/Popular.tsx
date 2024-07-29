@@ -9,9 +9,9 @@ import {
 import BookCover from "@/components/global/BookCover";
 import Link from "next/link";
 import TypographyH3 from "@/components/typography/h3";
-import TypographyP from "@/components/typography/p";
 import { createClient } from "@/utils/supabase/server";
 import type { Summaries, Summary } from "@/types/summary";
+import TypographySpan from "@/components/typography/span";
 
 const Popular = async () => {
   const supabase = createClient();
@@ -67,7 +67,7 @@ const Popular = async () => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
           <TypographyH3>Les + populaires</TypographyH3>
-          <TypographyP muted>Explorez les résumés les plus lus.</TypographyP>
+          <TypographySpan muted>Explorez les résumés les plus lus.</TypographySpan>
         </div>
 
         <CarouselContent className="-ml-4">

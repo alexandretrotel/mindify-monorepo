@@ -1,8 +1,8 @@
 import React from "react";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import TypographyH3 from "@/components/typography/h3";
-import TypographyP from "@/components/typography/p";
 import { Skeleton } from "@/components/ui/skeleton";
+import TypographySpan from "@/components/typography/span";
 
 const CategoriesSkeleton = async () => {
   return (
@@ -16,7 +16,9 @@ const CategoriesSkeleton = async () => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
           <TypographyH3>Vos intérêts</TypographyH3>
-          <TypographyP muted>Explorez des résumés en fonction de certains sujets.</TypographyP>
+          <TypographySpan muted>
+            Explorez des résumés en fonction de certains sujets.
+          </TypographySpan>
         </div>
 
         <CarouselContent className="-ml-4">

@@ -1,7 +1,6 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
 import TypographyH5AsSpan from "@/components/typography/h5";
-import TypographyP from "@/components/typography/p";
 import TypographySpan from "../typography/span";
 import type { Source } from "@/types/summary";
 import { sourceToString } from "@/utils/topics";
@@ -22,9 +21,9 @@ const BookCover = ({
       <div className="h-48 w-full bg-slate-200" />
       <div className="p-4">
         <TypographyH5AsSpan>{title}</TypographyH5AsSpan>
-        <TypographyP muted size="sm">
+        <TypographySpan muted size="sm">
           {author}
-        </TypographyP>
+        </TypographySpan>
         <TypographySpan isPrimaryColor size="xs">
           {category} • {sourceToString(source)}
         </TypographySpan>

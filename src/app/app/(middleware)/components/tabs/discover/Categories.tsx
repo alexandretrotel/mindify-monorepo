@@ -6,10 +6,9 @@ import Link from "next/link";
 import TopicIcon from "@/components/global/TopicIcon";
 import TypographyH3 from "@/components/typography/h3";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
-import TypographyP from "@/components/typography/p";
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import type { UUID } from "crypto";
+import TypographySpan from "@/components/typography/span";
 
 const Categories = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
@@ -37,11 +36,11 @@ const Categories = async ({ userId }: { userId: UUID }) => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
           <TypographyH3>Vos intérêts</TypographyH3>
-          <TypographyP muted>
+          <TypographySpan muted>
             {sortedUserTopics?.length > 0
               ? "Explorez des résumés extraits de vos sujets préférés."
               : "Explorez des résumés en fonction de certains sujets."}
-          </TypographyP>
+          </TypographySpan>
         </div>
 
         <CarouselContent className="-ml-4">

@@ -1,5 +1,4 @@
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
-import TypographyP from "@/components/typography/p";
 import { Separator } from "@/components/ui/separator";
 import type { UserMetadata } from "@supabase/supabase-js";
 import AccountBiography from "@/app/app/(middleware)/components/account/navigation/categories/profile/Biography";
@@ -9,6 +8,7 @@ import AccountAvatar from "@/app/app/(middleware)/components/account/navigation/
 import AccountTopics from "@/app/app/(middleware)/components/account/navigation/categories/profile/Topics";
 import type { Topics } from "@/types/topics";
 import { UUID } from "crypto";
+import TypographySpan from "@/components/typography/span";
 
 export default function AccountProfile({
   userId,
@@ -20,9 +20,9 @@ export default function AccountProfile({
     <div className="flex flex-col gap-8">
       <div className="flex flex-col">
         <TypographyH3AsSpan>Profil</TypographyH3AsSpan>
-        <TypographyP muted>
+        <TypographySpan muted>
           Renseignez les informations que les autres utilisateurs verront sur votre profil.
-        </TypographyP>
+        </TypographySpan>
       </div>
 
       <Separator className="max-w-lg" />

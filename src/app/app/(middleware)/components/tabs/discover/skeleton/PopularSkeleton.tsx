@@ -7,8 +7,8 @@ import {
   CarouselPrevious
 } from "@/components/ui/carousel";
 import TypographyH3 from "@/components/typography/h3";
-import TypographyP from "@/components/typography/p";
 import { Skeleton } from "@/components/ui/skeleton";
+import TypographySpan from "@/components/typography/span";
 
 const PopularSkeleton = async () => {
   return (
@@ -22,7 +22,7 @@ const PopularSkeleton = async () => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
           <TypographyH3>Les + populaires</TypographyH3>
-          <TypographyP muted>Explorez les résumés les plus lus.</TypographyP>
+          <TypographySpan muted>Explorez les résumés les plus lus.</TypographySpan>
         </div>
 
         <CarouselContent className="-ml-4">

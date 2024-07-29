@@ -1,6 +1,5 @@
 import AccountDropdown from "@/components/global/AccountDropdown";
 import TypographyH4AsSpan from "@/components/typography/h4AsSpan";
-import TypographyP from "@/components/typography/p";
 import TypographySpan from "@/components/typography/span";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
@@ -56,9 +55,9 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
                   <ReadingStreak profileId={profileId} />
                 </div>
 
-                <TypographyP size="sm" muted>
+                <TypographySpan size="sm" muted>
                   {profileMetadata?.biography ?? "Aucune biographie"}
-                </TypographyP>
+                </TypographySpan>
               </div>
             </div>
           </div>

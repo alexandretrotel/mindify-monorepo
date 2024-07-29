@@ -7,8 +7,8 @@ import {
   CarouselPrevious
 } from "@/components/ui/carousel";
 import TypographyH3 from "@/components/typography/h3";
-import TypographyP from "@/components/typography/p";
 import { Skeleton } from "@/components/ui/skeleton";
+import TypographySpan from "@/components/typography/span";
 
 const SavedSummariesSkeleton = async () => {
   return (
@@ -22,7 +22,7 @@ const SavedSummariesSkeleton = async () => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
           <TypographyH3>Votre librairie</TypographyH3>
-          <TypographyP muted>Retrouvez les résumés que vous avez sauvegardés.</TypographyP>
+          <TypographySpan muted>Retrouvez les résumés que vous avez sauvegardés.</TypographySpan>
         </div>
 
         <CarouselContent className="-ml-4">

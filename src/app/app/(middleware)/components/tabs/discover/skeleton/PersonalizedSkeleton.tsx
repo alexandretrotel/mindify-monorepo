@@ -7,8 +7,8 @@ import {
   CarouselNext
 } from "@/components/ui/carousel";
 import TypographyH3 from "@/components/typography/h3";
-import TypographyP from "@/components/typography/p";
 import { Skeleton } from "@/components/ui/skeleton";
+import TypographySpan from "@/components/typography/span";
 
 const PersonalizedSkeleton = async () => {
   return (
@@ -22,7 +22,7 @@ const PersonalizedSkeleton = async () => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
           <TypographyH3>Pour vous</TypographyH3>
-          <TypographyP muted>Découvrez des résumés adaptés à vos intérêts.</TypographyP>
+          <TypographySpan muted>Découvrez des résumés adaptés à vos intérêts.</TypographySpan>
         </div>
 
         <CarouselContent className="-ml-4">

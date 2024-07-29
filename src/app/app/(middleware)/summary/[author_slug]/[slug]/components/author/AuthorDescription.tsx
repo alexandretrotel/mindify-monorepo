@@ -1,10 +1,10 @@
 import { getAuthorFromSummaryId } from "@/actions/authors";
-import TypographySpan from "@/components/typography/span";
 import React from "react";
 import { ChevronDownIcon } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
+import TypographySpan from "@/components/typography/span";
 
 const AuthorDescription = async ({ summaryId }: { summaryId: number }) => {
   const author = await getAuthorFromSummaryId(summaryId);

@@ -2,7 +2,6 @@
 
 import { JSX, SVGProps } from "react";
 import Link from "next/link";
-import TypographyP from "@/components/typography/p";
 import TypographySpan from "@/components/typography/span";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
@@ -84,9 +83,9 @@ export default function Footer() {
               <Image src={Logo} alt="Mindify" width={32} height={32} />
               <TypographyH2>Mindify</TypographyH2>
             </Link>
-            <TypographyP muted>
+            <TypographySpan muted>
               La lecture à portée de main, la connaissance pour vous demain.
-            </TypographyP>
+            </TypographySpan>
             {navigation && (
               <div className="flex space-x-6">
                 {navigation.social.map((item) => {
@@ -147,9 +146,9 @@ export default function Footer() {
           <Separator />
         </div>
 
-        <TypographyP muted size="sm">
+        <TypographySpan muted size="sm">
           &copy; {new Date().getFullYear()} Mindify. Tous droits réservés.
-        </TypographyP>
+        </TypographySpan>
       </div>
     </footer>
   );

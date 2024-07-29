@@ -3,12 +3,12 @@ import { getTopicFromTopicSlug } from "@/actions/topics";
 import SummariesByCategory from "@/app/app/(middleware)/topic/[slug]/components/SummariesByCategory";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import TypographyH3 from "@/components/typography/h3";
-import TypographyP from "@/components/typography/p";
 import { Badge } from "@/components/ui/badge";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import SummariesByCategorySkeleton from "@/app/app/(middleware)/topic/[slug]/components/skeleton/SummariesByCategorySkeleton";
+import TypographySpan from "@/components/typography/span";
 
 const Page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
@@ -36,10 +36,10 @@ const Page = async ({ params }: { params: { slug: string } }) => {
                   {numberOfSummaries} {numberOfSummaries > 1 ? "résumés" : "résumé"}
                 </Badge>
               </div>
-              <TypographyP muted>
+              <TypographySpan muted>
                 Explorez notre collection des meilleurs résumés dans la catégorie{" "}
                 {topic?.name?.toLowerCase()}.
-              </TypographyP>
+              </TypographySpan>
             </div>
 
             <AccountDropdown />
