@@ -8,7 +8,7 @@ import { getUsersData } from "@/actions/users";
 import type { FriendStatus } from "@/types/user";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
-export async function askForFriend({ userId, profileId }: { userId: UUID; profileId: UUID }) {
+export async function askForFriend(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   try {
@@ -30,13 +30,7 @@ export async function askForFriend({ userId, profileId }: { userId: UUID; profil
   return { message: "Demande d'ami envoyée avec succès." };
 }
 
-export async function cancelFriendRequest({
-  userId,
-  profileId
-}: {
-  userId: UUID;
-  profileId: UUID;
-}) {
+export async function cancelFriendRequest(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   try {
@@ -50,13 +44,7 @@ export async function cancelFriendRequest({
   return { message: "Demande d'ami annulée avec succès." };
 }
 
-export async function acceptFriendRequest({
-  userId,
-  profileId
-}: {
-  userId: UUID;
-  profileId: UUID;
-}) {
+export async function acceptFriendRequest(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   try {
@@ -95,13 +83,7 @@ export async function acceptFriendRequest({
   return { message: "Demande d'ami acceptée avec succès." };
 }
 
-export async function rejectFriendRequest({
-  userId,
-  profileId
-}: {
-  userId: UUID;
-  profileId: UUID;
-}) {
+export async function rejectFriendRequest(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -131,7 +113,7 @@ export async function rejectFriendRequest({
   return { message: "Demande d'ami rejetée avec succès." };
 }
 
-export async function removeFriend({ userId, profileId }: { userId: UUID; profileId: UUID }) {
+export async function removeFriend(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   try {
@@ -146,7 +128,7 @@ export async function removeFriend({ userId, profileId }: { userId: UUID; profil
   return { message: "Ami supprimé avec succès." };
 }
 
-export async function blockUser({ userId, profileId }: { userId: UUID; profileId: UUID }) {
+export async function blockUser(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   if (userId === profileId) {
@@ -168,7 +150,7 @@ export async function blockUser({ userId, profileId }: { userId: UUID; profileId
   return { message: "Utilisateur bloqué avec succès." };
 }
 
-export async function unblockUser({ userId, profileId }: { userId: UUID; profileId: UUID }) {
+export async function unblockUser(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   const { error } = await supabase
@@ -186,7 +168,7 @@ export async function unblockUser({ userId, profileId }: { userId: UUID; profile
   return { message: "Utilisateur débloqué avec succès." };
 }
 
-export async function getFriendRequests({ userId }: { userId: UUID }) {
+export async function getFriendRequests(userId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -203,7 +185,7 @@ export async function getFriendRequests({ userId }: { userId: UUID }) {
   return data;
 }
 
-export async function getFriendsIds({ userId }: { userId: UUID }) {
+export async function getFriendsIds(userId: UUID) {
   const { data, error } = await supabaseAdmin
     .from("user_friends")
     .select("*")
@@ -220,7 +202,7 @@ export async function getFriendsIds({ userId }: { userId: UUID }) {
   return friendsIds;
 }
 
-export async function getPendingFriendsIds({ userId }: { userId: UUID }) {
+export async function getPendingFriendsIds(userId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -239,7 +221,7 @@ export async function getPendingFriendsIds({ userId }: { userId: UUID }) {
   return pendingFriendsIds;
 }
 
-export async function isFriend({ userId, profileId }: { userId: UUID; profileId: UUID }) {
+export async function isFriend(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -256,21 +238,21 @@ export async function isFriend({ userId, profileId }: { userId: UUID; profileId:
   return data?.[0]?.status === "accepted";
 }
 
-export async function getFriendsData({ userId }: { userId: UUID }) {
-  const friendsIds = await getFriendsIds({ userId });
-  const friendsData = await getUsersData({ usersIds: friendsIds });
+export async function getFriendsData(userId: UUID) {
+  const friendsIds = await getFriendsIds(userId);
+  const friendsData = await getUsersData(friendsIds);
 
   return friendsData;
 }
 
-export async function getPendingFriendsData({ userId }: { userId: UUID }) {
-  const pendingFriendsIds = await getPendingFriendsIds({ userId });
-  const pendingFriendsData = await getUsersData({ usersIds: pendingFriendsIds });
+export async function getPendingFriendsData(userId: UUID) {
+  const pendingFriendsIds = await getPendingFriendsIds(userId);
+  const pendingFriendsData = await getUsersData(pendingFriendsIds);
 
   return pendingFriendsData;
 }
 
-export async function getFriendStatus({ userId, profileId }: { userId: UUID; profileId: UUID }) {
+export async function getFriendStatus(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase

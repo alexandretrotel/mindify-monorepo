@@ -4,6 +4,7 @@ import type { Topics } from "@/types/topics";
 import { getUserTopics } from "@/actions/topics";
 import { createClient } from "@/utils/supabase/server";
 import ClientAccountDropdown from "@/components/global/client/AccountDropdownClient";
+import { getUserCustomAvatar } from "@/actions/users";
 
 const AccountDropdown = async () => {
   const supabase = createClient();
@@ -18,6 +19,7 @@ const AccountDropdown = async () => {
     const topics: Topics = topicsData as Topics;
 
     const userTopics = await getUserTopics(userId);
+    const userPicture = await getUserCustomAvatar();
 
     return (
       <ClientAccountDropdown
@@ -25,6 +27,7 @@ const AccountDropdown = async () => {
         userId={userId}
         topics={topics}
         userTopics={userTopics}
+        userPicture={userPicture}
       />
     );
   }

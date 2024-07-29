@@ -134,7 +134,7 @@ export async function getMostPopularSummariesFromSameTopic(
     .neq("id", summary.id)
     .limit(limit ?? 100);
 
-  const userReads = await getUserReads({ userId });
+  const userReads = await getUserReads(userId);
 
   const { data: authorsData } = await supabase.from("authors").select("*");
   const authors = authorsData?.flatMap((author) => author) as Authors;
@@ -169,7 +169,7 @@ export async function countSummariesByTopicId(topicId: number) {
   return count as number;
 }
 
-export async function getPopulatedSummaries({ userId }: { userId: UUID }) {
+export async function getPopulatedSummaries(userId: UUID) {
   const supabase = createClient();
 
   const { data } = await supabase.auth.getUser();

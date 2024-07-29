@@ -32,12 +32,14 @@ const ClientAccountDropdown = ({
   userMetadata,
   userId,
   topics,
-  userTopics
+  userTopics,
+  userPicture
 }: {
   userMetadata: UserMetadata;
   userId: UUID;
   topics: Topics;
   userTopics: Topics;
+  userPicture: string;
 }) => {
   const [showMenu, setShowMenu] = React.useState<boolean>(false);
   const [category, setCategory] = React.useState<AccountCategory>("profile");
@@ -47,7 +49,7 @@ const ClientAccountDropdown = ({
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar>
-            <AvatarImage src={userMetadata?.picture} alt={userMetadata?.name} />
+            <AvatarImage src={userPicture} alt={userMetadata?.name} />
             <AvatarFallback>
               {userMetadata?.name ? userMetadata?.name?.charAt(0) : "J"}
             </AvatarFallback>

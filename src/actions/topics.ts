@@ -5,7 +5,6 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { UUID } from "crypto";
 import type { Topic, Topics } from "@/types/topics";
-import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function addTopic(user_id: UUID, topic_id: number) {
   const supabase = createClient();

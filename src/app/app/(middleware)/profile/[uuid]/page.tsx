@@ -22,12 +22,15 @@ import LibrarySnippetSkeleton from "@/app/app/(middleware)/profile/[uuid]/compon
 import FriendsSkeleton from "@/app/app/(middleware)/profile/[uuid]/components/friends/skeleton/FriendsSkeleton";
 import MyFriendsSkeleton from "@/app/app/(middleware)/profile/[uuid]/components/friends/skeleton/MyFriendsSkeleton";
 import TopicsListSkeleton from "@/app/app/(middleware)/profile/[uuid]/components/topics/skeleton/TopicsListSkeleton";
+import { getUserCustomAvatarFromUserId } from "@/actions/users";
 
 const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const profileId = params.uuid;
 
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
   let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
+
+  const picture = await getUserCustomAvatarFromUserId(profileData?.user?.id as UUID);
 
   const supabase = createClient();
 
@@ -43,7 +46,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <Avatar>
-                <AvatarImage src={profileMetadata?.picture} alt={profileMetadata?.name} />
+                <AvatarImage src={picture} alt={profileMetadata?.name} />
                 <AvatarFallback>
                   {profileMetadata?.name ? profileMetadata?.name?.charAt(0) : "J"}
                 </AvatarFallback>
@@ -89,7 +92,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
               <span className="flex items-center">
                 Intérêts{" "}
                 <ResponsiveTooltip
-                  text="Les intérêts communs aux vôtres sont affichés en vert."
+                  text="Les intérêts en communs avec vous sont affichés en couleur."
                   align="center"
                   side="bottom"
                   cursor="help"

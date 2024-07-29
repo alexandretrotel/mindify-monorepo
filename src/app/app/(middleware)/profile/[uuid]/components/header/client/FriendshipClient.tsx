@@ -23,7 +23,7 @@ const ClientFriendship = ({
 
   const { toast } = useToast();
 
-  const handleAskForFriend = async ({ userId, profileId }: { userId: UUID; profileId: UUID }) => {
+  const handleAskForFriend = async (userId: UUID, profileId: UUID) => {
     if (friendStatus === "pending") {
       return;
     }
@@ -31,7 +31,7 @@ const ClientFriendship = ({
     setFriendStatus("pending");
 
     try {
-      await askForFriend({ userId, profileId });
+      await askForFriend(userId, profileId);
 
       toast({
         title: "Demande envoyée",
@@ -48,17 +48,11 @@ const ClientFriendship = ({
     }
   };
 
-  const handleCancelFriendRequest = async ({
-    userId,
-    profileId
-  }: {
-    userId: UUID;
-    profileId: UUID;
-  }) => {
+  const handleCancelFriendRequest = async (userId: UUID, profileId: UUID) => {
     setFriendStatus(undefined);
 
     try {
-      await cancelFriendRequest({ userId, profileId });
+      await cancelFriendRequest(userId, profileId);
 
       toast({
         title: "Demande annulée",
@@ -75,11 +69,11 @@ const ClientFriendship = ({
     }
   };
 
-  const handleRemoveFriend = async ({ userId, profileId }: { userId: UUID; profileId: UUID }) => {
+  const handleRemoveFriend = async (userId: UUID, profileId: UUID) => {
     setFriendStatus(undefined);
 
     try {
-      await removeFriend({ userId, profileId });
+      await removeFriend(userId, profileId);
       toast({
         title: "Ami retiré",
         description: "L'ami a été retiré avec succès."
@@ -100,7 +94,7 @@ const ClientFriendship = ({
       <Button
         size="sm"
         variant="destructive"
-        onClick={() => handleCancelFriendRequest({ userId, profileId })}
+        onClick={() => handleCancelFriendRequest(userId, profileId)}
       >
         Annuler la demande d&apos;ami
       </Button>
@@ -109,18 +103,14 @@ const ClientFriendship = ({
 
   if (friendStatus === "accepted") {
     return (
-      <Button
-        size="sm"
-        variant="destructive"
-        onClick={() => handleRemoveFriend({ userId, profileId })}
-      >
+      <Button size="sm" variant="destructive" onClick={() => handleRemoveFriend(userId, profileId)}>
         Retirer de mes amis
       </Button>
     );
   }
 
   return (
-    <Button size="sm" onClick={() => handleAskForFriend({ userId, profileId })}>
+    <Button size="sm" onClick={() => handleAskForFriend(userId, profileId)}>
       Demander en ami
     </Button>
   );

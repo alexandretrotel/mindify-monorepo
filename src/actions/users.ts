@@ -144,22 +144,11 @@ export async function userUpdateAvatar(formData: FormData) {
     throw new Error("Impossible d'obtenir l'URL publique de l'avatar.");
   }
 
-  const { error: updateAvatarUrlError } = await supabase.auth.updateUser({
-    data: {
-      picture: avatarUrl.publicUrl
-    }
-  });
-
-  if (updateAvatarUrlError) {
-    console.error(updateAvatarUrlError);
-    throw new Error("Impossible de mettre à jour l'URL de l'avatar.");
-  }
-
   revalidatePath("/", "layout");
   return { message: "Avatar mis à jour avec succès." };
 }
 
-export async function getUsersData({ usersIds }: { usersIds: UUID[] }) {
+export async function getUsersData(usersIds: UUID[]) {
   const users: User[] = await Promise.all(
     usersIds.map(async (userId) => {
       const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
@@ -176,7 +165,7 @@ export async function getUsersData({ usersIds }: { usersIds: UUID[] }) {
   return users;
 }
 
-export async function getUserReadingStreak({ userId }: { userId: UUID }) {
+export async function getUserReadingStreak(userId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -197,7 +186,7 @@ export async function getUserReadingStreak({ userId }: { userId: UUID }) {
   return streakObject;
 }
 
-export async function getUserReads({ userId }: { userId: UUID }) {
+export async function getUserReads(userId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -304,4 +293,42 @@ export async function getUserSummariesFromLibrary(userId: UUID) {
   })) as Summaries;
 
   return userLibrarySummaries;
+}
+
+export async function getUserCustomAvatar() {
+  const supabase = createClient();
+
+  const { data: userData } = await supabase.auth.getUser();
+
+  const fileName = `${userData?.user?.id}/avatar.webp`;
+
+  const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
+
+  let avatarUrlString: string;
+  if (!avatarUrl) {
+    avatarUrlString = userData?.user?.user_metadata?.picture_url;
+  } else {
+    avatarUrlString = avatarUrl?.publicUrl;
+  }
+
+  return avatarUrlString;
+}
+
+export async function getUserCustomAvatarFromUserId(userId: UUID) {
+  const supabase = createClient();
+
+  const { data: userData } = await supabaseAdmin.auth.admin.getUserById(userId);
+
+  const fileName = `${userId}/avatar.webp`;
+
+  const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
+
+  let avatarUrlString: string;
+  if (!avatarUrl) {
+    avatarUrlString = userData?.user?.user_metadata?.picture_url;
+  } else {
+    avatarUrlString = avatarUrl?.publicUrl;
+  }
+
+  return avatarUrlString;
 }

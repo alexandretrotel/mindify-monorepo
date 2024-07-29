@@ -3,12 +3,27 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getFriendsData, getPendingFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
 import MyFriendClient from "./client/MyFriendClient";
+import { getUserCustomAvatarFromUserId } from "@/actions/users";
 
 export const revalidate = 0;
 
 const MyFriends = async ({ userId }: { userId: UUID }) => {
-  const friends = await getFriendsData({ userId });
-  const pendingFriends = await getPendingFriendsData({ userId });
+  const friends = await getFriendsData(userId);
+  const pendingFriends = await getPendingFriendsData(userId);
+
+  const friendsPicture = await Promise.all(
+    friends?.map(async (friend) => {
+      const picture = await getUserCustomAvatarFromUserId(friend?.id as UUID);
+      return picture;
+    }) ?? []
+  );
+
+  const pendingFriendsPicture = await Promise.all(
+    pendingFriends?.map(async (pendingFriend) => {
+      const picture = await getUserCustomAvatarFromUserId(pendingFriend?.id as UUID);
+      return picture;
+    }) ?? []
+  );
 
   return (
     <Tabs defaultValue="my-friends">
@@ -26,6 +41,8 @@ const MyFriends = async ({ userId }: { userId: UUID }) => {
           userId={userId}
           initialFriends={friends}
           initialPendingFriends={pendingFriends}
+          friendsPicture={friendsPicture}
+          pendingFriendsPicture={pendingFriendsPicture}
         />
       </div>
     </Tabs>

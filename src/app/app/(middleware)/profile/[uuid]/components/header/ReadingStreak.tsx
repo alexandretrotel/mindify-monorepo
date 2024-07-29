@@ -7,7 +7,7 @@ import React from "react";
 import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
 
 const ReadingStreak = async ({ profileId }: { profileId: UUID }) => {
-  const { currentStreak: readingStreak } = await getUserReadingStreak({ userId: profileId });
+  const { currentStreak: readingStreak } = await getUserReadingStreak(profileId);
 
   if (!readingStreak) {
     return;
@@ -23,7 +23,7 @@ const ReadingStreak = async ({ profileId }: { profileId: UUID }) => {
 
       <TypographySpan isDefaultColor semibold>
         <ResponsiveTooltip
-          text="Ce chiffre représente le nombre de jours consécutifs de lecture."
+          text="Nombre de jours consécutifs de lecture."
           side="bottom"
           align="center"
           cursor="help"
