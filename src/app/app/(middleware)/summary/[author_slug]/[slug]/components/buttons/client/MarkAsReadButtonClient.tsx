@@ -24,15 +24,7 @@ const MarkAsReadButtonClient = ({
   const handleClick = async () => {
     setOptimisticSummaryRead(!optimisticSummaryRead);
 
-    if (optimisticSummaryRead) {
-      try {
-        await markSummaryAsUnread(userId, summaryId);
-      } catch (error) {
-        console.error(error);
-        setOptimisticSummaryRead(true);
-        toast({ title: "Une erreur s'est produite !", variant: "destructive" });
-      }
-    } else {
+    if (!optimisticSummaryRead) {
       try {
         await markSummaryAsRead(userId, summaryId);
       } catch (error) {
