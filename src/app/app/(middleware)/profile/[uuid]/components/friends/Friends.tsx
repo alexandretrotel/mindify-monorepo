@@ -21,7 +21,7 @@ const Friends = async ({
   profileId: UUID;
   profileMetadata: UserMetadata;
 }) => {
-  const friends = await getFriendsData({ userId: profileId });
+  const friends = await getFriendsData(profileId);
 
   return (
     <Card>

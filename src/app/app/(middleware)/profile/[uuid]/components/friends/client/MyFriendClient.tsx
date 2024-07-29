@@ -56,7 +56,7 @@ const MyFriendClient = ({
     setFriends([...friends, pendingFriends.find((friend) => friend.id === profileId) as User]);
 
     try {
-      await acceptFriendRequest({ userId, profileId });
+      await acceptFriendRequest(userId, profileId);
 
       toast({
         title: "Demande d'ami acceptée",
@@ -86,7 +86,7 @@ const MyFriendClient = ({
     setPendingFriends(pendingFriends.filter((friend) => friend.id !== profileId));
 
     try {
-      await rejectFriendRequest({ userId, profileId });
+      await rejectFriendRequest(userId, profileId);
 
       toast({
         title: "Demande d'ami rejetée",

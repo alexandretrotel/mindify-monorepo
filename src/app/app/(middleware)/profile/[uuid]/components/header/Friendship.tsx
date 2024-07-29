@@ -5,7 +5,7 @@ import { getFriendStatus } from "@/actions/friends";
 export const revalidate = 0;
 
 const Friendship = async ({ userId, profileId }: { userId: UUID; profileId: UUID }) => {
-  const friendStatus = await getFriendStatus({ userId, profileId });
+  const friendStatus = await getFriendStatus(userId, profileId);
 
   return (
     <FriendshipClient userId={userId} profileId={profileId} initialFriendStatus={friendStatus} />
