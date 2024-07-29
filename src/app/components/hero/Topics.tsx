@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 import React from "react";
 import TopicIconsHero from "@/app/components/hero/client/TopicIconsHero";
 import type { Topics } from "@/types/topics";
 
 const Topics = async () => {
+  const supabase = createClient();
+
   const { data: topicsData } = await supabase.from("topics").select("*");
   const topics = topicsData as Topics;
 

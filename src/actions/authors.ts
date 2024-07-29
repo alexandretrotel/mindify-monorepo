@@ -1,10 +1,12 @@
 "use server";
 import "server-only";
 
-import { supabase } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 import type { Author } from "@/types/summary";
 
 export async function getAuthorFromSlug(slug: string) {
+  const supabase = createClient();
+
   const { data: authorData, error } = await supabase.from("authors").select("*").eq("slug", slug);
 
   if (error) {
@@ -18,6 +20,8 @@ export async function getAuthorFromSlug(slug: string) {
 }
 
 export async function getAuthorFromSummaryId(summaryId: number) {
+  const supabase = createClient();
+
   const { data, error } = await supabase.from("summaries").select("authors(*)").eq("id", summaryId);
 
   if (error) {
@@ -31,6 +35,8 @@ export async function getAuthorFromSummaryId(summaryId: number) {
 }
 
 export async function getAuthorSlugFromSummaryId(summaryId: number) {
+  const supabase = createClient();
+
   const { data, error } = await supabase
     .from("summaries")
     .select("authors(slug)")

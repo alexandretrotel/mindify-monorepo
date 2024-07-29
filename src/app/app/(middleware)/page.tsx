@@ -3,12 +3,14 @@ import Library from "@/app/app/(middleware)/components/tabs/Library";
 import Discover from "@/app/app/(middleware)/components/tabs/Discover";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import type { UUID } from "crypto";
-import { supabase } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import LibrarySkeleton from "@/app/app/(middleware)/components/skeleton/LibrarySkeleton";
 import { Suspense } from "react";
 
 export default async function Home() {
+  const supabase = createClient();
+
   const { data, error } = await supabase.auth.getUser();
 
   if (error || !data?.user) {
