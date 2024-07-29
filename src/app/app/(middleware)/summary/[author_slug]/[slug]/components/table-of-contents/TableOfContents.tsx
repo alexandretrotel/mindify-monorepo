@@ -25,7 +25,7 @@ const TableOfContents = async ({ summaryId }: { summaryId: number }) => {
           <CardContent>
             <ul className="flex flex-col gap-2">
               <li>
-                <Link href="#introduction" className="text-sm text-primary hover:underline">
+                <Link href="#introduction" className="text-primary hover:underline">
                   1. Introduction
                 </Link>
               </li>
@@ -33,14 +33,14 @@ const TableOfContents = async ({ summaryId }: { summaryId: number }) => {
                 <li key={title}>
                   <Link
                     href={"#chapter" + String(index + 1)}
-                    className="text-sm text-primary hover:underline"
+                    className="text-primary hover:underline"
                   >
                     {index + 2}. {title}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href="#conclusion" className="text-sm text-primary hover:underline">
+                <Link href="#conclusion" className="text-primary hover:underline">
                   {summaryChapters?.titles?.length ? summaryChapters?.titles?.length + 2 : 2}.
                   Conclusion
                 </Link>

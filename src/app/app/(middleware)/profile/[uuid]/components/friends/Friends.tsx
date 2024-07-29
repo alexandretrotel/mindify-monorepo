@@ -6,11 +6,11 @@ import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
-import TypographyP from "@/components/typography/p";
 import { getFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
 import type { UserMetadata } from "@supabase/supabase-js";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
+import TypographySpan from "@/components/typography/span";
 
 export const revalidate = 0;
 
@@ -58,9 +58,9 @@ const Friends = async ({
                           {friend?.user_metadata?.name ??
                             friend?.user_metadata?.email?.split("@")[0]}
                         </TypographyH5AsSpan>
-                        <TypographyP size="xs" muted>
+                        <TypographySpan size="xs" muted>
                           {friend?.user_metadata?.biography ?? "Pas de biographie"}
-                        </TypographyP>
+                        </TypographySpan>
                       </div>
                     </div>
 
@@ -77,9 +77,9 @@ const Friends = async ({
               );
             })
           ) : (
-            <TypographyP size="sm" muted>
+            <TypographySpan size="sm" muted>
               {profileMetadata?.name} n&apos;a pas encore d&apos;amis.
-            </TypographyP>
+            </TypographySpan>
           )}
         </CardContent>
       </ScrollArea>

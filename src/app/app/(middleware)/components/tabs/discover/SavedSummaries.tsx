@@ -8,10 +8,10 @@ import {
   CarouselPrevious
 } from "@/components/ui/carousel";
 import TypographyH3 from "@/components/typography/h3";
-import TypographyP from "@/components/typography/p";
 import type { UUID } from "crypto";
 import { getUserSummariesFromLibrary } from "@/actions/users";
 import Link from "next/link";
+import TypographySpan from "@/components/typography/span";
 
 const SavedSummaries = async ({ userId }: { userId: UUID }) => {
   const savedSummaries = await getUserSummariesFromLibrary(userId);
@@ -29,7 +29,9 @@ const SavedSummaries = async ({ userId }: { userId: UUID }) => {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col">
               <TypographyH3>Votre librairie</TypographyH3>
-              <TypographyP muted>Retrouvez les résumés que vous avez sauvegardés.</TypographyP>
+              <TypographySpan muted>
+                Retrouvez les résumés que vous avez sauvegardés.
+              </TypographySpan>
             </div>
 
             <CarouselContent className="-ml-4">
