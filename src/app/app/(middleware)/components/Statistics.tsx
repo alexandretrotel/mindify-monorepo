@@ -1,15 +1,13 @@
 import React from "react";
 import type { UserReads } from "@/types/user";
 import type { Summaries } from "@/types/summary";
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import StatisticsClient from "@/app/app/(middleware)/components/client/StatisticsClient";
 import type { UUID } from "crypto";
 
 export const revalidate = 0;
 
 const Statistics = async ({ userId }: { userId: UUID }) => {
-  const supabase = createClient();
-
   const { data: summariesData } = await supabase.from("summaries").select("*");
   const summaries: Summaries = summariesData as Summaries;
 

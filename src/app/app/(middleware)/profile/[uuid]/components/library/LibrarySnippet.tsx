@@ -6,14 +6,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import BookCover from "@/components/global/BookCover";
 import type { UUID } from "crypto";
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import type { Authors, Summaries } from "@/types/summary";
 import type { Topics } from "@/types/topics";
 import type { UserLibrary, UserReads } from "@/types/user";
 
 const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
-  const supabase = createClient();
-
   const { data: topicsData } = await supabase.from("topics").select("*");
   const topics: Topics = topicsData as Topics;
 

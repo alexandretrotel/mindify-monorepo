@@ -2,7 +2,7 @@
 import "server-only";
 
 import { UUID } from "crypto";
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { getAuthorFromSlug } from "@/actions/authors";
 import type { Authors, Summaries, Summary, SummaryChapters } from "@/types/summary";
@@ -11,8 +11,6 @@ import type { UserReads } from "@/types/user";
 import type { Topics } from "@/types/topics";
 
 export async function addSummaryToLibrary(userId: UUID, summaryId: number) {
-  const supabase = createClient();
-
   const { error } = await supabase.from("user_library").insert({
     user_id: userId,
     summary_id: summaryId
@@ -28,8 +26,6 @@ export async function addSummaryToLibrary(userId: UUID, summaryId: number) {
 }
 
 export async function removeSummaryFromLibrary(userId: UUID, summaryId: number) {
-  const supabase = createClient();
-
   const { error } = await supabase
     .from("user_library")
     .delete()
@@ -46,8 +42,6 @@ export async function removeSummaryFromLibrary(userId: UUID, summaryId: number) 
 }
 
 export async function markSummaryAsRead(userId: UUID, summaryId: number) {
-  const supabase = createClient();
-
   const { error } = await supabase.from("user_reads").insert({
     user_id: userId,
     summary_id: summaryId
@@ -63,8 +57,6 @@ export async function markSummaryAsRead(userId: UUID, summaryId: number) {
 }
 
 export async function markSummaryAsUnread(userId: UUID, summaryId: number) {
-  const supabase = createClient();
-
   const { error } = await supabase
     .from("user_reads")
     .delete()
@@ -81,8 +73,6 @@ export async function markSummaryAsUnread(userId: UUID, summaryId: number) {
 }
 
 export async function getSummaryFromSlugs(author_slug: string, slug: string) {
-  const supabase = createClient();
-
   const author = await getAuthorFromSlug(author_slug);
 
   const { data, error } = await supabase
@@ -102,8 +92,6 @@ export async function getSummaryFromSlugs(author_slug: string, slug: string) {
 }
 
 export async function getSummaryChapters(summary_id: number) {
-  const supabase = createClient();
-
   const { data, error } = await supabase
     .from("summary_chapters")
     .select("*")
@@ -125,8 +113,6 @@ export async function getMostPopularSummariesFromSameTopic(
   userId: UUID,
   limit?: number
 ) {
-  const supabase = createClient();
-
   const { data: summariesData } = await supabase
     .from("summaries")
     .select("*, topics(name)")
@@ -154,8 +140,6 @@ export async function getMostPopularSummariesFromSameTopic(
 }
 
 export async function countSummariesByTopicId(topicId: number) {
-  const supabase = createClient();
-
   const { count, error } = await supabase
     .from("summaries")
     .select("*", { count: "exact", head: true })
@@ -170,8 +154,6 @@ export async function countSummariesByTopicId(topicId: number) {
 }
 
 export async function getPopulatedSummaries({ userId }: { userId: UUID }) {
-  const supabase = createClient();
-
   const { data } = await supabase.auth.getUser();
 
   if (!data?.user) {
