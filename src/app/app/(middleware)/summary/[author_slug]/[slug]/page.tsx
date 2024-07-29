@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
 import { redirect } from "next/navigation";
 import AccountDropdown from "@/components/global/AccountDropdown";
@@ -21,8 +21,6 @@ import Source from "@/app/app/(middleware)/summary/[author_slug]/[slug]/componen
 
 const Page = async ({ params }: { params: { author_slug: string; slug: string } }) => {
   const { slug, author_slug } = params;
-
-  const supabase = createClient();
 
   const { data, error } = await supabase.auth.getUser();
 

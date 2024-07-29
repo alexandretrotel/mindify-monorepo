@@ -1,14 +1,12 @@
 import React from "react";
 import LibraryClient from "@/app/app/(middleware)/components/client/LibraryClient";
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
 import type { Summaries } from "@/types/summary";
 import type { Topics } from "@/types/topics";
 import type { UserLibrary, UserReads } from "@/types/user";
 
 const Library = async ({ userId }: { userId: UUID }) => {
-  const supabase = createClient();
-
   const { data: summariesData } = await supabase
     .from("summaries")
     .select("*, authors(*), topics(*)");

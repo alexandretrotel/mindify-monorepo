@@ -1,7 +1,7 @@
 "use server";
 import "server-only";
 
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import { UUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { getUsersData } from "@/actions/users";
@@ -9,8 +9,6 @@ import type { FriendStatus } from "@/types/user";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function askForFriend({ userId, profileId }: { userId: UUID; profileId: UUID }) {
-  const supabase = createClient();
-
   try {
     if (userId === profileId) {
       throw new Error("Impossible de s'ajouter soi-même en ami.");
@@ -37,8 +35,6 @@ export async function cancelFriendRequest({
   userId: UUID;
   profileId: UUID;
 }) {
-  const supabase = createClient();
-
   try {
     await supabase.from("user_friends").delete().eq("user_id", userId).eq("friend_id", profileId);
   } catch (error) {
@@ -57,8 +53,6 @@ export async function acceptFriendRequest({
   userId: UUID;
   profileId: UUID;
 }) {
-  const supabase = createClient();
-
   try {
     const { data, error } = await supabase
       .from("user_friends")
@@ -102,8 +96,6 @@ export async function rejectFriendRequest({
   userId: UUID;
   profileId: UUID;
 }) {
-  const supabase = createClient();
-
   const { data, error } = await supabase
     .from("user_friends")
     .select("status")
@@ -132,8 +124,6 @@ export async function rejectFriendRequest({
 }
 
 export async function removeFriend({ userId, profileId }: { userId: UUID; profileId: UUID }) {
-  const supabase = createClient();
-
   try {
     await supabase.from("user_friends").delete().eq("user_id", userId).eq("friend_id", profileId);
     await supabase.from("user_friends").delete().eq("user_id", profileId).eq("friend_id", userId);
@@ -147,8 +137,6 @@ export async function removeFriend({ userId, profileId }: { userId: UUID; profil
 }
 
 export async function blockUser({ userId, profileId }: { userId: UUID; profileId: UUID }) {
-  const supabase = createClient();
-
   if (userId === profileId) {
     throw new Error("Impossible de se bloquer soi-même.");
   }
@@ -169,8 +157,6 @@ export async function blockUser({ userId, profileId }: { userId: UUID; profileId
 }
 
 export async function unblockUser({ userId, profileId }: { userId: UUID; profileId: UUID }) {
-  const supabase = createClient();
-
   const { error } = await supabase
     .from("user_friends")
     .delete()
@@ -187,8 +173,6 @@ export async function unblockUser({ userId, profileId }: { userId: UUID; profile
 }
 
 export async function getFriendRequests({ userId }: { userId: UUID }) {
-  const supabase = createClient();
-
   const { data, error } = await supabase
     .from("user_friends")
     .select("friend_id")
@@ -221,8 +205,6 @@ export async function getFriendsIds({ userId }: { userId: UUID }) {
 }
 
 export async function getPendingFriendsIds({ userId }: { userId: UUID }) {
-  const supabase = createClient();
-
   const { data, error } = await supabase
     .from("user_friends")
     .select("user_id")
@@ -240,8 +222,6 @@ export async function getPendingFriendsIds({ userId }: { userId: UUID }) {
 }
 
 export async function isFriend({ userId, profileId }: { userId: UUID; profileId: UUID }) {
-  const supabase = createClient();
-
   const { data, error } = await supabase
     .from("user_friends")
     .select("status")
@@ -271,8 +251,6 @@ export async function getPendingFriendsData({ userId }: { userId: UUID }) {
 }
 
 export async function getFriendStatus({ userId, profileId }: { userId: UUID; profileId: UUID }) {
-  const supabase = createClient();
-
   const { data, error } = await supabase
     .from("user_friends")
     .select("status")

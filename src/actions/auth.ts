@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import { SocialProvider } from "@/types/auth";
 
 const formDataMailSchema = z.object({
@@ -36,8 +36,6 @@ const domain =
   process.env.NODE_ENV === "production" ? "https://www.mindify.fr" : "http://localhost:3000";
 
 export async function signUpWithPassword(formData: FormData) {
-  const supabase = createClient();
-
   let data;
   try {
     data = formDataSchema.parse({
@@ -64,8 +62,6 @@ export async function signUpWithPassword(formData: FormData) {
 }
 
 export async function signInWithPassword(formData: FormData) {
-  const supabase = createClient();
-
   let data;
   try {
     data = formDataSchema.parse({
@@ -92,8 +88,6 @@ export async function signInWithPassword(formData: FormData) {
 }
 
 export async function signInWithEmail(formData: FormData) {
-  const supabase = createClient();
-
   let data;
   try {
     data = formDataMailSchema.parse({
@@ -122,8 +116,6 @@ export async function signInWithEmail(formData: FormData) {
 }
 
 export async function signInWithSocials(provider: SocialProvider) {
-  const supabase = createClient();
-
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider,
     options: {
@@ -148,8 +140,6 @@ export async function signInWithSocials(provider: SocialProvider) {
 }
 
 export async function signOut() {
-  const supabase = createClient();
-
   const { error } = await supabase.auth.signOut({ scope: "local" });
 
   if (error) {

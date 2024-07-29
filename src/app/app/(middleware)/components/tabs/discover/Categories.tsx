@@ -7,13 +7,10 @@ import TopicIcon from "@/components/global/TopicIcon";
 import TypographyH3 from "@/components/typography/h3";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 import TypographyP from "@/components/typography/p";
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+import { supabase } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
 
 const Categories = async ({ userId }: { userId: UUID }) => {
-  const supabase = createClient();
-
   const { data: userTopicsData } = await supabase
     .from("user_topics")
     .select("topics(*)")

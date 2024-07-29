@@ -3,7 +3,7 @@ import TypographyH4AsSpan from "@/components/typography/h4AsSpan";
 import TypographyP from "@/components/typography/p";
 import TypographySpan from "@/components/typography/span";
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { UUID } from "crypto";
 import React, { Suspense } from "react";
@@ -29,8 +29,6 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
 
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
   let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
-
-  const supabase = createClient();
 
   const { data: userData } = await supabase.auth.getUser();
   const userId: UUID = userData?.user?.id as UUID;
