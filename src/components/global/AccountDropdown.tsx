@@ -2,10 +2,12 @@ import React from "react";
 import type { UUID } from "crypto";
 import type { Topics } from "@/types/topics";
 import { getUserTopics } from "@/actions/topics";
-import { supabase } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 import ClientAccountDropdown from "@/components/global/client/AccountDropdownClient";
 
 const AccountDropdown = async () => {
+  const supabase = createClient();
+
   const { data, error } = await supabase.auth.getUser();
 
   if (!error && data?.user) {
