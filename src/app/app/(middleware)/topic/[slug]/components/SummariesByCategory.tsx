@@ -1,12 +1,10 @@
 import type { Topic } from "@/types/topics";
 import React from "react";
 import type { Authors, Summaries } from "@/types/summary";
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import SummariesByCategoryClient from "@/app/app/(middleware)/topic/[slug]/components/client/SummariesByCategoryClient";
 
 const SummariesByCategory = async ({ topic }: { topic: Topic }) => {
-  const supabase = createClient();
-
   const { data: authorsData } = await supabase.from("authors").select("*");
   const authors = authorsData as Authors;
 

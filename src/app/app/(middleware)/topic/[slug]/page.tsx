@@ -5,15 +5,13 @@ import AccountDropdown from "@/components/global/AccountDropdown";
 import TypographyH3 from "@/components/typography/h3";
 import TypographyP from "@/components/typography/p";
 import { Badge } from "@/components/ui/badge";
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import SummariesByCategorySkeleton from "@/app/app/(middleware)/topic/[slug]/components/skeleton/SummariesByCategorySkeleton";
 
 const Page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
-
-  const supabase = createClient();
 
   const { data, error } = await supabase.auth.getUser();
 

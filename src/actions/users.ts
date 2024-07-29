@@ -3,7 +3,7 @@ import "server-only";
 
 import sharp from "sharp";
 import { supabaseAdmin } from "@/utils/supabase/admin";
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { UUID } from "crypto";
@@ -21,8 +21,6 @@ const nameSchema = z.object({
 });
 
 export async function userUpdateName(name: string) {
-  const supabase = createClient();
-
   let nameData;
   try {
     nameData = nameSchema.parse({
@@ -53,8 +51,6 @@ const bioSchema = z.object({
 });
 
 export async function userUpdateBiography(biography: string) {
-  const supabase = createClient();
-
   let bioData;
   try {
     bioData = bioSchema.parse({
@@ -99,8 +95,6 @@ const avatarSchema = z.object({
 });
 
 export async function userUpdateAvatar(formData: FormData) {
-  const supabase = createClient();
-
   const { data: userData, error: userError } = await supabase.auth.getUser();
 
   if (userError || !userData?.user) {
@@ -177,8 +171,6 @@ export async function getUsersData({ usersIds }: { usersIds: UUID[] }) {
 }
 
 export async function getUserReadingStreak({ userId }: { userId: UUID }) {
-  const supabase = createClient();
-
   const { data, error } = await supabase
     .from("user_reads")
     .select("read_at")
@@ -210,8 +202,6 @@ export async function getUserReadingStreak({ userId }: { userId: UUID }) {
 }
 
 export async function getUserReads({ userId }: { userId: UUID }) {
-  const supabase = createClient();
-
   const { data, error } = await supabase
     .from("user_reads")
     .select("summary_id")
@@ -234,8 +224,6 @@ export async function hasUserSavedSummary({
   userId: UUID;
   summaryId: number;
 }) {
-  const supabase = createClient();
-
   const { data: userLibraryData } = await supabase
     .from("user_library")
     .select("*")
@@ -254,8 +242,6 @@ export async function hasUserReadSummary({
   userId: UUID;
   summaryId: number;
 }) {
-  const supabase = createClient();
-
   const { data: userReadsData } = await supabase
     .from("user_reads")
     .select("*")
@@ -268,8 +254,6 @@ export async function hasUserReadSummary({
 }
 
 export async function getUserPersonalizedSummariesFromInterests(userId: UUID) {
-  const supabase = createClient();
-
   const { data: userTopicsData } = await supabase
     .from("user_topics")
     .select("topics(*)")
@@ -293,8 +277,6 @@ export async function getUserPersonalizedSummariesFromInterests(userId: UUID) {
 }
 
 export async function getUserSummariesFromLibrary(userId: UUID) {
-  const supabase = createClient();
-
   const { data: userLibraryData } = await supabase
     .from("user_library")
     .select("summaries(*)")

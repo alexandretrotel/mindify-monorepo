@@ -1,11 +1,9 @@
 import React from "react";
 import BackHome from "@/components/global/buttons/BackHome";
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
 const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
-  const supabase = createClient();
-
   const { data, error } = await supabase.auth.getUser();
 
   if (!error && data?.user) {

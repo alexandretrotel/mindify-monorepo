@@ -10,12 +10,10 @@ import BookCover from "@/components/global/BookCover";
 import Link from "next/link";
 import TypographyH3 from "@/components/typography/h3";
 import TypographyP from "@/components/typography/p";
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/utils/supabase/server";
 import type { Summaries, Summary } from "@/types/summary";
 
 const Popular = async () => {
-  const supabase = createClient();
-
   const { data: popularSummariesData } = await supabase.from("user_reads").select("summaries(*)");
   const popularSummariesPrepared = popularSummariesData?.flatMap(
     (data) => data?.summaries
