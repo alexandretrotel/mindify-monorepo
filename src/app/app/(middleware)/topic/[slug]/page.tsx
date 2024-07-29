@@ -4,11 +4,24 @@ import SummariesByCategory from "@/app/app/(middleware)/topic/[slug]/components/
 import AccountDropdown from "@/components/global/AccountDropdown";
 import TypographyH3 from "@/components/typography/h3";
 import { Badge } from "@/components/ui/badge";
-import { createClient } from "@/utils/supabase/server";
+import { supabaseDefaultClient } from "@/utils/supabase/default";
 import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import SummariesByCategorySkeleton from "@/app/app/(middleware)/topic/[slug]/components/skeleton/SummariesByCategorySkeleton";
 import TypographySpan from "@/components/typography/span";
+import type { Topics } from "@/types/topics";
+import { createClient } from "@/utils/supabase/server";
+
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const { data: topicsData } = await supabaseDefaultClient.from("topics").select("*");
+  const topics: Topics = topicsData as Topics;
+
+  return topics?.map((topic) => ({
+    slug: topic?.slug
+  }));
+}
 
 const Page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
