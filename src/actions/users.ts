@@ -300,7 +300,7 @@ export async function getUserCustomAvatar() {
 
   const { data: userData } = await supabase.auth.getUser();
 
-  const fileName = `${userData?.user?.id}/avatar.webp`;
+  const fileName = `${userData?.user?.id}.webp`;
 
   const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
 
@@ -319,16 +319,17 @@ export async function getUserCustomAvatarFromUserId(userId: UUID) {
 
   const { data: userData } = await supabaseAdmin.auth.admin.getUserById(userId);
 
-  const fileName = `${userId}/avatar.webp`;
+  const fileName = `${userId}.webp`;
+
+  const { data } = await supabase.storage.from("avatars").list("", {
+    search: fileName
+  });
+
+  if (data?.length === 0) {
+    return userData?.user?.user_metadata?.picture ?? userData?.user?.user_metadata?.avatar_url;
+  }
 
   const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
 
-  let avatarUrlString: string;
-  if (!avatarUrl) {
-    avatarUrlString = userData?.user?.user_metadata?.picture_url;
-  } else {
-    avatarUrlString = avatarUrl?.publicUrl;
-  }
-
-  return avatarUrlString;
+  return avatarUrl?.publicUrl;
 }

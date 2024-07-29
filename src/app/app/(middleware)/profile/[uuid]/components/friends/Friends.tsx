@@ -23,7 +23,13 @@ const Friends = async ({
   profileMetadata: UserMetadata;
 }) => {
   const friends = await getFriendsData(profileId);
-  const profilePicture = await getUserCustomAvatarFromUserId(profileId);
+
+  const friendsPicture = await Promise.all(
+    friends?.map(async (friend) => {
+      const picture = await getUserCustomAvatarFromUserId(friend?.id as UUID);
+      return picture;
+    }) ?? []
+  );
 
   return (
     <Card>
@@ -36,14 +42,14 @@ const Friends = async ({
 
         <CardContent>
           {friends?.length > 0 ? (
-            friends?.map((friend) => {
+            friends?.map((friend, index) => {
               return (
                 <div key={friend.id}>
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
                       <Avatar>
                         <AvatarImage
-                          src={profilePicture}
+                          src={friendsPicture[index]}
                           alt={
                             friend?.user_metadata?.name ??
                             friend?.user_metadata?.email?.split("@")[0]

@@ -30,7 +30,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
   let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
 
-  const picture = await getUserCustomAvatarFromUserId(profileData?.user?.id as UUID);
+  const profilePicture = await getUserCustomAvatarFromUserId(profileData?.user?.id as UUID);
 
   const supabase = createClient();
 
@@ -46,7 +46,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <Avatar>
-                <AvatarImage src={picture} alt={profileMetadata?.name} />
+                <AvatarImage src={profilePicture} alt={profileMetadata?.name} />
                 <AvatarFallback>
                   {profileMetadata?.name ? profileMetadata?.name?.charAt(0) : "J"}
                 </AvatarFallback>
