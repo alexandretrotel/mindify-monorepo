@@ -9,7 +9,7 @@ import { z } from "zod";
 import { UUID } from "crypto";
 import type { User } from "@supabase/supabase-js";
 import type { UserLibrary, UserReads } from "@/types/user";
-import { differenceInDays } from "date-fns";
+import { summary } from "date-streaks";
 import type { Topics } from "@/types/topics";
 import type { Summaries } from "@/types/summary";
 
@@ -192,21 +192,9 @@ export async function getUserReadingStreak({ userId }: { userId: UUID }) {
 
   const dates = data?.map((read) => read?.read_at) as Date[];
 
-  let streak = 0;
-  let currentDate = new Date();
+  const streakObject = summary({ dates });
 
-  for (const element of dates) {
-    const diff = differenceInDays(currentDate, element);
-
-    if (diff === 1) {
-      streak++;
-      currentDate = element;
-    } else {
-      break;
-    }
-  }
-
-  return streak;
+  return streakObject;
 }
 
 export async function getUserReads({ userId }: { userId: UUID }) {

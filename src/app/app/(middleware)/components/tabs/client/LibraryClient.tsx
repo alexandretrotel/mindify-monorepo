@@ -18,18 +18,24 @@ import {
 import type { Topics } from "@/types/topics";
 import BookCover from "@/components/global/BookCover";
 import Link from "next/link";
-import type { Source, Sources, Summaries } from "@/types/summary";
-import { sourceToString } from "@/utils/topics";
+import type {
+  Source,
+  Sources,
+  Summaries,
+  SummaryStatusesWithValue,
+  SummaryStatus
+} from "@/types/summary";
+import { getTopicNameFromTopicSlug, sourceToString } from "@/utils/topics";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
-import type { Statuses, SummaryStatus, UserLibrary, UserReads } from "@/types/user";
+import type { UserLibrary, UserReads } from "@/types/user";
 import { statusToString } from "@/utils/summary";
 import Fuse from "fuse.js";
 
-const statuses: Statuses = [
+const statuses: SummaryStatusesWithValue = [
   { id: 1, name: "Pas commencé", value: "not_started" },
   { id: 2, name: "Enregistré", value: "saved" },
   { id: 3, name: "Terminé", value: "completed" }
-] as Statuses;
+] as SummaryStatusesWithValue;
 
 const sources: Sources = ["book", "article", "podcast", "video"] as Sources;
 
@@ -37,17 +43,27 @@ const LibraryClient = ({
   summaries,
   topics,
   userReads,
-  userLibrary
+  userLibrary,
+  initialSearch,
+  initialTopic,
+  initialSource,
+  initialStatus
 }: {
   summaries: Summaries;
   topics: Topics;
   userReads: UserReads;
   userLibrary: UserLibrary;
+  initialSearch: string | undefined;
+  initialTopic: string | undefined;
+  initialSource: Source | undefined;
+  initialStatus: SummaryStatus | undefined;
 }) => {
-  const [book, setBook] = React.useState<string | undefined>(undefined);
-  const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(undefined);
-  const [selectedSource, setSelectedSource] = React.useState<string | undefined>(undefined);
-  const [selectedStatus, setSelectedStatus] = React.useState<string | undefined>(undefined);
+  const [book, setBook] = React.useState<string | undefined>(initialSearch);
+  const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(
+    getTopicNameFromTopicSlug(topics, initialTopic as string)
+  );
+  const [selectedSource, setSelectedSource] = React.useState<string | undefined>(initialSource);
+  const [selectedStatus, setSelectedStatus] = React.useState<string | undefined>(initialStatus);
   const [filteredSummaries, setFilteredSummaries] = React.useState<Summaries>(summaries);
 
   const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
