@@ -88,7 +88,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
           </div>
 
           <Suspense fallback={<SuggestionsSkeleton />}>
-            <Suggestions topicId={summary?.topic_id} summary={summary} userId={userId} />
+            <Suggestions topicId={summary?.topic_id} summary={summary} />
           </Suspense>
         </div>
       </div>

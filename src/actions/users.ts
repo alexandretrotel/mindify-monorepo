@@ -327,6 +327,17 @@ export async function getUserCustomAvatarFromUserId(userId: UUID) {
   return avatarUrl?.publicUrl;
 }
 
+const removeDuplicates = (array: any[]) => {
+  const uniqueSet = new Set();
+  return array.filter((item) => {
+    if (!uniqueSet.has(item.summary_id)) {
+      uniqueSet.add(item.summary_id);
+      return true;
+    }
+    return false;
+  });
+};
+
 export async function getUserReadSummaries(userId: UUID) {
   const supabase = createClient();
 
@@ -335,11 +346,9 @@ export async function getUserReadSummaries(userId: UUID) {
     .select("*, summaries(*, topics(*), authors(*))")
     .eq("user_id", userId);
 
-  const removeDuplicates = profileReadsData?.filter(
-    (readData, index, self) => index === self?.findIndex((t) => t?.id === readData?.summary_id)
-  );
+  const uniqueProfileReadsData = removeDuplicates(profileReadsData as any[]);
 
-  const userReadSummaries: Summaries = removeDuplicates?.map((readData) => ({
+  const userReadSummaries: Summaries = uniqueProfileReadsData.map((readData) => ({
     ...readData?.summaries,
     topic: readData?.summaries?.topics?.name,
     author_slug: readData?.summaries?.authors?.slug
@@ -356,11 +365,9 @@ export async function getUserSavedSummaries(userId: UUID) {
     .select("*, summaries(*, topics(*), authors(*))")
     .eq("user_id", userId);
 
-  const removeDuplicates = profileLibraryData?.filter(
-    (readData, index, self) => index === self?.findIndex((t) => t?.id === readData?.summary_id)
-  );
+  const uniqueProfileLibraryData = removeDuplicates(profileLibraryData as any[]);
 
-  const userSavedSummaries: Summaries = removeDuplicates?.map((readData) => ({
+  const userSavedSummaries: Summaries = uniqueProfileLibraryData?.map((readData) => ({
     ...readData?.summaries,
     topic: readData?.summaries?.topics?.name,
     author_slug: readData?.summaries?.authors?.slug
