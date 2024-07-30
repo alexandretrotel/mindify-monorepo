@@ -10,6 +10,8 @@ import TypographySpan from "@/components/typography/span";
 import type { Topic, Topics } from "@/types/topics";
 import { createClient } from "@/utils/supabase/server";
 import type { Summaries } from "@/types/summary";
+import BackHome from "@/components/global/buttons/BackHome";
+import { getTopicFromTopicSlug } from "@/actions/topics";
 
 export const revalidate = 60;
 
@@ -33,14 +35,13 @@ const Page = async ({ params }: { params: { slug: string } }) => {
     redirect("/app/login");
   }
 
+  const topic: Topic = await getTopicFromTopicSlug(slug);
   const { data: summariesData } = await supabase
     .from("summaries")
-    .select("*, topics:topics(*), filter:topics(slug), authors(*)")
-    .eq("filter.slug", slug);
+    .select("*, topics(*), authors(*)");
 
-  const filteredSummariesData = summariesData?.filter((summary) => summary?.topics);
+  const filteredSummariesData = summariesData?.filter((summary) => summary?.topics?.slug === slug);
 
-  const topic: Topic = filteredSummariesData?.[0]?.topics as Topic;
   const numberOfSummaries = filteredSummariesData?.length as number;
   const summariesByTopic: Summaries = filteredSummariesData?.map((summary) => ({
     ...summary,

@@ -15,8 +15,6 @@ const Statistics = async ({ userId }: { userId: UUID }) => {
     .select("*, summaries(*)")
     .eq("user_id", userId);
 
-  console.log(userReadsData);
-
   const userReads: UserReads = userReadsData as UserReads;
   const summaries: Summaries = userReadsData?.map((item) => item?.summaries) as Summaries;
 
