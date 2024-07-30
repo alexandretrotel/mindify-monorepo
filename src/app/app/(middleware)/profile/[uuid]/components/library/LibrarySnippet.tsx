@@ -88,6 +88,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
                           author={summary.author}
                           category={summary.topic}
                           source={summary.source_type}
+                          image={summary.image_url}
                         />
                       </Link>
                     </CarouselItem>
@@ -118,6 +119,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
                           author={summary.author}
                           category={summary.topic}
                           source={summary.source_type}
+                          image={summary.image_url}
                         />
                       </Link>
                     </CarouselItem>

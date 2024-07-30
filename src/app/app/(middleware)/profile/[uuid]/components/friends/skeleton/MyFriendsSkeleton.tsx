@@ -20,7 +20,7 @@ const MyFriendsSkeleton = () => {
 
         <TabsContent value="my-friends">
           <Card>
-            <ScrollArea className="h-72 w-full">
+            <ScrollArea className="h-96 w-full">
               <CardHeader>
                 <CardTitle>
                   <div className="flex w-full items-center justify-between gap-4">
@@ -61,7 +61,7 @@ const MyFriendsSkeleton = () => {
 
         <TabsContent value="friends-requests">
           <Card>
-            <ScrollArea className="h-72 w-full">
+            <ScrollArea className="h-96 w-full">
               <CardHeader>
                 <div className="flex w-full items-center justify-between">
                   <CardTitle>

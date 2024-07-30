@@ -75,6 +75,7 @@ const SummariesByCategoryClient = ({
               author={summary.author}
               category={topic.name}
               source={summary.source_type}
+              image={summary.image_url}
             />
           </Link>
         ))}

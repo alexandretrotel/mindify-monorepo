@@ -3,7 +3,7 @@ import TypographyH3 from "@/components/typography/h3";
 import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Skeleton } from "@/components/ui/skeleton";
+import BookCoverSkeleton from "@/components/global/skeleton/BookCoverSkeleton";
 
 const LibrarySkeleton = async () => {
   return (
@@ -47,7 +47,7 @@ const LibrarySkeleton = async () => {
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {[...Array(8)].map((_, index) => (
-          <Skeleton key={index} className="h-72 w-full" />
+          <BookCoverSkeleton key={index} />
         ))}
       </div>
     </div>

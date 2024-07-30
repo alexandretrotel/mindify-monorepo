@@ -9,7 +9,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "@/components/ui/pagination";
-import { Skeleton } from "@/components/ui/skeleton";
+import BookCoverSkeleton from "@/components/global/skeleton/BookCoverSkeleton";
 
 const itemsPerPage = 8;
 const totalPages = 1;
@@ -31,7 +31,7 @@ const SummariesByCategorySkeleton = async () => {
       {/* Summaries */}
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {Array.from({ length: itemsPerPage }).map((_, index) => (
-          <Skeleton key={index} className="h-72 w-full" />
+          <BookCoverSkeleton key={index} />
         ))}
       </div>
 

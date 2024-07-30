@@ -51,6 +51,7 @@ const Suggestions = async ({
                       author={summary?.author}
                       category={summary?.topic}
                       source={summary?.source_type}
+                      image={summary.image_url}
                     />
                   </Link>
                 </CarouselItem>
