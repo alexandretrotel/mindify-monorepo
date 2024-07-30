@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { cn } from "@/lib/utils";
 import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme";
-import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import NextTopLoader from "nextjs-toploader";
@@ -129,13 +128,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <Head>
-        <meta name="application-name" content="Mindify" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Mindify" />
-        <meta name="mobile-web-app-capable" content="yes" />
-      </Head>
       <body
         className={cn(
           "min-h-screen min-w-full bg-background font-sans antialiased",
