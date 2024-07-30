@@ -35,8 +35,8 @@ const Page = async ({ params }: { params: { slug: string } }) => {
 
   const { data: summariesData } = await supabase
     .from("summaries")
-    .select("*, topics(*), authors(*)")
-    .eq("topics.slug", slug);
+    .select("*, topics:topics(*), filter:topics(slug), authors(*)")
+    .eq("filter.slug", slug);
 
   const filteredSummariesData = summariesData?.filter((summary) => summary?.topics);
 
@@ -44,7 +44,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   const numberOfSummaries = filteredSummariesData?.length as number;
   const summariesByTopic: Summaries = filteredSummariesData?.map((summary) => ({
     ...summary,
-    topic: summary?.topics?.name,
+    topic: summary?.topics,
     author_slug: summary?.authors?.slug
   })) as Summaries;
 

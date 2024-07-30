@@ -17,7 +17,8 @@ export default function Navigation({
   category,
   setCategory,
   topics,
-  userTopics
+  userTopics,
+  userPicture
 }: Readonly<{
   userId: UUID;
   userMetadata: UserMetadata;
@@ -25,6 +26,7 @@ export default function Navigation({
   setCategory: React.Dispatch<React.SetStateAction<AccountCategory>>;
   topics: Topics;
   userTopics: Topics;
+  userPicture: string;
 }>) {
   return (
     <div className="flex flex-col gap-4 md:flex-row">
@@ -89,6 +91,7 @@ export default function Navigation({
           category={category}
           topics={topics}
           userTopics={userTopics}
+          userPicture={userPicture}
         />
       </div>
     </div>

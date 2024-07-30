@@ -12,13 +12,15 @@ export default function AccountCategories({
   userMetadata,
   category,
   topics,
-  userTopics
+  userTopics,
+  userPicture
 }: Readonly<{
   userId: UUID;
   userMetadata: UserMetadata;
   category: AccountCategory;
   topics: Topics;
   userTopics: Topics;
+  userPicture: string;
 }>) {
   if (category === "profile") {
     return (
@@ -27,6 +29,7 @@ export default function AccountCategories({
         userMetadata={userMetadata}
         topics={topics}
         userTopics={userTopics}
+        userPicture={userPicture}
       />
     );
   }

@@ -20,7 +20,10 @@ import { userUpdateAvatar } from "@/actions/users";
 import { LoadingButton } from "@/components/global/buttons/LoadingButton";
 import { Loader2Icon } from "lucide-react";
 
-export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata: UserMetadata }>) {
+export default function AccountAvatar({
+  userMetadata,
+  userPicture
+}: Readonly<{ userMetadata: UserMetadata; userPicture: string }>) {
   const [imageError, setImageError] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [allowImageUpload, setAllowImageUpload] = useState<boolean>(false);
@@ -72,7 +75,7 @@ export default function AccountAvatar({ userMetadata }: Readonly<{ userMetadata:
         </Label>
         <div className="flex items-center gap-2">
           <Avatar>
-            <AvatarImage src={userMetadata.picture} alt={userMetadata.name} />
+            <AvatarImage src={userPicture} alt={userMetadata.name} />
             <AvatarFallback>
               {userMetadata?.name ? userMetadata?.name?.charAt(0) : "J"}
             </AvatarFallback>

@@ -14,8 +14,15 @@ export default function AccountProfile({
   userId,
   userMetadata,
   topics,
-  userTopics
-}: Readonly<{ userId: UUID; userMetadata: UserMetadata; topics: Topics; userTopics: Topics }>) {
+  userTopics,
+  userPicture
+}: Readonly<{
+  userId: UUID;
+  userMetadata: UserMetadata;
+  topics: Topics;
+  userTopics: Topics;
+  userPicture: string;
+}>) {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col">
@@ -28,7 +35,7 @@ export default function AccountProfile({
       <Separator className="max-w-lg" />
 
       <div className="flex max-w-lg flex-col gap-8">
-        <AccountAvatar userMetadata={userMetadata} />
+        <AccountAvatar userMetadata={userMetadata} userPicture={userPicture} />
         <AccountName userMetadata={userMetadata} />
         <AccountMail userMetadata={userMetadata} />
         <AccountBiography userMetadata={userMetadata} />
