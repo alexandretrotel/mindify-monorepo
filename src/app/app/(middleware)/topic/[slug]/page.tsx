@@ -10,7 +10,6 @@ import TypographySpan from "@/components/typography/span";
 import type { Topic, Topics } from "@/types/topics";
 import { createClient } from "@/utils/supabase/server";
 import type { Summaries } from "@/types/summary";
-import BackHome from "@/components/global/buttons/BackHome";
 import { getTopicFromTopicSlug } from "@/actions/topics";
 
 export const revalidate = 60;
