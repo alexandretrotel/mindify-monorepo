@@ -123,8 +123,6 @@ export async function getSummariesReadsCount() {
     .from("user_reads")
     .select("*, summaries(*, topics(name), authors(slug))");
 
-  console.log("userReadsData", userReadsData);
-
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer les résumés populaires par catégorie.");
