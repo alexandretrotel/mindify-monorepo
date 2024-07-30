@@ -8,7 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 const FriendsSkeleton = async () => {
   return (
     <Card>
-      <ScrollArea className="h-96 w-full">
+      <ScrollArea className="h-72 w-full">
         <CardHeader>
           <CardTitle>
             <TypographyH3AsSpan>Amis</TypographyH3AsSpan>
