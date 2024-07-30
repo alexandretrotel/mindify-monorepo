@@ -95,7 +95,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
                 })}
               </CarouselContent>
             ) : (
-              <div className="flex h-96 flex-col items-center justify-center gap-4 text-center">
+              <div className="flex h-72 flex-col items-center justify-center gap-4 text-center">
                 <TypographyH3AsSpan>Aucun résumé</TypographyH3AsSpan>
               </div>
             )}
@@ -125,7 +125,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
                 })}
               </CarouselContent>
             ) : (
-              <div className="flex h-96 flex-col items-center justify-center gap-4 text-center">
+              <div className="flex h-72 flex-col items-center justify-center gap-4 text-center">
                 <TypographyH3AsSpan>Aucun résumé</TypographyH3AsSpan>
               </div>
             )}

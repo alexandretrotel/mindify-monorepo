@@ -240,7 +240,7 @@ const LibraryClient = ({
           ))}
         </div>
       ) : (
-        <div className="flex h-96 items-center justify-center">
+        <div className="flex h-72 items-center justify-center">
           <TypographyH3AsSpan>Aucun résumé trouvé</TypographyH3AsSpan>
         </div>
       )}
