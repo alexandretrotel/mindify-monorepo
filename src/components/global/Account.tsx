@@ -18,7 +18,8 @@ export default function Account({
   category,
   setCategory,
   topics,
-  userTopics
+  userTopics,
+  userPicture
 }: Readonly<{
   userId: UUID;
   userMetadata: UserMetadata;
@@ -28,6 +29,7 @@ export default function Account({
   setCategory: React.Dispatch<React.SetStateAction<AccountCategory>>;
   topics: Topics;
   userTopics: Topics;
+  userPicture: string;
 }>) {
   if (!showMenu) return null;
 
@@ -57,6 +59,7 @@ export default function Account({
           setCategory={setCategory}
           topics={topics}
           userTopics={userTopics}
+          userPicture={userPicture}
         />
       </div>
     </div>

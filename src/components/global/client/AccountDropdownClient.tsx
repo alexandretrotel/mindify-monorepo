@@ -135,6 +135,7 @@ const ClientAccountDropdown = ({
         userMetadata={userMetadata}
         topics={topics}
         userTopics={userTopics}
+        userPicture={userPicture}
       />
     </>
   );
