@@ -18,7 +18,7 @@ export function createClient() {
               cookieStore.set(name, value, options)
             );
           } catch (e) {
-            console.error(e);
+            // console.error(e);
             // The `setAll` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing
             // user sessions.

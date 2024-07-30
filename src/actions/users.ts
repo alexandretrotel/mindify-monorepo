@@ -274,19 +274,12 @@ export async function getUserSummariesFromLibrary(userId: UUID) {
 
   const { data: userLibraryData } = await supabase
     .from("user_library")
-    .select("summaries(*)")
+    .select("summaries(*, authors(*), topics(*))")
     .eq("user_id", userId);
-  const userLibrary: Summaries = userLibraryData?.flatMap((data) => data?.summaries) as Summaries;
 
-  const { data: summariesData } = await supabase
-    .from("summaries")
-    .select("*, authors(*), topics(*)");
+  const userLibrary = userLibraryData?.flatMap((data) => data?.summaries);
 
-  const userLibrarySummariesNotPopulated = summariesData?.filter((summary) =>
-    userLibrary?.some((library) => library.id === summary.id)
-  );
-
-  const userLibrarySummaries = userLibrarySummariesNotPopulated?.map((summary) => ({
+  const userLibrarySummaries = userLibrary?.map((summary) => ({
     ...summary,
     topic: summary.topics?.name as string,
     author_slug: summary.authors?.slug as string
@@ -332,4 +325,53 @@ export async function getUserCustomAvatarFromUserId(userId: UUID) {
   const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
 
   return avatarUrl?.publicUrl;
+}
+
+const removeDuplicates = (array: any[]) => {
+  const uniqueSet = new Set();
+  return array.filter((item) => {
+    if (!uniqueSet.has(item.summary_id)) {
+      uniqueSet.add(item.summary_id);
+      return true;
+    }
+    return false;
+  });
+};
+
+export async function getUserReadSummaries(userId: UUID) {
+  const supabase = createClient();
+
+  const { data: profileReadsData } = await supabase
+    .from("user_reads")
+    .select("*, summaries(*, topics(*), authors(*))")
+    .eq("user_id", userId);
+
+  const uniqueProfileReadsData = removeDuplicates(profileReadsData as any[]);
+
+  const userReadSummaries: Summaries = uniqueProfileReadsData.map((readData) => ({
+    ...readData?.summaries,
+    topic: readData?.summaries?.topics?.name,
+    author_slug: readData?.summaries?.authors?.slug
+  })) as Summaries;
+
+  return userReadSummaries;
+}
+
+export async function getUserSavedSummaries(userId: UUID) {
+  const supabase = createClient();
+
+  const { data: profileLibraryData } = await supabase
+    .from("user_library")
+    .select("*, summaries(*, topics(*), authors(*))")
+    .eq("user_id", userId);
+
+  const uniqueProfileLibraryData = removeDuplicates(profileLibraryData as any[]);
+
+  const userSavedSummaries: Summaries = uniqueProfileLibraryData?.map((readData) => ({
+    ...readData?.summaries,
+    topic: readData?.summaries?.topics?.name,
+    author_slug: readData?.summaries?.authors?.slug
+  })) as Summaries;
+
+  return userSavedSummaries;
 }

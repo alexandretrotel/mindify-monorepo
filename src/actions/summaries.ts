@@ -4,7 +4,6 @@ import "server-only";
 import { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { getAuthorFromSlug } from "@/actions/authors";
 import type { Authors, Summaries, Summary, SummaryChapters } from "@/types/summary";
 import { getUserReads } from "@/actions/users";
 import type { UserReads } from "@/types/user";
@@ -83,13 +82,11 @@ export async function markSummaryAsUnread(userId: UUID, summaryId: number) {
 export async function getSummaryFromSlugs(author_slug: string, slug: string) {
   const supabase = createClient();
 
-  const author = await getAuthorFromSlug(author_slug);
-
   const { data, error } = await supabase
     .from("summaries")
-    .select("*")
+    .select("*, authors(slug)")
     .eq("slug", slug)
-    .eq("author_id", author?.id);
+    .eq("authors.slug", author_slug);
 
   if (error) {
     console.error(error);
@@ -105,9 +102,9 @@ export async function getSummaryChapters(summary_id: number) {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from("summary_chapters")
-    .select("*")
-    .eq("summary_id", summary_id);
+    .from("summaries")
+    .select("*, chapters(*)")
+    .eq("id", summary_id);
 
   if (error) {
     console.error(error);
@@ -119,38 +116,122 @@ export async function getSummaryChapters(summary_id: number) {
   return summaryChapters;
 }
 
-export async function getMostPopularSummariesFromSameTopic(
-  topicId: number,
-  summary: Summary,
-  userId: UUID,
-  limit?: number
-) {
+export async function getSummariesReadsCount() {
   const supabase = createClient();
 
-  const { data: summariesData } = await supabase
-    .from("summaries")
-    .select("*, topics(name)")
-    .eq("topic_id", topicId)
-    .neq("id", summary.id)
-    .limit(limit ?? 100);
+  const { data: userReadsData, error } = await supabase
+    .from("user_reads")
+    .select("*, summaries(*, topics(name), authors(slug))");
 
-  const userReads = await getUserReads(userId);
+  console.log("userReadsData", userReadsData);
 
-  const { data: authorsData } = await supabase.from("authors").select("*");
-  const authors = authorsData?.flatMap((author) => author) as Authors;
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les résumés populaires par catégorie.");
+  }
 
-  let summaries: Summaries = summariesData?.map((summary) => ({
-    ...summary,
-    number_of_reads: userReads?.filter((read) => read?.summary_id === summary?.id)?.length,
-    topic: summary?.topics?.name as string,
-    author_slug: authors?.find((author) => author?.id === summary?.author_id)?.slug as string
-  })) as Summaries;
+  const summaryReadCounts = userReadsData?.reduce((acc: Record<number, number>, read) => {
+    const summaryId = read?.summary_id;
 
-  const mostPopularSummariesFromSameTopic = summaries
-    .filter((summaryLocal) => summaryLocal?.topic_id === summary?.topic_id)
-    .sort((a, b) => (b?.number_of_reads as number) - (a?.number_of_reads as number));
+    if (!acc[summaryId]) {
+      acc[summaryId] = 0;
+    }
 
-  return mostPopularSummariesFromSameTopic;
+    acc[summaryId]++;
+    return acc;
+  }, {});
+
+  return summaryReadCounts; // key is summaryId, value is number of reads
+}
+
+export async function getMostPopularSummariesFromSameTopic(topicId: number, summary: Summary) {
+  const supabase = createClient();
+
+  const { data: userReadsData, error } = await supabase
+    .from("user_reads")
+    .select("*, summaries(*, topics(name), authors(slug))")
+    .eq("summaries.topic_id", topicId)
+    .neq("summary_id", summary.id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les résumés populaires par catégorie.");
+  }
+
+  const excludeSameTopics = userReadsData?.filter((read) => read.summaries);
+
+  const summaryReadCounts = excludeSameTopics?.reduce((acc, read) => {
+    const summaryId = read?.summary_id;
+
+    if (!acc[summaryId]) {
+      acc[summaryId] = {
+        count: 0,
+        summary: {
+          ...read?.summaries,
+          author_slug: read?.summaries?.authors?.slug,
+          topic: read?.summaries?.topics?.name
+        }
+      };
+    }
+
+    acc[summaryId].count++;
+    return acc;
+  }, {});
+
+  const summaryReadCountsArray: {
+    count: number;
+    summary: Summary;
+  }[] = Object.values(summaryReadCounts);
+
+  const sortedSummaryReadsCount = [...summaryReadCountsArray]
+    ?.sort((a, b) => b.count - a.count)
+    ?.map((summaryReadCountsObject) => summaryReadCountsObject?.summary);
+
+  return sortedSummaryReadsCount;
+}
+
+export async function getMostPopularSummaries() {
+  const supabase = createClient();
+
+  const { data: userReadsData, error } = await supabase
+    .from("user_reads")
+    .select("*, summaries(*, topics(name), authors(slug))");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les résumés populaires par catégorie.");
+  }
+
+  const excludeSameTopics = userReadsData?.filter((read) => read.summaries);
+
+  const summaryReadCounts = excludeSameTopics?.reduce((acc, read) => {
+    const summaryId = read?.summary_id;
+
+    if (!acc[summaryId]) {
+      acc[summaryId] = {
+        count: 0,
+        summary: {
+          ...read?.summaries,
+          author_slug: read?.summaries?.authors?.slug,
+          topic: read?.summaries?.topics?.name
+        }
+      };
+    }
+
+    acc[summaryId].count++;
+    return acc;
+  }, {});
+
+  const summaryReadCountsArray: {
+    count: number;
+    summary: Summary;
+  }[] = Object.values(summaryReadCounts);
+
+  const sortedSummaryReadsCount = [...summaryReadCountsArray]
+    ?.sort((a, b) => b.count - a.count)
+    ?.map((summaryReadCountsObject) => summaryReadCountsObject?.summary);
+
+  return sortedSummaryReadsCount;
 }
 
 export async function countSummariesByTopicId(topicId: number) {
@@ -169,32 +250,44 @@ export async function countSummariesByTopicId(topicId: number) {
   return count as number;
 }
 
-export async function getPopulatedSummaries(userId: UUID) {
+export async function getPopulatedSummaries() {
   const supabase = createClient();
 
-  const { data } = await supabase.auth.getUser();
+  const { data: userReadsData, error } = await supabase
+    .from("user_reads")
+    .select("*, summaries(*, topics(name), authors(slug))");
 
-  if (!data?.user) {
-    throw new Error("Impossible de récupérer les résumés.");
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les résumés populaires par catégorie.");
   }
 
-  const { data: topicsData } = await supabase.from("topics").select("*");
-  const topics = topicsData as Topics;
+  const summaryReadCounts = userReadsData?.reduce((acc, read) => {
+    const summaryId = read?.summary_id;
 
-  const { data: authorData } = await supabase.from("authors").select("*");
-  const authors = authorData as Authors;
+    if (!acc[summaryId]) {
+      acc[summaryId] = {
+        count: 0,
+        summary: {
+          ...read?.summaries,
+          author_slug: read?.summaries?.authors?.slug,
+          topic: read?.summaries?.topics?.name
+        }
+      };
+    }
 
-  const { data: userReadsData } = await supabase.from("user_reads").select("*");
-  const userReads: UserReads = userReadsData?.filter(
-    (read) => read.user_id === data?.user?.id
-  ) as UserReads;
+    acc[summaryId].count++;
+    return acc;
+  }, {});
 
-  const { data: summariesData } = await supabase.from("summaries").select("*");
-  const summaries: Summaries = summariesData?.map((summary) => ({
+  const summaryReadCountsArray: {
+    count: number;
+    summary: Summary;
+  }[] = Object.values(summaryReadCounts);
+
+  const summaries = summaryReadCountsArray?.map(({ count, summary }) => ({
     ...summary,
-    topic: topics?.find((topic) => topic?.id === summary?.topic_id)?.name,
-    author_slug: authors?.find((author) => author?.id === summary?.author_id)?.slug,
-    number_of_reads: userReads?.filter((read) => read?.summary_id === summary?.id)?.length
+    number_of_reads: count
   })) as Summaries;
 
   return summaries;

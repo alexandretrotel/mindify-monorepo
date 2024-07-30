@@ -18,12 +18,14 @@ import TypographySpan from "@/components/typography/span";
 const Personalized = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
 
-  const summariesMatchingUserTopics = await getUserPersonalizedSummariesFromInterests(userId);
+  const summariesMatchingUserTopics: Summaries =
+    await getUserPersonalizedSummariesFromInterests(userId);
 
   const { data: summariesData } = await supabase
     .from("summaries")
     .select("*, authors(*), topics(*)")
     .limit(15);
+
   const summaries: Summaries = summariesData?.map((summary) => {
     return {
       ...summary,
@@ -61,6 +63,7 @@ const Personalized = async ({ userId }: { userId: UUID }) => {
                       author={summary.author}
                       category={summary.topic}
                       source={summary.source_type}
+                      image={summary.image_url}
                     />
                   </Link>
                 </CarouselItem>

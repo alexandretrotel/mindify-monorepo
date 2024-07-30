@@ -5,22 +5,11 @@ import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carouse
 import BookCover from "@/components/global/BookCover";
 import type { Summary } from "@/types/summary";
 import TypographyH2 from "@/components/typography/h2";
-import type { UUID } from "crypto";
 
-const Suggestions = async ({
-  topicId,
-  summary,
-  userId
-}: {
-  topicId: number;
-  summary: Summary;
-  userId: UUID;
-}) => {
+const Suggestions = async ({ topicId, summary }: { topicId: number; summary: Summary }) => {
   const mostPopularSummariesFromSameTopic = await getMostPopularSummariesFromSameTopic(
     topicId,
-    summary,
-    userId,
-    4
+    summary
   );
 
   return (
@@ -51,6 +40,7 @@ const Suggestions = async ({
                       author={summary?.author}
                       category={summary?.topic}
                       source={summary?.source_type}
+                      image={summary.image_url}
                     />
                   </Link>
                 </CarouselItem>

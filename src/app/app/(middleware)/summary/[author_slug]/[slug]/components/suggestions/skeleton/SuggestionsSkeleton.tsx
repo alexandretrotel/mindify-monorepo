@@ -1,7 +1,7 @@
 import React from "react";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import TypographyH2 from "@/components/typography/h2";
-import { Skeleton } from "@/components/ui/skeleton";
+import BookCoverSkeleton from "@/components/global/skeleton/BookCoverSkeleton";
 
 const SuggestionsSkeleton = async () => {
   return (
@@ -17,7 +17,7 @@ const SuggestionsSkeleton = async () => {
         <CarouselContent className="-ml-4">
           {[...Array(4)].map((_, index) => (
             <CarouselItem key={index} className="basis-1/2 pl-4 md:basis-1/3 lg:basis-1/4">
-              <Skeleton className="h-72 w-full" />
+              <BookCoverSkeleton />
             </CarouselItem>
           ))}
         </CarouselContent>

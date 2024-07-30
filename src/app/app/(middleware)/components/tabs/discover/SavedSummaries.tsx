@@ -47,6 +47,7 @@ const SavedSummaries = async ({ userId }: { userId: UUID }) => {
                         author={summary.author}
                         category={summary.topic}
                         source={summary.source_type}
+                        image={summary.image_url}
                       />
                     </Link>
                   </CarouselItem>

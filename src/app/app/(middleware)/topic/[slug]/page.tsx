@@ -1,16 +1,15 @@
-import { countSummariesByTopicId } from "@/actions/summaries";
-import { getTopicFromTopicSlug } from "@/actions/topics";
-import SummariesByCategory from "@/app/app/(middleware)/topic/[slug]/components/SummariesByCategory";
+import SummariesByTopic from "@/app/app/(middleware)/topic/[slug]/components/SummariesByTopic";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import TypographyH3 from "@/components/typography/h3";
 import { Badge } from "@/components/ui/badge";
 import { supabaseDefaultClient } from "@/utils/supabase/default";
 import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
-import SummariesByCategorySkeleton from "@/app/app/(middleware)/topic/[slug]/components/skeleton/SummariesByCategorySkeleton";
+import SummariesByTopicSkeleton from "@/app/app/(middleware)/topic/[slug]/components/skeleton/SummariesByTopicSkeleton";
 import TypographySpan from "@/components/typography/span";
-import type { Topics } from "@/types/topics";
+import type { Topic, Topics } from "@/types/topics";
 import { createClient } from "@/utils/supabase/server";
+import type { Summaries } from "@/types/summary";
 
 export const revalidate = 60;
 
@@ -34,8 +33,20 @@ const Page = async ({ params }: { params: { slug: string } }) => {
     redirect("/app/login");
   }
 
-  const topic = await getTopicFromTopicSlug(slug);
-  const numberOfSummaries = await countSummariesByTopicId(topic.id);
+  const { data: summariesData } = await supabase
+    .from("summaries")
+    .select("*, topics(*), authors(*)")
+    .eq("topics.slug", slug);
+
+  const filteredSummariesData = summariesData?.filter((summary) => summary?.topics);
+
+  const topic: Topic = filteredSummariesData?.[0]?.topics as Topic;
+  const numberOfSummaries = filteredSummariesData?.length as number;
+  const summariesByTopic: Summaries = filteredSummariesData?.map((summary) => ({
+    ...summary,
+    topic: summary?.topics?.name,
+    author_slug: summary?.authors?.slug
+  })) as Summaries;
 
   return (
     <div className="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-6 md:gap-12">
@@ -60,8 +71,8 @@ const Page = async ({ params }: { params: { slug: string } }) => {
         </div>
 
         <div className="flex w-full flex-col gap-4">
-          <Suspense fallback={<SummariesByCategorySkeleton />}>
-            <SummariesByCategory topic={topic} />
+          <Suspense fallback={<SummariesByTopicSkeleton />}>
+            <SummariesByTopic topic={topic} summariesByTopic={summariesByTopic} />
           </Suspense>
         </div>
       </div>

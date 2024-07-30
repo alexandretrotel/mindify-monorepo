@@ -10,14 +10,15 @@ export const revalidate = 0;
 const Statistics = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
 
-  const { data: summariesData } = await supabase.from("summaries").select("*");
-  const summaries: Summaries = summariesData as Summaries;
-
   const { data: userReadsData } = await supabase
     .from("user_reads")
-    .select("*")
+    .select("*, summaries(*)")
     .eq("user_id", userId);
+
+  console.log(userReadsData);
+
   const userReads: UserReads = userReadsData as UserReads;
+  const summaries: Summaries = userReadsData?.map((item) => item?.summaries) as Summaries;
 
   return <StatisticsClient userReads={userReads} summaries={summaries} userId={userId} />;
 };

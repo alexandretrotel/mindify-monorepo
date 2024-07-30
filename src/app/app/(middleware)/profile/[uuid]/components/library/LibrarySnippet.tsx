@@ -6,46 +6,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import BookCover from "@/components/global/BookCover";
 import type { UUID } from "crypto";
-import { createClient } from "@/utils/supabase/server";
-import type { Authors, Summaries } from "@/types/summary";
-import type { Topics } from "@/types/topics";
-import type { UserLibrary, UserReads } from "@/types/user";
+import { getUserReadSummaries, getUserSavedSummaries } from "@/actions/users";
 
 const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
-  const supabase = createClient();
-
-  const { data: topicsData } = await supabase.from("topics").select("*");
-  const topics: Topics = topicsData as Topics;
-
-  const { data: profileReadsData } = await supabase
-    .from("user_reads")
-    .select("*")
-    .eq("user_id", profileId);
-  const profileReads: UserReads = profileReadsData as UserReads;
-
-  const { data: profileLibraryData } = await supabase
-    .from("user_library")
-    .select("*")
-    .eq("user_id", profileId);
-  const profileLibrary: UserLibrary = profileLibraryData as UserLibrary;
-
-  const readSummaryIds = profileReads?.map((profileRead) => profileRead.summary_id) ?? [];
-  const savedSummaryIds = profileLibrary?.map((profileLibrary) => profileLibrary.summary_id) ?? [];
-
-  const { data: authorsData } = await supabase.from("authors").select("*");
-  const authors: Authors = authorsData as Authors;
-
-  const { data: summariesData } = await supabase.from("summaries").select("*");
-  const summaries: Summaries = summariesData?.map((summary) => ({
-    ...summary,
-    topic: topics?.find((topic) => topic.id === summary.topic_id)?.name,
-    author_slug: authors?.find((author) => author.id === summary.author_id)?.slug
-  })) as Summaries;
-
-  const profileReadsSummaries = summaries?.filter((summary) => readSummaryIds.includes(summary.id));
-  const profileLibrarySummaries = summaries?.filter((summary) =>
-    savedSummaryIds.includes(summary.id)
-  );
+  const profileReadsSummaries = await getUserReadSummaries(profileId);
+  const profileSavedSummaries = await getUserSavedSummaries(profileId);
 
   return (
     <Tabs defaultValue="reads">
@@ -57,7 +22,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
           </TabsList>
 
           {profileReadsSummaries?.length > 0 ||
-            (profileLibrarySummaries?.length > 0 && (
+            (profileReadsSummaries?.length > 0 && (
               <Button variant="outline" asChild>
                 <Link href={`/app/profile/${profileId}/summaries`} className="flex items-center">
                   Voir tout
@@ -88,6 +53,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
                           author={summary.author}
                           category={summary.topic}
                           source={summary.source_type}
+                          image={summary.image_url}
                         />
                       </Link>
                     </CarouselItem>
@@ -104,9 +70,9 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
 
         <TabsContent value="saved">
           <Carousel opts={{ align: "start", slidesToScroll: "auto" }} className="w-full">
-            {profileLibrarySummaries.length > 0 ? (
+            {profileSavedSummaries.length > 0 ? (
               <CarouselContent className="-ml-4">
-                {profileLibrarySummaries?.map((summary) => {
+                {profileSavedSummaries?.map((summary) => {
                   return (
                     <CarouselItem key={summary.id} className="basis-1/2 pl-4 md:basis-1/3">
                       <Link
@@ -118,6 +84,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
                           author={summary.author}
                           category={summary.topic}
                           source={summary.source_type}
+                          image={summary.image_url}
                         />
                       </Link>
                     </CarouselItem>

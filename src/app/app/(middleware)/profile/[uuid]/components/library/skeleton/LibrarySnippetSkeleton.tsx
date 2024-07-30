@@ -1,7 +1,7 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import { Skeleton } from "@/components/ui/skeleton";
+import BookCoverSkeleton from "@/components/global/skeleton/BookCoverSkeleton";
 
 const LibrarySnippetSkeleton = () => {
   return (
@@ -25,7 +25,7 @@ const LibrarySnippetSkeleton = () => {
             <CarouselContent className="-ml-4">
               {Array.from({ length: 6 }).map((_, index) => (
                 <CarouselItem key={index} className="basis-1/2 pl-4 md:basis-1/3">
-                  <Skeleton className="h-72 w-full" />
+                  <BookCoverSkeleton />
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -37,7 +37,7 @@ const LibrarySnippetSkeleton = () => {
             <CarouselContent className="-ml-4">
               {Array.from({ length: 6 }).map((_, index) => (
                 <CarouselItem key={index} className="basis-1/2 pl-4 md:basis-1/3">
-                  <Skeleton className="h-72 w-full" />
+                  <BookCoverSkeleton />
                 </CarouselItem>
               ))}
             </CarouselContent>
