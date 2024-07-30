@@ -1,10 +1,16 @@
 import { getSummaryChapters } from "@/actions/summaries";
 import React from "react";
 import TypographyH2 from "@/components/typography/h2";
-import type { Summary } from "@/types/summary";
 import TypographyP from "@/components/typography/p";
+import type { Tables } from "@/types/supabase";
 
-const Chapters = async ({ summaryId, summary }: { summaryId: number; summary: Summary }) => {
+const Chapters = async ({
+  summaryId,
+  summary
+}: {
+  summaryId: number;
+  summary: Tables<"summaries">;
+}) => {
   const summaryChapters = await getSummaryChapters(summaryId);
 
   return (

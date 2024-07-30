@@ -4,8 +4,8 @@ import AccountNotifications from "@/app/app/(middleware)/components/account/navi
 import AccountSettings from "@/app/app/(middleware)/components/account/navigation/categories/Settings";
 import AccountProfile from "@/app/app/(middleware)/components/account/navigation/categories/Profile";
 import type { UserMetadata } from "@supabase/supabase-js";
-import type { Topics } from "@/types/topics";
 import { UUID } from "crypto";
+import type { Tables } from "@/types/supabase";
 
 export default function AccountCategories({
   userId,
@@ -18,8 +18,8 @@ export default function AccountCategories({
   userId: UUID;
   userMetadata: UserMetadata;
   category: AccountCategory;
-  topics: Topics;
-  userTopics: Topics;
+  topics: Tables<"topics">[];
+  userTopics: Tables<"topics">[];
   userPicture: string;
 }>) {
   if (category === "profile") {

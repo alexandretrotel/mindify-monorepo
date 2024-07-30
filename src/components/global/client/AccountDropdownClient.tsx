@@ -25,8 +25,8 @@ import type { UserMetadata } from "@supabase/supabase-js";
 import type { AccountCategory } from "@/types/account";
 import Account from "@/components/global/Account";
 import type { UUID } from "crypto";
-import type { Topics } from "@/types/topics";
 import Link from "next/link";
+import type { Tables } from "@/types/supabase";
 
 const ClientAccountDropdown = ({
   userMetadata,
@@ -37,8 +37,8 @@ const ClientAccountDropdown = ({
 }: {
   userMetadata: UserMetadata;
   userId: UUID;
-  topics: Topics;
-  userTopics: Topics;
+  topics: Tables<"topics">[];
+  userTopics: Tables<"topics">[];
   userPicture: string;
 }) => {
   const [showMenu, setShowMenu] = React.useState<boolean>(false);

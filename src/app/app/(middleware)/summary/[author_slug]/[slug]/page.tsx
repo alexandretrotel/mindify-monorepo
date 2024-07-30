@@ -51,10 +51,10 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-4">
                   <AddToLibraryButton userId={userId} summaryId={summary?.id} />
-                  <Source summarySourceUrl={summary?.source_url} />
+                  <Source summarySourceUrl={summary?.source_url as string} />
                 </div>
 
-                <ReadingTime summaryReadingTime={summary?.reading_time} />
+                <ReadingTime summaryReadingTime={summary?.reading_time as number} />
               </div>
             </div>
 

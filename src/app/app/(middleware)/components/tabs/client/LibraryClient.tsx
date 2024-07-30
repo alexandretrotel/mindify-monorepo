@@ -15,21 +15,14 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import type { Topics } from "@/types/topics";
 import BookCover from "@/components/global/BookCover";
 import Link from "next/link";
-import type {
-  Source,
-  Sources,
-  Summaries,
-  SummaryStatusesWithValue,
-  SummaryStatus
-} from "@/types/summary";
+import type { Source, SummaryStatusesWithValue, SummaryStatus } from "@/types/summary";
 import { getTopicNameFromTopicSlug, sourceToString } from "@/utils/topics";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
-import type { UserLibrary, UserReads } from "@/types/user";
 import { statusToString } from "@/utils/summary";
 import Fuse from "fuse.js";
+import type { Enums, Tables } from "@/types/supabase";
 
 const statuses: SummaryStatusesWithValue = [
   { id: 1, name: "Pas commencé", value: "not_started" },
@@ -37,7 +30,7 @@ const statuses: SummaryStatusesWithValue = [
   { id: 3, name: "Terminé", value: "completed" }
 ] as SummaryStatusesWithValue;
 
-const sources: Sources = ["book", "article", "podcast", "video"] as Sources;
+const sources = ["book", "article", "podcast", "video"] as Enums<"source">[];
 
 const LibraryClient = ({
   summaries,
@@ -49,10 +42,13 @@ const LibraryClient = ({
   initialSource,
   initialStatus
 }: {
-  summaries: Summaries;
-  topics: Topics;
-  userReads: UserReads;
-  userLibrary: UserLibrary;
+  summaries: (Tables<"summaries"> & { topic: string; author_slug: string } & {
+    authors: Tables<"authors">;
+    topics: Tables<"topics">;
+  })[];
+  topics: Tables<"topics">[];
+  userReads: Tables<"user_reads">[];
+  userLibrary: Tables<"user_library">[];
   initialSearch: string | undefined;
   initialTopic: string | undefined;
   initialSource: Source | undefined;
@@ -64,7 +60,12 @@ const LibraryClient = ({
   );
   const [selectedSource, setSelectedSource] = React.useState<string | undefined>(initialSource);
   const [selectedStatus, setSelectedStatus] = React.useState<string | undefined>(initialStatus);
-  const [filteredSummaries, setFilteredSummaries] = React.useState<Summaries>(summaries);
+  const [filteredSummaries, setFilteredSummaries] = React.useState<
+    (Tables<"summaries"> & { topic: string; author_slug: string } & {
+      authors: Tables<"authors">;
+      topics: Tables<"topics">;
+    })[]
+  >(summaries);
 
   const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
 
@@ -102,12 +103,12 @@ const LibraryClient = ({
     let filteredSummaries = summaries;
 
     if (selectedTopic) {
-      filteredSummaries = filteredSummaries.filter((summary) => summary.topic === selectedTopic);
+      filteredSummaries = filteredSummaries.filter((summary) => summary?.topic === selectedTopic);
     }
 
     if (selectedSource) {
       filteredSummaries = filteredSummaries.filter(
-        (summary) => summary.source_type === selectedSource
+        (summary) => summary?.source_type === selectedSource
       );
     }
 
@@ -229,13 +230,13 @@ const LibraryClient = ({
       {filteredSummaries?.length > 0 ? (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {filteredSummaries?.map((summary) => (
-            <Link key={summary.id} href={`/app/summary/${summary.author_slug}/${summary.slug}`}>
+            <Link key={summary.id} href={`/app/summary/${summary?.author_slug}/${summary.slug}`}>
               <BookCover
                 title={summary.title}
-                author={summary.author}
-                category={summary.topic}
+                author={summary?.authors?.name}
+                category={summary?.topic}
                 source={summary.source_type}
-                image={summary.image_url}
+                image={summary?.image_url ?? undefined}
               />
             </Link>
           ))}

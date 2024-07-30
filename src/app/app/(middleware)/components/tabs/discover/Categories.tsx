@@ -1,5 +1,4 @@
 import React from "react";
-import { Topic, Topics } from "@/types/topics";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import Link from "next/link";
@@ -9,6 +8,7 @@ import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
 import TypographySpan from "@/components/typography/span";
+import type { Tables } from "@/types/supabase";
 
 const Categories = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
@@ -17,13 +17,16 @@ const Categories = async ({ userId }: { userId: UUID }) => {
     .from("user_topics")
     .select("topics(*)")
     .eq("user_id", userId);
-  const userTopics = userTopicsData?.flatMap((data) => data.topics) as Topics;
+  const userTopics = userTopicsData?.flatMap((data) => data.topics);
 
   const { data: topicsData } = await supabase.from("topics").select("*");
-  const topics = topicsData as Topics;
 
-  const sortedUserTopics = [...userTopics]?.sort((a, b) => a.name.localeCompare(b.name));
-  const sortedTopics = [...topics]?.sort((a, b) => a.name.localeCompare(b.name));
+  const sortedUserTopics = userTopics
+    ? [...userTopics]?.sort((a, b) => a?.name.localeCompare(b?.name as string) as number)
+    : [];
+  const sortedTopics = topicsData
+    ? [...topicsData]?.sort((a, b) => a.name.localeCompare(b.name))
+    : [];
 
   return (
     <Carousel
@@ -45,26 +48,28 @@ const Categories = async ({ userId }: { userId: UUID }) => {
 
         <CarouselContent className="-ml-4">
           {(sortedUserTopics?.length >= 3 ? sortedUserTopics : sortedTopics)
-            ?.reduce((acc: Topic[][], topic: Topic, index: number) => {
-              const chunkIndex = Math.floor(index / 6);
-              if (!acc[chunkIndex]) {
-                acc[chunkIndex] = [];
+            ?.reduce((acc, topic, index) => {
+              if (index % 3 === 0) {
+                acc.push([]);
               }
-              acc[chunkIndex].push(topic);
+              acc[acc.length - 1].push(topic as Tables<"topics">);
               return acc;
-            }, [])
-            ?.map((topicChunk, index) => (
-              <CarouselItem key={index} className="pl-4">
-                <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-                  {topicChunk.map((topic: Topic) => (
-                    <Button asChild key={topic.id} className="col-span-1">
-                      <Link href={`/app/topic/${topic.slug}`} className="w-full">
-                        <TopicIcon isChecked={true} topic={topic} />
-                        <TypographyH5AsSpan>{topic.name}</TypographyH5AsSpan>
-                      </Link>
+            }, [] as Tables<"topics">[][])
+            .map((topics, index) => (
+              <CarouselItem key={index} className="flex gap-4">
+                {topics.map((topic) => (
+                  <Link key={topic.id} href={`/topics/${topic.slug}`}>
+                    <Button variant="ghost" className="flex flex-col items-center gap-2" size="sm">
+                      <TopicIcon
+                        topic={topic}
+                        isChecked={sortedUserTopics?.some(
+                          (userTopic) => userTopic?.id === topic.id
+                        )}
+                      />
+                      <TypographyH5AsSpan>{topic.name}</TypographyH5AsSpan>
                     </Button>
-                  ))}
-                </div>
+                  </Link>
+                ))}
               </CarouselItem>
             ))}
         </CarouselContent>

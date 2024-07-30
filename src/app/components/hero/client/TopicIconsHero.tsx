@@ -3,10 +3,10 @@ import "client-only";
 
 import React from "react";
 import Image from "next/image";
-import type { Topic } from "@/types/topics";
 import { useTheme } from "next-themes";
+import type { Tables } from "@/types/supabase";
 
-const TopicIconsHero = ({ topic }: { topic: Topic }) => {
+const TopicIconsHero = ({ topic }: { topic: Tables<"topics"> }) => {
   const { resolvedTheme } = useTheme();
 
   const icon = resolvedTheme === "dark" ? topic.white_icon : topic.black_icon;

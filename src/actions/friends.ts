@@ -90,14 +90,15 @@ export async function rejectFriendRequest(userId: UUID, profileId: UUID) {
     .from("user_friends")
     .select("status")
     .eq("user_id", profileId)
-    .eq("friend_id", userId);
+    .eq("friend_id", userId)
+    .single();
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de rejeter la demande d'ami.");
   }
 
-  if (data?.[0]?.status !== "pending") {
+  if (data?.status !== "pending") {
     throw new Error("La demande d'ami n'existe pas ou a déjà été acceptée.");
   }
 
@@ -228,14 +229,15 @@ export async function isFriend(userId: UUID, profileId: UUID) {
     .from("user_friends")
     .select("status")
     .eq("user_id", userId)
-    .eq("friend_id", profileId);
+    .eq("friend_id", profileId)
+    .maybeSingle();
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de vérifier si l'utilisateur est un ami.");
   }
 
-  return data?.[0]?.status === "accepted";
+  return data?.status === "accepted";
 }
 
 export async function getFriendsData(userId: UUID) {
@@ -259,12 +261,13 @@ export async function getFriendStatus(userId: UUID, profileId: UUID) {
     .from("user_friends")
     .select("status")
     .eq("user_id", userId)
-    .eq("friend_id", profileId);
+    .eq("friend_id", profileId)
+    .maybeSingle();
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer le statut de l'ami.");
   }
 
-  return data?.[0]?.status as FriendStatus;
+  return data?.status as FriendStatus;
 }

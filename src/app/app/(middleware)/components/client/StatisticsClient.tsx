@@ -8,19 +8,18 @@ import { Area, AreaChart, Bar, BarChart, Rectangle, XAxis, YAxis } from "rechart
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRightIcon } from "lucide-react";
-import type { UserReads } from "@/types/user";
-import type { Summaries } from "@/types/summary";
 import { getDateRangeUntilNow } from "@/utils/date";
 import Link from "next/link";
 import type { UUID } from "crypto";
+import type { Tables } from "@/types/supabase";
 
 const StatisticsClient = ({
   userReads,
   summaries,
   userId
 }: {
-  userReads: UserReads;
-  summaries: Summaries;
+  userReads: Tables<"user_reads">[];
+  summaries: Tables<"summaries">[];
   userId: UUID;
 }) => {
   const summariesRead = userReads?.length;

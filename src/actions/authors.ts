@@ -2,36 +2,39 @@
 import "server-only";
 
 import { createClient } from "@/utils/supabase/server";
-import type { Author } from "@/types/summary";
 
 export async function getAuthorFromSlug(slug: string) {
   const supabase = createClient();
 
-  const { data: authorData, error } = await supabase.from("authors").select("*").eq("slug", slug);
+  const { data: authorData, error } = await supabase
+    .from("authors")
+    .select("*")
+    .eq("slug", slug)
+    .single();
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer l'auteur.");
   }
 
-  const author = authorData[0] as Author;
-
-  return author;
+  return authorData;
 }
 
 export async function getAuthorFromSummaryId(summaryId: number) {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from("summaries").select("authors(*)").eq("id", summaryId);
+  const { data, error } = await supabase
+    .from("summaries")
+    .select("authors(*)")
+    .eq("id", summaryId)
+    .single();
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer l'auteur.");
   }
 
-  const author = data?.flatMap((summary) => summary?.authors)[0] as Author;
-
-  return author;
+  return data?.authors;
 }
 
 export async function getAuthorSlugFromSummaryId(summaryId: number) {
@@ -40,14 +43,13 @@ export async function getAuthorSlugFromSummaryId(summaryId: number) {
   const { data, error } = await supabase
     .from("summaries")
     .select("authors(slug)")
-    .eq("id", summaryId);
+    .eq("id", summaryId)
+    .single();
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer le slug de l'auteur.");
   }
 
-  const author_slug = data?.flatMap((summary) => summary?.authors)[0]?.slug as string;
-
-  return author_slug;
+  return data?.authors?.slug;
 }

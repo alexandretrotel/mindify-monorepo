@@ -5,9 +5,9 @@ import React from "react";
 import Image from "next/image";
 import { setIconColorFromTheme } from "@/utils/theme";
 import { useTheme } from "next-themes";
-import type { Topic } from "@/types/topics";
+import type { Tables } from "@/types/supabase";
 
-const TopicIcon = ({ topic, isChecked }: { topic: Topic; isChecked: boolean }) => {
+const TopicIcon = ({ topic, isChecked }: { topic: Tables<"topics">; isChecked: boolean }) => {
   const { resolvedTheme } = useTheme();
 
   return (

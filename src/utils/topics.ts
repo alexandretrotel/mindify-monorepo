@@ -1,5 +1,5 @@
 import type { Source } from "@/types/summary";
-import type { Topic, Topics } from "@/types/topics";
+import type { Tables } from "@/types/supabase";
 
 export const sourceToString = (source: Source): string => {
   switch (source) {
@@ -16,7 +16,7 @@ export const sourceToString = (source: Source): string => {
   }
 };
 
-export function getTopicNameFromTopicSlug(topics: Topics, slug: string): string {
-  const topic = topics.find((topic) => topic.slug === slug) as Topic;
-  return topic?.name;
+export function getTopicNameFromTopicSlug(topics: Tables<"topics">[], slug: string): string {
+  const topic = topics.find((topic) => topic.slug === slug);
+  return topic?.name as string;
 }

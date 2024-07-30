@@ -6,9 +6,9 @@ import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account";
 import type { UserMetadata } from "@supabase/supabase-js";
-import type { Topics } from "@/types/topics";
 import { UUID } from "crypto";
 import TypographySpan from "../typography/span";
+import type { Tables } from "@/types/supabase";
 
 export default function Account({
   userId,
@@ -27,8 +27,8 @@ export default function Account({
   setShowMenu: React.Dispatch<React.SetStateAction<boolean>>;
   category: AccountCategory;
   setCategory: React.Dispatch<React.SetStateAction<AccountCategory>>;
-  topics: Topics;
-  userTopics: Topics;
+  topics: Tables<"topics">[];
+  userTopics: Tables<"topics">[];
   userPicture: string;
 }>) {
   if (!showMenu) return null;

@@ -8,10 +8,8 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { UUID } from "crypto";
 import type { User } from "@supabase/supabase-js";
-import type { UserLibrary, UserReads } from "@/types/user";
 import { summary } from "date-streaks";
-import type { Topics } from "@/types/topics";
-import type { Summaries } from "@/types/summary";
+import type { Tables } from "@/types/supabase";
 
 const nameSchema = z.object({
   name: z
@@ -179,14 +177,14 @@ export async function getUserReadingStreak(userId: UUID) {
     throw new Error("Impossible de récupérer la série de lecture.");
   }
 
-  const dates = data?.map((read) => read?.read_at) as Date[];
+  const dates = data?.map((read) => new Date(read.read_at));
 
   const streakObject = summary({ dates });
 
   return streakObject;
 }
 
-export async function getUserReads(userId: UUID) {
+export async function getUserReadsIds(userId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -194,7 +192,7 @@ export async function getUserReads(userId: UUID) {
     .select("summary_id")
     .eq("user_id", userId);
 
-  const reads = data?.map((read) => read.summary_id) as UserReads;
+  const reads = data?.map((read) => read.summary_id);
 
   if (error) {
     console.error(error);
@@ -216,12 +214,12 @@ export async function hasUserSavedSummary({
   const { data: userLibraryData } = await supabase
     .from("user_library")
     .select("*")
-    .eq("user_id", userId);
-  const userLibrary: UserLibrary = userLibraryData as UserLibrary;
+    .eq("user_id", userId)
+    .single();
 
-  const isSummarySaved: boolean = userLibrary?.some((library) => library?.summary_id === summaryId);
-
-  return isSummarySaved;
+  if (userLibraryData?.summary_id === summaryId) {
+    return true;
+  }
 }
 
 export async function hasUserReadSummary({
@@ -236,12 +234,12 @@ export async function hasUserReadSummary({
   const { data: userReadsData } = await supabase
     .from("user_reads")
     .select("*")
-    .eq("user_id", userId);
-  const userReads: UserReads = userReadsData as UserReads;
+    .eq("user_id", userId)
+    .single();
 
-  const isSummaryRead: boolean = userReads.some((read) => read?.summary_id === summaryId);
-
-  return isSummaryRead;
+  if (userReadsData?.summary_id === summaryId) {
+    return true;
+  }
 }
 
 export async function getUserPersonalizedSummariesFromInterests(userId: UUID) {
@@ -251,20 +249,24 @@ export async function getUserPersonalizedSummariesFromInterests(userId: UUID) {
     .from("user_topics")
     .select("topics(*)")
     .eq("user_id", userId);
-  const userTopics = userTopicsData?.flatMap((data) => data?.topics) as Topics;
+  const userTopics = userTopicsData?.flatMap((data) => data?.topics);
 
   const { data: summariesData } = await supabase
     .from("summaries")
     .select("*, authors(*), topics(*)");
-  const summaries = summariesData?.map((summary) => ({
-    ...summary,
-    topic: summary.topics?.name as string,
-    author_slug: summary.authors?.slug as string
-  })) as Summaries;
 
-  const userPersonalizedSummaries = summaries?.filter((summary) =>
-    userTopics?.some((userTopic) => userTopic.id === summary.topic_id)
-  );
+  const userPersonalizedSummariesNotPopulated = summariesData?.filter((summary) =>
+    userTopics?.some((topic) => topic?.id === summary?.topics?.id)
+  ) as (Tables<"summaries"> & { topics: Tables<"topics">; authors: Tables<"authors"> })[];
+
+  const userPersonalizedSummaries = userPersonalizedSummariesNotPopulated?.map((summary) => ({
+    ...summary,
+    topic: summary?.topics?.name as string,
+    author_slug: summary?.authors?.slug as string
+  })) as (Tables<"summaries"> & { topic: string; author_slug: string } & {
+    topics: Tables<"topics">;
+    authors: Tables<"authors">;
+  })[];
 
   return userPersonalizedSummaries;
 }
@@ -277,13 +279,14 @@ export async function getUserSummariesFromLibrary(userId: UUID) {
     .select("summaries(*, authors(*), topics(*))")
     .eq("user_id", userId);
 
-  const userLibrary = userLibraryData?.flatMap((data) => data?.summaries);
-
-  const userLibrarySummaries = userLibrary?.map((summary) => ({
-    ...summary,
-    topic: summary.topics?.name as string,
-    author_slug: summary.authors?.slug as string
-  })) as Summaries;
+  const userLibrarySummaries = userLibraryData?.map((libraryData) => ({
+    ...libraryData?.summaries,
+    topic: libraryData?.summaries?.topics?.name,
+    author_slug: libraryData?.summaries?.authors?.slug
+  })) as (Tables<"summaries"> & { topic: string; author_slug: string } & {
+    topics: Tables<"topics">;
+    authors: Tables<"authors">;
+  })[];
 
   return userLibrarySummaries;
 }
@@ -348,11 +351,11 @@ export async function getUserReadSummaries(userId: UUID) {
 
   const uniqueProfileReadsData = removeDuplicates(profileReadsData as any[]);
 
-  const userReadSummaries: Summaries = uniqueProfileReadsData.map((readData) => ({
+  const userReadSummaries = uniqueProfileReadsData.map((readData) => ({
     ...readData?.summaries,
     topic: readData?.summaries?.topics?.name,
     author_slug: readData?.summaries?.authors?.slug
-  })) as Summaries;
+  }));
 
   return userReadSummaries;
 }
@@ -367,11 +370,29 @@ export async function getUserSavedSummaries(userId: UUID) {
 
   const uniqueProfileLibraryData = removeDuplicates(profileLibraryData as any[]);
 
-  const userSavedSummaries: Summaries = uniqueProfileLibraryData?.map((readData) => ({
+  const userSavedSummaries = uniqueProfileLibraryData?.map((readData) => ({
     ...readData?.summaries,
     topic: readData?.summaries?.topics?.name,
     author_slug: readData?.summaries?.authors?.slug
-  })) as Summaries;
+  }));
 
   return userSavedSummaries;
+}
+
+export async function getUserTopics(user_id: UUID) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("user_topics")
+    .select("topics(*)")
+    .eq("user_id", user_id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les intérêts.");
+  }
+
+  const topics = data?.flatMap((item) => item?.topics as Tables<"topics">);
+
+  return topics;
 }

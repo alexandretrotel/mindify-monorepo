@@ -44,10 +44,10 @@ const SavedSummaries = async ({ userId }: { userId: UUID }) => {
                     >
                       <BookCover
                         title={summary.title}
-                        author={summary.author}
+                        author={summary.authors.name}
                         category={summary.topic}
                         source={summary.source_type}
-                        image={summary.image_url}
+                        image={summary.image_url ?? undefined}
                       />
                     </Link>
                   </CarouselItem>

@@ -11,10 +11,9 @@ import Link from "next/link";
 import TypographyH3 from "@/components/typography/h3";
 import TypographySpan from "@/components/typography/span";
 import { getMostPopularSummaries } from "@/actions/summaries";
-import type { Summaries } from "@/types/summary";
 
 const Popular = async () => {
-  const popularSummaries: Summaries = await getMostPopularSummaries();
+  const popularSummaries = await getMostPopularSummaries();
 
   return (
     <Carousel
@@ -40,10 +39,10 @@ const Popular = async () => {
                 >
                   <BookCover
                     title={summary.title}
-                    author={summary.author}
+                    author={summary.authors.name}
                     category={summary.topic}
                     source={summary.source_type}
-                    image={summary.image_url}
+                    image={summary.image_url ?? undefined}
                   />
                 </Link>
               </CarouselItem>

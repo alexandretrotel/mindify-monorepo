@@ -6,9 +6,9 @@ import TypographyH1 from "@/components/typography/h1";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import { getAuthorFromSummaryId } from "@/actions/authors";
 import { getTopicFromSummaryId } from "@/actions/topics";
-import type { Summary } from "@/types/summary";
+import { Tables } from "@/types/supabase";
 
-const SummaryHeader = async ({ summary }: { summary: Summary }) => {
+const SummaryHeader = async ({ summary }: { summary: Tables<"summaries"> }) => {
   const author = await getAuthorFromSummaryId(summary?.id);
   const topic = await getTopicFromSummaryId(summary?.id);
   const topic_slug = topic?.slug;

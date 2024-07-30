@@ -6,9 +6,9 @@ import AccountMail from "@/app/app/(middleware)/components/account/navigation/ca
 import AccountName from "@/app/app/(middleware)/components/account/navigation/categories/profile/Name";
 import AccountAvatar from "@/app/app/(middleware)/components/account/navigation/categories/profile/Avatar";
 import AccountTopics from "@/app/app/(middleware)/components/account/navigation/categories/profile/Topics";
-import type { Topics } from "@/types/topics";
 import { UUID } from "crypto";
 import TypographySpan from "@/components/typography/span";
+import type { Tables } from "@/types/supabase";
 
 export default function AccountProfile({
   userId,
@@ -19,8 +19,8 @@ export default function AccountProfile({
 }: Readonly<{
   userId: UUID;
   userMetadata: UserMetadata;
-  topics: Topics;
-  userTopics: Topics;
+  topics: Tables<"topics">[];
+  userTopics: Tables<"topics">[];
   userPicture: string;
 }>) {
   return (
