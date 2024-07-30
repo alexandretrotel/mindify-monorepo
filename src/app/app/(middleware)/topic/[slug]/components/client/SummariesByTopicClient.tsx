@@ -21,22 +21,22 @@ const itemsPerPage = 8;
 
 const SummariesByCategoryClient = ({
   topic,
-  summaries
+  summariesByTopic
 }: {
   topic: Topic;
-  summaries: Summaries;
+  summariesByTopic: Summaries;
 }) => {
   const [summarySearch, setSummarySearch] = React.useState<string | undefined>(undefined);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalPages, setTotalPages] = React.useState<number>(0);
 
   useEffect(() => {
-    if (summaries) {
-      setTotalPages(Math.ceil(summaries?.length / itemsPerPage));
+    if (summariesByTopic) {
+      setTotalPages(Math.ceil(summariesByTopic?.length / itemsPerPage));
     }
-  }, [summaries]);
+  }, [summariesByTopic]);
 
-  const paginatedSummaries = summaries?.slice(
+  const paginatedSummaries = summariesByTopic?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );

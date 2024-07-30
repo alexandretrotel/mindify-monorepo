@@ -11,6 +11,8 @@ export type Summary = {
   topic: string;
   author_id: number;
   author_slug: string;
+  chapters_id: number;
+  chapters?: SummaryChapters;
   source_type: Source;
   introduction: string;
   conclusion: string;
@@ -35,7 +37,6 @@ export type Authors = Author[];
 
 export type SummaryChapters = {
   id: number;
-  summary_id: number;
   titles: string[];
   texts: string[];
   created_at: Date;
