@@ -12,6 +12,7 @@ import type { UserMetadata } from "@supabase/supabase-js";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 import TypographySpan from "@/components/typography/span";
 import { getUserCustomAvatarFromUserId } from "@/actions/users";
+import ReadingStreak from "@/app/app/(middleware)/profile/[uuid]/components/header/ReadingStreak";
 
 export const revalidate = 0;
 
@@ -62,10 +63,13 @@ const Friends = async ({
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
-                        <TypographyH5AsSpan>
-                          {friend?.user_metadata?.name ??
-                            friend?.user_metadata?.email?.split("@")[0]}
-                        </TypographyH5AsSpan>
+                        <div className="flex items-center gap-2">
+                          <TypographyH5AsSpan>
+                            {friend?.user_metadata?.name ??
+                              friend?.user_metadata?.email?.split("@")[0]}
+                          </TypographyH5AsSpan>
+                          <ReadingStreak profileId={friend?.id as UUID} />
+                        </div>
                         <TypographySpan size="xs" muted>
                           {friend?.user_metadata?.biography ?? "Pas de biographie"}
                         </TypographySpan>

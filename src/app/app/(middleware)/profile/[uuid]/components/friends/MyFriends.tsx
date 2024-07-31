@@ -3,7 +3,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getFriendsData, getPendingFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
 import MyFriendClient from "./client/MyFriendClient";
-import { getUserCustomAvatarFromUserId } from "@/actions/users";
+import { getUserCustomAvatarFromUserId, getUserReadingStreak } from "@/actions/users";
 
 export const revalidate = 0;
 
@@ -15,6 +15,13 @@ const MyFriends = async ({ userId }: { userId: UUID }) => {
     friends?.map(async (friend) => {
       const picture = await getUserCustomAvatarFromUserId(friend?.id as UUID);
       return picture;
+    }) ?? []
+  );
+
+  const friendsReadingStreak = await Promise.all(
+    friends?.map(async (friend) => {
+      const readingStreak = await getUserReadingStreak(friend?.id as UUID);
+      return readingStreak;
     }) ?? []
   );
 
@@ -43,6 +50,7 @@ const MyFriends = async ({ userId }: { userId: UUID }) => {
           initialPendingFriends={pendingFriends}
           friendsPicture={friendsPicture}
           pendingFriendsPicture={pendingFriendsPicture}
+          friendsReadingStreak={friendsReadingStreak}
         />
       </div>
     </Tabs>

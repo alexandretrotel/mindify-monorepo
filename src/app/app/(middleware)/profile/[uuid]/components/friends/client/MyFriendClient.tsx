@@ -18,19 +18,24 @@ import { TabsContent } from "@/components/ui/tabs";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 import TypographySpan from "@/components/typography/span";
+import type { Streaks } from "@/types/streaks";
+import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
+import { FlameIcon } from "lucide-react";
 
 const MyFriendClient = ({
   userId,
   initialFriends,
   initialPendingFriends,
   friendsPicture,
-  pendingFriendsPicture
+  pendingFriendsPicture,
+  friendsReadingStreak
 }: {
   userId: UUID;
   initialFriends: User[];
   initialPendingFriends: User[];
   friendsPicture: string[];
   pendingFriendsPicture: string[];
+  friendsReadingStreak: Streaks;
 }) => {
   const [friends, setFriends] = React.useState<User[]>(initialFriends);
   const [pendingFriends, setPendingFriends] = React.useState<User[]>(initialPendingFriends);
@@ -152,10 +157,33 @@ const MyFriendClient = ({
                             </AvatarFallback>
                           </Avatar>
                           <div className="flex flex-col">
-                            <TypographyH5AsSpan>
-                              {friend?.user_metadata?.name ??
-                                friend?.user_metadata?.email?.split("@")[0]}
-                            </TypographyH5AsSpan>
+                            <div className="flex items-center gap-2">
+                              <TypographyH5AsSpan>
+                                {friend?.user_metadata?.name ??
+                                  friend?.user_metadata?.email?.split("@")[0]}
+                              </TypographyH5AsSpan>
+
+                              {friendsReadingStreak[index]?.todayInStreak &&
+                                friendsReadingStreak[index]?.currentStreak !== 0 && (
+                                  <div className="flex items-center gap-2">
+                                    <TypographySpan isDefaultColor>•</TypographySpan>
+
+                                    <TypographySpan isDefaultColor semibold>
+                                      <ResponsiveTooltip
+                                        text="Nombre de jours consécutifs de lecture."
+                                        side="bottom"
+                                        align="center"
+                                        cursor="help"
+                                      >
+                                        <div className="flex items-center">
+                                          {friendsReadingStreak[index]?.currentStreak}
+                                          <FlameIcon className="h-4 w-4" />
+                                        </div>
+                                      </ResponsiveTooltip>
+                                    </TypographySpan>
+                                  </div>
+                                )}
+                            </div>
                             <TypographySpan size="xs" muted>
                               {friend?.user_metadata?.biography ?? "Aucune biographie"}
                             </TypographySpan>
