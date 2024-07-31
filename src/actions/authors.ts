@@ -42,7 +42,7 @@ export async function getAuthorSlugFromSummaryId(summaryId: number) {
 
   const { data, error } = await supabase
     .from("summaries")
-    .select("authors(slug)")
+    .select("authors(*)")
     .eq("id", summaryId)
     .single();
 

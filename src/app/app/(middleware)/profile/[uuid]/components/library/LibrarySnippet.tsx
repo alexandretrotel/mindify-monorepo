@@ -50,7 +50,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
                       >
                         <BookCover
                           title={summary.title}
-                          author={summary.author}
+                          author={summary.authors.name}
                           category={summary.topic}
                           source={summary.source_type}
                           image={summary.image_url}
@@ -81,7 +81,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
                       >
                         <BookCover
                           title={summary.title}
-                          author={summary.author}
+                          author={summary.authors.name}
                           category={summary.topic}
                           source={summary.source_type}
                           image={summary.image_url}

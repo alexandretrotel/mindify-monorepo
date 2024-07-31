@@ -21,7 +21,7 @@ const Personalized = async ({ userId }: { userId: UUID }) => {
 
   const { data: summariesData } = await supabase
     .from("summaries")
-    .select("*, authors(name, slug), topics(name)")
+    .select("*, authors(*), topics(*)")
     .limit(15);
 
   const summaries = summariesData?.map((summary) => {

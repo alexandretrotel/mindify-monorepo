@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CheckIcon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { UUID } from "crypto";
-import { markSummaryAsRead, markSummaryAsUnread } from "@/actions/summaries";
+import { markSummaryAsRead } from "@/actions/summaries";
 
 const MarkAsReadButtonClient = ({
   isSummaryRead,

@@ -1,11 +1,11 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
 import TypographyH5AsSpan from "@/components/typography/h5";
-import TypographySpan from "../typography/span";
-import type { Source } from "@/types/summary";
+import TypographySpan from "@/components/typography/span";
 import { sourceToString } from "@/utils/topics";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { Enums } from "@/types/supabase";
 
 const BookCover = ({
   title,
@@ -17,7 +17,7 @@ const BookCover = ({
   title: string;
   author: string;
   category: string;
-  source: Source;
+  source: Enums<"source">;
   image: string | undefined;
 }) => {
   return (
@@ -33,13 +33,18 @@ const BookCover = ({
         <Skeleton className="h-48 w-full rounded-none" />
       )}
       <div className="p-4">
-        <TypographyH5AsSpan>{title}</TypographyH5AsSpan>
-        <TypographySpan muted size="sm">
-          {author}
-        </TypographySpan>
-        <TypographySpan isPrimaryColor size="xs">
-          {category} • {sourceToString(source)}
-        </TypographySpan>
+        <div className="flex flex-col">
+          <TypographyH5AsSpan>{title}</TypographyH5AsSpan>
+          {source === "book" && (
+            <TypographySpan size="sm" muted>
+              {author}
+            </TypographySpan>
+          )}
+
+          <TypographySpan isPrimaryColor size="xs">
+            {category} • {sourceToString(source)}
+          </TypographySpan>
+        </div>
       </div>
     </Card>
   );

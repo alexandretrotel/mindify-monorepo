@@ -81,7 +81,7 @@ export async function getSummaryFromSlugs(author_slug: string, slug: string) {
 
   const { data, error } = await supabase
     .from("summaries")
-    .select("*, authors(slug)")
+    .select("*, authors(*), topics(*)")
     .eq("slug", slug)
     .eq("authors.slug", author_slug)
     .single();
@@ -116,7 +116,7 @@ export async function getSummariesReadsCount() {
 
   const { data: userReadsData, error } = await supabase
     .from("user_reads")
-    .select("*, summaries(*, topics(name), authors(slug))");
+    .select("*, summaries(*, topics(*), authors(*))");
 
   if (error) {
     console.error(error);
@@ -157,7 +157,7 @@ export async function getMostPopularSummariesFromSameTopic(
 
   const { data: userReadsData, error } = await supabase
     .from("user_reads")
-    .select("*, summaries(*, topics(name), authors(slug))")
+    .select("*, summaries(*, topics(*), authors(*))")
     .eq("summaries.topic_id", topicId)
     .neq("summary_id", summary.id);
 
@@ -221,7 +221,7 @@ export async function getMostPopularSummaries() {
 
   const { data: userReadsData, error } = await supabase
     .from("user_reads")
-    .select("*, summaries(*, topics(name), authors(slug))");
+    .select("*, summaries(*, topics(*), authors(*))");
 
   if (error) {
     console.error(error);
@@ -265,7 +265,10 @@ export async function getMostPopularSummaries() {
 
   const summaryReadCountsArray: {
     count: number;
-    summary: Tables<"summaries"> & { author_slug: string; topic: string };
+    summary: Tables<"summaries"> & { author_slug: string; topic: string } & {
+      authors: Tables<"authors">;
+      topics: Tables<"topics">;
+    };
   }[] = Object.values(summaryReadCounts);
 
   const sortedSummaryReadsCount = [...summaryReadCountsArray]
@@ -296,7 +299,7 @@ export async function getPopulatedSummaries() {
 
   const { data: userReadsData, error } = await supabase
     .from("user_reads")
-    .select("*, summaries(*, topics(name), authors(slug))");
+    .select("*, summaries(*, topics(*), authors(*))");
 
   if (error) {
     console.error(error);

@@ -49,27 +49,27 @@ const Categories = async ({ userId }: { userId: UUID }) => {
         <CarouselContent className="-ml-4">
           {(sortedUserTopics?.length >= 3 ? sortedUserTopics : sortedTopics)
             ?.reduce((acc, topic, index) => {
-              if (index % 3 === 0) {
-                acc.push([]);
+              const chunkIndex = Math.floor(index / 6);
+
+              if (!acc[chunkIndex]) {
+                acc[chunkIndex] = [];
               }
-              acc[acc.length - 1].push(topic as Tables<"topics">);
+
+              acc[chunkIndex].push(topic as Tables<"topics">);
               return acc;
             }, [] as Tables<"topics">[][])
-            .map((topics, index) => (
-              <CarouselItem key={index} className="flex gap-4">
-                {topics.map((topic) => (
-                  <Link key={topic.id} href={`/topics/${topic.slug}`}>
-                    <Button variant="ghost" className="flex flex-col items-center gap-2" size="sm">
-                      <TopicIcon
-                        topic={topic}
-                        isChecked={sortedUserTopics?.some(
-                          (userTopic) => userTopic?.id === topic.id
-                        )}
-                      />
-                      <TypographyH5AsSpan>{topic.name}</TypographyH5AsSpan>
+            .map((topicChunk, index) => (
+              <CarouselItem key={index} className="pl-4">
+                <div className="gris-cols-2 grid gap-2 md:grid-cols-3">
+                  {topicChunk.map((topic) => (
+                    <Button asChild key={topic.id} className="col-span-1">
+                      <Link href={`/app/topic/${topic.slug}`} className="w-full">
+                        <TopicIcon isChecked={true} topic={topic} />
+                        <TypographyH5AsSpan>{topic.name}</TypographyH5AsSpan>
+                      </Link>
                     </Button>
-                  </Link>
-                ))}
+                  ))}
+                </div>
               </CarouselItem>
             ))}
         </CarouselContent>

@@ -214,10 +214,9 @@ export async function hasUserSavedSummary({
   const { data: userLibraryData } = await supabase
     .from("user_library")
     .select("*")
-    .eq("user_id", userId)
-    .single();
+    .eq("user_id", userId);
 
-  if (userLibraryData?.summary_id === summaryId) {
+  if (userLibraryData?.some((library) => library.summary_id === summaryId)) {
     return true;
   }
 }
@@ -234,10 +233,9 @@ export async function hasUserReadSummary({
   const { data: userReadsData } = await supabase
     .from("user_reads")
     .select("*")
-    .eq("user_id", userId)
-    .single();
+    .eq("user_id", userId);
 
-  if (userReadsData?.summary_id === summaryId) {
+  if (userReadsData?.some((read) => read.summary_id === summaryId)) {
     return true;
   }
 }
@@ -332,9 +330,9 @@ export async function getUserCustomAvatarFromUserId(userId: UUID) {
 
 const removeDuplicates = (array: any[]) => {
   const uniqueSet = new Set();
-  return array.filter((item) => {
-    if (!uniqueSet.has(item.summary_id)) {
-      uniqueSet.add(item.summary_id);
+  return array?.filter((item) => {
+    if (!uniqueSet?.has(item?.summary_id)) {
+      uniqueSet?.add(item?.summary_id);
       return true;
     }
     return false;
@@ -351,7 +349,7 @@ export async function getUserReadSummaries(userId: UUID) {
 
   const uniqueProfileReadsData = removeDuplicates(profileReadsData as any[]);
 
-  const userReadSummaries = uniqueProfileReadsData.map((readData) => ({
+  const userReadSummaries = uniqueProfileReadsData?.map((readData) => ({
     ...readData?.summaries,
     topic: readData?.summaries?.topics?.name,
     author_slug: readData?.summaries?.authors?.slug
