@@ -2,7 +2,7 @@
 import "client-only";
 
 import React, { useEffect } from "react";
-import TypographyH3 from "@/components/typography/h3";
+import H3 from "@/components/typography/h3";
 import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 import {
@@ -19,7 +19,7 @@ import BookCover from "@/components/global/BookCover";
 import Link from "next/link";
 import type { SummaryStatusesWithValue, SummaryStatus } from "@/types/summary";
 import { getTopicNameFromTopicSlug, sourceToString } from "@/utils/topics";
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
+import H3Span from "@/components/typography/h3AsSpan";
 import { statusToString } from "@/utils/summary";
 import Fuse from "fuse.js";
 import type { Enums, Tables } from "@/types/supabase";
@@ -148,7 +148,7 @@ const LibraryClient = ({
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <TypographyH3>Librairie</TypographyH3>
+      <H3>Librairie</H3>
 
       <div className="flex w-full flex-col justify-between gap-4 md:flex-row">
         <div className="min-w-md relative max-w-md flex-1">
@@ -243,7 +243,7 @@ const LibraryClient = ({
         </div>
       ) : (
         <div className="flex h-72 items-center justify-center">
-          <TypographyH3AsSpan>Aucun résumé trouvé</TypographyH3AsSpan>
+          <H3Span>Aucun résumé trouvé</H3Span>
         </div>
       )}
     </div>

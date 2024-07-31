@@ -1,6 +1,6 @@
 import { getTextSizeClass } from "@/utils/typography";
 
-export default function TypographyP({
+export default function P({
   children,
   center,
   size

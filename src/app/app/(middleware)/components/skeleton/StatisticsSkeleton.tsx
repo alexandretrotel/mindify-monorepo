@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import TypographyH3 from "@/components/typography/h3";
+import H3 from "@/components/typography/h3";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRightIcon } from "lucide-react";
 import Link from "next/link";
@@ -11,7 +11,7 @@ const StatisticsSkeleton = async ({ userId }: { userId: UUID }) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="block lg:hidden">
-        <TypographyH3>Mes statistiques</TypographyH3>
+        <H3>Mes statistiques</H3>
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:h-full lg:grid-cols-1">

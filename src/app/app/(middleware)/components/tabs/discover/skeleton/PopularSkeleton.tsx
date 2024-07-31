@@ -6,9 +6,9 @@ import {
   CarouselNext,
   CarouselPrevious
 } from "@/components/ui/carousel";
-import TypographyH3 from "@/components/typography/h3";
-import TypographySpan from "@/components/typography/span";
+import H3 from "@/components/typography/h3";
 import BookCoverSkeleton from "@/components/global/skeleton/BookCoverSkeleton";
+import { Muted } from "@/components/typography/muted";
 
 const PopularSkeleton = async () => {
   return (
@@ -21,8 +21,8 @@ const PopularSkeleton = async () => {
     >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <TypographyH3>Les + populaires</TypographyH3>
-          <TypographySpan muted>Explorez les résumés les plus lus.</TypographySpan>
+          <H3>Les + populaires</H3>
+          <Muted>Explorez les résumés les plus lus.</Muted>
         </div>
 
         <CarouselContent className="-ml-4">

@@ -15,12 +15,14 @@ import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { TabsContent } from "@/components/ui/tabs";
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
-import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
-import TypographySpan from "@/components/typography/span";
+import H3Span from "@/components/typography/h3AsSpan";
+import H5Span from "@/components/typography/h5AsSpan";
+import Span from "@/components/typography/span";
 import type { Streaks } from "@/types/streaks";
 import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
 import { FlameIcon } from "lucide-react";
+import { Muted } from "@/components/typography/muted";
+import Semibold from "@/components/typography/semibold";
 
 const MyFriendClient = ({
   userId,
@@ -121,7 +123,7 @@ const MyFriendClient = ({
               <CardTitle>
                 <div className="flex w-full items-center justify-between gap-4">
                   <div className="flex-shrink-0">
-                    <TypographyH3AsSpan>Mes amis</TypographyH3AsSpan>
+                    <H3Span>Mes amis</H3Span>
                   </div>
 
                   <div className="w-fit">
@@ -158,17 +160,17 @@ const MyFriendClient = ({
                           </Avatar>
                           <div className="flex flex-col">
                             <div className="flex items-center gap-2">
-                              <TypographyH5AsSpan>
+                              <H5Span>
                                 {friend?.user_metadata?.name ??
                                   friend?.user_metadata?.email?.split("@")[0]}
-                              </TypographyH5AsSpan>
+                              </H5Span>
 
                               {friendsReadingStreak[index]?.todayInStreak &&
                                 friendsReadingStreak[index]?.currentStreak !== 0 && (
                                   <div className="flex items-center gap-2">
-                                    <TypographySpan isDefaultColor>•</TypographySpan>
+                                    <Span>•</Span>
 
-                                    <TypographySpan isDefaultColor semibold>
+                                    <Semibold>
                                       <ResponsiveTooltip
                                         text="Nombre de jours consécutifs de lecture."
                                         side="bottom"
@@ -180,13 +182,13 @@ const MyFriendClient = ({
                                           <FlameIcon className="h-4 w-4" />
                                         </div>
                                       </ResponsiveTooltip>
-                                    </TypographySpan>
+                                    </Semibold>
                                   </div>
                                 )}
                             </div>
-                            <TypographySpan size="xs" muted>
+                            <Muted size="xs">
                               {friend?.user_metadata?.biography ?? "Aucune biographie"}
-                            </TypographySpan>
+                            </Muted>
                           </div>
                         </div>
 
@@ -205,9 +207,7 @@ const MyFriendClient = ({
                   );
                 })
               ) : (
-                <TypographySpan size="sm" muted>
-                  Aucun ami trouvé.
-                </TypographySpan>
+                <Muted size="sm">Aucun ami trouvé.</Muted>
               )}
             </CardContent>
           </ScrollArea>
@@ -220,7 +220,7 @@ const MyFriendClient = ({
             <CardHeader>
               <div className="flex w-full items-center justify-between">
                 <CardTitle>
-                  <TypographyH3AsSpan>Demandes d&apos;amis</TypographyH3AsSpan>
+                  <H3Span>Demandes d&apos;amis</H3Span>
                 </CardTitle>
               </div>
             </CardHeader>
@@ -247,13 +247,13 @@ const MyFriendClient = ({
                             </AvatarFallback>
                           </Avatar>
                           <div className="flex flex-col">
-                            <TypographyH5AsSpan>
+                            <H5Span>
                               {friend?.user_metadata?.name ??
                                 friend?.user_metadata?.email?.split("@")[0]}
-                            </TypographyH5AsSpan>
-                            <TypographySpan size="xs" muted>
+                            </H5Span>
+                            <Muted size="xs">
                               {friend?.user_metadata?.biography ?? "Aucune biographie"}
-                            </TypographySpan>
+                            </Muted>
                           </div>
                         </div>
 
@@ -284,9 +284,7 @@ const MyFriendClient = ({
                   );
                 })
               ) : (
-                <TypographySpan size="sm" muted>
-                  Vous n&apos;avez pas de demandes d&apos;amis en attente.
-                </TypographySpan>
+                <Muted size="sm">Vous n&apos;avez pas de demandes d&apos;amis en attente.</Muted>
               )}
             </CardContent>
           </ScrollArea>

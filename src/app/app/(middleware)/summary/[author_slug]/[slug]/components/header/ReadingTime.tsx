@@ -1,6 +1,6 @@
 import React from "react";
 import { ClockIcon } from "lucide-react";
-import TypographySpan from "@/components/typography/span";
+import { Muted } from "@/components/typography/muted";
 
 const ReadingTime = async ({ summaryReadingTime }: { summaryReadingTime: number | undefined }) => {
   if (!summaryReadingTime) {
@@ -10,7 +10,7 @@ const ReadingTime = async ({ summaryReadingTime }: { summaryReadingTime: number 
   return (
     <div className="flex items-center gap-2">
       <ClockIcon className="h-4 w-4 text-muted-foreground" />{" "}
-      <TypographySpan muted>Temps de lecture : {summaryReadingTime} minutes</TypographySpan>
+      <Muted>Temps de lecture : {summaryReadingTime} minutes</Muted>
     </div>
   );
 };

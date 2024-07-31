@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/carousel";
 import BookCover from "@/components/global/BookCover";
 import Link from "next/link";
-import TypographyH3 from "@/components/typography/h3";
+import H3 from "@/components/typography/h3";
 import { createClient } from "@/utils/supabase/server";
 import { getUserPersonalizedSummariesFromInterests } from "@/actions/users";
 import type { UUID } from "crypto";
-import TypographySpan from "@/components/typography/span";
+import { Muted } from "@/components/typography/muted";
 
 const Personalized = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
@@ -42,8 +42,8 @@ const Personalized = async ({ userId }: { userId: UUID }) => {
     >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <TypographyH3>Pour vous</TypographyH3>
-          <TypographySpan muted>Découvrez des résumés adaptés à vos intérêts.</TypographySpan>
+          <H3>Pour vous</H3>
+          <Muted>Découvrez des résumés adaptés à vos intérêts.</Muted>
         </div>
 
         <CarouselContent className="-ml-4">

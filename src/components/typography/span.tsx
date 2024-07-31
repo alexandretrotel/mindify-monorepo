@@ -1,39 +1,24 @@
 import React from "react";
-import { getTextSizeClass } from "@/utils/typography";
+import { getPrimaryColor, getTextSizeClass } from "@/utils/typography";
 
-const mutedCondition = (muted: boolean) =>
-  muted ? "text-muted-foreground" : "text-primary-foreground";
-
-const defaultColor = (isDefaultColor: boolean, muted: boolean) =>
-  isDefaultColor ? "text-black dark:text-white" : mutedCondition(muted);
-
-const primaryColor = (isPrimaryColor: boolean, isDefaultColor: boolean, muted: boolean) =>
-  isPrimaryColor ? "text-primary" : defaultColor(isDefaultColor, muted);
-
-export default function TypographySpan({
+export default function Span({
   children,
-  muted,
   center,
   size,
-  isDefaultColor,
   semibold,
-  isPrimaryColor
+  primaryColor
 }: Readonly<{
   children: React.ReactNode;
-  muted?: boolean;
   center?: boolean;
   size?: "xs" | "sm" | "md" | "lg";
-  isDefaultColor?: boolean;
   semibold?: boolean;
-  isPrimaryColor?: boolean;
+  primaryColor?: boolean;
 }>) {
   return (
     <span
-      className={`${!!semibold && "font-semibold"} ${primaryColor(
-        isPrimaryColor as boolean,
-        isDefaultColor as boolean,
-        muted as boolean
-      )} ${!!center && "text-center"} ${!!size && getTextSizeClass(size)}`}
+      className={`${!!semibold && "font-semibold"} ${getPrimaryColor(
+        primaryColor as boolean
+      )} ${!!center && "text-center"} ${getTextSizeClass(size as string)}`}
     >
       {children}
     </span>

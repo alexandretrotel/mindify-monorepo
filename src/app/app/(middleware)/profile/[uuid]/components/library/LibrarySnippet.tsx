@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
+import H3Span from "@/components/typography/h3AsSpan";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import BookCover from "@/components/global/BookCover";
@@ -62,7 +62,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
               </CarouselContent>
             ) : (
               <div className="flex h-72 flex-col items-center justify-center gap-4 text-center">
-                <TypographyH3AsSpan>Aucun résumé</TypographyH3AsSpan>
+                <H3Span>Aucun résumé</H3Span>
               </div>
             )}
           </Carousel>
@@ -93,7 +93,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
               </CarouselContent>
             ) : (
               <div className="flex h-72 flex-col items-center justify-center gap-4 text-center">
-                <TypographyH3AsSpan>Aucun résumé</TypographyH3AsSpan>
+                <H3Span>Aucun résumé</H3Span>
               </div>
             )}
           </Carousel>

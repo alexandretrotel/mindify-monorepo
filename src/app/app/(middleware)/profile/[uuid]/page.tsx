@@ -1,6 +1,6 @@
 import AccountDropdown from "@/components/global/AccountDropdown";
-import TypographyH4AsSpan from "@/components/typography/h4AsSpan";
-import TypographySpan from "@/components/typography/span";
+import H4Span from "@/components/typography/h4AsSpan";
+import Span from "@/components/typography/span";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import type { UserMetadata } from "@supabase/supabase-js";
@@ -23,6 +23,7 @@ import FriendsSkeleton from "@/app/app/(middleware)/profile/[uuid]/components/fr
 import MyFriendsSkeleton from "@/app/app/(middleware)/profile/[uuid]/components/friends/skeleton/MyFriendsSkeleton";
 import TopicsListSkeleton from "@/app/app/(middleware)/profile/[uuid]/components/topics/skeleton/TopicsListSkeleton";
 import { getUserCustomAvatarFromUserId } from "@/actions/users";
+import { Muted } from "@/components/typography/muted";
 
 const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const profileId = params.uuid;
@@ -54,13 +55,11 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
 
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
-                  <TypographyH4AsSpan>{profileMetadata?.name}</TypographyH4AsSpan>
+                  <H4Span>{profileMetadata?.name}</H4Span>
                   <ReadingStreak profileId={profileId} />
                 </div>
 
-                <TypographySpan size="sm" muted>
-                  {profileMetadata?.biography ?? "Aucune biographie"}
-                </TypographySpan>
+                <Muted size="sm">{profileMetadata?.biography ?? "Aucune biographie"}</Muted>
               </div>
             </div>
           </div>
@@ -88,7 +87,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
       <div className="flex w-full flex-col justify-between gap-8 lg:flex-row">
         <div className="flex flex-col gap-8 lg:min-w-0 lg:grow">
           <div className="flex flex-col gap-4">
-            <TypographySpan isDefaultColor size="lg" semibold>
+            <Span size="lg" semibold>
               <span className="flex items-center">
                 Intérêts{" "}
                 <ResponsiveTooltip
@@ -100,7 +99,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
                   <CircleHelpIcon className="ml-1 h-4 w-4" />
                 </ResponsiveTooltip>
               </span>
-            </TypographySpan>
+            </Span>
 
             <Suspense fallback={<TopicsListSkeleton />}>
               <TopicsList profileId={profileId} userId={userId} />

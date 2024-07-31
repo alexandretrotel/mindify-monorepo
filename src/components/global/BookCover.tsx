@@ -1,11 +1,12 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
-import TypographyH5AsSpan from "@/components/typography/h5";
-import TypographySpan from "@/components/typography/span";
+import H5Span from "@/components/typography/h5";
+import Span from "@/components/typography/span";
 import { sourceToString } from "@/utils/topics";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Enums } from "@/types/supabase";
+import { Muted } from "@/components/typography/muted";
 
 const BookCover = ({
   title,
@@ -34,16 +35,12 @@ const BookCover = ({
       )}
       <div className="p-4">
         <div className="flex flex-col">
-          <TypographyH5AsSpan>{title}</TypographyH5AsSpan>
-          {source === "book" && (
-            <TypographySpan size="sm" muted>
-              {author}
-            </TypographySpan>
-          )}
+          <H5Span>{title}</H5Span>
+          {source === "book" && <Muted size="sm">{author}</Muted>}
 
-          <TypographySpan isPrimaryColor size="xs">
+          <Span primaryColor size="xs">
             {category} • {sourceToString(source)}
-          </TypographySpan>
+          </Span>
         </div>
       </div>
     </Card>

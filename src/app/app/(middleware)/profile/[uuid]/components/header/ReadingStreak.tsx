@@ -1,4 +1,4 @@
-import TypographySpan from "@/components/typography/span";
+import Span from "@/components/typography/span";
 import { UUID } from "crypto";
 import { FlameIcon } from "lucide-react";
 import { getUserReadingStreak } from "@/actions/users";
@@ -19,9 +19,9 @@ const ReadingStreak = async ({ profileId }: { profileId: UUID }) => {
 
   return (
     <div className="flex items-center gap-2">
-      <TypographySpan isDefaultColor>•</TypographySpan>
+      <Span isDefaultColor>•</Span>
 
-      <TypographySpan isDefaultColor semibold>
+      <Span isDefaultColor semibold>
         <ResponsiveTooltip
           text="Nombre de jours consécutifs de lecture."
           side="bottom"
@@ -33,7 +33,7 @@ const ReadingStreak = async ({ profileId }: { profileId: UUID }) => {
             <FlameIcon className="h-4 w-4" />
           </div>
         </ResponsiveTooltip>
-      </TypographySpan>
+      </Span>
     </div>
   );
 };

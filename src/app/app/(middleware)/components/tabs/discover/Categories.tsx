@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import Link from "next/link";
 import TopicIcon from "@/components/global/TopicIcon";
-import TypographyH3 from "@/components/typography/h3";
-import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
+import H3 from "@/components/typography/h3";
+import H5Span from "@/components/typography/h5AsSpan";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
-import TypographySpan from "@/components/typography/span";
+import Span from "@/components/typography/span";
 import type { Tables } from "@/types/supabase";
+import { Muted } from "@/components/typography/muted";
 
 const Categories = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
@@ -38,12 +39,12 @@ const Categories = async ({ userId }: { userId: UUID }) => {
     >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <TypographyH3>Vos intérêts</TypographyH3>
-          <TypographySpan muted>
+          <H3>Vos intérêts</H3>
+          <Muted size="md">
             {sortedUserTopics?.length > 0
               ? "Explorez des résumés extraits de vos sujets préférés."
               : "Explorez des résumés en fonction de certains sujets."}
-          </TypographySpan>
+          </Muted>
         </div>
 
         <CarouselContent className="-ml-4">
@@ -65,7 +66,7 @@ const Categories = async ({ userId }: { userId: UUID }) => {
                     <Button asChild key={topic.id} className="col-span-1">
                       <Link href={`/app/topic/${topic.slug}`} className="w-full">
                         <TopicIcon isChecked={true} topic={topic} />
-                        <TypographyH5AsSpan>{topic.name}</TypographyH5AsSpan>
+                        <H5Span>{topic.name}</H5Span>
                       </Link>
                     </Button>
                   ))}

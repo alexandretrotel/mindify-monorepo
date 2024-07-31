@@ -1,6 +1,6 @@
 import React from "react";
-import TypographyH2 from "@/components/typography/h2";
-import TypographySpan from "@/components/typography/span";
+import H2 from "@/components/typography/h2";
+import Span from "@/components/typography/span";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const ChaptersSkeleton = async () => {

@@ -1,15 +1,15 @@
 import SummariesByTopic from "@/app/app/(middleware)/topic/[slug]/components/SummariesByTopic";
 import AccountDropdown from "@/components/global/AccountDropdown";
-import TypographyH3 from "@/components/typography/h3";
+import H3 from "@/components/typography/h3";
 import { Badge } from "@/components/ui/badge";
 import { supabaseDefaultClient } from "@/utils/supabase/default";
 import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import SummariesByTopicSkeleton from "@/app/app/(middleware)/topic/[slug]/components/skeleton/SummariesByTopicSkeleton";
-import TypographySpan from "@/components/typography/span";
 import { createClient } from "@/utils/supabase/server";
 import { getTopicFromTopicSlug } from "@/actions/topics";
 import type { Tables } from "@/types/supabase";
+import { Muted } from "@/components/typography/muted";
 
 export const revalidate = 60;
 
@@ -57,15 +57,15 @@ const Page = async ({ params }: { params: { slug: string } }) => {
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-col">
               <div className="flex items-center gap-4">
-                <TypographyH3>{topic.name}</TypographyH3>
+                <H3>{topic.name}</H3>
                 <Badge>
                   {numberOfSummaries} {numberOfSummaries > 1 ? "résumés" : "résumé"}
                 </Badge>
               </div>
-              <TypographySpan muted>
+              <Muted>
                 Explorez notre collection des meilleurs résumés dans la catégorie{" "}
                 {topic?.name?.toLowerCase()}.
-              </TypographySpan>
+              </Muted>
             </div>
 
             <AccountDropdown />

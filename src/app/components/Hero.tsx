@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SearchIcon } from "lucide-react";
-import TypographyH1 from "@/components/typography/h1";
-import TypographyP from "@/components/typography/p";
+import H1 from "@/components/typography/h1";
+import P from "@/components/typography/p";
 import Topics from "@/app/components/hero/Topics";
 import { Suspense } from "react";
 import TopicsSkeleton from "@/app/components/hero/skeleton/TopicsSkeleton";
@@ -13,11 +13,11 @@ const Hero = async () => {
     <section id="home" className="relative isolate flex h-screen items-center justify-center px-4">
       <div className="hide-scrollbar relative text-center">
         <div className="mx-auto flex max-w-xl flex-col gap-2 text-center">
-          <TypographyH1>Mindify</TypographyH1>
-          <TypographyP>
+          <H1>Mindify</H1>
+          <P>
             Deviens + intelligent avec des connaissances extraits de livres, articles, podcasts et
             vidéos.
-          </TypographyP>
+          </P>
         </div>
         <div className="relative mx-auto mt-7 max-w-xl sm:mt-12">
           <form>

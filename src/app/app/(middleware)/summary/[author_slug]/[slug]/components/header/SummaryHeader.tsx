@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { sourceToString } from "@/utils/topics";
-import TypographySpan from "@/components/typography/span";
-import TypographyH1 from "@/components/typography/h1";
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
+import Span from "@/components/typography/span";
+import H1 from "@/components/typography/h1";
+import H3Span from "@/components/typography/h3AsSpan";
 import { getAuthorFromSummaryId } from "@/actions/authors";
 import { getTopicFromSummaryId } from "@/actions/topics";
 import { Tables } from "@/types/supabase";
@@ -15,14 +15,14 @@ const SummaryHeader = async ({ summary }: { summary: Tables<"summaries"> }) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <TypographySpan isPrimaryColor>
+      <Span primaryColor>
         <Link href={`/app/topic/${topic_slug}`} className="hover:underline">
           {topic?.name}
         </Link>{" "}
         • {sourceToString(summary?.source_type)}
-      </TypographySpan>
-      <TypographyH1>{summary?.title}</TypographyH1>
-      <TypographyH3AsSpan muted>Par {author?.name}</TypographyH3AsSpan>
+      </Span>
+      <H1>{summary?.title}</H1>
+      <H3Span muted>Par {author?.name}</H3Span>
     </div>
   );
 };

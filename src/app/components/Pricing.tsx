@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { CheckIcon } from "lucide-react";
 import Section from "@/components/global/Section";
-import TypographyH2 from "@/components/typography/h2";
+import H2 from "@/components/typography/h2";
 import Link from "next/link";
 
 const discount = 25;
@@ -37,7 +37,7 @@ export default function Pricing() {
     <Section id="pricing" fullWidth>
       <div className="mx-auto max-w-5xl">
         <div className="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
-          <TypographyH2>Choisissez votre abonnement</TypographyH2>
+          <H2>Choisissez votre abonnement</H2>
         </div>
 
         <div className="flex items-center justify-center">

@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
+import H3Span from "@/components/typography/h3AsSpan";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 
@@ -25,7 +25,7 @@ const MyFriendsSkeleton = () => {
                 <CardTitle>
                   <div className="flex w-full items-center justify-between gap-4">
                     <div className="flex-shrink-0">
-                      <TypographyH3AsSpan>Mes amis</TypographyH3AsSpan>
+                      <H3Span>Mes amis</H3Span>
                     </div>
 
                     <div className="w-fit">
@@ -65,7 +65,7 @@ const MyFriendsSkeleton = () => {
               <CardHeader>
                 <div className="flex w-full items-center justify-between">
                   <CardTitle>
-                    <TypographyH3AsSpan>Demandes d&apos;amis</TypographyH3AsSpan>
+                    <H3Span>Demandes d&apos;amis</H3Span>
                   </CardTitle>
                 </div>
               </CardHeader>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getMostPopularSummariesFromSameTopic } from "@/actions/summaries";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import BookCover from "@/components/global/BookCover";
-import TypographyH2 from "@/components/typography/h2";
+import H2 from "@/components/typography/h2";
 import type { Tables } from "@/types/supabase";
 
 const Suggestions = async ({
@@ -29,7 +29,7 @@ const Suggestions = async ({
           className="w-full"
         >
           <div className="flex flex-col gap-4">
-            <TypographyH2>À découvrir aussi...</TypographyH2>
+            <H2>À découvrir aussi...</H2>
             <CarouselContent className="-ml-4">
               {mostPopularSummariesFromSameTopic
                 ?.slice(0, 4)

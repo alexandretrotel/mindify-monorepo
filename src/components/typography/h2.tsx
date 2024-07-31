@@ -1,4 +1,4 @@
-export default function TypographyH2({
+export default function H2({
   children,
   center
 }: Readonly<{

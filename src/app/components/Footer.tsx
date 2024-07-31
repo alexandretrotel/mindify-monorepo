@@ -2,11 +2,12 @@
 
 import { JSX, SVGProps } from "react";
 import Link from "next/link";
-import TypographySpan from "@/components/typography/span";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import Logo from "@/../public/logos/mindify-square.svg";
-import TypographyH2 from "@/components/typography/h2";
+import H2 from "@/components/typography/h2";
+import { Muted } from "@/components/typography/muted";
+import Semibold from "@/components/typography/semibold";
 
 const navigation = {
   support: [
@@ -81,11 +82,9 @@ export default function Footer() {
           <div className="flex max-w-sm flex-col gap-4">
             <Link href="/" className="flex items-center gap-2">
               <Image src={Logo} alt="Mindify" width={32} height={32} />
-              <TypographyH2>Mindify</TypographyH2>
+              <H2>Mindify</H2>
             </Link>
-            <TypographySpan muted>
-              La lecture à portée de main, la connaissance pour vous demain.
-            </TypographySpan>
+            <Muted>La lecture à portée de main, la connaissance pour vous demain.</Muted>
             {navigation && (
               <div className="flex space-x-6">
                 {navigation.social.map((item) => {
@@ -105,9 +104,7 @@ export default function Footer() {
           </div>
           <div className="flex flex-col items-start gap-8 md:flex-row md:gap-16">
             <div className="flex flex-col gap-4">
-              <TypographySpan isDefaultColor semibold>
-                Support
-              </TypographySpan>
+              <Semibold>Support</Semibold>
               <ul className="flex flex-col gap-4">
                 {navigation.support.map((item) => (
                   <li key={item.name}>
@@ -123,9 +120,7 @@ export default function Footer() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <TypographySpan isDefaultColor semibold>
-                Légal
-              </TypographySpan>
+              <Semibold>Légal</Semibold>
               <ul className="flex flex-col gap-4">
                 {navigation.legal.map((item) => (
                   <li key={item.name}>
@@ -146,9 +141,7 @@ export default function Footer() {
           <Separator />
         </div>
 
-        <TypographySpan muted size="sm">
-          &copy; {new Date().getFullYear()} Mindify. Tous droits réservés.
-        </TypographySpan>
+        <Muted size="sm">&copy; {new Date().getFullYear()} Mindify. Tous droits réservés.</Muted>
       </div>
     </footer>
   );

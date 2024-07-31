@@ -4,10 +4,10 @@ import { removeTopic, addTopic } from "@/actions/topics";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
-import TypographySpan from "@/components/typography/span";
 import { Loader2Icon } from "lucide-react";
 import TopicIcon from "@/components/global/TopicIcon";
 import type { Tables } from "@/types/supabase";
+import { Muted } from "@/components/typography/muted";
 
 const isChecked = (userTopics: Tables<"topics">[], topicId: number): boolean => {
   return userTopics?.some((userTopic: { id: number }) => userTopic.id === topicId);
@@ -99,10 +99,10 @@ const Topics = ({
         ))}
       </div>
 
-      <TypographySpan muted size="sm">
+      <Muted size="sm">
         Choisissez les sujets qui vous intéressent afin que nous puissions vous proposer du contenu
         pertinent.
-      </TypographySpan>
+      </Muted>
     </div>
   );
 };

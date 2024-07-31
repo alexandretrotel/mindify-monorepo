@@ -1,4 +1,3 @@
-import TypographySpan from "@/components/typography/span";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,6 +6,7 @@ import { userUpdateBiography } from "@/actions/users";
 import { useToast } from "@/components/ui/use-toast";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { Loader2Icon } from "lucide-react";
+import { Muted } from "@/components/typography/muted";
 
 export default function AccountBiography({
   userMetadata
@@ -76,9 +76,7 @@ export default function AccountBiography({
         </Button>
       )}
 
-      <TypographySpan muted size="sm">
-        Décrivez-vous pour interagir avec des profils qui vous ressemblent.
-      </TypographySpan>
+      <Muted size="sm">Décrivez-vous pour interagir avec des profils qui vous ressemblent.</Muted>
     </div>
   );
 }

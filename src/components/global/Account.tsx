@@ -1,5 +1,5 @@
 import React from "react";
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
+import H3Span from "@/components/typography/h3AsSpan";
 import { Separator } from "@/components/ui/separator";
 import Navigation from "@/app/app/(middleware)/components/account/Navigation";
 import { XIcon } from "lucide-react";
@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { UUID } from "crypto";
-import TypographySpan from "../typography/span";
 import type { Tables } from "@/types/supabase";
+import { Muted } from "@/components/typography/muted";
 
 export default function Account({
   userId,
@@ -38,10 +38,8 @@ export default function Account({
       <div className="flex w-full flex-col justify-center gap-8 px-4 py-12 md:max-w-7xl md:p-8">
         <div className="flex w-full items-start justify-between">
           <div className="flex flex-col">
-            <TypographyH3AsSpan>Mon compte</TypographyH3AsSpan>
-            <TypographySpan muted>
-              Gérez les paramètres de votre compte et définissez vos préférences.
-            </TypographySpan>
+            <H3Span>Mon compte</H3Span>
+            <Muted>Gérez les paramètres de votre compte et définissez vos préférences.</Muted>
           </div>
           <div className="flex items-center gap-4">
             <Button onClick={() => setShowMenu(false)} variant="ghost" size="sm">
