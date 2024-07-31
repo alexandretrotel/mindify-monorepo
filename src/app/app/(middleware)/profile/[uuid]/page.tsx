@@ -86,7 +86,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
       <Separator />
 
       <div className="flex w-full flex-col justify-between gap-8 lg:flex-row">
-        <div className="flex max-w-2xl flex-col gap-8 lg:min-w-0 lg:grow">
+        <div className="flex flex-col gap-8 lg:min-w-0 lg:grow">
           <div className="flex flex-col gap-4">
             <TypographySpan isDefaultColor size="lg" semibold>
               <span className="flex items-center">
@@ -112,7 +112,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
           </Suspense>
         </div>
 
-        <div className="flex w-full flex-col gap-8 lg:max-w-md">
+        <div className="flex w-full flex-col gap-8 lg:max-w-sm">
           {isMyProfile ? (
             <Suspense fallback={<MyFriendsSkeleton />}>
               <MyFriends userId={userId} />
