@@ -23,9 +23,7 @@ const AuthorDescription = async ({ summaryId }: { summaryId: number }) => {
 
         <CollapsibleContent>
           <CardContent>
-            <Span isDefaultColor>
-              {author?.description ?? "Aucune description disponible."}
-            </Span>
+            <Span>{author?.description ?? "Aucune description disponible."}</Span>
           </CardContent>
         </CollapsibleContent>
       </Collapsible>

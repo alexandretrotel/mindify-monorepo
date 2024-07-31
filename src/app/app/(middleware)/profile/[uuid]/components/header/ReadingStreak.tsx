@@ -5,6 +5,7 @@ import { getUserReadingStreak } from "@/actions/users";
 
 import React from "react";
 import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
+import Semibold from "@/components/typography/semibold";
 
 const ReadingStreak = async ({ profileId }: { profileId: UUID }) => {
   const { currentStreak: readingStreak, todayInStreak } = await getUserReadingStreak(profileId);
@@ -19,9 +20,9 @@ const ReadingStreak = async ({ profileId }: { profileId: UUID }) => {
 
   return (
     <div className="flex items-center gap-2">
-      <Span isDefaultColor>•</Span>
+      <Span>•</Span>
 
-      <Span isDefaultColor semibold>
+      <Semibold>
         <ResponsiveTooltip
           text="Nombre de jours consécutifs de lecture."
           side="bottom"
@@ -33,7 +34,7 @@ const ReadingStreak = async ({ profileId }: { profileId: UUID }) => {
             <FlameIcon className="h-4 w-4" />
           </div>
         </ResponsiveTooltip>
-      </Span>
+      </Semibold>
     </div>
   );
 };
