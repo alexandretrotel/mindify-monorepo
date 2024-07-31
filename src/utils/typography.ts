@@ -14,4 +14,4 @@ export function getTextSizeClass(size: string): string {
 }
 
 export const getPrimaryColor = (isPrimaryColor: boolean) =>
-  isPrimaryColor ? "text-primary" : "text-primary-foreground";
+  isPrimaryColor ? "text-primary" : "text-foreground";
