@@ -11,8 +11,9 @@ import { UUID } from "crypto";
 import type { UserMetadata } from "@supabase/supabase-js";
 import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
 import TypographySpan from "@/components/typography/span";
-import { getUserCustomAvatarFromUserId } from "@/actions/users";
-import ReadingStreak from "@/app/app/(middleware)/profile/[uuid]/components/header/ReadingStreak";
+import { getUserCustomAvatarFromUserId, getUserReadingStreak } from "@/actions/users";
+import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
+import { FlameIcon } from "lucide-react";
 
 export const revalidate = 0;
 
@@ -29,6 +30,13 @@ const Friends = async ({
     friends?.map(async (friend) => {
       const picture = await getUserCustomAvatarFromUserId(friend?.id as UUID);
       return picture;
+    }) ?? []
+  );
+
+  const friendsReadingStreak = await Promise.all(
+    friends?.map(async (friend) => {
+      const readingStreak = await getUserReadingStreak(friend?.id as UUID);
+      return readingStreak;
     }) ?? []
   );
 
@@ -68,7 +76,27 @@ const Friends = async ({
                             {friend?.user_metadata?.name ??
                               friend?.user_metadata?.email?.split("@")[0]}
                           </TypographyH5AsSpan>
-                          <ReadingStreak profileId={friend?.id as UUID} />
+
+                          {friendsReadingStreak[index]?.todayInStreak &&
+                            friendsReadingStreak[index]?.currentStreak !== 0 && (
+                              <div className="flex items-center gap-2">
+                                <TypographySpan isDefaultColor>•</TypographySpan>
+
+                                <TypographySpan isDefaultColor semibold>
+                                  <ResponsiveTooltip
+                                    text="Nombre de jours consécutifs de lecture."
+                                    side="bottom"
+                                    align="center"
+                                    cursor="help"
+                                  >
+                                    <div className="flex items-center">
+                                      {friendsReadingStreak[index]?.currentStreak}
+                                      <FlameIcon className="h-4 w-4" />
+                                    </div>
+                                  </ResponsiveTooltip>
+                                </TypographySpan>
+                              </div>
+                            )}
                         </div>
                         <TypographySpan size="xs" muted>
                           {friend?.user_metadata?.biography ?? "Pas de biographie"}
