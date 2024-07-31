@@ -15,7 +15,7 @@ const ClientFriendship = ({
 }: {
   userId: UUID;
   profileId: UUID;
-  initialFriendStatus: Enums<"friends_status">;
+  initialFriendStatus: Enums<"friends_status"> | undefined;
 }) => {
   const [friendStatus, setFriendStatus] = React.useState<Enums<"friends_status"> | undefined>(
     initialFriendStatus

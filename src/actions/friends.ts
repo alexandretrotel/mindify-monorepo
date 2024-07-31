@@ -261,7 +261,7 @@ export async function getFriendStatus(userId: UUID, profileId: UUID) {
     .select("status")
     .eq("user_id", userId)
     .eq("friend_id", profileId)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error(error);
