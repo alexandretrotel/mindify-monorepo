@@ -7,12 +7,13 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import LibrarySkeleton from "@/app/app/(middleware)/components/skeleton/LibrarySkeleton";
 import { Suspense } from "react";
-import type { Source, SummaryStatus } from "@/types/summary";
+import type { SummaryStatus } from "@/types/summary";
+import type { Enums } from "@/types/supabase";
 
 export default async function Home({
   searchParams
 }: Readonly<{
-  searchParams: { search: string; topic: string; source: Source; status: SummaryStatus };
+  searchParams: { search: string; topic: string; source: Enums<"source">; status: SummaryStatus };
 }>) {
   const { search, topic, source, status } = searchParams;
 

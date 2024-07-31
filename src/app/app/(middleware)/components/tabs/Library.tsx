@@ -2,8 +2,8 @@ import React from "react";
 import LibraryClient from "@/app/app/(middleware)/components/tabs/client/LibraryClient";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
-import type { Source, SummaryStatus } from "@/types/summary";
-import type { Tables } from "@/types/supabase";
+import type { SummaryStatus } from "@/types/summary";
+import type { Tables, Enums } from "@/types/supabase";
 
 const Library = async ({
   userId,
@@ -15,7 +15,7 @@ const Library = async ({
   userId: UUID;
   initialSearch: string | undefined;
   initialTopic: string | undefined;
-  initialSource: Source | undefined;
+  initialSource: Enums<"source"> | undefined;
   initialStatus: SummaryStatus | undefined;
 }) => {
   const supabase = createClient();

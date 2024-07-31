@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 import BookCover from "@/components/global/BookCover";
 import Link from "next/link";
-import type { Source, SummaryStatusesWithValue, SummaryStatus } from "@/types/summary";
+import type { SummaryStatusesWithValue, SummaryStatus } from "@/types/summary";
 import { getTopicNameFromTopicSlug, sourceToString } from "@/utils/topics";
 import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
 import { statusToString } from "@/utils/summary";
@@ -51,7 +51,7 @@ const LibraryClient = ({
   userLibrary: Tables<"user_library">[];
   initialSearch: string | undefined;
   initialTopic: string | undefined;
-  initialSource: Source | undefined;
+  initialSource: Enums<"source"> | undefined;
   initialStatus: SummaryStatus | undefined;
 }) => {
   const [book, setBook] = React.useState<string | undefined>(initialSearch);
@@ -186,7 +186,7 @@ const LibraryClient = ({
           {/* Source */}
           <Select value={selectedSource ?? "Par source"} onValueChange={setSelectedSource}>
             <SelectTrigger className="w-full lg:min-w-[200px]">
-              <SelectValue>{sourceToString(selectedSource as Source)}</SelectValue>
+              <SelectValue>{sourceToString(selectedSource as Enums<"source">)}</SelectValue>
             </SelectTrigger>
 
             <SelectContent>

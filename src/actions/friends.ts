@@ -5,7 +5,6 @@ import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { getUsersData } from "@/actions/users";
-import type { FriendStatus } from "@/types/user";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function askForFriend(userId: UUID, profileId: UUID) {
@@ -262,12 +261,12 @@ export async function getFriendStatus(userId: UUID, profileId: UUID) {
     .select("status")
     .eq("user_id", userId)
     .eq("friend_id", profileId)
-    .maybeSingle();
+    .single();
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer le statut de l'ami.");
   }
 
-  return data?.status as FriendStatus;
+  return data?.status;
 }

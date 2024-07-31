@@ -1,7 +1,6 @@
-import type { Source } from "@/types/summary";
-import type { Tables } from "@/types/supabase";
+import type { Tables, Enums } from "@/types/supabase";
 
-export const sourceToString = (source: Source): string => {
+export const sourceToString = (source: Enums<"source">): string => {
   switch (source) {
     case "book":
       return "Livre";
