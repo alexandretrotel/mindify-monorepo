@@ -60,7 +60,7 @@ const Categories = async ({ userId }: { userId: UUID }) => {
             }, [] as Tables<"topics">[][])
             .map((topicChunk, index) => (
               <CarouselItem key={index} className="pl-4">
-                <div className="gris-cols-2 grid gap-2 md:grid-cols-3">
+                <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
                   {topicChunk.map((topic) => (
                     <Button asChild key={topic.id} className="col-span-1">
                       <Link href={`/app/topic/${topic.slug}`} className="w-full">
