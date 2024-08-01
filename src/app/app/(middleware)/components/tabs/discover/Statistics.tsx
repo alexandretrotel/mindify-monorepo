@@ -21,7 +21,6 @@ const Statistics = async ({ userId }: { userId: UUID }) => {
     <StatisticsClient
       userReads={userReads as Tables<"read_summaries">[]}
       summaries={summaries as Tables<"summaries">[]}
-      userId={userId}
     />
   );
 };

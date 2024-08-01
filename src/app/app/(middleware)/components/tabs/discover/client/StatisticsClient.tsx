@@ -12,12 +12,10 @@ import type { Tables } from "@/types/supabase";
 
 const StatisticsClient = ({
   userReads,
-  summaries,
-  userId
+  summaries
 }: {
   userReads: Tables<"read_summaries">[];
   summaries: Tables<"summaries">[];
-  userId: UUID;
 }) => {
   const summariesRead = userReads?.length;
 
