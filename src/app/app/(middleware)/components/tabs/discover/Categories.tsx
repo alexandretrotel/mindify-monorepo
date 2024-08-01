@@ -50,7 +50,7 @@ const Categories = async ({ userId }: { userId: UUID }) => {
         <CarouselContent className="-ml-4">
           {(sortedUserTopics?.length >= 3 ? sortedUserTopics : sortedTopics)
             ?.reduce((acc, topic, index) => {
-              const chunkIndex = Math.floor(index / 6);
+              const chunkIndex = Math.floor(index / 8);
 
               if (!acc[chunkIndex]) {
                 acc[chunkIndex] = [];
@@ -61,7 +61,7 @@ const Categories = async ({ userId }: { userId: UUID }) => {
             }, [] as Tables<"topics">[][])
             .map((topicChunk, index) => (
               <CarouselItem key={index} className="pl-4">
-                <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+                <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
                   {topicChunk.map((topic) => (
                     <Button asChild key={topic.id} className="col-span-1">
                       <Link href={`/app/topic/${topic.slug}`} className="w-full">

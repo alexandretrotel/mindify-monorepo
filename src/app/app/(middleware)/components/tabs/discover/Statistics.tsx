@@ -1,6 +1,6 @@
 import React from "react";
 import { createClient } from "@/utils/supabase/server";
-import StatisticsClient from "@/app/app/(middleware)/components/client/StatisticsClient";
+import StatisticsClient from "@/app/app/(middleware)/components/tabs/discover/client/StatisticsClient";
 import type { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 

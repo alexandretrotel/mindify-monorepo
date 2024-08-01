@@ -102,6 +102,7 @@ export async function userUpdateAvatar(formData: FormData) {
   const { data: userData, error: userError } = await supabase.auth.getUser();
 
   if (userError || !userData?.user) {
+    console.error(userError);
     throw new Error("Utilisateur non authentifié.");
   }
 

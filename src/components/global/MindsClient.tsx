@@ -9,7 +9,7 @@ import {
   CarouselPrevious
 } from "@/components/ui/carousel";
 import type { Tables } from "@/types/supabase";
-import Mind from "@/components/global/mind";
+import Mind from "@/components/global/Mind";
 
 const MindsClient = ({
   minds,

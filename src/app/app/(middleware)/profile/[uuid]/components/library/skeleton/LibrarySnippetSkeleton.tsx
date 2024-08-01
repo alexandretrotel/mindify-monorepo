@@ -24,7 +24,7 @@ const LibrarySnippetSkeleton = () => {
           >
             <CarouselContent className="-ml-4">
               {Array.from({ length: 6 }).map((_, index) => (
-                <CarouselItem key={index} className="pl-4 md:basis-1/3">
+                <CarouselItem key={index} className="pl-4 md:basis-1/4">
                   <BookCoverSkeleton />
                 </CarouselItem>
               ))}
@@ -36,7 +36,7 @@ const LibrarySnippetSkeleton = () => {
           <Carousel opts={{ align: "start", slidesToScroll: "auto" }} className="w-full">
             <CarouselContent className="-ml-4">
               {Array.from({ length: 6 }).map((_, index) => (
-                <CarouselItem key={index} className="pl-4 md:basis-1/3">
+                <CarouselItem key={index} className="pl-4 md:basis-1/4">
                   <BookCoverSkeleton />
                 </CarouselItem>
               ))}

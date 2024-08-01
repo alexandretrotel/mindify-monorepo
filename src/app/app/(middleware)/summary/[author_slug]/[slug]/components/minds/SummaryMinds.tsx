@@ -12,15 +12,16 @@ const SummaryMinds = async ({ summaryId }: { summaryId: number }) => {
       topics: Tables<"topics">;
     };
   })[];
+
+  if (!summaryMinds || summaryMinds.length === 0) {
+    return null;
+  }
+
   const initialAreSaved = await Promise.all(
     summaryMinds.map(async (mind) => {
       return await isMindSaved(mind?.id).catch(() => false);
     })
   );
-
-  if (!summaryMinds || summaryMinds.length === 0) {
-    return null;
-  }
 
   return (
     <Carousel

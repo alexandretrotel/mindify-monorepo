@@ -4,6 +4,7 @@ import React from "react";
 import H3Span from "@/components/typography/h3AsSpan";
 import { getUserTopics } from "@/actions/users";
 import TopicIcon from "@/components/global/TopicIcon";
+import Link from "next/link";
 
 const TopicsList = async ({ profileId, userId }: { profileId: UUID; userId: UUID }) => {
   const topics = await getUserTopics(profileId);
@@ -22,9 +23,14 @@ const TopicsList = async ({ profileId, userId }: { profileId: UUID; userId: UUID
     <div className="flex flex-wrap items-center gap-2">
       {sortedTopics?.map((topic) => (
         <div key={topic?.id}>
-          <Button variant={myTopics?.find((t) => t.id === topic?.id) ? "default" : "outline"}>
-            <TopicIcon topic={topic} isChecked={myTopics?.some((t) => t.id === topic?.id)} />
-            {topic.name}
+          <Button
+            variant={myTopics?.find((t) => t.id === topic?.id) ? "default" : "outline"}
+            asChild
+          >
+            <Link href={`/app/topic/${topic?.slug}`}>
+              <TopicIcon topic={topic} isChecked={myTopics?.some((t) => t.id === topic?.id)} />
+              {topic.name}
+            </Link>
           </Button>
         </div>
       ))}

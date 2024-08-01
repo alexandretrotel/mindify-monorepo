@@ -76,27 +76,11 @@ const StatisticsClient = ({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="block lg:hidden">
-        <H3>Mes statistiques</H3>
-      </div>
+      <H3>Mon activité</H3>
 
-      <div className="grid grid-cols-2 gap-4 lg:h-full lg:grid-cols-1">
-        <Card className="col-span-2 hidden lg:col-span-1 lg:block lg:max-w-md">
-          <CardHeader className="space-y-0">
-            <CardTitle className="text-xl tabular-nums">Mon profil</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Button asChild>
-              <Link href={`/app/profile/${userId}`} className="flex w-full items-center">
-                Voir mon profil
-                <ArrowUpRightIcon className="ml-1 h-4 w-4" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
         <Card className="lg:max-w-md">
-          <CardHeader className="space-y-0 md:pb-2">
+          <CardHeader className="space-y-0 lg:pb-2">
             <CardDescription>{summariesRead > 1 ? "Résumés lus" : "Résumé lu"}</CardDescription>
             <CardTitle className="text-4xl tabular-nums">
               {summariesRead}{" "}
@@ -109,7 +93,7 @@ const StatisticsClient = ({
             <ChartContainer
               config={{
                 reads: {
-                  label: "Nombre de résumés lus",
+                  label: "Résumés",
                   color: "hsl(var(--chart-1))"
                 }
               }}
@@ -212,6 +196,19 @@ const StatisticsClient = ({
                   fill="url(#fillTime)"
                   fillOpacity={0.4}
                   stroke="var(--color-time)"
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                  formatter={(value) => (
+                    <div className="flex min-w-[120px] flex-col items-start text-xs text-muted-foreground">
+                      Temps de lecture
+                      <div className="flex gap-0.5 text-left font-mono font-medium tabular-nums text-foreground">
+                        {value}
+                        <span className="font-normal text-muted-foreground">hr</span>
+                      </div>
+                    </div>
+                  )}
                 />
               </AreaChart>
             </ChartContainer>

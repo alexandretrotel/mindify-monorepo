@@ -59,6 +59,7 @@ export async function acceptFriendRequest(userId: UUID, profileId: UUID) {
     }
 
     if (data?.[0]?.status !== "pending") {
+      console.error(error);
       throw new Error("La demande d'ami n'existe pas ou a déjà été acceptée.");
     }
 
@@ -98,6 +99,7 @@ export async function rejectFriendRequest(userId: UUID, profileId: UUID) {
   }
 
   if (data?.status !== "pending") {
+    console.error(error);
     throw new Error("La demande d'ami n'existe pas ou a déjà été acceptée.");
   }
 

@@ -43,7 +43,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
               <CarouselContent className="-ml-4">
                 {profileReadsSummaries?.map((summary) => {
                   return (
-                    <CarouselItem key={summary.id} className="pl-4 md:basis-1/3">
+                    <CarouselItem key={summary.id} className="pl-4 md:basis-1/4">
                       <Link
                         href={`/app/summary/${summary.author_slug}/${summary.slug}`}
                         className="h-full"
@@ -74,7 +74,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
               <CarouselContent className="-ml-4">
                 {profileSavedSummaries?.map((summary) => {
                   return (
-                    <CarouselItem key={summary.id} className="pl-4 md:basis-1/3">
+                    <CarouselItem key={summary.id} className="pl-4 md:basis-1/4">
                       <Link
                         href={`/app/summary/${summary.author_slug}/${summary.slug}`}
                         className="h-full"

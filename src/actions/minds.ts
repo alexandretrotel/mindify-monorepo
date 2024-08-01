@@ -14,6 +14,7 @@ export async function getMindsFromSummaryId(summaryId: number) {
     .eq("summary_id", summaryId);
 
   if (error) {
+    console.error(error);
     throw new Error("Impossible de récupérer les minds.");
   }
 
@@ -29,6 +30,7 @@ export async function getMindsFromTopicId(topicId: number) {
     .eq("summaries.topic_id", topicId);
 
   if (error) {
+    console.error(error);
     throw new Error("Impossible de récupérer les minds.");
   }
 
@@ -52,6 +54,7 @@ export async function getMostSavedMinds() {
     .select("*, minds(*, summaries(*, topics(*), authors(*)))");
 
   if (error) {
+    console.error(error);
     throw new Error("Impossible de récupérer les minds populaires.");
   }
 
@@ -98,6 +101,7 @@ export async function getAllMinds(limit: number) {
     .limit(limit);
 
   if (error) {
+    console.error(error);
     throw new Error("Impossible de récupérer les minds.");
   }
 
@@ -113,10 +117,15 @@ export async function getMindsFromUserId(userId: UUID) {
     .eq("user_id", userId);
 
   if (error) {
+    console.error(error);
     throw new Error("Impossible de récupérer les minds.");
   }
 
-  return mindsData;
+  if (mindsData) {
+    return mindsData?.map((mind) => mind?.minds);
+  } else {
+    return [];
+  }
 }
 
 export async function saveMind(mindId: number) {
@@ -127,6 +136,7 @@ export async function saveMind(mindId: number) {
   const userId: UUID = userData?.user?.id as UUID;
 
   if (userError) {
+    console.error(userError);
     throw new Error("Impossible de récupérer l'utilisateur");
   }
 
@@ -136,6 +146,7 @@ export async function saveMind(mindId: number) {
   });
 
   if (error) {
+    console.error(error);
     throw new Error("Impossible de sauvegarder le mind.");
   }
 }
@@ -148,6 +159,7 @@ export async function unsaveMind(mindId: number) {
   const userId: UUID = userData?.user?.id as UUID;
 
   if (userError) {
+    console.error(userError);
     throw new Error("Impossible de récupérer l'utilisateur");
   }
 
@@ -158,6 +170,7 @@ export async function unsaveMind(mindId: number) {
     .eq("mind_id", mindId);
 
   if (error) {
+    console.error(error);
     throw new Error("Impossible de retirer le mind.");
   }
 }
@@ -170,6 +183,7 @@ export async function isMindSaved(mindId: number) {
   const userId: UUID = userData?.user?.id as UUID;
 
   if (userError) {
+    console.error(userError);
     throw new Error("Impossible de récupérer l'utilisateur");
   }
 
@@ -181,6 +195,7 @@ export async function isMindSaved(mindId: number) {
     .single();
 
   if (error) {
+    console.error(error);
     throw new Error("Impossible de vérifier si le mind est sauvegardé.");
   }
 

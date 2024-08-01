@@ -3,7 +3,7 @@ import "client-only";
 
 import React, { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import H3Span from "@/components/typography/h3AsSpan";
+import H4Span from "@/components/typography/h4AsSpan";
 import P from "@/components/typography/p";
 import { Button } from "@/components/ui/button";
 import { Muted } from "@/components/typography/muted";
@@ -59,8 +59,8 @@ const Mind = ({
   return (
     <Card>
       <CardHeader>
-        <H3Span>{mind?.summaries?.title}</H3Span>
-        <Muted>{mind?.summaries?.authors?.name}</Muted>
+        <H4Span>{mind?.summaries?.title}</H4Span>
+        <Muted size="sm">{mind?.summaries?.authors?.name}</Muted>
       </CardHeader>
       <CardContent>
         <P size="lg">{mind?.text}</P>
