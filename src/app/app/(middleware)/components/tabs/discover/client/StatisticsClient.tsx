@@ -6,10 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import H3 from "@/components/typography/h3";
 import { Area, AreaChart, Bar, BarChart, Rectangle, XAxis, YAxis } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Button } from "@/components/ui/button";
-import { ArrowUpRightIcon } from "lucide-react";
 import { getDateRangeUntilNow } from "@/utils/date";
-import Link from "next/link";
 import type { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 
