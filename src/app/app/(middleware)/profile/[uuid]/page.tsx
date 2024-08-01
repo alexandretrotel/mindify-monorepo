@@ -54,10 +54,11 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
               </Avatar>
 
               <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <H4Span>{profileMetadata?.name}</H4Span>
-                  <ReadingStreak profileId={profileId} />
-                </div>
+                <H4Span>
+                  <div className="flex">
+                    {profileMetadata?.name} <ReadingStreak profileId={profileId} />
+                  </div>
+                </H4Span>
 
                 <Muted size="sm">{profileMetadata?.biography ?? "Aucune biographie"}</Muted>
               </div>
@@ -111,7 +112,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
           </Suspense>
         </div>
 
-        <div className="flex w-full flex-col gap-8 lg:max-w-sm">
+        <div className="flex w-full flex-col gap-8 lg:max-w-md">
           {isMyProfile ? (
             <Suspense fallback={<MyFriendsSkeleton />}>
               <MyFriends userId={userId} />

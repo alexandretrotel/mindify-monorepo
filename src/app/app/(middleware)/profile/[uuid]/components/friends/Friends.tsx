@@ -73,33 +73,33 @@ const Friends = async ({
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
-                        <div className="flex items-center gap-2">
-                          <H5Span>
+                        <H5Span>
+                          <div className="flex">
                             {friend?.user_metadata?.name ??
-                              friend?.user_metadata?.email?.split("@")[0]}
-                          </H5Span>
+                              friend?.user_metadata?.email?.split("@")[0]}{" "}
+                            {friendsReadingStreak[index]?.todayInStreak &&
+                              friendsReadingStreak[index]?.currentStreak !== 0 && (
+                                <div className="ml-2 flex items-center gap-2">
+                                  <Span>•</Span>
 
-                          {friendsReadingStreak[index]?.todayInStreak &&
-                            friendsReadingStreak[index]?.currentStreak !== 0 && (
-                              <div className="flex items-center gap-2">
-                                <Span>•</Span>
+                                  <Semibold>
+                                    <ResponsiveTooltip
+                                      text="Nombre de jours consécutifs de lecture."
+                                      side="bottom"
+                                      align="center"
+                                      cursor="help"
+                                    >
+                                      <div className="flex items-center">
+                                        {friendsReadingStreak[index]?.currentStreak}
+                                        <FlameIcon className="h-4 w-4" />
+                                      </div>
+                                    </ResponsiveTooltip>
+                                  </Semibold>
+                                </div>
+                              )}
+                          </div>
+                        </H5Span>
 
-                                <Semibold>
-                                  <ResponsiveTooltip
-                                    text="Nombre de jours consécutifs de lecture."
-                                    side="bottom"
-                                    align="center"
-                                    cursor="help"
-                                  >
-                                    <div className="flex items-center">
-                                      {friendsReadingStreak[index]?.currentStreak}
-                                      <FlameIcon className="h-4 w-4" />
-                                    </div>
-                                  </ResponsiveTooltip>
-                                </Semibold>
-                              </div>
-                            )}
-                        </div>
                         <Muted size="xs">
                           {friend?.user_metadata?.biography ?? "Pas de biographie"}
                         </Muted>
