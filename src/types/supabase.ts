@@ -54,6 +54,35 @@ export type Database = {
         }
         Relationships: []
       }
+      friends: {
+        Row: {
+          created_at: string
+          friend_id: string
+          status: Database["public"]["Enums"]["friends_status"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          friend_id: string
+          status: Database["public"]["Enums"]["friends_status"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          friend_id?: string
+          status?: Database["public"]["Enums"]["friends_status"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_friends_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       minds: {
         Row: {
           created_at: string
@@ -76,6 +105,81 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "minds_summary_id_fkey"
+            columns: ["summary_id"]
+            isOneToOne: false
+            referencedRelation: "summaries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      read_summaries: {
+        Row: {
+          created_at: string
+          id: number
+          read_at: string
+          summary_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          read_at?: string
+          summary_id: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          read_at?: string
+          summary_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "summary_reads_summary_id_fkey"
+            columns: ["summary_id"]
+            isOneToOne: false
+            referencedRelation: "summaries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_reads_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saved_summaries: {
+        Row: {
+          created_at: string
+          id: number
+          summary_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          summary_id: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          summary_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_library_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_summaries_summary_id_fkey"
             columns: ["summary_id"]
             isOneToOne: false
             referencedRelation: "summaries"
@@ -153,98 +257,6 @@ export type Database = {
           },
         ]
       }
-      topics: {
-        Row: {
-          black_icon: string | null
-          created_at: string
-          id: number
-          name: string
-          slug: string
-          white_icon: string | null
-        }
-        Insert: {
-          black_icon?: string | null
-          created_at?: string
-          id?: number
-          name: string
-          slug: string
-          white_icon?: string | null
-        }
-        Update: {
-          black_icon?: string | null
-          created_at?: string
-          id?: number
-          name?: string
-          slug?: string
-          white_icon?: string | null
-        }
-        Relationships: []
-      }
-      friends: {
-        Row: {
-          created_at: string
-          friend_id: string
-          status: Database["public"]["Enums"]["friends_status"]
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          friend_id: string
-          status: Database["public"]["Enums"]["friends_status"]
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          friend_id?: string
-          status?: Database["public"]["Enums"]["friends_status"]
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_friends_user_id_fkey1"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      saved_summaries: {
-        Row: {
-          created_at: string
-          id: number
-          summary_id: number
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          summary_id: number
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          summary_id?: number
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_library_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_summaries_summary_id_fkey"
-            columns: ["summary_id"]
-            isOneToOne: false
-            referencedRelation: "summaries"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       summaries_ratings: {
         Row: {
           created_at: string
@@ -284,44 +296,32 @@ export type Database = {
           },
         ]
       }
-      read_summaries: {
+      topics: {
         Row: {
+          black_icon: string | null
           created_at: string
           id: number
-          read_at: string
-          summary_id: number
-          user_id: string
+          name: string
+          slug: string
+          white_icon: string | null
         }
         Insert: {
+          black_icon?: string | null
           created_at?: string
           id?: number
-          read_at?: string
-          summary_id: number
-          user_id: string
+          name: string
+          slug: string
+          white_icon?: string | null
         }
         Update: {
+          black_icon?: string | null
           created_at?: string
           id?: number
-          read_at?: string
-          summary_id?: number
-          user_id?: string
+          name?: string
+          slug?: string
+          white_icon?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "summary_reads_summary_id_fkey"
-            columns: ["summary_id"]
-            isOneToOne: false
-            referencedRelation: "summaries"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_reads_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       user_topics: {
         Row: {

@@ -13,7 +13,10 @@ const SummariesByTopic = async ({
     <SummariesByTopicClient
       topic={topic}
       summariesByTopic={
-        summariesByTopic as (Tables<"summaries"> & { topic: string; author_slug: string })[]
+        summariesByTopic as (Tables<"summaries"> & { topic: string; author_slug: string } & {
+          authors: Tables<"authors">;
+          topics: Tables<"topics">;
+        })[]
       }
     />
   );

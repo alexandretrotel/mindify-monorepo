@@ -23,7 +23,9 @@ const SummariesByCategoryClient = ({
   summariesByTopic
 }: {
   topic: Tables<"topics">;
-  summariesByTopic: (Tables<"summaries"> & { author_slug: string })[];
+  summariesByTopic: (Tables<"summaries"> & { author_slug: string } & {
+    authors: Tables<"authors">;
+  })[];
 }) => {
   const [summarySearch, setSummarySearch] = React.useState<string | undefined>(undefined);
   const [currentPage, setCurrentPage] = React.useState<number>(1);

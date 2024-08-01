@@ -43,7 +43,12 @@ const Library = async ({
 
   return (
     <LibraryClient
-      summaries={summaries as (Tables<"summaries"> & { topic: string; author_slug: string })[]}
+      summaries={
+        summaries as (Tables<"summaries"> & { topic: string; author_slug: string } & {
+          authors: Tables<"authors">;
+          topics: Tables<"topics">;
+        })[]
+      }
       topics={topicsData as Tables<"topics">[]}
       userReads={userReadsData as Tables<"read_summaries">[]}
       userLibrary={userLibraryData as Tables<"saved_summaries">[]}

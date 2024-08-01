@@ -31,28 +31,33 @@ const Suggestions = async ({
           <div className="flex flex-col gap-4">
             <H2>À découvrir aussi...</H2>
             <CarouselContent className="-ml-4">
-              {mostPopularSummariesFromSameTopic
-                ?.slice(0, 4)
-                ?.map((summary: Tables<"summaries">) => (
+              {mostPopularSummariesFromSameTopic?.slice(0, 4)?.map(
+                (
+                  summary: Tables<"summaries"> & {
+                    authors: Tables<"authors">;
+                    topics: Tables<"topics">;
+                  } & { author_slug: string; topic: string }
+                ) => (
                   <CarouselItem
                     key={summary?.id}
                     className="basis-1/2 pl-4 md:basis-1/3 lg:basis-1/4"
                   >
                     <Link
                       key={summary?.id}
-                      href={`/app/summary/${summary?.authors?.author_slug}/${summary?.slug}`}
+                      href={`/app/summary/${summary?.author_slug}/${summary?.slug}`}
                       className="h-full"
                     >
                       <BookCover
                         title={summary?.title}
-                        author={summary?.authors?.name as string}
-                        category={summary?.topics?.name as string}
+                        author={summary?.authors?.name}
+                        category={summary?.topics?.name}
                         source={summary?.source_type}
                         image={summary.image_url ?? undefined}
                       />
                     </Link>
                   </CarouselItem>
-                ))}
+                )
+              )}
             </CarouselContent>
           </div>
         </Carousel>
