@@ -2,7 +2,7 @@
 import "client-only";
 
 import React, { useEffect } from "react";
-import TypographyH3 from "@/components/typography/h3";
+import H3 from "@/components/typography/h3";
 import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 import {
@@ -15,21 +15,14 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import type { Topics } from "@/types/topics";
 import BookCover from "@/components/global/BookCover";
 import Link from "next/link";
-import type {
-  Source,
-  Sources,
-  Summaries,
-  SummaryStatusesWithValue,
-  SummaryStatus
-} from "@/types/summary";
+import type { SummaryStatusesWithValue, SummaryStatus } from "@/types/summary";
 import { getTopicNameFromTopicSlug, sourceToString } from "@/utils/topics";
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
-import type { UserLibrary, UserReads } from "@/types/user";
+import H3Span from "@/components/typography/h3AsSpan";
 import { statusToString } from "@/utils/summary";
 import Fuse from "fuse.js";
+import type { Enums, Tables } from "@/types/supabase";
 
 const statuses: SummaryStatusesWithValue = [
   { id: 1, name: "Pas commencé", value: "not_started" },
@@ -37,7 +30,7 @@ const statuses: SummaryStatusesWithValue = [
   { id: 3, name: "Terminé", value: "completed" }
 ] as SummaryStatusesWithValue;
 
-const sources: Sources = ["book", "article", "podcast", "video"] as Sources;
+const sources = ["book", "article", "podcast", "video"] as Enums<"source">[];
 
 const LibraryClient = ({
   summaries,
@@ -49,13 +42,16 @@ const LibraryClient = ({
   initialSource,
   initialStatus
 }: {
-  summaries: Summaries;
-  topics: Topics;
-  userReads: UserReads;
-  userLibrary: UserLibrary;
+  summaries: (Tables<"summaries"> & { topic: string; author_slug: string } & {
+    authors: Tables<"authors">;
+    topics: Tables<"topics">;
+  })[];
+  topics: Tables<"topics">[];
+  userReads: Tables<"read_summaries">[];
+  userLibrary: Tables<"saved_summaries">[];
   initialSearch: string | undefined;
   initialTopic: string | undefined;
-  initialSource: Source | undefined;
+  initialSource: Enums<"source"> | undefined;
   initialStatus: SummaryStatus | undefined;
 }) => {
   const [book, setBook] = React.useState<string | undefined>(initialSearch);
@@ -64,7 +60,12 @@ const LibraryClient = ({
   );
   const [selectedSource, setSelectedSource] = React.useState<string | undefined>(initialSource);
   const [selectedStatus, setSelectedStatus] = React.useState<string | undefined>(initialStatus);
-  const [filteredSummaries, setFilteredSummaries] = React.useState<Summaries>(summaries);
+  const [filteredSummaries, setFilteredSummaries] = React.useState<
+    (Tables<"summaries"> & { topic: string; author_slug: string } & {
+      authors: Tables<"authors">;
+      topics: Tables<"topics">;
+    })[]
+  >(summaries);
 
   const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
 
@@ -102,12 +103,12 @@ const LibraryClient = ({
     let filteredSummaries = summaries;
 
     if (selectedTopic) {
-      filteredSummaries = filteredSummaries.filter((summary) => summary.topic === selectedTopic);
+      filteredSummaries = filteredSummaries.filter((summary) => summary?.topic === selectedTopic);
     }
 
     if (selectedSource) {
       filteredSummaries = filteredSummaries.filter(
-        (summary) => summary.source_type === selectedSource
+        (summary) => summary?.source_type === selectedSource
       );
     }
 
@@ -147,7 +148,7 @@ const LibraryClient = ({
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <TypographyH3>Librairie</TypographyH3>
+      <H3>Librairie</H3>
 
       <div className="flex w-full flex-col justify-between gap-4 md:flex-row">
         <div className="min-w-md relative max-w-md flex-1">
@@ -185,7 +186,7 @@ const LibraryClient = ({
           {/* Source */}
           <Select value={selectedSource ?? "Par source"} onValueChange={setSelectedSource}>
             <SelectTrigger className="w-full lg:min-w-[200px]">
-              <SelectValue>{sourceToString(selectedSource as Source)}</SelectValue>
+              <SelectValue>{sourceToString(selectedSource as Enums<"source">)}</SelectValue>
             </SelectTrigger>
 
             <SelectContent>
@@ -229,20 +230,20 @@ const LibraryClient = ({
       {filteredSummaries?.length > 0 ? (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {filteredSummaries?.map((summary) => (
-            <Link key={summary.id} href={`/app/summary/${summary.author_slug}/${summary.slug}`}>
+            <Link key={summary.id} href={`/app/summary/${summary?.author_slug}/${summary.slug}`}>
               <BookCover
                 title={summary.title}
-                author={summary.author}
-                category={summary.topic}
+                author={summary?.authors?.name}
+                category={summary?.topic}
                 source={summary.source_type}
-                image={summary.image_url}
+                image={summary?.image_url ?? undefined}
               />
             </Link>
           ))}
         </div>
       ) : (
         <div className="flex h-72 items-center justify-center">
-          <TypographyH3AsSpan>Aucun résumé trouvé</TypographyH3AsSpan>
+          <H3Span>Aucun résumé trouvé</H3Span>
         </div>
       )}
     </div>

@@ -1,20 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
 import React from "react";
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
-import { getUserTopics } from "@/actions/topics";
+import H3Span from "@/components/typography/h3AsSpan";
+import { getUserTopics } from "@/actions/users";
 import TopicIcon from "@/components/global/TopicIcon";
 
 const TopicsList = async ({ profileId, userId }: { profileId: UUID; userId: UUID }) => {
   const topics = await getUserTopics(profileId);
   const myTopics = await getUserTopics(userId);
 
-  const sortedTopics = [...topics]?.sort((a, b) => a?.name.localeCompare(b?.name));
+  const sortedTopics = topics ? [...topics]?.sort((a, b) => a?.name.localeCompare(b?.name)) : [];
 
   if (sortedTopics?.length === 0)
     return (
       <div className="flex h-32 flex-col items-center justify-center gap-4 text-center">
-        <TypographyH3AsSpan>Aucun sujet</TypographyH3AsSpan>
+        <H3Span>Aucun sujet</H3Span>
       </div>
     );
 

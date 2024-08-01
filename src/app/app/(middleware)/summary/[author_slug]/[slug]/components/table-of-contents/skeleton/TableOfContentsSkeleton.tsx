@@ -2,7 +2,7 @@ import React from "react";
 import { ChevronDownIcon } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
+import H3Span from "@/components/typography/h3AsSpan";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const TableOfContentsSkeleton = async () => {
@@ -12,7 +12,7 @@ const TableOfContentsSkeleton = async () => {
         <CollapsibleTrigger className="w-full">
           <CardHeader className="w-full">
             <div className="flex w-full items-center justify-between gap-4">
-              <TypographyH3AsSpan>Table des matières</TypographyH3AsSpan>
+              <H3Span>Table des matières</H3Span>
               <ChevronDownIcon className="h-5 w-5" />
             </div>
           </CardHeader>

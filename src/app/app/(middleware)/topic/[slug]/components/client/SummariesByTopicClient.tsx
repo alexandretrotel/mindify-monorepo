@@ -2,7 +2,6 @@
 import "client-only";
 
 import { Input } from "@/components/ui/input";
-import type { Topic } from "@/types/topics";
 import { SearchIcon } from "lucide-react";
 import React, { useEffect } from "react";
 import BookCover from "@/components/global/BookCover";
@@ -15,7 +14,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "@/components/ui/pagination";
-import type { Summaries } from "@/types/summary";
+import type { Tables } from "@/types/supabase";
 
 const itemsPerPage = 8;
 
@@ -23,8 +22,10 @@ const SummariesByCategoryClient = ({
   topic,
   summariesByTopic
 }: {
-  topic: Topic;
-  summariesByTopic: Summaries;
+  topic: Tables<"topics">;
+  summariesByTopic: (Tables<"summaries"> & { author_slug: string } & {
+    authors: Tables<"authors">;
+  })[];
 }) => {
   const [summarySearch, setSummarySearch] = React.useState<string | undefined>(undefined);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
@@ -72,10 +73,10 @@ const SummariesByCategoryClient = ({
           <Link key={summary.id} href={`/app/summary/${summary.author_slug}/${summary.slug}`}>
             <BookCover
               title={summary.title}
-              author={summary.author}
+              author={summary?.authors?.name}
               category={topic.name}
               source={summary.source_type}
-              image={summary.image_url}
+              image={summary.image_url ?? undefined}
             />
           </Link>
         ))}

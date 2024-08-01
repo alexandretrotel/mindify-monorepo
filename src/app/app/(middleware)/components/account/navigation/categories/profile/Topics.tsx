@@ -1,16 +1,16 @@
 import React, { useOptimistic, useState } from "react";
 import { Label } from "@/components/ui/label";
-import type { Topics } from "@/types/topics";
 import { removeTopic, addTopic } from "@/actions/topics";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
-import TypographySpan from "@/components/typography/span";
 import { Loader2Icon } from "lucide-react";
 import TopicIcon from "@/components/global/TopicIcon";
+import type { Tables } from "@/types/supabase";
+import { Muted } from "@/components/typography/muted";
 
-const isChecked = (userTopics: Topics, topicId: number): boolean => {
-  return userTopics.some((userTopic) => userTopic.id === topicId);
+const isChecked = (userTopics: Tables<"topics">[], topicId: number): boolean => {
+  return userTopics?.some((userTopic: { id: number }) => userTopic.id === topicId);
 };
 
 const Topics = ({
@@ -19,11 +19,11 @@ const Topics = ({
   userTopics
 }: {
   userId: UUID;
-  topics: Topics;
-  userTopics: Topics;
+  topics: Tables<"topics">[];
+  userTopics: Tables<"topics">[];
 }) => {
   const [isLoading, setIsLoading] = useState(Array.from({ length: topics.length }, () => false));
-  const [optimisticUserTopics, setOptimisticUserTopics] = useOptimistic<Topics, number>(
+  const [optimisticUserTopics, setOptimisticUserTopics] = useOptimistic<Tables<"topics">[], number>(
     userTopics,
     (state, topicId) => {
       if (isChecked(state, topicId)) {
@@ -34,9 +34,9 @@ const Topics = ({
           {
             id: topicId,
             name: topics.find((topic) => topic.id === topicId)?.name as string,
-            icon: topics.find((topic) => topic.id === topicId)?.black_icon,
-            black_icon: topics.find((topic) => topic.id === topicId)?.white_icon,
-            created_at: new Date(),
+            black_icon: topics.find((topic) => topic.id === topicId)?.black_icon ?? null,
+            white_icon: topics.find((topic) => topic.id === topicId)?.white_icon ?? null,
+            created_at: new Date().toISOString(),
             slug: topics.find((topic) => topic.id === topicId)?.slug as string
           }
         ];
@@ -99,10 +99,10 @@ const Topics = ({
         ))}
       </div>
 
-      <TypographySpan muted size="sm">
+      <Muted size="sm">
         Choisissez les sujets qui vous intéressent afin que nous puissions vous proposer du contenu
         pertinent.
-      </TypographySpan>
+      </Muted>
     </div>
   );
 };

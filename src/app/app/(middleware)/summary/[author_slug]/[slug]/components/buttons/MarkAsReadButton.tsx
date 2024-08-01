@@ -7,7 +7,11 @@ const MarkAsReadButton = async ({ userId, summaryId }: { userId: UUID; summaryId
   const isSummaryRead = await hasUserReadSummary({ userId, summaryId });
 
   return (
-    <MarkAsReadButtonClient isSummaryRead={isSummaryRead} userId={userId} summaryId={summaryId} />
+    <MarkAsReadButtonClient
+      isSummaryRead={isSummaryRead as boolean}
+      userId={userId}
+      summaryId={summaryId}
+    />
   );
 };
 

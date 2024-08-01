@@ -2,9 +2,8 @@ import React from "react";
 import LibraryClient from "@/app/app/(middleware)/components/tabs/client/LibraryClient";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
-import type { Source, Summaries, SummaryStatus } from "@/types/summary";
-import type { Topics } from "@/types/topics";
-import type { UserLibrary, UserReads } from "@/types/user";
+import type { SummaryStatus } from "@/types/summary";
+import type { Tables, Enums } from "@/types/supabase";
 
 const Library = async ({
   userId,
@@ -16,7 +15,7 @@ const Library = async ({
   userId: UUID;
   initialSearch: string | undefined;
   initialTopic: string | undefined;
-  initialSource: Source | undefined;
+  initialSource: Enums<"source"> | undefined;
   initialStatus: SummaryStatus | undefined;
 }) => {
   const supabase = createClient();
@@ -28,29 +27,31 @@ const Library = async ({
     ...summary,
     topic: summary.topics?.name as string,
     author_slug: summary.authors?.slug as string
-  })) as Summaries;
+  }));
 
   const { data: topicsData } = await supabase.from("topics").select("*");
-  const topics = topicsData as Topics;
 
   const { data: userReadsData } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .select("*")
     .eq("user_id", userId);
-  const userReads = userReadsData as UserReads;
 
   const { data: userLibraryData } = await supabase
-    .from("user_library")
+    .from("saved_summaries")
     .select("*")
     .eq("user_id", userId);
-  const userLibrary = userLibraryData as UserLibrary;
 
   return (
     <LibraryClient
-      summaries={summaries}
-      topics={topics}
-      userReads={userReads}
-      userLibrary={userLibrary}
+      summaries={
+        summaries as (Tables<"summaries"> & { topic: string; author_slug: string } & {
+          authors: Tables<"authors">;
+          topics: Tables<"topics">;
+        })[]
+      }
+      topics={topicsData as Tables<"topics">[]}
+      userReads={userReadsData as Tables<"read_summaries">[]}
+      userLibrary={userLibraryData as Tables<"saved_summaries">[]}
       initialSearch={initialSearch}
       initialTopic={initialTopic}
       initialSource={initialSource}

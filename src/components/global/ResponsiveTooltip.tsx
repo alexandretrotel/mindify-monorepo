@@ -1,7 +1,7 @@
 import React from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import TypographySpan from "@/components/typography/span";
+import { Muted } from "@/components/typography/muted";
 
 type Side = "top" | "right" | "bottom" | "left";
 type Align = "start" | "center" | "end";
@@ -32,7 +32,7 @@ const ResponsiveTooltip = ({
           <Tooltip>
             <TooltipTrigger asChild>{children}</TooltipTrigger>
             <TooltipContent side={side} align={align} className="max-w-sm">
-              <TypographySpan muted>{text}</TypographySpan>
+              <Muted>{text}</Muted>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -42,7 +42,7 @@ const ResponsiveTooltip = ({
         <Popover>
           <PopoverTrigger>{children}</PopoverTrigger>
           <PopoverContent side={side} align={align} className="max-w-sm">
-            <TypographySpan muted>{text}</TypographySpan>
+            <Muted>{text}</Muted>
           </PopoverContent>
         </Popover>
       </div>

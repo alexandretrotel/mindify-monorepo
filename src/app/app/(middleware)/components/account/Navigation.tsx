@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account";
 import AccountCategories from "@/app/app/(middleware)/components/account/navigation/Categories";
 import type { UserMetadata } from "@supabase/supabase-js";
-import type { Topics } from "@/types/topics";
 import { UUID } from "crypto";
+import type { Tables } from "@/types/supabase";
 
 export default function Navigation({
   userId,
@@ -24,8 +24,8 @@ export default function Navigation({
   userMetadata: UserMetadata;
   category: AccountCategory;
   setCategory: React.Dispatch<React.SetStateAction<AccountCategory>>;
-  topics: Topics;
-  userTopics: Topics;
+  topics: Tables<"topics">[];
+  userTopics: Tables<"topics">[];
   userPicture: string;
 }>) {
   return (

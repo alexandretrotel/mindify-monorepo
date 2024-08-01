@@ -1,4 +1,4 @@
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
+import H3Span from "@/components/typography/h3AsSpan";
 import { Separator } from "@/components/ui/separator";
 import type { UserMetadata } from "@supabase/supabase-js";
 import AccountBiography from "@/app/app/(middleware)/components/account/navigation/categories/profile/Biography";
@@ -6,9 +6,9 @@ import AccountMail from "@/app/app/(middleware)/components/account/navigation/ca
 import AccountName from "@/app/app/(middleware)/components/account/navigation/categories/profile/Name";
 import AccountAvatar from "@/app/app/(middleware)/components/account/navigation/categories/profile/Avatar";
 import AccountTopics from "@/app/app/(middleware)/components/account/navigation/categories/profile/Topics";
-import type { Topics } from "@/types/topics";
 import { UUID } from "crypto";
-import TypographySpan from "@/components/typography/span";
+import type { Tables } from "@/types/supabase";
+import { Muted } from "@/components/typography/muted";
 
 export default function AccountProfile({
   userId,
@@ -19,17 +19,17 @@ export default function AccountProfile({
 }: Readonly<{
   userId: UUID;
   userMetadata: UserMetadata;
-  topics: Topics;
-  userTopics: Topics;
+  topics: Tables<"topics">[];
+  userTopics: Tables<"topics">[];
   userPicture: string;
 }>) {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col">
-        <TypographyH3AsSpan>Profil</TypographyH3AsSpan>
-        <TypographySpan muted>
+        <H3Span>Profil</H3Span>
+        <Muted size="sm">
           Renseignez les informations que les autres utilisateurs verront sur votre profil.
-        </TypographySpan>
+        </Muted>
       </div>
 
       <Separator className="max-w-lg" />

@@ -1,4 +1,3 @@
-import TypographySpan from "@/components/typography/span";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +18,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { userUpdateAvatar } from "@/actions/users";
 import { LoadingButton } from "@/components/global/buttons/LoadingButton";
 import { Loader2Icon } from "lucide-react";
+import { Muted } from "@/components/typography/muted";
 
 export default function AccountAvatar({
   userMetadata,
@@ -92,9 +92,9 @@ export default function AccountAvatar({
             <DialogTitle>Modifier l&apos;avatar</DialogTitle>
           </DialogHeader>
           <DialogDescription>
-            <TypographySpan muted>
+            <Muted size="sm">
               Vous pouvez modifier votre avatar en choisissant une image de votre choix.
-            </TypographySpan>
+            </Muted>
           </DialogDescription>
 
           <div
@@ -117,9 +117,7 @@ export default function AccountAvatar({
                 height={96}
               />
             ) : (
-              <TypographySpan muted size="sm">
-                Aucune image sélectionnée.
-              </TypographySpan>
+              <Muted size="sm">Aucune image sélectionnée.</Muted>
             )}
           </div>
 

@@ -1,4 +1,4 @@
-export default function TypographyH3AsSpan({
+export default function H3Span({
   children,
   muted
 }: Readonly<{

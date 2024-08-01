@@ -4,15 +4,12 @@ import "server-only";
 import { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import type { Authors, Summaries, Summary, SummaryChapters } from "@/types/summary";
-import { getUserReads } from "@/actions/users";
-import type { UserReads } from "@/types/user";
-import type { Topics } from "@/types/topics";
+import type { Enums, Tables } from "@/types/supabase";
 
 export async function addSummaryToLibrary(userId: UUID, summaryId: number) {
   const supabase = createClient();
 
-  const { error } = await supabase.from("user_library").insert({
+  const { error } = await supabase.from("saved_summaries").insert({
     user_id: userId,
     summary_id: summaryId
   });
@@ -30,7 +27,7 @@ export async function removeSummaryFromLibrary(userId: UUID, summaryId: number) 
   const supabase = createClient();
 
   const { error } = await supabase
-    .from("user_library")
+    .from("saved_summaries")
     .delete()
     .eq("user_id", userId)
     .eq("summary_id", summaryId);
@@ -47,7 +44,7 @@ export async function removeSummaryFromLibrary(userId: UUID, summaryId: number) 
 export async function markSummaryAsRead(userId: UUID, summaryId: number) {
   const supabase = createClient();
 
-  const { error } = await supabase.from("user_reads").insert({
+  const { error } = await supabase.from("read_summaries").insert({
     user_id: userId,
     summary_id: summaryId
   });
@@ -65,7 +62,7 @@ export async function markSummaryAsUnread(userId: UUID, summaryId: number) {
   const supabase = createClient();
 
   const { error } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .delete()
     .eq("user_id", userId)
     .eq("summary_id", summaryId);
@@ -84,18 +81,17 @@ export async function getSummaryFromSlugs(author_slug: string, slug: string) {
 
   const { data, error } = await supabase
     .from("summaries")
-    .select("*, authors(slug)")
+    .select("*, authors(*), topics(*)")
     .eq("slug", slug)
-    .eq("authors.slug", author_slug);
+    .eq("authors.slug", author_slug)
+    .single();
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer le résumé.");
   }
 
-  const summary = data[0] as Summary;
-
-  return summary;
+  return data;
 }
 
 export async function getSummaryChapters(summary_id: number) {
@@ -104,24 +100,23 @@ export async function getSummaryChapters(summary_id: number) {
   const { data, error } = await supabase
     .from("summaries")
     .select("*, chapters(*)")
-    .eq("id", summary_id);
+    .eq("id", summary_id)
+    .single();
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer le chapitre du résumé.");
   }
 
-  const summaryChapters = data[0] as SummaryChapters;
-
-  return summaryChapters;
+  return data?.chapters;
 }
 
 export async function getSummariesReadsCount() {
   const supabase = createClient();
 
   const { data: userReadsData, error } = await supabase
-    .from("user_reads")
-    .select("*, summaries(*, topics(name), authors(slug))");
+    .from("read_summaries")
+    .select("*, summaries(*, topics(*), authors(*))");
 
   if (error) {
     console.error(error);
@@ -142,12 +137,27 @@ export async function getSummariesReadsCount() {
   return summaryReadCounts; // key is summaryId, value is number of reads
 }
 
-export async function getMostPopularSummariesFromSameTopic(topicId: number, summary: Summary) {
+interface SummaryReadCount {
+  count: number;
+  summary: Tables<"summaries"> & { author_slug: string; topic: string } & {
+    topics: Tables<"topics">;
+    authors: Tables<"authors">;
+  };
+}
+
+interface SummaryReadCounts {
+  [key: number]: SummaryReadCount;
+}
+
+export async function getMostPopularSummariesFromSameTopic(
+  topicId: number,
+  summary: Tables<"summaries">
+) {
   const supabase = createClient();
 
   const { data: userReadsData, error } = await supabase
-    .from("user_reads")
-    .select("*, summaries(*, topics(name), authors(slug))")
+    .from("read_summaries")
+    .select("*, summaries(*, topics(*), authors(*))")
     .eq("summaries.topic_id", topicId)
     .neq("summary_id", summary.id);
 
@@ -158,7 +168,7 @@ export async function getMostPopularSummariesFromSameTopic(topicId: number, summ
 
   const excludeSameTopics = userReadsData?.filter((read) => read.summaries);
 
-  const summaryReadCounts = excludeSameTopics?.reduce((acc, read) => {
+  const summaryReadCounts = excludeSameTopics?.reduce<SummaryReadCounts>((acc, read) => {
     const summaryId = read?.summary_id;
 
     if (!acc[summaryId]) {
@@ -166,8 +176,23 @@ export async function getMostPopularSummariesFromSameTopic(topicId: number, summ
         count: 0,
         summary: {
           ...read?.summaries,
-          author_slug: read?.summaries?.authors?.slug,
-          topic: read?.summaries?.topics?.name
+          author_slug: read?.summaries?.authors?.slug as string,
+          topic: read?.summaries?.topics?.name as string,
+          author_id: read?.summaries?.author_id as number,
+          chapters_id: read?.summaries?.chapters_id as number | null,
+          conclusion: read?.summaries?.conclusion as string,
+          created_at: read?.summaries?.created_at as string,
+          id: read?.summaries?.id as number,
+          image_url: read?.summaries?.image_url as string | null,
+          introduction: read?.summaries?.introduction as string,
+          reading_time: read?.summaries?.reading_time as number | null,
+          slug: read?.summaries?.slug as string,
+          source_type: read?.summaries?.source_type as Enums<"source">,
+          source_url: read?.summaries?.source_url as string | null,
+          title: read?.summaries?.title as string,
+          topic_id: read?.summaries?.topic_id as number,
+          topics: read?.summaries?.topics as Tables<"topics">,
+          authors: read?.summaries?.authors as Tables<"authors">
         }
       };
     }
@@ -178,7 +203,10 @@ export async function getMostPopularSummariesFromSameTopic(topicId: number, summ
 
   const summaryReadCountsArray: {
     count: number;
-    summary: Summary;
+    summary: Tables<"summaries"> & { author_slug: string; topic: string } & {
+      topics: Tables<"topics">;
+      authors: Tables<"authors">;
+    };
   }[] = Object.values(summaryReadCounts);
 
   const sortedSummaryReadsCount = [...summaryReadCountsArray]
@@ -192,8 +220,8 @@ export async function getMostPopularSummaries() {
   const supabase = createClient();
 
   const { data: userReadsData, error } = await supabase
-    .from("user_reads")
-    .select("*, summaries(*, topics(name), authors(slug))");
+    .from("read_summaries")
+    .select("*, summaries(*, topics(*), authors(*))");
 
   if (error) {
     console.error(error);
@@ -202,7 +230,7 @@ export async function getMostPopularSummaries() {
 
   const excludeSameTopics = userReadsData?.filter((read) => read.summaries);
 
-  const summaryReadCounts = excludeSameTopics?.reduce((acc, read) => {
+  const summaryReadCounts = excludeSameTopics?.reduce<SummaryReadCounts>((acc, read) => {
     const summaryId = read?.summary_id;
 
     if (!acc[summaryId]) {
@@ -210,8 +238,23 @@ export async function getMostPopularSummaries() {
         count: 0,
         summary: {
           ...read?.summaries,
-          author_slug: read?.summaries?.authors?.slug,
-          topic: read?.summaries?.topics?.name
+          author_slug: read?.summaries?.authors?.slug as string,
+          topic: read?.summaries?.topics?.name as string,
+          author_id: read?.summaries?.author_id as number,
+          chapters_id: read?.summaries?.chapters_id as number | null,
+          conclusion: read?.summaries?.conclusion as string,
+          created_at: read?.summaries?.created_at as string,
+          id: read?.summaries?.id as number,
+          image_url: read?.summaries?.image_url as string | null,
+          introduction: read?.summaries?.introduction as string,
+          reading_time: read?.summaries?.reading_time as number | null,
+          slug: read?.summaries?.slug as string,
+          source_type: read?.summaries?.source_type as Enums<"source">,
+          source_url: read?.summaries?.source_url as string | null,
+          title: read?.summaries?.title as string,
+          topic_id: read?.summaries?.topic_id as number,
+          topics: read?.summaries?.topics as Tables<"topics">,
+          authors: read?.summaries?.authors as Tables<"authors">
         }
       };
     }
@@ -222,7 +265,10 @@ export async function getMostPopularSummaries() {
 
   const summaryReadCountsArray: {
     count: number;
-    summary: Summary;
+    summary: Tables<"summaries"> & { author_slug: string; topic: string } & {
+      authors: Tables<"authors">;
+      topics: Tables<"topics">;
+    };
   }[] = Object.values(summaryReadCounts);
 
   const sortedSummaryReadsCount = [...summaryReadCountsArray]
@@ -252,15 +298,15 @@ export async function getPopulatedSummaries() {
   const supabase = createClient();
 
   const { data: userReadsData, error } = await supabase
-    .from("user_reads")
-    .select("*, summaries(*, topics(name), authors(slug))");
+    .from("read_summaries")
+    .select("*, summaries(*, topics(*), authors(*))");
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer les résumés populaires par catégorie.");
   }
 
-  const summaryReadCounts = userReadsData?.reduce((acc, read) => {
+  const summaryReadCounts = userReadsData?.reduce<SummaryReadCounts>((acc, read) => {
     const summaryId = read?.summary_id;
 
     if (!acc[summaryId]) {
@@ -268,8 +314,23 @@ export async function getPopulatedSummaries() {
         count: 0,
         summary: {
           ...read?.summaries,
-          author_slug: read?.summaries?.authors?.slug,
-          topic: read?.summaries?.topics?.name
+          author_slug: read?.summaries?.authors?.slug as string,
+          topic: read?.summaries?.topics?.name as string,
+          author_id: read?.summaries?.author_id as number,
+          chapters_id: read?.summaries?.chapters_id as number | null,
+          conclusion: read?.summaries?.conclusion as string,
+          created_at: read?.summaries?.created_at as string,
+          id: read?.summaries?.id as number,
+          image_url: read?.summaries?.image_url as string | null,
+          introduction: read?.summaries?.introduction as string,
+          reading_time: read?.summaries?.reading_time as number | null,
+          slug: read?.summaries?.slug as string,
+          source_type: read?.summaries?.source_type as Enums<"source">,
+          source_url: read?.summaries?.source_url as string | null,
+          title: read?.summaries?.title as string,
+          topic_id: read?.summaries?.topic_id as number,
+          topics: read?.summaries?.topics as Tables<"topics">,
+          authors: read?.summaries?.authors as Tables<"authors">
         }
       };
     }
@@ -280,13 +341,13 @@ export async function getPopulatedSummaries() {
 
   const summaryReadCountsArray: {
     count: number;
-    summary: Summary;
+    summary: Tables<"summaries"> & { author_slug: string; topic: string };
   }[] = Object.values(summaryReadCounts);
 
   const summaries = summaryReadCountsArray?.map(({ count, summary }) => ({
     ...summary,
     number_of_reads: count
-  })) as Summaries;
+  }));
 
   return summaries;
 }

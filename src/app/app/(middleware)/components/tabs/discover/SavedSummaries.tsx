@@ -7,11 +7,11 @@ import {
   CarouselNext,
   CarouselPrevious
 } from "@/components/ui/carousel";
-import TypographyH3 from "@/components/typography/h3";
+import H3 from "@/components/typography/h3";
 import type { UUID } from "crypto";
 import { getUserSummariesFromLibrary } from "@/actions/users";
 import Link from "next/link";
-import TypographySpan from "@/components/typography/span";
+import { Muted } from "@/components/typography/muted";
 
 const SavedSummaries = async ({ userId }: { userId: UUID }) => {
   const savedSummaries = await getUserSummariesFromLibrary(userId);
@@ -28,10 +28,8 @@ const SavedSummaries = async ({ userId }: { userId: UUID }) => {
         >
           <div className="flex flex-col gap-4">
             <div className="flex flex-col">
-              <TypographyH3>Votre librairie</TypographyH3>
-              <TypographySpan muted>
-                Retrouvez les résumés que vous avez sauvegardés.
-              </TypographySpan>
+              <H3>Votre librairie</H3>
+              <Muted>Retrouvez les résumés que vous avez sauvegardés.</Muted>
             </div>
 
             <CarouselContent className="-ml-4">
@@ -44,10 +42,10 @@ const SavedSummaries = async ({ userId }: { userId: UUID }) => {
                     >
                       <BookCover
                         title={summary.title}
-                        author={summary.author}
+                        author={summary.authors.name}
                         category={summary.topic}
                         source={summary.source_type}
-                        image={summary.image_url}
+                        image={summary.image_url ?? undefined}
                       />
                     </Link>
                   </CarouselItem>

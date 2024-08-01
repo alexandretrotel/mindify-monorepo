@@ -6,9 +6,9 @@ import {
   CarouselNext,
   CarouselPrevious
 } from "@/components/ui/carousel";
-import TypographyH3 from "@/components/typography/h3";
-import TypographySpan from "@/components/typography/span";
+import H3 from "@/components/typography/h3";
 import BookCoverSkeleton from "@/components/global/skeleton/BookCoverSkeleton";
+import { Muted } from "@/components/typography/muted";
 
 const SavedSummariesSkeleton = async () => {
   return (
@@ -21,8 +21,8 @@ const SavedSummariesSkeleton = async () => {
     >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <TypographyH3>Votre librairie</TypographyH3>
-          <TypographySpan muted>Retrouvez les résumés que vous avez sauvegardés.</TypographySpan>
+          <H3>Votre librairie</H3>
+          <Muted>Retrouvez les résumés que vous avez sauvegardés.</Muted>
         </div>
 
         <CarouselContent className="-ml-4">

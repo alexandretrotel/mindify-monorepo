@@ -5,13 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
+import H3Span from "@/components/typography/h3AsSpan";
 import { getFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
 import type { UserMetadata } from "@supabase/supabase-js";
-import TypographyH5AsSpan from "@/components/typography/h5AsSpan";
-import TypographySpan from "@/components/typography/span";
-import { getUserCustomAvatarFromUserId } from "@/actions/users";
+import H5Span from "@/components/typography/h5AsSpan";
+import Span from "@/components/typography/span";
+import { getUserCustomAvatarFromUserId, getUserReadingStreak } from "@/actions/users";
+import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
+import { FlameIcon } from "lucide-react";
+import { Muted } from "@/components/typography/muted";
+import Semibold from "@/components/typography/semibold";
 
 export const revalidate = 0;
 
@@ -31,12 +35,19 @@ const Friends = async ({
     }) ?? []
   );
 
+  const friendsReadingStreak = await Promise.all(
+    friends?.map(async (friend) => {
+      const readingStreak = await getUserReadingStreak(friend?.id as UUID);
+      return readingStreak;
+    }) ?? []
+  );
+
   return (
     <Card>
       <ScrollArea className="h-96 w-full">
         <CardHeader>
           <CardTitle>
-            <TypographyH3AsSpan>Amis</TypographyH3AsSpan>
+            <H3Span>Amis</H3Span>
           </CardTitle>
         </CardHeader>
 
@@ -62,13 +73,36 @@ const Friends = async ({
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
-                        <TypographyH5AsSpan>
-                          {friend?.user_metadata?.name ??
-                            friend?.user_metadata?.email?.split("@")[0]}
-                        </TypographyH5AsSpan>
-                        <TypographySpan size="xs" muted>
+                        <div className="flex items-center gap-2">
+                          <H5Span>
+                            {friend?.user_metadata?.name ??
+                              friend?.user_metadata?.email?.split("@")[0]}
+                          </H5Span>
+
+                          {friendsReadingStreak[index]?.todayInStreak &&
+                            friendsReadingStreak[index]?.currentStreak !== 0 && (
+                              <div className="flex items-center gap-2">
+                                <Span>•</Span>
+
+                                <Semibold>
+                                  <ResponsiveTooltip
+                                    text="Nombre de jours consécutifs de lecture."
+                                    side="bottom"
+                                    align="center"
+                                    cursor="help"
+                                  >
+                                    <div className="flex items-center">
+                                      {friendsReadingStreak[index]?.currentStreak}
+                                      <FlameIcon className="h-4 w-4" />
+                                    </div>
+                                  </ResponsiveTooltip>
+                                </Semibold>
+                              </div>
+                            )}
+                        </div>
+                        <Muted size="xs">
                           {friend?.user_metadata?.biography ?? "Pas de biographie"}
-                        </TypographySpan>
+                        </Muted>
                       </div>
                     </div>
 
@@ -85,9 +119,7 @@ const Friends = async ({
               );
             })
           ) : (
-            <TypographySpan size="sm" muted>
-              {profileMetadata?.name} n&apos;a pas encore d&apos;amis.
-            </TypographySpan>
+            <Muted size="sm">{profileMetadata?.name} n&apos;a pas encore d&apos;amis.</Muted>
           )}
         </CardContent>
       </ScrollArea>

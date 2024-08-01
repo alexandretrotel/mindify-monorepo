@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import TypographyH3AsSpan from "@/components/typography/h3AsSpan";
+import H3Span from "@/components/typography/h3AsSpan";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const FriendsSkeleton = async () => {
@@ -11,7 +11,7 @@ const FriendsSkeleton = async () => {
       <ScrollArea className="h-96 w-full">
         <CardHeader>
           <CardTitle>
-            <TypographyH3AsSpan>Amis</TypographyH3AsSpan>
+            <H3Span>Amis</H3Span>
           </CardTitle>
         </CardHeader>
 

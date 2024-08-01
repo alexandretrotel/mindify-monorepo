@@ -10,7 +10,7 @@ const AddToLibraryButton = async ({ userId, summaryId }: { userId: UUID; summary
     <AddToLibraryButtonClient
       userId={userId}
       summaryId={summaryId}
-      isSummarySaved={isSummarySaved}
+      isSummarySaved={isSummarySaved as boolean}
     />
   );
 };

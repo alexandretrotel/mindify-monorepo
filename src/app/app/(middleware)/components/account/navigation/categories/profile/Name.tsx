@@ -1,4 +1,3 @@
-import TypographySpan from "@/components/typography/span";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,6 +6,7 @@ import { useEffect, useState } from "react";
 import { userUpdateName } from "@/actions/users";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { Loader2Icon } from "lucide-react";
+import { Muted } from "@/components/typography/muted";
 
 export default function AccountName({ userMetadata }: Readonly<{ userMetadata: UserMetadata }>) {
   const [name, setName] = useState<string>("");
@@ -76,9 +76,7 @@ export default function AccountName({ userMetadata }: Readonly<{ userMetadata: U
           </Button>
         )}
       </div>
-      <TypographySpan muted size="sm">
-        Comment voulez-vous que l’on vous appelle ?
-      </TypographySpan>
+      <Muted size="sm">Comment voulez-vous que l&apos;on vous appelle ?</Muted>
     </div>
   );
 }

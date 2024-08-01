@@ -5,7 +5,6 @@ import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { getUsersData } from "@/actions/users";
-import type { FriendStatus } from "@/types/user";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function askForFriend(userId: UUID, profileId: UUID) {
@@ -16,7 +15,7 @@ export async function askForFriend(userId: UUID, profileId: UUID) {
       throw new Error("Impossible de s'ajouter soi-même en ami.");
     }
 
-    await supabase.from("user_friends").insert({
+    await supabase.from("friends").insert({
       user_id: userId,
       friend_id: profileId,
       status: "pending"
@@ -34,7 +33,7 @@ export async function cancelFriendRequest(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   try {
-    await supabase.from("user_friends").delete().eq("user_id", userId).eq("friend_id", profileId);
+    await supabase.from("friends").delete().eq("user_id", userId).eq("friend_id", profileId);
   } catch (error) {
     console.error(error);
     throw new Error("Impossible d'annuler la demande d'ami.");
@@ -49,7 +48,7 @@ export async function acceptFriendRequest(userId: UUID, profileId: UUID) {
 
   try {
     const { data, error } = await supabase
-      .from("user_friends")
+      .from("friends")
       .select("status")
       .eq("user_id", profileId)
       .eq("friend_id", userId);
@@ -63,13 +62,13 @@ export async function acceptFriendRequest(userId: UUID, profileId: UUID) {
       throw new Error("La demande d'ami n'existe pas ou a déjà été acceptée.");
     }
 
-    await supabase.from("user_friends").upsert({
+    await supabase.from("friends").upsert({
       user_id: userId,
       friend_id: profileId,
       status: "accepted"
     });
 
-    await supabase.from("user_friends").upsert({
+    await supabase.from("friends").upsert({
       user_id: profileId,
       friend_id: userId,
       status: "accepted"
@@ -87,23 +86,24 @@ export async function rejectFriendRequest(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from("user_friends")
+    .from("friends")
     .select("status")
     .eq("user_id", profileId)
-    .eq("friend_id", userId);
+    .eq("friend_id", userId)
+    .single();
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de rejeter la demande d'ami.");
   }
 
-  if (data?.[0]?.status !== "pending") {
+  if (data?.status !== "pending") {
     throw new Error("La demande d'ami n'existe pas ou a déjà été acceptée.");
   }
 
   try {
-    await supabase.from("user_friends").delete().eq("user_id", profileId).eq("friend_id", userId);
-    await supabase.from("user_friends").delete().eq("user_id", userId).eq("friend_id", profileId);
+    await supabase.from("friends").delete().eq("user_id", profileId).eq("friend_id", userId);
+    await supabase.from("friends").delete().eq("user_id", userId).eq("friend_id", profileId);
   } catch (error) {
     console.error(error);
     throw new Error("Impossible de rejeter la demande d'ami.");
@@ -117,8 +117,8 @@ export async function removeFriend(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   try {
-    await supabase.from("user_friends").delete().eq("user_id", userId).eq("friend_id", profileId);
-    await supabase.from("user_friends").delete().eq("user_id", profileId).eq("friend_id", userId);
+    await supabase.from("friends").delete().eq("user_id", userId).eq("friend_id", profileId);
+    await supabase.from("friends").delete().eq("user_id", profileId).eq("friend_id", userId);
   } catch (error) {
     console.error(error);
     throw new Error("Impossible de supprimer l'ami.");
@@ -135,7 +135,7 @@ export async function blockUser(userId: UUID, profileId: UUID) {
     throw new Error("Impossible de se bloquer soi-même.");
   }
 
-  const { error } = await supabase.from("user_friends").upsert({
+  const { error } = await supabase.from("friends").upsert({
     user_id: userId,
     friend_id: profileId,
     status: "blocked"
@@ -154,7 +154,7 @@ export async function unblockUser(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   const { error } = await supabase
-    .from("user_friends")
+    .from("friends")
     .delete()
     .eq("user_id", userId)
     .eq("friend_id", profileId);
@@ -172,7 +172,7 @@ export async function getFriendRequests(userId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from("user_friends")
+    .from("friends")
     .select("friend_id")
     .eq("user_id", userId)
     .eq("status", "pending");
@@ -187,7 +187,7 @@ export async function getFriendRequests(userId: UUID) {
 
 export async function getFriendsIds(userId: UUID) {
   const { data, error } = await supabaseAdmin
-    .from("user_friends")
+    .from("friends")
     .select("*")
     .eq("user_id", userId)
     .eq("status", "accepted");
@@ -206,7 +206,7 @@ export async function getPendingFriendsIds(userId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from("user_friends")
+    .from("friends")
     .select("user_id")
     .eq("friend_id", userId)
     .eq("status", "pending");
@@ -225,17 +225,18 @@ export async function isFriend(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from("user_friends")
+    .from("friends")
     .select("status")
     .eq("user_id", userId)
-    .eq("friend_id", profileId);
+    .eq("friend_id", profileId)
+    .maybeSingle();
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de vérifier si l'utilisateur est un ami.");
   }
 
-  return data?.[0]?.status === "accepted";
+  return data?.status === "accepted";
 }
 
 export async function getFriendsData(userId: UUID) {
@@ -256,15 +257,16 @@ export async function getFriendStatus(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from("user_friends")
+    .from("friends")
     .select("status")
     .eq("user_id", userId)
-    .eq("friend_id", profileId);
+    .eq("friend_id", profileId)
+    .maybeSingle();
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer le statut de l'ami.");
   }
 
-  return data?.[0]?.status as FriendStatus;
+  return data?.status;
 }

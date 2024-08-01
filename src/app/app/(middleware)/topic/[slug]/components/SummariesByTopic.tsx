@@ -1,16 +1,25 @@
-import type { Topic } from "@/types/topics";
 import React from "react";
-import type { Summaries } from "@/types/summary";
 import SummariesByTopicClient from "@/app/app/(middleware)/topic/[slug]/components/client/SummariesByTopicClient";
+import type { Tables } from "@/types/supabase";
 
 const SummariesByTopic = async ({
   topic,
   summariesByTopic
 }: {
-  topic: Topic;
-  summariesByTopic: Summaries;
+  topic: Tables<"topics">;
+  summariesByTopic: Tables<"summaries">[];
 }) => {
-  return <SummariesByTopicClient topic={topic} summariesByTopic={summariesByTopic} />;
+  return (
+    <SummariesByTopicClient
+      topic={topic}
+      summariesByTopic={
+        summariesByTopic as (Tables<"summaries"> & { topic: string; author_slug: string } & {
+          authors: Tables<"authors">;
+          topics: Tables<"topics">;
+        })[]
+      }
+    />
+  );
 };
 
 export default SummariesByTopic;

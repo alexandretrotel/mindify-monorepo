@@ -8,13 +8,12 @@ import {
 } from "@/components/ui/carousel";
 import BookCover from "@/components/global/BookCover";
 import Link from "next/link";
-import TypographyH3 from "@/components/typography/h3";
-import TypographySpan from "@/components/typography/span";
+import H3 from "@/components/typography/h3";
 import { getMostPopularSummaries } from "@/actions/summaries";
-import type { Summaries } from "@/types/summary";
+import { Muted } from "@/components/typography/muted";
 
 const Popular = async () => {
-  const popularSummaries: Summaries = await getMostPopularSummaries();
+  const popularSummaries = await getMostPopularSummaries();
 
   return (
     <Carousel
@@ -26,8 +25,8 @@ const Popular = async () => {
     >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <TypographyH3>Les + populaires</TypographyH3>
-          <TypographySpan muted>Explorez les résumés les plus lus.</TypographySpan>
+          <H3>Les + populaires</H3>
+          <Muted>Explorez les résumés les plus lus.</Muted>
         </div>
 
         <CarouselContent className="-ml-4">
@@ -40,10 +39,10 @@ const Popular = async () => {
                 >
                   <BookCover
                     title={summary.title}
-                    author={summary.author}
+                    author={summary.authors.name}
                     category={summary.topic}
                     source={summary.source_type}
-                    image={summary.image_url}
+                    image={summary.image_url ?? undefined}
                   />
                 </Link>
               </CarouselItem>

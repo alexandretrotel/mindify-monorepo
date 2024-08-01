@@ -1,5 +1,5 @@
 import React from "react";
-import TypographyH3 from "@/components/typography/h3";
+import H3 from "@/components/typography/h3";
 import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -8,7 +8,7 @@ import BookCoverSkeleton from "@/components/global/skeleton/BookCoverSkeleton";
 const LibrarySkeleton = async () => {
   return (
     <div className="flex w-full flex-col gap-4">
-      <TypographyH3>Librairie</TypographyH3>
+      <H3>Librairie</H3>
 
       <div className="flex w-full flex-col justify-between gap-4 md:flex-row">
         <div className="min-w-md relative max-w-md flex-1">

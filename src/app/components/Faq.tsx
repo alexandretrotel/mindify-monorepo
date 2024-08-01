@@ -5,8 +5,8 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@/components/ui/accordion";
-import TypographyH2 from "@/components/typography/h2";
-import TypographyH4AsSpan from "@/components/typography/h4AsSpan";
+import H2 from "@/components/typography/h2";
+import H4Span from "@/components/typography/h4AsSpan";
 import Section from "@/components/global/Section";
 
 const faqItemsGeneral = [
@@ -54,11 +54,11 @@ const Faq = () => {
   return (
     <Section id="faq">
       <div className="flex flex-col gap-8">
-        <TypographyH2 center>Foire aux questions</TypographyH2>
+        <H2 center>Foire aux questions</H2>
 
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
-            <TypographyH4AsSpan>Général</TypographyH4AsSpan>
+            <H4Span>Général</H4Span>
             <Accordion type="single" collapsible className="w-full">
               {faqItemsGeneral.map((item, index) => (
                 <AccordionItem key={item.title} value={`item-${index}`}>
@@ -70,7 +70,7 @@ const Faq = () => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <TypographyH4AsSpan>Pro</TypographyH4AsSpan>
+            <H4Span>Pro</H4Span>
             <Accordion type="single" collapsible className="w-full">
               {faqItemsPro.map((item, index) => (
                 <AccordionItem key={item.title} value={`item-${index}`}>

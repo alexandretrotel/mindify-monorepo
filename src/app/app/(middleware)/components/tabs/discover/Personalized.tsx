@@ -8,31 +8,29 @@ import {
 } from "@/components/ui/carousel";
 import BookCover from "@/components/global/BookCover";
 import Link from "next/link";
-import TypographyH3 from "@/components/typography/h3";
+import H3 from "@/components/typography/h3";
 import { createClient } from "@/utils/supabase/server";
 import { getUserPersonalizedSummariesFromInterests } from "@/actions/users";
 import type { UUID } from "crypto";
-import type { Summaries, Summary } from "@/types/summary";
-import TypographySpan from "@/components/typography/span";
+import { Muted } from "@/components/typography/muted";
 
 const Personalized = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
 
-  const summariesMatchingUserTopics: Summaries =
-    await getUserPersonalizedSummariesFromInterests(userId);
+  const summariesMatchingUserTopics = await getUserPersonalizedSummariesFromInterests(userId);
 
   const { data: summariesData } = await supabase
     .from("summaries")
     .select("*, authors(*), topics(*)")
     .limit(15);
 
-  const summaries: Summaries = summariesData?.map((summary) => {
+  const summaries = summariesData?.map((summary) => {
     return {
       ...summary,
       topic: summary.topics?.name as string,
       author_slug: summary.authors?.slug as string
     };
-  }) as Summaries;
+  });
 
   return (
     <Carousel
@@ -44,14 +42,14 @@ const Personalized = async ({ userId }: { userId: UUID }) => {
     >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <TypographyH3>Pour vous</TypographyH3>
-          <TypographySpan muted>Découvrez des résumés adaptés à vos intérêts.</TypographySpan>
+          <H3>Pour vous</H3>
+          <Muted>Découvrez des résumés adaptés à vos intérêts.</Muted>
         </div>
 
         <CarouselContent className="-ml-4">
           {(summariesMatchingUserTopics?.length >= 3 ? summariesMatchingUserTopics : summaries)
             ?.slice(0, 15)
-            ?.map((summary: Summary) => {
+            ?.map((summary) => {
               return (
                 <CarouselItem key={summary.id} className="basis-1/2 pl-4 lg:basis-1/3">
                   <Link
@@ -59,11 +57,11 @@ const Personalized = async ({ userId }: { userId: UUID }) => {
                     className="h-full"
                   >
                     <BookCover
-                      title={summary.title}
-                      author={summary.author}
-                      category={summary.topic}
-                      source={summary.source_type}
-                      image={summary.image_url}
+                      title={summary?.title}
+                      author={summary?.authors?.name as string}
+                      category={summary?.topic}
+                      source={summary?.source_type}
+                      image={summary?.image_url ?? undefined}
                     />
                   </Link>
                 </CarouselItem>

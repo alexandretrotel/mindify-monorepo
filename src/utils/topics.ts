@@ -1,7 +1,6 @@
-import type { Source } from "@/types/summary";
-import type { Topic, Topics } from "@/types/topics";
+import type { Tables, Enums } from "@/types/supabase";
 
-export const sourceToString = (source: Source): string => {
+export const sourceToString = (source: Enums<"source">): string => {
   switch (source) {
     case "book":
       return "Livre";
@@ -16,7 +15,7 @@ export const sourceToString = (source: Source): string => {
   }
 };
 
-export function getTopicNameFromTopicSlug(topics: Topics, slug: string): string {
-  const topic = topics.find((topic) => topic.slug === slug) as Topic;
-  return topic?.name;
+export function getTopicNameFromTopicSlug(topics: Tables<"topics">[], slug: string): string {
+  const topic = topics.find((topic) => topic.slug === slug);
+  return topic?.name as string;
 }

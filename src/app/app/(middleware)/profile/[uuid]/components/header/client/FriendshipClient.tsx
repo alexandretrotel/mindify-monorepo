@@ -6,7 +6,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
 import { useToast } from "@/components/ui/use-toast";
-import type { FriendStatus } from "@/types/user";
+import type { Enums } from "@/types/supabase";
 
 const ClientFriendship = ({
   userId,
@@ -15,9 +15,9 @@ const ClientFriendship = ({
 }: {
   userId: UUID;
   profileId: UUID;
-  initialFriendStatus: FriendStatus;
+  initialFriendStatus: Enums<"friends_status"> | undefined;
 }) => {
-  const [friendStatus, setFriendStatus] = React.useState<FriendStatus | undefined>(
+  const [friendStatus, setFriendStatus] = React.useState<Enums<"friends_status"> | undefined>(
     initialFriendStatus
   );
 
