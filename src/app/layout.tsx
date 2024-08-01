@@ -123,7 +123,7 @@ export const viewport: Viewport = {
   userScalable: false
 };
 
-const stripePromise = loadStripe(process.env.STRIPE_SECRET_KEY!);
+export const stripePromise = loadStripe(process.env.STRIPE_SECRET_KEY!);
 
 export default function RootLayout({
   children
