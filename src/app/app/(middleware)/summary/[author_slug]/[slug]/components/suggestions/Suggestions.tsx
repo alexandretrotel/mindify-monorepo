@@ -40,7 +40,7 @@ const Suggestions = async ({
                 ) => (
                   <CarouselItem
                     key={summary?.id}
-                    className="basis-1/2 pl-4 md:basis-1/3 lg:basis-1/4"
+                    className="pl-4 md:basis-1/3 lg:basis-1/4"
                   >
                     <Link
                       key={summary?.id}

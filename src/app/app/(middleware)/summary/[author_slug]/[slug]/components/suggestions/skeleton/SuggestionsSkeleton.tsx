@@ -16,7 +16,7 @@ const SuggestionsSkeleton = async () => {
         <H2>À découvrir aussi...</H2>
         <CarouselContent className="-ml-4">
           {[...Array(4)].map((_, index) => (
-            <CarouselItem key={index} className="basis-1/2 pl-4 md:basis-1/3 lg:basis-1/4">
+            <CarouselItem key={index} className="pl-4 md:basis-1/3 lg:basis-1/4">
               <BookCoverSkeleton />
             </CarouselItem>
           ))}
