@@ -38,6 +38,8 @@ next-env.d.ts
 
 # pwa
 sw*.js
+sw.js.map
 workbox-*.js
+
 # Sentry Config File
 .env.sentry-build-plugin

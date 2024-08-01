@@ -223,32 +223,6 @@ export type Database = {
           },
         ]
       }
-      stripe_customers: {
-        Row: {
-          created_at: string
-          stripe_id: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          stripe_id: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          stripe_id?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "stripe_customers_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       summaries: {
         Row: {
           author_id: number
@@ -427,6 +401,7 @@ export type Database = {
     }
     Enums: {
       friends_status: "pending" | "accepted" | "blocked"
+      plan: "free" | "pro"
       source: "article" | "podcast" | "video" | "book"
       status: "completed" | "saved"
     }
