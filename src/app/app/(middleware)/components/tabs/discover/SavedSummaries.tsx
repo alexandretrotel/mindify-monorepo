@@ -35,7 +35,7 @@ const SavedSummaries = async ({ userId }: { userId: UUID }) => {
             <CarouselContent className="-ml-4">
               {savedSummaries?.map((summary) => {
                 return (
-                  <CarouselItem key={summary.id} className="basis-1/2 pl-4 lg:basis-1/3">
+                  <CarouselItem key={summary.id} className="pl-4 lg:basis-1/3">
                     <Link
                       href={`/app/summary/${summary.author_slug}/${summary.slug}`}
                       className="h-full"

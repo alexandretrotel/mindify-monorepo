@@ -17,21 +17,21 @@ const Chapters = async ({
     <>
       <div id="introduction" className="flex flex-col gap-4">
         <H2>Introduction</H2>
-        <P>{summary.introduction}</P>
+        <P size="lg">{summary.introduction}</P>
       </div>
 
       <div className="flex flex-col gap-8">
         {summaryChapters?.titles?.map((title, index) => (
           <div key={title} id={"chapter" + String(index + 1)} className="flex flex-col gap-4">
             <H2>{title}</H2>
-            <P>{summaryChapters?.texts[index]}</P>
+            <P size="lg">{summaryChapters?.texts[index]}</P>
           </div>
         ))}
       </div>
 
       <div id="conclusion" className="flex flex-col gap-4">
         <H2>Conclusion</H2>
-        <P>{summary.conclusion}</P>
+        <P size="lg">{summary.conclusion}</P>
       </div>
     </>
   );

@@ -10,7 +10,7 @@ export async function getMindsFromSummaryId(summaryId: number) {
 
   const { data: mindsData, error } = await supabase
     .from("minds")
-    .select("*")
+    .select("*, summaries(*, authors(*), topics(*))")
     .eq("summary_id", summaryId);
 
   if (error) {
@@ -25,7 +25,7 @@ export async function getMindsFromTopicId(topicId: number) {
 
   const { data: mindsData, error } = await supabase
     .from("minds")
-    .select("*, summaries(*)")
+    .select("*, summaries(*, topics(*), authors(*))")
     .eq("summaries.topic_id", topicId);
 
   if (error) {
@@ -47,7 +47,9 @@ interface SavedMindsCounts {
 export async function getMostSavedMinds() {
   const supabase = createClient();
 
-  const { data: savedMindsData, error } = await supabase.from("saved_minds").select("*, minds(*)");
+  const { data: savedMindsData, error } = await supabase
+    .from("saved_minds")
+    .select("*, minds(*, summaries(*, topics(*), authors(*)))");
 
   if (error) {
     throw new Error("Impossible de récupérer les minds populaires.");
@@ -75,7 +77,9 @@ export async function getMostSavedMinds() {
 
   const savedMindsCountsArray: {
     count: number;
-    mind: Tables<"minds">;
+    mind: Tables<"minds"> & {
+      summaries: Tables<"summaries"> & { topics: Tables<"topics">; authors: Tables<"authors"> };
+    };
   }[] = Object.values(savedMindsCountsMap);
 
   const sortedSavedMindsCount = [...savedMindsCountsArray]
@@ -85,12 +89,27 @@ export async function getMostSavedMinds() {
   return sortedSavedMindsCount;
 }
 
+export async function getAllMinds(limit: number) {
+  const supabase = createClient();
+
+  const { data: mindsData, error } = await supabase
+    .from("minds")
+    .select("*, summaries(*, topics(*), authors(*))")
+    .limit(limit);
+
+  if (error) {
+    throw new Error("Impossible de récupérer les minds.");
+  }
+
+  return mindsData;
+}
+
 export async function getMindsFromUserId(userId: UUID) {
   const supabase = createClient();
 
   const { data: mindsData, error } = await supabase
     .from("saved_minds")
-    .select("*, minds(*)")
+    .select("*, minds(*, summaries(*, topics(*), authors(*)))")
     .eq("user_id", userId);
 
   if (error) {
@@ -119,4 +138,51 @@ export async function saveMind(mindId: number) {
   if (error) {
     throw new Error("Impossible de sauvegarder le mind.");
   }
+}
+
+export async function unsaveMind(mindId: number) {
+  const supabase = createClient();
+
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+
+  const userId: UUID = userData?.user?.id as UUID;
+
+  if (userError) {
+    throw new Error("Impossible de récupérer l'utilisateur");
+  }
+
+  const { error } = await supabase
+    .from("saved_minds")
+    .delete()
+    .eq("user_id", userId)
+    .eq("mind_id", mindId);
+
+  if (error) {
+    throw new Error("Impossible de retirer le mind.");
+  }
+}
+
+export async function isMindSaved(mindId: number) {
+  const supabase = createClient();
+
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+
+  const userId: UUID = userData?.user?.id as UUID;
+
+  if (userError) {
+    throw new Error("Impossible de récupérer l'utilisateur");
+  }
+
+  const { error } = await supabase
+    .from("saved_minds")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("mind_id", mindId)
+    .single();
+
+  if (error) {
+    throw new Error("Impossible de vérifier si le mind est sauvegardé.");
+  }
+
+  return true;
 }

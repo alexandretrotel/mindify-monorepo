@@ -10,6 +10,8 @@ import PersonalizedSkeleton from "@/app/app/(middleware)/components/tabs/discove
 import PopularSkeleton from "@/app/app/(middleware)/components/tabs/discover/skeleton/PopularSkeleton";
 import SavedSummariesSkeleton from "@/app/app/(middleware)/components/tabs/discover/skeleton/SavedSummariesSkeleton";
 import StatisticsSkeleton from "@/app/app/(middleware)/components/skeleton/StatisticsSkeleton";
+import PopularMinds from "@/app/app/(middleware)/components/tabs/discover/PopularMinds";
+import PopularMindsSkeleton from "@/app/app/(middleware)/components/tabs/discover/skeleton/PopularMindsSkeleton";
 
 const Discover = ({ userId }: { userId: UUID }) => {
   return (
@@ -19,12 +21,16 @@ const Discover = ({ userId }: { userId: UUID }) => {
           <Personalized userId={userId} />
         </Suspense>
 
-        <Suspense fallback={<CategoriesSkeleton />}>
-          <Categories userId={userId} />
+        <Suspense fallback={<PopularMindsSkeleton />}>
+          <PopularMinds />
         </Suspense>
 
         <Suspense fallback={<PopularSkeleton />}>
           <Popular />
+        </Suspense>
+
+        <Suspense fallback={<CategoriesSkeleton />}>
+          <Categories userId={userId} />
         </Suspense>
 
         <Suspense fallback={<SavedSummariesSkeleton />}>
@@ -32,7 +38,7 @@ const Discover = ({ userId }: { userId: UUID }) => {
         </Suspense>
       </div>
 
-      <div className="relative order-1 w-full lg:order-2 lg:max-w-xs">
+      <div className="lg:min-w-xs relative order-1 w-full flex-shrink-0 lg:order-2 lg:max-w-xs">
         <div className="w-full lg:sticky lg:right-0 lg:top-0 lg:pt-8">
           <Suspense fallback={<StatisticsSkeleton userId={userId} />}>
             <Statistics userId={userId} />

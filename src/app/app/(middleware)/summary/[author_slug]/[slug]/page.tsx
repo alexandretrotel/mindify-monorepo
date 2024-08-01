@@ -18,6 +18,8 @@ import Suggestions from "@/app/app/(middleware)/summary/[author_slug]/[slug]/com
 import SuggestionsSkeleton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/suggestions/skeleton/SuggestionsSkeleton";
 import ReadingTime from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/header/ReadingTime";
 import Source from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/header/Source";
+import SummaryMinds from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/minds/SummaryMinds";
+import SummaryMindsSkeleton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/minds/skeleton/SummaryMindsSkeleton";
 
 const Page = async ({ params }: { params: { author_slug: string; slug: string } }) => {
   const { slug, author_slug } = params;
@@ -87,9 +89,15 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
             </div>
           </div>
 
-          <Suspense fallback={<SuggestionsSkeleton />}>
-            <Suggestions topicId={summary?.topic_id} summary={summary} />
-          </Suspense>
+          <div className="flex flex-col gap-8">
+            <Suspense fallback={<SummaryMindsSkeleton />}>
+              <SummaryMinds summaryId={summary?.id} />
+            </Suspense>
+
+            <Suspense fallback={<SuggestionsSkeleton />}>
+              <Suggestions topicId={summary?.topic_id} summary={summary} />
+            </Suspense>
+          </div>
         </div>
       </div>
     </div>
