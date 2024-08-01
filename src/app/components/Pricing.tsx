@@ -18,17 +18,12 @@ import { CheckIcon } from "lucide-react";
 import Section from "@/components/global/Section";
 import H2 from "@/components/typography/h2";
 import Link from "next/link";
+import { Muted } from "@/components/typography/muted";
 
-const discount = 25;
-
-const proPricePerMonth = 3;
-const ultraPricePerMonth = 5;
-
+const discount = 25; // discount per year subscription
+const proPricePerMonth = 3; // in eur
 const originalProPricePerYear = proPricePerMonth * 12;
-const originalUltraPricePerYear = ultraPricePerMonth * 12;
-
 const proPricePerYear = Math.floor(proPricePerMonth * 12 * (1 - discount / 100));
-const ultraPricePerYear = Math.floor(ultraPricePerMonth * 12 * (1 - discount / 100));
 
 export default function Pricing() {
   const [isAnnual, setIsAnnual] = useState(false);
@@ -63,14 +58,13 @@ export default function Pricing() {
                     className="text-muted-foreground"
                   />
                 </svg>
-                <Badge className="mt-3 hidden uppercase md:block">Remise de {discount}%</Badge>
-                <Badge className="mt-3 block uppercase md:hidden">-{discount}%</Badge>
+                <Badge className="mt-3 uppercase">Remise de {discount}%</Badge>
               </span>
             </span>
           </Label>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:items-center">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:items-center">
           <Card>
             <CardHeader className="pb-2 text-center">
               <CardTitle className="mb-7">Standard</CardTitle>
@@ -81,7 +75,7 @@ export default function Pricing() {
               <ul className="mt-7 space-y-2.5 text-sm">
                 <li className="flex space-x-2">
                   <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                  <span className="text-muted-foreground">Accède au résumé de la semaine</span>
+                  <span className="text-muted-foreground">Accède au résumé du jour</span>
                 </li>
                 <li className="flex space-x-2">
                   <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0" />
@@ -115,57 +109,24 @@ export default function Pricing() {
               <ul className="mt-7 space-y-2.5 text-sm">
                 <li className="flex space-x-2">
                   <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                  <span className="text-muted-foreground">
-                    Avantages de la version Standard inclus
-                  </span>
+                  <Muted>Avantages de la version Standard inclus</Muted>
                 </li>
                 <li className="flex space-x-2">
                   <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                  <span className="text-muted-foreground">Accède à tous les résumés</span>
+                  <Muted>Accède à tous les résumés</Muted>
                 </li>
                 <li className="flex space-x-2">
                   <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                  <span className="text-muted-foreground">Enregistre 10,000 idées</span>
+                  <Muted>Enregistre toutes les idées</Muted>
+                </li>
+                <li className="flex space-x-2">
+                  <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0" />
+                  <Muted>Profite de l&apos;écoute audio</Muted>
                 </li>
               </ul>
             </CardContent>
             <CardFooter>
               <Button disabled className="w-full">
-                S&apos;abonner
-              </Button>
-            </CardFooter>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2 text-center">
-              <CardTitle className="mb-7">Ultra</CardTitle>
-              <span className="text-5xl font-bold">
-                <span className="text-muted-foreground line-through">
-                  {isAnnual && originalUltraPricePerYear + "€"}
-                </span>{" "}
-                {isAnnual ? ultraPricePerYear : ultraPricePerMonth}€{" "}
-                <span className="text-sm">/{isAnnual ? "an" : "mois"}</span>
-              </span>
-            </CardHeader>
-            <CardDescription className="text-center">Connaissances illimitées et +</CardDescription>
-            <CardContent>
-              <ul className="mt-7 space-y-2.5 text-sm">
-                <li className="flex space-x-2">
-                  <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                  <span className="text-muted-foreground">Avantages de la version Pro inclus</span>
-                </li>
-                <li className="flex space-x-2">
-                  <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                  <span className="text-muted-foreground">Enregistre des idées sans limite</span>
-                </li>
-                <li className="flex space-x-2">
-                  <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                  <span className="text-muted-foreground">Utilise des flashcards pour réviser</span>
-                </li>
-              </ul>
-            </CardContent>
-            <CardFooter>
-              <Button disabled variant="outline" className="w-full">
                 S&apos;abonner
               </Button>
             </CardFooter>

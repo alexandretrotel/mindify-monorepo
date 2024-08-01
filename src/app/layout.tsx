@@ -7,6 +7,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster as Sonner } from "sonner";
 import { Toaster } from "@/components/ui/toaster";
+import { loadStripe } from "@stripe/stripe-js";
+import StripeClient from "@/app/StripeClient";
 
 // Import global styles
 import "./globals.css";
@@ -121,6 +123,8 @@ export const viewport: Viewport = {
   userScalable: false
 };
 
+const stripePromise = loadStripe(process.env.STRIPE_SECRET_KEY!);
+
 export default function RootLayout({
   children
 }: Readonly<{
@@ -135,16 +139,18 @@ export default function RootLayout({
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <NextTopLoader color="#1FA856" showSpinner={false} />
-          {children}
+          <StripeClient stripePromise={stripePromise}>
+            <NextTopLoader color="#1FA856" showSpinner={false} />
+            {children}
 
-          {/* Sonner & Toaster */}
-          <Sonner />
-          <Toaster />
+            {/* Sonner & Toaster */}
+            <Sonner />
+            <Toaster />
 
-          {/* Analytics and speed insights */}
-          <Analytics />
-          <SpeedInsights />
+            {/* Analytics and speed insights */}
+            <Analytics />
+            <SpeedInsights />
+          </StripeClient>
         </ThemeProvider>
       </body>
     </html>
