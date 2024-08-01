@@ -225,12 +225,10 @@ export async function getMostPopularSummaries() {
 
   if (error) {
     console.error(error);
-    throw new Error("Impossible de récupérer les résumés populaires par catégorie.");
+    throw new Error("Impossible de récupérer les résumés populaires.");
   }
 
-  const excludeSameTopics = userReadsData?.filter((read) => read.summaries);
-
-  const summaryReadCounts = excludeSameTopics?.reduce<SummaryReadCounts>((acc, read) => {
+  const summaryReadCounts = userReadsData?.reduce<SummaryReadCounts>((acc, read) => {
     const summaryId = read?.summary_id;
 
     if (!acc[summaryId]) {
