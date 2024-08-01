@@ -47,8 +47,8 @@ const LibraryClient = ({
     topics: Tables<"topics">;
   })[];
   topics: Tables<"topics">[];
-  userReads: Tables<"user_reads">[];
-  userLibrary: Tables<"user_library">[];
+  userReads: Tables<"read_summaries">[];
+  userLibrary: Tables<"saved_summaries">[];
   initialSearch: string | undefined;
   initialTopic: string | undefined;
   initialSource: Enums<"source"> | undefined;

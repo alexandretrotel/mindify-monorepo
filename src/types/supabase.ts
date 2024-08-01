@@ -54,10 +54,37 @@ export type Database = {
         }
         Relationships: []
       }
+      minds: {
+        Row: {
+          created_at: string
+          id: number
+          summary_id: number
+          text: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          summary_id: number
+          text: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          summary_id?: number
+          text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "minds_summary_id_fkey"
+            columns: ["summary_id"]
+            isOneToOne: false
+            referencedRelation: "summaries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       summaries: {
         Row: {
-          topics: any
-          authors: any
           author_id: number
           chapters_id: number | null
           conclusion: string
@@ -153,7 +180,7 @@ export type Database = {
         }
         Relationships: []
       }
-      user_friends: {
+      friends: {
         Row: {
           created_at: string
           friend_id: string
@@ -182,7 +209,7 @@ export type Database = {
           },
         ]
       }
-      user_library: {
+      saved_summaries: {
         Row: {
           created_at: string
           id: number
@@ -218,7 +245,7 @@ export type Database = {
           },
         ]
       }
-      user_ratings: {
+      summaries_ratings: {
         Row: {
           created_at: string
           id: number
@@ -257,7 +284,7 @@ export type Database = {
           },
         ]
       }
-      user_reads: {
+      read_summaries: {
         Row: {
           created_at: string
           id: number

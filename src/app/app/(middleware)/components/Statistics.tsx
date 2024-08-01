@@ -10,7 +10,7 @@ const Statistics = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
 
   const { data: userReadsData } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .select("*, summaries(*)")
     .eq("user_id", userId);
 
@@ -19,7 +19,7 @@ const Statistics = async ({ userId }: { userId: UUID }) => {
 
   return (
     <StatisticsClient
-      userReads={userReads as Tables<"user_reads">[]}
+      userReads={userReads as Tables<"read_summaries">[]}
       summaries={summaries as Tables<"summaries">[]}
       userId={userId}
     />

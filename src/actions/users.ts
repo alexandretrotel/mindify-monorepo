@@ -167,7 +167,7 @@ export async function getUserReadingStreak(userId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .select("read_at")
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
@@ -188,7 +188,7 @@ export async function getUserReadsIds(userId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .select("summary_id")
     .eq("user_id", userId);
 
@@ -212,7 +212,7 @@ export async function hasUserSavedSummary({
   const supabase = createClient();
 
   const { data: userLibraryData } = await supabase
-    .from("user_library")
+    .from("saved_summaries")
     .select("*")
     .eq("user_id", userId);
 
@@ -231,7 +231,7 @@ export async function hasUserReadSummary({
   const supabase = createClient();
 
   const { data: userReadsData } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .select("*")
     .eq("user_id", userId);
 
@@ -273,7 +273,7 @@ export async function getUserSummariesFromLibrary(userId: UUID) {
   const supabase = createClient();
 
   const { data: userLibraryData } = await supabase
-    .from("user_library")
+    .from("saved_summaries")
     .select("summaries(*, authors(*), topics(*))")
     .eq("user_id", userId);
 
@@ -343,7 +343,7 @@ export async function getUserReadSummaries(userId: UUID) {
   const supabase = createClient();
 
   const { data: profileReadsData } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .select("*, summaries(*, topics(*), authors(*))")
     .eq("user_id", userId);
 
@@ -362,7 +362,7 @@ export async function getUserSavedSummaries(userId: UUID) {
   const supabase = createClient();
 
   const { data: profileLibraryData } = await supabase
-    .from("user_library")
+    .from("saved_summaries")
     .select("*, summaries(*, topics(*), authors(*))")
     .eq("user_id", userId);
 

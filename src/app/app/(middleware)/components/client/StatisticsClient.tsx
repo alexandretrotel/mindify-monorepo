@@ -18,7 +18,7 @@ const StatisticsClient = ({
   summaries,
   userId
 }: {
-  userReads: Tables<"user_reads">[];
+  userReads: Tables<"read_summaries">[];
   summaries: Tables<"summaries">[];
   userId: UUID;
 }) => {

@@ -9,7 +9,7 @@ import type { Enums, Tables } from "@/types/supabase";
 export async function addSummaryToLibrary(userId: UUID, summaryId: number) {
   const supabase = createClient();
 
-  const { error } = await supabase.from("user_library").insert({
+  const { error } = await supabase.from("saved_summaries").insert({
     user_id: userId,
     summary_id: summaryId
   });
@@ -27,7 +27,7 @@ export async function removeSummaryFromLibrary(userId: UUID, summaryId: number) 
   const supabase = createClient();
 
   const { error } = await supabase
-    .from("user_library")
+    .from("saved_summaries")
     .delete()
     .eq("user_id", userId)
     .eq("summary_id", summaryId);
@@ -44,7 +44,7 @@ export async function removeSummaryFromLibrary(userId: UUID, summaryId: number) 
 export async function markSummaryAsRead(userId: UUID, summaryId: number) {
   const supabase = createClient();
 
-  const { error } = await supabase.from("user_reads").insert({
+  const { error } = await supabase.from("read_summaries").insert({
     user_id: userId,
     summary_id: summaryId
   });
@@ -62,7 +62,7 @@ export async function markSummaryAsUnread(userId: UUID, summaryId: number) {
   const supabase = createClient();
 
   const { error } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .delete()
     .eq("user_id", userId)
     .eq("summary_id", summaryId);
@@ -115,7 +115,7 @@ export async function getSummariesReadsCount() {
   const supabase = createClient();
 
   const { data: userReadsData, error } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .select("*, summaries(*, topics(*), authors(*))");
 
   if (error) {
@@ -156,7 +156,7 @@ export async function getMostPopularSummariesFromSameTopic(
   const supabase = createClient();
 
   const { data: userReadsData, error } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .select("*, summaries(*, topics(*), authors(*))")
     .eq("summaries.topic_id", topicId)
     .neq("summary_id", summary.id);
@@ -220,7 +220,7 @@ export async function getMostPopularSummaries() {
   const supabase = createClient();
 
   const { data: userReadsData, error } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .select("*, summaries(*, topics(*), authors(*))");
 
   if (error) {
@@ -298,7 +298,7 @@ export async function getPopulatedSummaries() {
   const supabase = createClient();
 
   const { data: userReadsData, error } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .select("*, summaries(*, topics(*), authors(*))");
 
   if (error) {

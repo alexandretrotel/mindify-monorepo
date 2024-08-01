@@ -32,12 +32,12 @@ const Library = async ({
   const { data: topicsData } = await supabase.from("topics").select("*");
 
   const { data: userReadsData } = await supabase
-    .from("user_reads")
+    .from("read_summaries")
     .select("*")
     .eq("user_id", userId);
 
   const { data: userLibraryData } = await supabase
-    .from("user_library")
+    .from("saved_summaries")
     .select("*")
     .eq("user_id", userId);
 
@@ -45,8 +45,8 @@ const Library = async ({
     <LibraryClient
       summaries={summaries as (Tables<"summaries"> & { topic: string; author_slug: string })[]}
       topics={topicsData as Tables<"topics">[]}
-      userReads={userReadsData as Tables<"user_reads">[]}
-      userLibrary={userLibraryData as Tables<"user_library">[]}
+      userReads={userReadsData as Tables<"read_summaries">[]}
+      userLibrary={userLibraryData as Tables<"saved_summaries">[]}
       initialSearch={initialSearch}
       initialTopic={initialTopic}
       initialSource={initialSource}
