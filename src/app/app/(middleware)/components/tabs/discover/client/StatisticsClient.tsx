@@ -205,7 +205,7 @@ const StatisticsClient = ({
                       Temps de lecture
                       <div className="flex gap-0.5 text-left font-mono font-medium tabular-nums text-foreground">
                         {value}
-                        <span className="font-normal text-muted-foreground">hr</span>
+                        <span className="font-normal text-muted-foreground">mins</span>
                       </div>
                     </div>
                   )}
