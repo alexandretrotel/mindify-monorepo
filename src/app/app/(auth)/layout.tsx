@@ -8,7 +8,9 @@ const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
 
   const { data, error } = await supabase.auth.getUser();
 
-  if (!error && data?.user) {
+  const isUserConnected = !error && data?.user;
+
+  if (isUserConnected) {
     redirect("/app");
   }
 

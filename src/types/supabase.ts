@@ -115,21 +115,18 @@ export type Database = {
       read_summaries: {
         Row: {
           created_at: string
-          id: number
           read_at: string
           summary_id: number
           user_id: string
         }
         Insert: {
           created_at?: string
-          id?: number
           read_at?: string
           summary_id: number
           user_id: string
         }
         Update: {
           created_at?: string
-          id?: number
           read_at?: string
           summary_id?: number
           user_id?: string
@@ -154,19 +151,16 @@ export type Database = {
       saved_minds: {
         Row: {
           created_at: string
-          id: number
           mind_id: number
           user_id: string
         }
         Insert: {
           created_at?: string
-          id?: number
           mind_id: number
           user_id: string
         }
         Update: {
           created_at?: string
-          id?: number
           mind_id?: number
           user_id?: string
         }
@@ -190,19 +184,16 @@ export type Database = {
       saved_summaries: {
         Row: {
           created_at: string
-          id: number
           summary_id: number
           user_id: string
         }
         Insert: {
           created_at?: string
-          id?: number
           summary_id: number
           user_id: string
         }
         Update: {
           created_at?: string
-          id?: number
           summary_id?: number
           user_id?: string
         }
@@ -296,21 +287,18 @@ export type Database = {
       summaries_ratings: {
         Row: {
           created_at: string
-          id: number
           rating: number
           summary_id: number
           user_id: string
         }
         Insert: {
           created_at?: string
-          id?: number
           rating: number
           summary_id: number
           user_id: string
         }
         Update: {
           created_at?: string
-          id?: number
           rating?: number
           summary_id?: number
           user_id?: string
