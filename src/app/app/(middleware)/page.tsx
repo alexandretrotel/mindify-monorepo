@@ -2,8 +2,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Library from "@/app/app/(middleware)/components/tabs/Library";
 import Discover from "@/app/app/(middleware)/components/tabs/Discover";
 import AccountDropdown from "@/components/global/AccountDropdown";
-import type { UUID } from "crypto";
-import { createClient } from "@/utils/supabase/server";
 import LibrarySkeleton from "@/app/app/(middleware)/components/skeleton/LibrarySkeleton";
 import { Suspense } from "react";
 import type { SummaryStatus } from "@/types/summary";
@@ -15,12 +13,6 @@ export default async function Home({
   searchParams: { search: string; topic: string; source: Enums<"source">; status: SummaryStatus };
 }>) {
   const { search, topic, source, status } = searchParams;
-
-  const supabase = createClient();
-
-  const { data } = await supabase.auth.getUser();
-
-  const userId = data?.user?.id as UUID;
 
   return (
     <Tabs defaultValue={"discover"} className="flex flex-col gap-6 md:gap-12">
@@ -42,13 +34,12 @@ export default async function Home({
 
       <main>
         <TabsContent value="discover">
-          <Discover userId={userId} />
+          <Discover />
         </TabsContent>
 
         <TabsContent value="library">
           <Suspense fallback={<LibrarySkeleton />}>
             <Library
-              userId={userId}
               initialSearch={search}
               initialTopic={topic}
               initialSource={source}

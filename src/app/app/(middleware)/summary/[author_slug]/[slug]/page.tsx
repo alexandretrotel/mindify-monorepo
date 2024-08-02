@@ -1,7 +1,5 @@
 import React, { Suspense } from "react";
-import { createClient } from "@/utils/supabase/server";
-import type { UUID } from "crypto";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import AddToLibraryButton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/buttons/AddToLibraryButton";
 import MarkAsReadButton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/buttons/MarkAsReadButton";
@@ -20,19 +18,11 @@ import ReadingTime from "@/app/app/(middleware)/summary/[author_slug]/[slug]/com
 import Source from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/header/Source";
 import SummaryMinds from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/minds/SummaryMinds";
 import SummaryMindsSkeleton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/minds/skeleton/SummaryMindsSkeleton";
+import AddToLibraryButtonSkeleton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/buttons/skeleton/AddToLibraryButtonSkeleton";
+import MarkAsReadButtonSkeleton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/buttons/skeleton/MarkAsReadButtonSkeleton";
 
 const Page = async ({ params }: { params: { author_slug: string; slug: string } }) => {
   const { slug, author_slug } = params;
-
-  const supabase = createClient();
-
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data?.user) {
-    redirect("/app/login");
-  }
-
-  const userId = data?.user?.id as UUID;
 
   const summary = await getSummaryFromSlugs(author_slug, slug);
 
@@ -56,7 +46,9 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
 
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-4">
-                  <AddToLibraryButton userId={userId} summaryId={summary?.id} />
+                  <Suspense fallback={<AddToLibraryButtonSkeleton />}>
+                    <AddToLibraryButton summaryId={summary?.id} />
+                  </Suspense>
                   <Source summarySourceUrl={summary?.source_url as string} />
                 </div>
 
@@ -72,7 +64,9 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
 
                 <div className="flex flex-col gap-4">
                   <div className="w-full md:w-fit">
-                    <MarkAsReadButton userId={userId} summaryId={summary?.id} />
+                    <Suspense fallback={<MarkAsReadButtonSkeleton />}>
+                      <MarkAsReadButton summaryId={summary?.id} />
+                    </Suspense>
                   </div>
                 </div>
               </div>

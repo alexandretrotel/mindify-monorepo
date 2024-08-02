@@ -7,12 +7,14 @@ import H3 from "@/components/typography/h3";
 import H5Span from "@/components/typography/h5AsSpan";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
-import Span from "@/components/typography/span";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 
-const Categories = async ({ userId }: { userId: UUID }) => {
+const Categories = async () => {
   const supabase = createClient();
+
+  const { data: userData } = await supabase.auth.getUser();
+  const userId = userData?.user?.id as UUID;
 
   const { data: userTopicsData } = await supabase
     .from("user_topics")

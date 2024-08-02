@@ -3,7 +3,7 @@ import AccountDropdown from "@/components/global/AccountDropdown";
 import H3 from "@/components/typography/h3";
 import { Badge } from "@/components/ui/badge";
 import { supabaseDefaultClient } from "@/utils/supabase/default";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 import SummariesByTopicSkeleton from "@/app/app/(middleware)/topic/[slug]/components/skeleton/SummariesByTopicSkeleton";
 import { createClient } from "@/utils/supabase/server";
@@ -29,12 +29,6 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
 
   const supabase = createClient();
-
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data?.user) {
-    redirect("/app/login");
-  }
 
   const topic = await getTopicFromTopicSlug(slug);
   const { data: summariesData } = await supabase

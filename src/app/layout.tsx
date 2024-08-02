@@ -140,20 +140,21 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <StripeClient stripePromise={stripePromise}>
-            <NextTopLoader color="#1FA856" showSpinner={false} />
-            <Suspense fallback={<Loading />}>{children}</Suspense>
+        <NextTopLoader color="#1FA856" showSpinner={false} />
 
-            {/* Sonner & Toaster */}
-            <Sonner />
-            <Toaster />
+        <Suspense fallback={<Loading />}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <StripeClient stripePromise={stripePromise}>
+              {children}
 
-            {/* Analytics and speed insights */}
-            <Analytics />
-            <SpeedInsights />
-          </StripeClient>
-        </ThemeProvider>
+              <Sonner />
+              <Toaster />
+            </StripeClient>
+          </ThemeProvider>
+        </Suspense>
+
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

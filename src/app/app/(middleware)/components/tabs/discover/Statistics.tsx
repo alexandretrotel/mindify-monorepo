@@ -6,8 +6,11 @@ import type { Tables } from "@/types/supabase";
 
 export const revalidate = 0;
 
-const Statistics = async ({ userId }: { userId: UUID }) => {
+const Statistics = async () => {
   const supabase = createClient();
+
+  const { data: userData } = await supabase.auth.getUser();
+  const userId = userData?.user?.id as UUID;
 
   const { data: userReadsData } = await supabase
     .from("read_summaries")
