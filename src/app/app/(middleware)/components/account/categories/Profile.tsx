@@ -1,11 +1,11 @@
 import H3Span from "@/components/typography/h3AsSpan";
 import { Separator } from "@/components/ui/separator";
 import type { UserMetadata } from "@supabase/supabase-js";
-import AccountBiography from "@/app/app/(middleware)/components/account/navigation/categories/profile/Biography";
-import AccountMail from "@/app/app/(middleware)/components/account/navigation/categories/profile/Mail";
-import AccountName from "@/app/app/(middleware)/components/account/navigation/categories/profile/Name";
-import AccountAvatar from "@/app/app/(middleware)/components/account/navigation/categories/profile/Avatar";
-import AccountTopics from "@/app/app/(middleware)/components/account/navigation/categories/profile/Topics";
+import AccountBiography from "@/app/app/(middleware)/components/account/categories/profile/Biography";
+import AccountMail from "@/app/app/(middleware)/components/account/categories/profile/Mail";
+import AccountName from "@/app/app/(middleware)/components/account/categories/profile/Name";
+import AccountAvatar from "@/app/app/(middleware)/components/account/categories/profile/Avatar";
+import AccountTopics from "@/app/app/(middleware)/components/account/categories/profile/Topics";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";

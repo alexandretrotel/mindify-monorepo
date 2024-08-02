@@ -9,10 +9,12 @@ import { Toaster as Sonner } from "sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { loadStripe } from "@stripe/stripe-js";
 import StripeClient from "@/app/StripeClient";
+import Loading from "@/app/loading";
 
 // Import global styles
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
+import { Suspense } from "react";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -141,7 +143,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <StripeClient stripePromise={stripePromise}>
             <NextTopLoader color="#1FA856" showSpinner={false} />
-            {children}
+            <Suspense fallback={<Loading />}>{children}</Suspense>
 
             {/* Sonner & Toaster */}
             <Sonner />

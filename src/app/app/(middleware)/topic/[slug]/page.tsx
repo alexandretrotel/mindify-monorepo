@@ -3,7 +3,7 @@ import AccountDropdown from "@/components/global/AccountDropdown";
 import H3 from "@/components/typography/h3";
 import { Badge } from "@/components/ui/badge";
 import { supabaseDefaultClient } from "@/utils/supabase/default";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import React, { Suspense } from "react";
 import SummariesByTopicSkeleton from "@/app/app/(middleware)/topic/[slug]/components/skeleton/SummariesByTopicSkeleton";
 import { createClient } from "@/utils/supabase/server";
@@ -17,7 +17,7 @@ export async function generateStaticParams() {
   const { data: topicsData } = await supabaseDefaultClient.from("topics").select("*");
 
   if (!topicsData) {
-    return [];
+    notFound();
   }
 
   return topicsData?.map((topic) => ({

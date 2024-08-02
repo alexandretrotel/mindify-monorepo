@@ -4,7 +4,6 @@ import Discover from "@/app/app/(middleware)/components/tabs/Discover";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import type { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import LibrarySkeleton from "@/app/app/(middleware)/components/skeleton/LibrarySkeleton";
 import { Suspense } from "react";
 import type { SummaryStatus } from "@/types/summary";
@@ -19,11 +18,7 @@ export default async function Home({
 
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data?.user) {
-    redirect("/app/login");
-  }
+  const { data } = await supabase.auth.getUser();
 
   const userId = data?.user?.id as UUID;
 

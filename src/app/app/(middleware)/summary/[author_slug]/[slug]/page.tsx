@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import AddToLibraryButton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/buttons/AddToLibraryButton";
 import MarkAsReadButton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/buttons/MarkAsReadButton";
@@ -35,6 +35,10 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
   const userId = data?.user?.id as UUID;
 
   const summary = await getSummaryFromSlugs(author_slug, slug);
+
+  if (!summary) {
+    notFound();
+  }
 
   return (
     <div className="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-6 md:gap-12">

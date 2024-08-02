@@ -84,7 +84,7 @@ export async function getSummaryFromSlugs(author_slug: string, slug: string) {
     .select("*, authors(*), topics(*)")
     .eq("slug", slug)
     .eq("authors.slug", author_slug)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error(error);
