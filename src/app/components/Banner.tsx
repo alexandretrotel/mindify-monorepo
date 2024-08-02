@@ -25,12 +25,10 @@ export default function Banner() {
 
   if (!timeLeft) {
     return (
-      <div className="hidden w-full items-center justify-center gap-x-6 bg-primary px-6 py-2.5 text-center text-primary sm:px-3.5 md:flex">
-        <Span center>
-          Lancement prévu dans <Semibold>0 jours</Semibold>,{" "}
-          <Semibold>0 heures</Semibold>,{" "}
-          <Semibold>0 minutes</Semibold>, et{" "}
-          <Semibold>0 secondes</Semibold>.
+      <div className="hidden w-full items-center justify-center gap-x-6 bg-primary px-6 py-2.5 text-center sm:px-3.5 md:flex">
+        <Span onPrimaryBackground center>
+          Lancement prévu dans <Semibold>0 jours</Semibold>, <Semibold>0 heures</Semibold>,{" "}
+          <Semibold>0 minutes</Semibold>, et <Semibold>0 secondes</Semibold>.
         </Span>
       </div>
     );
@@ -43,15 +41,17 @@ export default function Banner() {
     timeLeft.seconds === 0
   ) {
     return (
-      <div className="hidden w-full items-center justify-center gap-x-6 bg-primary px-6 py-2.5 text-center text-primary sm:px-3.5 md:flex">
-        <Span center>Mindify est maintenant disponible !</Span>
+      <div className="hidden w-full items-center justify-center gap-x-6 bg-primary px-6 py-2.5 text-center sm:px-3.5 md:flex">
+        <Span onPrimaryBackground center>
+          Mindify est maintenant disponible !
+        </Span>
       </div>
     );
   }
 
   return (
-    <div className="hidden w-full items-center justify-center gap-x-6 bg-primary px-6 py-2.5 text-primary sm:px-3.5 md:flex">
-      <Span center>
+    <div className="hidden w-full items-center justify-center gap-x-6 bg-primary px-6 py-2.5 sm:px-3.5 md:flex">
+      <Span onPrimaryBackground center>
         Lancement prévu dans <Semibold>{timeLeft.days || 0} jours</Semibold>,{" "}
         <Semibold>{timeLeft.hours || 0} heures</Semibold>,{" "}
         <Semibold>{timeLeft.minutes || 0} minutes</Semibold>, et{" "}

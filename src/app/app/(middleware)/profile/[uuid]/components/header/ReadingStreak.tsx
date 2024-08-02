@@ -19,7 +19,7 @@ const ReadingStreak = async ({ profileId }: { profileId: UUID }) => {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="ml-2 flex items-center gap-2">
       <Span>•</Span>
 
       <Semibold>

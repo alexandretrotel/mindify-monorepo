@@ -151,6 +151,42 @@ export type Database = {
           },
         ]
       }
+      saved_minds: {
+        Row: {
+          created_at: string
+          id: number
+          mind_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          mind_id: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          mind_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_minds_mind_id_fkey"
+            columns: ["mind_id"]
+            isOneToOne: false
+            referencedRelation: "minds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saved_minds_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       saved_summaries: {
         Row: {
           created_at: string
@@ -365,6 +401,7 @@ export type Database = {
     }
     Enums: {
       friends_status: "pending" | "accepted" | "blocked"
+      plan: "free" | "pro"
       source: "article" | "podcast" | "video" | "book"
       status: "completed" | "saved"
     }

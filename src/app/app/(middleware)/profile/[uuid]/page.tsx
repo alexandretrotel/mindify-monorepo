@@ -24,6 +24,9 @@ import MyFriendsSkeleton from "@/app/app/(middleware)/profile/[uuid]/components/
 import TopicsListSkeleton from "@/app/app/(middleware)/profile/[uuid]/components/topics/skeleton/TopicsListSkeleton";
 import { getUserCustomAvatarFromUserId } from "@/actions/users";
 import { Muted } from "@/components/typography/muted";
+import ProfileMinds from "@/app/app/(middleware)/profile/[uuid]/components/minds/ProfileMinds";
+import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
+import { Carousel } from "@/components/ui/carousel";
 
 const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const profileId = params.uuid;
@@ -54,10 +57,11 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
               </Avatar>
 
               <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <H4Span>{profileMetadata?.name}</H4Span>
-                  <ReadingStreak profileId={profileId} />
-                </div>
+                <H4Span>
+                  <div className="flex">
+                    {profileMetadata?.name} <ReadingStreak profileId={profileId} />
+                  </div>
+                </H4Span>
 
                 <Muted size="sm">{profileMetadata?.biography ?? "Aucune biographie"}</Muted>
               </div>
@@ -84,8 +88,8 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
 
       <Separator />
 
-      <div className="flex w-full flex-col justify-between gap-8 lg:flex-row">
-        <div className="flex flex-col gap-8 lg:min-w-0 lg:grow">
+      <div className="flex w-full flex-col gap-8">
+        <div className="flex flex-col gap-8 lg:gap-16">
           <div className="flex flex-col gap-4">
             <Span size="lg" semibold>
               <span className="flex items-center">
@@ -106,21 +110,45 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
             </Suspense>
           </div>
 
-          <Suspense fallback={<LibrarySnippetSkeleton />}>
-            <LibrarySnippet profileId={profileId} />
-          </Suspense>
-        </div>
+          <div className="flex flex-col gap-4">
+            <Span size="lg" semibold>
+              <span className="flex items-center">Résumés</span>
+            </Span>
 
-        <div className="flex w-full flex-col gap-8 lg:max-w-sm">
-          {isMyProfile ? (
-            <Suspense fallback={<MyFriendsSkeleton />}>
-              <MyFriends userId={userId} />
+            <Suspense fallback={<LibrarySnippetSkeleton />}>
+              <LibrarySnippet profileId={profileId} />
             </Suspense>
-          ) : (
-            <Suspense fallback={<FriendsSkeleton />}>
-              <Friends profileId={profileId} profileMetadata={profileMetadata} />
-            </Suspense>
-          )}
+          </div>
+
+          <Suspense
+            fallback={
+              <Carousel>
+                <MindsSkeleton />
+              </Carousel>
+            }
+          >
+            <ProfileMinds profileId={profileId} />
+          </Suspense>
+
+          <div className="grid gap-8 lg:grid-cols-2 lg:gap-4">
+            <div className="flex flex-col gap-4">
+              <Span size="lg" semibold>
+                <span className="flex items-center">Amis</span>
+              </Span>
+
+              <div className="w-full">
+                {isMyProfile ? (
+                  <Suspense fallback={<MyFriendsSkeleton />}>
+                    <MyFriends userId={userId} />
+                  </Suspense>
+                ) : (
+                  <Suspense fallback={<FriendsSkeleton />}>
+                    <Friends profileId={profileId} profileMetadata={profileMetadata} />
+                  </Suspense>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

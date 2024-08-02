@@ -77,7 +77,7 @@ export async function signInWithPassword(formData: FormData) {
     throw new Error("Identifiants invalides");
   }
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { error, data: userData } = await supabase.auth.signInWithPassword({
     email: data.email,
     password: data.password
   });
@@ -85,6 +85,10 @@ export async function signInWithPassword(formData: FormData) {
   if (error) {
     console.error(error);
     throw new Error("Impossible de se connecter avec ces identifiants. Veuillez réessayer.");
+  }
+
+  if (userData?.weakPassword) {
+    throw new Error("Le mot de passe est faible. Veuillez le changer.");
   }
 
   revalidatePath("/", "layout");

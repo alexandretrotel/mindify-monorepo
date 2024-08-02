@@ -1,8 +1,8 @@
 import type { AccountCategory } from "@/types/account";
-import AccountSubscription from "@/app/app/(middleware)/components/account/navigation/categories/Subscription";
-import AccountNotifications from "@/app/app/(middleware)/components/account/navigation/categories/Notifications";
-import AccountSettings from "@/app/app/(middleware)/components/account/navigation/categories/Settings";
-import AccountProfile from "@/app/app/(middleware)/components/account/navigation/categories/Profile";
+import AccountSubscription from "@/app/app/(middleware)/components/account/categories/Subscription";
+import AccountNotifications from "@/app/app/(middleware)/components/account/categories/Notifications";
+import AccountSettings from "@/app/app/(middleware)/components/account/categories/Settings";
+import AccountProfile from "@/app/app/(middleware)/components/account/categories/Profile";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";

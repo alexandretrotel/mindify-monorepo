@@ -13,5 +13,8 @@ export function getTextSizeClass(size: string): string {
   }
 }
 
-export const getPrimaryColor = (isPrimaryColor: boolean) =>
-  isPrimaryColor ? "text-primary" : "text-foreground";
+export const getColorOnPrimaryBackground = (onPrimaryBackground: boolean) =>
+  onPrimaryBackground ? "text-primary-foreground" : "text-foreground";
+
+export const getPrimaryColor = (isPrimaryColor: boolean, onPrimaryBackground: boolean) =>
+  isPrimaryColor ? "text-primary" : getColorOnPrimaryBackground(onPrimaryBackground);

@@ -6,19 +6,20 @@ import type { SummaryStatus } from "@/types/summary";
 import type { Tables, Enums } from "@/types/supabase";
 
 const Library = async ({
-  userId,
   initialSearch,
   initialTopic,
   initialSource,
   initialStatus
 }: {
-  userId: UUID;
   initialSearch: string | undefined;
   initialTopic: string | undefined;
   initialSource: Enums<"source"> | undefined;
   initialStatus: SummaryStatus | undefined;
 }) => {
   const supabase = createClient();
+
+  const { data: userData } = await supabase.auth.getUser();
+  const userId = userData?.user?.id as UUID;
 
   const { data: summariesData } = await supabase
     .from("summaries")

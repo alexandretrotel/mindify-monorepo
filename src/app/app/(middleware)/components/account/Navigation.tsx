@@ -6,7 +6,7 @@ import {
 import { BellRingIcon, CreditCardIcon, SettingsIcon, UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account";
-import AccountCategories from "@/app/app/(middleware)/components/account/navigation/Categories";
+import AccountCategories from "@/app/app/(middleware)/components/account/Categories";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";

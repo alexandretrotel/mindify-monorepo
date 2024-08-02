@@ -84,7 +84,7 @@ export async function getSummaryFromSlugs(author_slug: string, slug: string) {
     .select("*, authors(*), topics(*)")
     .eq("slug", slug)
     .eq("authors.slug", author_slug)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error(error);
@@ -101,7 +101,7 @@ export async function getSummaryChapters(summary_id: number) {
     .from("summaries")
     .select("*, chapters(*)")
     .eq("id", summary_id)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error(error);
@@ -225,12 +225,10 @@ export async function getMostPopularSummaries() {
 
   if (error) {
     console.error(error);
-    throw new Error("Impossible de récupérer les résumés populaires par catégorie.");
+    throw new Error("Impossible de récupérer les résumés populaires.");
   }
 
-  const excludeSameTopics = userReadsData?.filter((read) => read.summaries);
-
-  const summaryReadCounts = excludeSameTopics?.reduce<SummaryReadCounts>((acc, read) => {
+  const summaryReadCounts = userReadsData?.reduce<SummaryReadCounts>((acc, read) => {
     const summaryId = read?.summary_id;
 
     if (!acc[summaryId]) {

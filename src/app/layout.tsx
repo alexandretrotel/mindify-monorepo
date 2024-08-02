@@ -7,10 +7,14 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster as Sonner } from "sonner";
 import { Toaster } from "@/components/ui/toaster";
+import { loadStripe } from "@stripe/stripe-js";
+import StripeClient from "@/app/StripeClient";
+import Loading from "@/app/loading";
 
 // Import global styles
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
+import { Suspense } from "react";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -121,6 +125,8 @@ export const viewport: Viewport = {
   userScalable: false
 };
 
+export const stripePromise = loadStripe(process.env.STRIPE_SECRET_KEY!);
+
 export default function RootLayout({
   children
 }: Readonly<{
@@ -134,18 +140,21 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <NextTopLoader color="#1FA856" showSpinner={false} />
-          {children}
+        <NextTopLoader color="#1FA856" showSpinner={false} />
 
-          {/* Sonner & Toaster */}
-          <Sonner />
-          <Toaster />
+        <Suspense fallback={<Loading />}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <StripeClient stripePromise={stripePromise}>
+              {children}
 
-          {/* Analytics and speed insights */}
-          <Analytics />
-          <SpeedInsights />
-        </ThemeProvider>
+              <Sonner />
+              <Toaster />
+            </StripeClient>
+          </ThemeProvider>
+        </Suspense>
+
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

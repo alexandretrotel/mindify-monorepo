@@ -7,12 +7,14 @@ import H3 from "@/components/typography/h3";
 import H5Span from "@/components/typography/h5AsSpan";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
-import Span from "@/components/typography/span";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 
-const Categories = async ({ userId }: { userId: UUID }) => {
+const Categories = async () => {
   const supabase = createClient();
+
+  const { data: userData } = await supabase.auth.getUser();
+  const userId = userData?.user?.id as UUID;
 
   const { data: userTopicsData } = await supabase
     .from("user_topics")
@@ -50,7 +52,7 @@ const Categories = async ({ userId }: { userId: UUID }) => {
         <CarouselContent className="-ml-4">
           {(sortedUserTopics?.length >= 3 ? sortedUserTopics : sortedTopics)
             ?.reduce((acc, topic, index) => {
-              const chunkIndex = Math.floor(index / 6);
+              const chunkIndex = Math.floor(index / 8);
 
               if (!acc[chunkIndex]) {
                 acc[chunkIndex] = [];
@@ -61,7 +63,7 @@ const Categories = async ({ userId }: { userId: UUID }) => {
             }, [] as Tables<"topics">[][])
             .map((topicChunk, index) => (
               <CarouselItem key={index} className="pl-4">
-                <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+                <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
                   {topicChunk.map((topic) => (
                     <Button asChild key={topic.id} className="col-span-1">
                       <Link href={`/app/topic/${topic.slug}`} className="w-full">

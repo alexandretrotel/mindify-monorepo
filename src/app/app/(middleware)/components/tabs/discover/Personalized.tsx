@@ -14,8 +14,11 @@ import { getUserPersonalizedSummariesFromInterests } from "@/actions/users";
 import type { UUID } from "crypto";
 import { Muted } from "@/components/typography/muted";
 
-const Personalized = async ({ userId }: { userId: UUID }) => {
+const Personalized = async () => {
   const supabase = createClient();
+
+  const { data: userData } = await supabase.auth.getUser();
+  const userId = userData?.user?.id as UUID;
 
   const summariesMatchingUserTopics = await getUserPersonalizedSummariesFromInterests(userId);
 
@@ -51,7 +54,7 @@ const Personalized = async ({ userId }: { userId: UUID }) => {
             ?.slice(0, 15)
             ?.map((summary) => {
               return (
-                <CarouselItem key={summary.id} className="basis-1/2 pl-4 lg:basis-1/3">
+                <CarouselItem key={summary.id} className="pl-4 lg:basis-1/4">
                   <Link
                     href={`/app/summary/${summary.author_slug}/${summary.slug}`}
                     className="h-full"

@@ -10,7 +10,7 @@ export async function getAuthorFromSlug(slug: string) {
     .from("authors")
     .select("*")
     .eq("slug", slug)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error(error);
@@ -27,7 +27,7 @@ export async function getAuthorFromSummaryId(summaryId: number) {
     .from("summaries")
     .select("authors(*)")
     .eq("id", summaryId)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error(error);
@@ -44,7 +44,7 @@ export async function getAuthorSlugFromSummaryId(summaryId: number) {
     .from("summaries")
     .select("authors(*)")
     .eq("id", summaryId)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error(error);

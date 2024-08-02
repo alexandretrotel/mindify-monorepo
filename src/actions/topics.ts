@@ -48,7 +48,7 @@ export async function getTopicFromSummaryId(summary_id: number) {
     .from("summaries")
     .select("topics(*)")
     .eq("id", summary_id)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error(error);
@@ -61,7 +61,7 @@ export async function getTopicFromSummaryId(summary_id: number) {
 export async function getTopicFromTopicSlug(slug: string) {
   const supabase = createClient();
 
-  const { data, error } = await supabase.from("topics").select("*").eq("slug", slug).single();
+  const { data, error } = await supabase.from("topics").select("*").eq("slug", slug).maybeSingle();
 
   if (error) {
     console.error(error);
