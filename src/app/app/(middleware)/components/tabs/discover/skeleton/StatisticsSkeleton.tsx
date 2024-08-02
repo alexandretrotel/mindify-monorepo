@@ -6,11 +6,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 const StatisticsSkeleton = async () => {
   return (
     <div className="flex flex-col gap-4">
-      <div className="block lg:hidden">
-        <H3>Mes statistiques</H3>
-      </div>
+      <H3>Mes statistiques</H3>
 
-      <div className="grid grid-cols-2 gap-4 lg:h-full lg:grid-cols-1">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
         <Card className="lg:max-w-md">
           <CardHeader className="space-y-0 md:pb-0">
             <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
