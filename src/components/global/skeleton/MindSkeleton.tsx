@@ -26,9 +26,13 @@ const MindSkeleton = () => {
       </CardContent>
       <CardFooter>
         <div className="grid w-full grid-cols-2 gap-4">
-          <Button variant="outline">Enregistrer</Button>
+          <Button variant="outline" disabled>
+            Enregistrer
+          </Button>
 
-          <Button variant="secondary">Partager</Button>
+          <Button variant="secondary" disabled>
+            Partager
+          </Button>
         </div>
       </CardFooter>
     </Card>
