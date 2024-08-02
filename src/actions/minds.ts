@@ -192,7 +192,7 @@ export async function isMindSaved(mindId: number) {
     .select("*")
     .eq("user_id", userId)
     .eq("mind_id", mindId)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error(error);

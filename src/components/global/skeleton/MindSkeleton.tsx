@@ -1,6 +1,5 @@
 import H3Span from "@/components/typography/h3AsSpan";
 import { Muted } from "@/components/typography/muted";
-import P from "@/components/typography/p";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -20,9 +19,7 @@ const MindSkeleton = () => {
         </div>
       </CardHeader>
       <CardContent>
-        <P size="lg">
-          <Skeleton className="h-32 w-full" />
-        </P>
+        <Skeleton className="h-32 w-full" />
       </CardContent>
       <CardFooter>
         <div className="grid w-full grid-cols-2 gap-4">

@@ -37,9 +37,10 @@ yarn-error.log*
 next-env.d.ts
 
 # pwa
-sw*.js
+sw.js
 sw.js.map
 workbox-*.js
+workbox-*.js.map
 
 # Sentry Config File
 .env.sentry-build-plugin

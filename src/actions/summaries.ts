@@ -101,7 +101,7 @@ export async function getSummaryChapters(summary_id: number) {
     .from("summaries")
     .select("*, chapters(*)")
     .eq("id", summary_id)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error(error);
