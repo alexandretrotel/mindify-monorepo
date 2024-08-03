@@ -258,11 +258,17 @@ export async function getUserPersonalizedSummariesFromInterests(userId: UUID) {
     userTopics?.some((topic) => topic?.id === summary?.topics?.id)
   ) as (Tables<"summaries"> & { topics: Tables<"topics">; authors: Tables<"authors"> })[];
 
-  const userPersonalizedSummaries = userPersonalizedSummariesNotPopulated?.map((summary) => ({
-    ...summary,
-    topic: summary?.topics?.name as string,
-    author_slug: summary?.authors?.slug as string
-  })) as (Tables<"summaries"> & { topic: string; author_slug: string } & {
+  const alreadyReadSummaries = await getUserReadsIds(userId);
+
+  const userPersonalizedSummaries = userPersonalizedSummariesNotPopulated
+    ?.filter((summary) => {
+      return !alreadyReadSummaries?.includes(summary?.id);
+    })
+    ?.map((summary) => ({
+      ...summary,
+      topic: summary?.topics?.name,
+      author_slug: summary?.authors?.slug
+    })) as (Tables<"summaries"> & { topic: string; author_slug: string } & {
     topics: Tables<"topics">;
     authors: Tables<"authors">;
   })[];
