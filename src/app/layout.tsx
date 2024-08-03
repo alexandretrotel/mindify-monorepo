@@ -64,12 +64,6 @@ export const metadata: Metadata = {
         width: 600,
         height: 600,
         alt: "Mindify"
-      },
-      {
-        url: "/og-alt.png",
-        width: 1800,
-        height: 1600,
-        alt: "Mindify"
       }
     ]
   },
