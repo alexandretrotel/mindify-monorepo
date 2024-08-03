@@ -96,14 +96,6 @@ export default function AuthProviders({ isSignup }: Readonly<{ isSignup: boolean
       <Button variant="outline" onClick={() => handleSignInWithSocials("google")}>
         {isSignup ? "S'inscrire" : "Se connecter"} avec Google
       </Button>
-
-      <Button variant="outline" onClick={() => handleSignInWithSocials("facebook")}>
-        {isSignup ? "S'inscrire" : "Se connecter"} avec Facebook
-      </Button>
-
-      <Button variant="outline" onClick={() => handleSignInWithSocials("linkedin_oidc")}>
-        {isSignup ? "S'inscrire" : "Se connecter"} avec Linkedin
-      </Button>
     </div>
   );
 }
