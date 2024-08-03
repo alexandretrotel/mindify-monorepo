@@ -73,7 +73,7 @@ const StatisticsClient = ({
       <H3>Mon activité</H3>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-        <Card className="lg:max-w-md">
+        <Card className="h-fit lg:max-w-md">
           <CardHeader className="space-y-0 lg:pb-2">
             <CardDescription>{summariesRead > 1 ? "Résumés lus" : "Résumé lu"}</CardDescription>
             <CardTitle className="text-4xl tabular-nums">
@@ -138,7 +138,7 @@ const StatisticsClient = ({
           </CardContent>
         </Card>
 
-        <Card className="lg:max-w-md">
+        <Card className="h-fit lg:max-w-md">
           <CardHeader className="space-y-0 md:pb-0">
             <CardDescription>Temps de lecture</CardDescription>
             <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
