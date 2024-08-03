@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     images: [
       {
-        url: "/og-image.png",
+        url: "/open-graph/og-image.png",
         width: 600,
         height: 600,
         alt: "Mindify"
@@ -96,7 +96,7 @@ export const metadata: Metadata = {
     creator: "@trotelalexandre",
     description:
       "Mindify est une plateforme vous permettant d'élargir vos connaissances à partir de résumés de livres, de podcasts et de vidéos.",
-    images: { url: "/og-image.png", alt: "Mindify" }
+    images: { url: "/open-graph/og-image.png", alt: "Mindify" }
   },
   appleWebApp: {
     title: "Mindify",
