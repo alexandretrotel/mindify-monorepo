@@ -11,6 +11,8 @@ import SavedSummariesSkeleton from "@/app/app/(middleware)/components/tabs/disco
 import StatisticsSkeleton from "@/app/app/(middleware)/components/tabs/discover/skeleton/StatisticsSkeleton";
 import PopularMinds from "@/app/app/(middleware)/components/tabs/discover/PopularMinds";
 import PopularMindsSkeleton from "@/app/app/(middleware)/components/tabs/discover/skeleton/PopularMindsSkeleton";
+import RandomMinds from "@/app/app/(middleware)/components/tabs/discover/RandomMinds";
+import RandomMindsSkeleton from "@/app/app/(middleware)/components/tabs/discover/skeleton/randomMindsSkeleton";
 
 const Discover = async () => {
   return (
@@ -36,6 +38,10 @@ const Discover = async () => {
 
         <Suspense fallback={<CategoriesSkeleton />}>
           <Categories />
+        </Suspense>
+
+        <Suspense fallback={<RandomMindsSkeleton />}>
+          <RandomMinds />
         </Suspense>
 
         <Suspense fallback={<SavedSummariesSkeleton />}>

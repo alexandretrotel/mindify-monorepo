@@ -32,6 +32,18 @@ const StatisticsSkeleton = async () => {
             <Skeleton className="h-64 w-full" />
           </CardContent>
         </Card>
+
+        <Card className="lg:max-w-md">
+          <CardHeader className="space-y-0 md:pb-0">
+            <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
+              <Skeleton className="mb-4 h-16 w-full" />
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent className="hidden lg:block">
+            <Skeleton className="h-64 w-full" />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
