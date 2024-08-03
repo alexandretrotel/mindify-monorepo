@@ -10,7 +10,7 @@ export default function Loading() {
   return (
     <main className="flex h-screen min-h-full items-center justify-center">
       <div className="flex flex-col gap-8">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
           <Span size="lg">{citation.citation}</Span>
           <Semibold size="sm">{citation.author}</Semibold>
         </div>

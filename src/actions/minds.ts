@@ -187,7 +187,7 @@ export async function isMindSaved(mindId: number) {
     throw new Error("Impossible de récupérer l'utilisateur");
   }
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("saved_minds")
     .select("*")
     .eq("user_id", userId)
@@ -199,5 +199,31 @@ export async function isMindSaved(mindId: number) {
     throw new Error("Impossible de vérifier si le mind est sauvegardé.");
   }
 
-  return true;
+  if (data) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export async function getRandomMinds() {
+  const supabase = createClient();
+
+  const { data: mindsData, error } = await supabase
+    .from("minds")
+    .select("*, summaries(*, topics(*), authors(*))");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les minds.");
+  }
+
+  const randomMinds = [...mindsData]?.sort(() => Math.random() - 0.5);
+
+  return randomMinds as (Tables<"minds"> & {
+    summaries: Tables<"summaries"> & {
+      topics: Tables<"topics">;
+      authors: Tables<"authors">;
+    };
+  })[];
 }

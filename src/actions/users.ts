@@ -258,11 +258,17 @@ export async function getUserPersonalizedSummariesFromInterests(userId: UUID) {
     userTopics?.some((topic) => topic?.id === summary?.topics?.id)
   ) as (Tables<"summaries"> & { topics: Tables<"topics">; authors: Tables<"authors"> })[];
 
-  const userPersonalizedSummaries = userPersonalizedSummariesNotPopulated?.map((summary) => ({
-    ...summary,
-    topic: summary?.topics?.name as string,
-    author_slug: summary?.authors?.slug as string
-  })) as (Tables<"summaries"> & { topic: string; author_slug: string } & {
+  const alreadyReadSummaries = await getUserReadsIds(userId);
+
+  const userPersonalizedSummaries = userPersonalizedSummariesNotPopulated
+    ?.filter((summary) => {
+      return !alreadyReadSummaries?.includes(summary?.id);
+    })
+    ?.map((summary) => ({
+      ...summary,
+      topic: summary?.topics?.name,
+      author_slug: summary?.authors?.slug
+    })) as (Tables<"summaries"> & { topic: string; author_slug: string } & {
     topics: Tables<"topics">;
     authors: Tables<"authors">;
   })[];
@@ -394,4 +400,33 @@ export async function getUserTopics(user_id: UUID) {
   const topics = data?.flatMap((item) => item?.topics as Tables<"topics">);
 
   return topics;
+}
+
+export async function getSummariesRepartition(userId: UUID) {
+  const { data: readSummariesData, error: readSummariesError } = await supabaseAdmin
+    .from("read_summaries")
+    .select("*, summaries(*, topics(*))")
+    .eq("user_id", userId);
+
+  if (readSummariesError) {
+    console.error(readSummariesError);
+    throw new Error("Impossible de récupérer les lectures.");
+  }
+
+  // we want to return an array of {topic: string, summaries: number}
+
+  const topics = readSummariesData?.map((read) => read?.summaries?.topics?.name);
+
+  const topicsSet = new Set(topics);
+
+  const topicsArray = Array.from(topicsSet);
+
+  const topicsRepartition = topicsArray.map((topic) => {
+    return {
+      topic: topic as string,
+      summaries: topics?.filter((topicName) => topicName === topic)?.length
+    };
+  });
+
+  return topicsRepartition;
 }

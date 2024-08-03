@@ -4,11 +4,15 @@ import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
 import BookCoverSkeleton from "@/components/global/skeleton/BookCoverSkeleton";
+import { Badge } from "@/components/ui/badge";
 
 const LibrarySkeleton = async () => {
   return (
     <div className="flex w-full flex-col gap-4">
-      <H3>Librairie</H3>
+      <div className="flex items-center gap-2">
+        <H3>Librairie</H3>
+        <Badge>0 résumé</Badge>
+      </div>
 
       <div className="flex w-full flex-col justify-between gap-4 md:flex-row">
         <div className="min-w-md relative max-w-md flex-1">

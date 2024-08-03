@@ -4,17 +4,36 @@ import "client-only";
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import H3 from "@/components/typography/h3";
-import { Area, AreaChart, Bar, BarChart, Rectangle, XAxis, YAxis } from "recharts";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  PolarAngleAxis,
+  PolarGrid,
+  Radar,
+  RadarChart,
+  Rectangle,
+  XAxis,
+  YAxis
+} from "recharts";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent
+} from "@/components/ui/chart";
 import { getDateRangeUntilNow } from "@/utils/date";
 import type { Tables } from "@/types/supabase";
 
 const StatisticsClient = ({
   userReads,
-  summaries
+  summaries,
+  readingRepartition
 }: {
   userReads: Tables<"read_summaries">[];
   summaries: Tables<"summaries">[];
+  readingRepartition: { topic: string; summaries: number }[];
 }) => {
   const summariesRead = userReads?.length;
 
@@ -68,12 +87,21 @@ const StatisticsClient = ({
   const totalReadingTimeInHours = Math.floor((totalReadingTime - totalReadingTimeInMinutes) / 60);
   const remainingMinutes = totalReadingTime % 60;
 
+  const radarChartData = readingRepartition;
+
+  const radarChartConfig = {
+    desktop: {
+      label: "Résumés",
+      color: "hsl(var(--chart-1))"
+    }
+  } satisfies ChartConfig;
+
   return (
     <div className="flex flex-col gap-4">
       <H3>Mon activité</H3>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-        <Card className="lg:max-w-md">
+        <Card className="h-fit lg:max-w-md">
           <CardHeader className="space-y-0 lg:pb-2">
             <CardDescription>{summariesRead > 1 ? "Résumés lus" : "Résumé lu"}</CardDescription>
             <CardTitle className="text-4xl tabular-nums">
@@ -138,7 +166,7 @@ const StatisticsClient = ({
           </CardContent>
         </Card>
 
-        <Card className="lg:max-w-md">
+        <Card className="h-fit lg:max-w-md">
           <CardHeader className="space-y-0 md:pb-0">
             <CardDescription>Temps de lecture</CardDescription>
             <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
@@ -208,6 +236,27 @@ const StatisticsClient = ({
             </ChartContainer>
           </CardContent>
         </Card>
+
+        {readingRepartition?.length > 0 && (
+          <Card className="hidden lg:block">
+            <CardHeader className="pb-4">
+              <CardTitle>Répartition</CardTitle>
+            </CardHeader>
+            <CardContent className="pb-0">
+              <ChartContainer
+                config={radarChartConfig}
+                className="mx-auto aspect-square max-h-[250px] w-full"
+              >
+                <RadarChart data={radarChartData}>
+                  <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                  <PolarAngleAxis dataKey="topic" />
+                  <PolarGrid />
+                  <Radar dataKey="summaries" fill="var(--color-desktop)" fillOpacity={0.6} />
+                </RadarChart>
+              </ChartContainer>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );

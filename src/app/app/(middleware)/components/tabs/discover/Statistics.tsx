@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import StatisticsClient from "@/app/app/(middleware)/components/tabs/discover/client/StatisticsClient";
 import type { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
+import { getSummariesRepartition } from "@/actions/users";
 
 export const revalidate = 0;
 
@@ -20,10 +21,13 @@ const Statistics = async () => {
   const userReads = userReadsData;
   const summaries = userReadsData?.map((item) => item?.summaries);
 
+  const readingRepartitionData = await getSummariesRepartition(userId);
+
   return (
     <StatisticsClient
       userReads={userReads as Tables<"read_summaries">[]}
       summaries={summaries as Tables<"summaries">[]}
+      readingRepartition={readingRepartitionData}
     />
   );
 };

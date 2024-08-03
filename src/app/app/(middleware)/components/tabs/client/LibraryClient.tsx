@@ -23,6 +23,7 @@ import H3Span from "@/components/typography/h3AsSpan";
 import { statusToString } from "@/utils/summary";
 import Fuse from "fuse.js";
 import type { Enums, Tables } from "@/types/supabase";
+import { Badge } from "@/components/ui/badge";
 
 const statuses: SummaryStatusesWithValue = [
   { id: 1, name: "Pas commencé", value: "not_started" },
@@ -148,7 +149,12 @@ const LibraryClient = ({
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <H3>Librairie</H3>
+      <div className="flex items-center gap-2">
+        <H3>Librairie</H3>
+        <Badge>
+          {filteredSummaries?.length} {filteredSummaries?.length > 1 ? "résumés" : "résumé"}
+        </Badge>
+      </div>
 
       <div className="flex w-full flex-col justify-between gap-4 md:flex-row">
         <div className="min-w-md relative max-w-md flex-1">
