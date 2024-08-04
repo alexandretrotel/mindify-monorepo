@@ -5,6 +5,7 @@ import { getMindsFromUserId, isMindSaved } from "@/actions/minds";
 import type { Tables } from "@/types/supabase";
 import Span from "@/components/typography/span";
 import { Carousel } from "@/components/ui/carousel";
+import { Badge } from "@/components/ui/badge";
 
 const ProfileMinds = async ({ profileId }: { profileId: UUID }) => {
   const profileMinds = (await getMindsFromUserId(profileId)) as (Tables<"minds"> & {
@@ -24,9 +25,13 @@ const ProfileMinds = async ({ profileId }: { profileId: UUID }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <Span size="lg" semibold>
-        <span className="flex items-center">MINDS</span>
-      </Span>
+      <div className="flex items-center gap-2">
+        <Span size="lg" semibold>
+          MINDS
+        </Span>
+        <Badge>{profileMinds?.length} MINDS</Badge>
+      </div>
+
       <Carousel opts={{ align: "start", slidesToScroll: "auto" }} className="w-full">
         <MindsClient minds={profileMinds} initialAreSaved={initialAreSaved} />
       </Carousel>
