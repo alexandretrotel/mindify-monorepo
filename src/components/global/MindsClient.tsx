@@ -25,7 +25,7 @@ const MindsClient = ({
       <CarouselContent className="-ml-4 flex">
         {minds?.map((mind, index) => {
           return (
-            <CarouselItem key={mind.id} className="h-full pl-4 lg:basis-1/2">
+            <CarouselItem key={mind.id} className="pl-4 lg:basis-1/2">
               <Mind mind={mind} initialIsSaved={initialAreSaved[index]} />
             </CarouselItem>
           );

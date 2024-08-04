@@ -2,7 +2,6 @@
 import "client-only";
 
 import React, { useState } from "react";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import H4Span from "@/components/typography/h4AsSpan";
 import P from "@/components/typography/p";
 import { Button } from "@/components/ui/button";
@@ -57,54 +56,54 @@ const Mind = ({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <H4Span>{mind?.summaries?.title}</H4Span>
-        <Muted size="sm">{mind?.summaries?.authors?.name}</Muted>
-      </CardHeader>
-      <CardContent>
-        <P size="lg">{mind?.text}</P>
-      </CardContent>
-      <CardFooter>
-        <div className="grid w-full grid-cols-2 gap-4">
-          <Button variant={isSaved ? "default" : "outline"} onClick={handleSaveMind}>
-            {isSaved ? "Enregistré" : "Enregistrer"}
-          </Button>
-
-          <Button
-            disabled
-            variant="secondary"
-            onClick={() => {
-              if (navigator.share) {
-                navigator.share({
-                  title: mind?.summaries?.title,
-                  text: mind?.text,
-                  url: window.location.href
-                });
-
-                return;
-              }
-
-              if (navigator.clipboard) {
-                navigator.clipboard.writeText(window.location.href);
-                toast({
-                  title: "Lien copié",
-                  description: "Le lien a été copié dans le presse-papiers."
-                });
-              } else {
-                toast({
-                  title: "Erreur",
-                  description: "Impossible de partager le mind.",
-                  variant: "destructive"
-                });
-              }
-            }}
-          >
-            Partager
-          </Button>
+    <div className="flex h-full flex-col justify-between gap-4 rounded-lg border p-6">
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col">
+          <H4Span>{mind?.summaries?.title}</H4Span>
+          <Muted size="sm">{mind?.summaries?.authors?.name}</Muted>
         </div>
-      </CardFooter>
-    </Card>
+
+        <P size="lg">{mind?.text}</P>
+      </div>
+
+      <div className="grid w-full grid-cols-2 gap-4">
+        <Button variant={isSaved ? "default" : "outline"} onClick={handleSaveMind}>
+          {isSaved ? "Enregistré" : "Enregistrer"}
+        </Button>
+
+        <Button
+          disabled
+          variant="secondary"
+          onClick={() => {
+            if (navigator.share) {
+              navigator.share({
+                title: mind?.summaries?.title,
+                text: mind?.text,
+                url: window.location.href
+              });
+
+              return;
+            }
+
+            if (navigator.clipboard) {
+              navigator.clipboard.writeText(window.location.href);
+              toast({
+                title: "Lien copié",
+                description: "Le lien a été copié dans le presse-papiers."
+              });
+            } else {
+              toast({
+                title: "Erreur",
+                description: "Impossible de partager le mind.",
+                variant: "destructive"
+              });
+            }
+          }}
+        >
+          Partager
+        </Button>
+      </div>
+    </div>
   );
 };
 

@@ -15,7 +15,7 @@ const MindsSkeleton = () => {
     <>
       <CarouselContent className="-ml-4 flex">
         {Array.from({ length: 10 }, (_, index) => index).map((_, index) => (
-          <CarouselItem key={index} className="h-full pl-4 lg:basis-1/2">
+          <CarouselItem key={index} className="pl-4 lg:basis-1/2">
             <MindSkeleton />
           </CarouselItem>
         ))}
