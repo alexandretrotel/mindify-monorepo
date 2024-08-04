@@ -239,7 +239,7 @@ const StatisticsClient = ({
         </div>
 
         {readingRepartition?.length > 0 && (
-          <div className="flex flex-col gap-2 rounded-lg border">
+          <div className="hidden flex-col gap-2 rounded-lg border lg:flex">
             <div className="space-y-0 p-6 lg:pb-2">
               <CardTitle>Répartition</CardTitle>
             </div>
