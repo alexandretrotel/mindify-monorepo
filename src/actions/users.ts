@@ -413,8 +413,6 @@ export async function getSummariesRepartition(userId: UUID) {
     throw new Error("Impossible de récupérer les lectures.");
   }
 
-  // we want to return an array of {topic: string, summaries: number}
-
   const topics = readSummariesData?.map((read) => read?.summaries?.topics?.name);
 
   const topicsSet = new Set(topics);

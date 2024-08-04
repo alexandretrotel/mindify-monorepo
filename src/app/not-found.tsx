@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <main className="flex h-screen min-h-full items-center justify-center">
+    <main className="flex h-screen min-h-full items-center justify-center px-4">
       <div className="text-center">
         <Span primaryColor>404</Span>
         <H1>Page non trouvée</H1>

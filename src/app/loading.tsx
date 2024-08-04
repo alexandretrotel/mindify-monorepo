@@ -8,7 +8,7 @@ export default function Loading() {
   const citation = citations[Math.floor(Math.random() * citations.length)];
 
   return (
-    <main className="flex h-screen min-h-full items-center justify-center">
+    <main className="flex h-screen min-h-full items-center justify-center px-4">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-2">
           <Span size="lg">{citation.citation}</Span>

@@ -100,7 +100,7 @@ const StatisticsClient = ({
     <div className="flex flex-col gap-4">
       <H3>Mon activité</H3>
 
-      <div className="grid h-72 grid-cols-2 gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 lg:h-72 lg:grid-cols-3">
         <div className="flex flex-col gap-2 rounded-lg border p-6">
           <div className="space-y-0 lg:pb-2">
             <CardDescription>{summariesRead > 1 ? "Résumés lus" : "Résumé lu"}</CardDescription>
