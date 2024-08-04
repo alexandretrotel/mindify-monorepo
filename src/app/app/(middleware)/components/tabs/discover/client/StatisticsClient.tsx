@@ -2,7 +2,7 @@
 import "client-only";
 
 import React from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardDescription, CardTitle } from "@/components/ui/card";
 import H3 from "@/components/typography/h3";
 import {
   Area,
@@ -87,7 +87,7 @@ const StatisticsClient = ({
   const totalReadingTimeInHours = Math.floor((totalReadingTime - totalReadingTimeInMinutes) / 60);
   const remainingMinutes = totalReadingTime % 60;
 
-  const radarChartData = readingRepartition;
+  const radarChartData = [...readingRepartition]?.sort((a, b) => a?.topic?.localeCompare(b?.topic));
 
   const radarChartConfig = {
     desktop: {
@@ -100,9 +100,9 @@ const StatisticsClient = ({
     <div className="flex flex-col gap-4">
       <H3>Mon activité</H3>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-        <Card className="h-fit lg:max-w-md">
-          <CardHeader className="space-y-0 lg:pb-2">
+      <div className="grid h-72 grid-cols-2 gap-4 lg:grid-cols-3">
+        <div className="flex flex-col gap-2 rounded-lg border p-6">
+          <div className="space-y-0 lg:pb-2">
             <CardDescription>{summariesRead > 1 ? "Résumés lus" : "Résumé lu"}</CardDescription>
             <CardTitle className="text-4xl tabular-nums">
               {summariesRead}{" "}
@@ -110,8 +110,9 @@ const StatisticsClient = ({
                 {summariesRead > 1 ? "résumés" : "résumé"}
               </span>
             </CardTitle>
-          </CardHeader>
-          <CardContent className="hidden lg:block">
+          </div>
+
+          <div className="hidden lg:block">
             <ChartContainer
               config={{
                 reads: {
@@ -163,11 +164,11 @@ const StatisticsClient = ({
                 />
               </BarChart>
             </ChartContainer>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="h-fit lg:max-w-md">
-          <CardHeader className="space-y-0 md:pb-0">
+        <div className="flex flex-col gap-2 rounded-lg border">
+          <div className="space-y-0 p-6 lg:pb-2">
             <CardDescription>Temps de lecture</CardDescription>
             <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
               {totalReadingTimeInHours > 0 && (
@@ -183,9 +184,9 @@ const StatisticsClient = ({
                 {remainingMinutes > 1 ? "mins" : "min"}
               </span>
             </CardTitle>
-          </CardHeader>
+          </div>
 
-          <CardContent className="hidden p-0 lg:block">
+          <div className="hidden p-0 lg:block">
             <ChartContainer
               config={{
                 time: {
@@ -234,28 +235,27 @@ const StatisticsClient = ({
                 />
               </AreaChart>
             </ChartContainer>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {readingRepartition?.length > 0 && (
-          <Card className="hidden lg:block">
-            <CardHeader className="pb-4">
+          <div className="flex flex-col gap-2 rounded-lg border">
+            <div className="space-y-0 p-6 lg:pb-2">
               <CardTitle>Répartition</CardTitle>
-            </CardHeader>
-            <CardContent className="pb-0">
-              <ChartContainer
-                config={radarChartConfig}
-                className="mx-auto aspect-square max-h-[250px] w-full"
-              >
-                <RadarChart data={radarChartData}>
-                  <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-                  <PolarAngleAxis dataKey="topic" />
-                  <PolarGrid />
-                  <Radar dataKey="summaries" fill="var(--color-desktop)" fillOpacity={0.6} />
-                </RadarChart>
-              </ChartContainer>
-            </CardContent>
-          </Card>
+            </div>
+
+            <ChartContainer
+              config={radarChartConfig}
+              className="mx-auto aspect-square h-[250px] max-h-[250px] w-full pb-0"
+            >
+              <RadarChart data={radarChartData}>
+                <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                <PolarAngleAxis dataKey="topic" />
+                <PolarGrid />
+                <Radar dataKey="summaries" fill="var(--color-desktop)" fillOpacity={0.6} />
+              </RadarChart>
+            </ChartContainer>
+          </div>
         )}
       </div>
     </div>

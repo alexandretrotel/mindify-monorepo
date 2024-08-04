@@ -22,7 +22,7 @@ const BookCover = ({
   image: string | undefined;
 }) => {
   return (
-    <Card className="h-full w-full flex-shrink-0 overflow-hidden rounded-md hover:border-primary active:border-black">
+    <div className="h-full w-full overflow-hidden rounded-lg border hover:border-primary active:border-black">
       {image ? (
         <Image
           src={image}
@@ -33,17 +33,18 @@ const BookCover = ({
       ) : (
         <Skeleton className="h-48 w-full rounded-none" />
       )}
-      <div className="p-4">
+
+      <div className="flex flex-col gap-1 p-4">
         <div className="flex flex-col">
           <H5Span>{title}</H5Span>
           {source === "book" && <Muted size="sm">{author}</Muted>}
-
-          <Span primaryColor size="xs">
-            {category} • {sourceToString(source)}
-          </Span>
         </div>
+
+        <Span primaryColor size="xs">
+          {category} • {sourceToString(source)}
+        </Span>
       </div>
-    </Card>
+    </div>
   );
 };
 
