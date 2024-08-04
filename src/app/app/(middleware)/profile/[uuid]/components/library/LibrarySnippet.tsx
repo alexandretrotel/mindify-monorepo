@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import H3Span from "@/components/typography/h3AsSpan";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,20 +14,11 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
   return (
     <Tabs defaultValue="reads">
       <div className="flex flex-col gap-4">
-        <div className="flex items-start justify-between gap-8">
+        <div className="flex items-center justify-between gap-8">
           <TabsList>
             <TabsTrigger value="reads">Résumés lus</TabsTrigger>
             <TabsTrigger value="saved">Enregistrés</TabsTrigger>
           </TabsList>
-
-          {profileReadsSummaries?.length > 0 ||
-            (profileReadsSummaries?.length > 0 && (
-              <Button variant="outline" asChild>
-                <Link href={`/app/profile/${profileId}/summaries`} className="flex items-center">
-                  Voir tout
-                </Link>
-              </Button>
-            ))}
         </div>
 
         <TabsContent value="reads" className="w-full">
