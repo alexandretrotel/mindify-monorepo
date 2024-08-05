@@ -42,7 +42,7 @@ export async function generateMetadata({
     title,
     openGraph: {
       title: `${summary?.title} | Mindify`,
-      description: summary?.introduction,
+      description: summary?.introduction?.slice(0, 200) + "...",
       images: [
         {
           url: summary?.image_url as string
@@ -54,7 +54,7 @@ export async function generateMetadata({
     twitter: {
       title: `${summary?.title} | Mindify`,
       card: "summary_large_image",
-      description: summary?.introduction,
+      description: summary?.introduction?.slice(0, 200) + "...",
       images: [
         {
           url: summary?.image_url as string

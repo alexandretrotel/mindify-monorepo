@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
     title: `${userData?.user?.user_metadata?.name} | Mindify`,
     openGraph: {
       title: `${userData?.user?.user_metadata?.name} | Mindify`,
-      description: userData?.user?.user_metadata?.biography,
+      description: userData?.user?.user_metadata?.biography?.slice(0, 200),
       images: [
         {
           url: await getUserCustomAvatarFromUserId(userData?.user?.id as UUID)
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
     twitter: {
       title: `${userData?.user?.user_metadata?.name} | Mindify`,
       card: "summary_large_image",
-      description: userData?.user?.user_metadata?.biography,
+      description: userData?.user?.user_metadata?.biography?.slice(0, 200),
       images: [
         {
           url: await getUserCustomAvatarFromUserId(userData?.user?.id as UUID)

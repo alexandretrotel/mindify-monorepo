@@ -37,7 +37,12 @@ export async function generateMetadata(
     twitter: {
       title: `${topic?.name} | Mindify`,
       card: "summary_large_image",
-      description: `Explorez notre collection des meilleurs résumés dans la catégorie ${topic?.name.toLowerCase()}.`
+      description: `Explorez notre collection des meilleurs résumés dans la catégorie ${topic?.name.toLowerCase()}.`,
+      images: [
+        {
+          url: "/open-graph/og-image.png"
+        }
+      ]
     }
   };
 }
