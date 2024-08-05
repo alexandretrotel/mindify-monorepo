@@ -35,13 +35,7 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
   const { data: userData } = await supabaseAdmin.auth.admin.getUserById(profileId);
 
   return {
-    title: `${userData?.user?.user_metadata?.name} | Mindify`,
-    openGraph: {
-      title: `${userData?.user?.user_metadata?.name} | Mindify`
-    },
-    twitter: {
-      title: `${userData?.user?.user_metadata?.name} | Mindify`
-    }
+    title: `${userData?.user?.user_metadata?.name} | Mindify`
   };
 }
 

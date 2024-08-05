@@ -10,27 +10,24 @@ import { createClient } from "@/utils/supabase/server";
 import { getTopicFromTopicSlug } from "@/actions/topics";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 
 export const revalidate = 60;
 
-export async function generateMetadata({
-  params
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  {
+    params
+  }: {
+    params: { slug: string };
+  },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
   const { slug } = params;
 
   const topic = await getTopicFromTopicSlug(slug);
 
   return {
-    title: `${topic?.name} | Mindify`,
-    openGraph: {
-      title: `${topic?.name} | Mindify`
-    },
-    twitter: {
-      title: `${topic?.name} | Mindify`
-    }
+    title: `${topic?.name} | Mindify`
   };
 }
 
