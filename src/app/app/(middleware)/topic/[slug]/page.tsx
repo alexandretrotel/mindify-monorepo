@@ -32,7 +32,12 @@ export async function generateMetadata(
       title: `${topic?.name} | Mindify`,
       description: `Explorez notre collection des meilleurs résumés dans la catégorie ${topic?.name.toLowerCase()}.`,
       siteName: "Mindify",
-      url: `https://mindify.vercel.app/app/topic/${slug}`
+      url: `https://mindify.vercel.app/app/topic/${slug}`,
+      images: [
+        {
+          url: "/open-graph/og-image.png"
+        }
+      ]
     },
     twitter: {
       title: `${topic?.name} | Mindify`,
