@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import AuthProviders from "@/app/app/(auth)/components/AuthProviders";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "S'inscrire | Mindify"
+};
 
 export default function SignupForm() {
   return (

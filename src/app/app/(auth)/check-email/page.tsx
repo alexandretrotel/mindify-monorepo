@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, SendIcon } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Vérifier son mail | Mindify"
+};
 
 export default async function CheckEmail() {
   return (

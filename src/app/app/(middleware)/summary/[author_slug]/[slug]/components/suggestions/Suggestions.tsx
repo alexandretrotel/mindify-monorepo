@@ -38,10 +38,7 @@ const Suggestions = async ({
                     topics: Tables<"topics">;
                   } & { author_slug: string; topic: string }
                 ) => (
-                  <CarouselItem
-                    key={summary?.id}
-                    className="pl-4 md:basis-1/4 lg:basis-1/4"
-                  >
+                  <CarouselItem key={summary?.id} className="pl-4 md:basis-1/4 lg:basis-1/4">
                     <Link
                       key={summary?.id}
                       href={`/app/summary/${summary?.author_slug}/${summary?.slug}`}
