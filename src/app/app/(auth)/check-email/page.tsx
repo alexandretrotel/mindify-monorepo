@@ -5,7 +5,13 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Vérifier son mail | Mindify"
+  title: "Vérifier son mail | Mindify",
+  openGraph: {
+    title: "Vérifier son mail | Mindify"
+  },
+  twitter: {
+    title: "Vérifier son mail | Mindify"
+  }
 };
 
 export default async function CheckEmail() {

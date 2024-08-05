@@ -5,7 +5,13 @@ import AuthProviders from "@/app/app/(auth)/components/AuthProviders";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Se connecter | Mindify"
+  title: "Se connecter | Mindify",
+  openGraph: {
+    title: "Se connecter | Mindify"
+  },
+  twitter: {
+    title: "Se connecter | Mindify"
+  }
 };
 
 export default function LoginForm() {

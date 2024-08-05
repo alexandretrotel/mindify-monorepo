@@ -24,7 +24,13 @@ export async function generateMetadata({
   const topic = await getTopicFromTopicSlug(slug);
 
   return {
-    title: `${topic?.name} | Mindify`
+    title: `${topic?.name} | Mindify`,
+    openGraph: {
+      title: `${topic?.name} | Mindify`
+    },
+    twitter: {
+      title: `${topic?.name} | Mindify`
+    }
   };
 }
 

@@ -48,7 +48,7 @@ export default function HeaderClient({ isUserConnected }: Readonly<{ isUserConne
       <Banner />
       <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/home" className="flex items-center gap-2">
             <span className="sr-only">Mindify</span>
             <Image src={Logo} alt="Mindify" width={32} height={32} />
             <H2>Mindify</H2>
@@ -70,7 +70,7 @@ export default function HeaderClient({ isUserConnected }: Readonly<{ isUserConne
             <NavigationMenuList>
               {navigation.map((item) => (
                 <NavigationMenuItem key={item.name}>
-                  <Link href={`/${item.href}`} legacyBehavior passHref>
+                  <Link href={`/home${item.href}`} legacyBehavior passHref>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                       {item.name}
                     </NavigationMenuLink>
@@ -95,7 +95,7 @@ export default function HeaderClient({ isUserConnected }: Readonly<{ isUserConne
         <div className="fixed inset-0 z-50" />
         <DialogPanel className="hide-scrollbar fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-black/10 dark:sm:ring-white/10">
           <div className="flex items-center justify-between">
-            <Link href="/">
+            <Link href="/home">
               <span className="sr-only">Mindify</span>
               <H2>Mindify</H2>
             </Link>
