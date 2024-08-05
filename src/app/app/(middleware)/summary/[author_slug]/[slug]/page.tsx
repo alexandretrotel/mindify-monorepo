@@ -45,7 +45,7 @@ export async function generateMetadata({
       description: summary?.introduction?.slice(0, 200) + "...",
       images: [
         {
-          url: summary?.image_url as string
+          url: summary?.image_url ?? "/open-graph/og-image.png"
         }
       ],
       siteName: "Mindify",
@@ -57,7 +57,7 @@ export async function generateMetadata({
       description: summary?.introduction?.slice(0, 200) + "...",
       images: [
         {
-          url: summary?.image_url as string
+          url: summary?.image_url ?? "/open-graph/og-image.png"
         }
       ]
     }

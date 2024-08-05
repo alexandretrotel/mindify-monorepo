@@ -41,7 +41,9 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
       description: userData?.user?.user_metadata?.biography?.slice(0, 200),
       images: [
         {
-          url: await getUserCustomAvatarFromUserId(userData?.user?.id as UUID)
+          url:
+            (await getUserCustomAvatarFromUserId(userData?.user?.id as UUID)) ??
+            "/open-graph/og-image.png"
         }
       ],
       siteName: "Mindify",
@@ -53,7 +55,9 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
       description: userData?.user?.user_metadata?.biography?.slice(0, 200),
       images: [
         {
-          url: await getUserCustomAvatarFromUserId(userData?.user?.id as UUID)
+          url:
+            (await getUserCustomAvatarFromUserId(userData?.user?.id as UUID)) ??
+            "/open-graph/og-image.png"
         }
       ]
     }
