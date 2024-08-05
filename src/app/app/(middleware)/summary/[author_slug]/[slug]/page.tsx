@@ -30,8 +30,15 @@ export async function generateMetadata({
 
   const summary = await getSummaryFromSlugs(author_slug, slug);
 
+  let title;
+  if (summary?.source_type === "book") {
+    title = `${summary?.title} - ${summary?.authors?.name} | Mindify`;
+  } else {
+    title = `${summary?.title} | Mindify`;
+  }
+
   return {
-    title: `${summary?.title} - ${summary?.authors?.name} | Mindify`
+    title
   };
 }
 
