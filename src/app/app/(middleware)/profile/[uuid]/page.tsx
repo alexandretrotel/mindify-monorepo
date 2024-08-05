@@ -28,6 +28,16 @@ import ProfileMinds from "@/app/app/(middleware)/profile/[uuid]/components/minds
 import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
 import { Carousel } from "@/components/ui/carousel";
 
+export async function generateMetadata({ params }: { params: { uuid: UUID } }) {
+  const profileId = params.uuid;
+
+  const { data: userData } = await supabaseAdmin.auth.admin.getUserById(profileId);
+
+  return {
+    title: `${userData?.user?.user_metadata?.name} | Mindify`
+  };
+}
+
 const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const profileId = params.uuid;
 

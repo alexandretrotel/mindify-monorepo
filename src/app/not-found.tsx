@@ -12,7 +12,7 @@ export default function Page() {
         <Span>La page que vous recherchez n&apos;existe pas.</Span>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Button asChild>
-            <Link href="/">Go back home</Link>
+            <Link href="/">Retourner à l&apo;accueil</Link>
           </Button>
         </div>
       </div>

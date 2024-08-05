@@ -41,7 +41,7 @@ const SavedSummaries = async () => {
             <CarouselContent className="-ml-4">
               {savedSummaries?.map((summary) => {
                 return (
-                  <CarouselItem key={summary.id} className="pl-4 lg:basis-1/4">
+                  <CarouselItem key={summary.id} className="pl-4 md:basis-1/3 lg:basis-1/4">
                     <Link
                       href={`/app/summary/${summary.author_slug}/${summary.slug}`}
                       className="h-full"

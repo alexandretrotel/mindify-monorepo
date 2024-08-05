@@ -27,7 +27,7 @@ const PopularSkeleton = async () => {
 
         <CarouselContent className="-ml-4">
           {[...Array(15)].map((_, index) => (
-            <CarouselItem key={index} className="pl-4 lg:basis-1/4">
+            <CarouselItem key={index} className="pl-4 md:basis-1/3 lg:basis-1/4">
               <BookCoverSkeleton />
             </CarouselItem>
           ))}

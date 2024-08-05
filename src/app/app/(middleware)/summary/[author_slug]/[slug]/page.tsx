@@ -21,6 +21,20 @@ import SummaryMindsSkeleton from "@/app/app/(middleware)/summary/[author_slug]/[
 import AddToLibraryButtonSkeleton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/buttons/skeleton/AddToLibraryButtonSkeleton";
 import MarkAsReadButtonSkeleton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/buttons/skeleton/MarkAsReadButtonSkeleton";
 
+export async function generateMetadata({
+  params
+}: {
+  params: { author_slug: string; slug: string };
+}) {
+  const { slug, author_slug } = params;
+
+  const summary = await getSummaryFromSlugs(author_slug, slug);
+
+  return {
+    title: `${summary?.title} - ${summary?.authors?.name} | Mindify`
+  };
+}
+
 const Page = async ({ params }: { params: { author_slug: string; slug: string } }) => {
   const { slug, author_slug } = params;
 
