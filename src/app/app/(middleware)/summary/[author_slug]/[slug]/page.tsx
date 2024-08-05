@@ -5,7 +5,7 @@ import AddToLibraryButton from "@/app/app/(middleware)/summary/[author_slug]/[sl
 import MarkAsReadButton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/buttons/MarkAsReadButton";
 import SummaryHeader from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/header/SummaryHeader";
 import SummaryHeaderSkeleton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/header/skeleton/SummaryHeaderSkeleton";
-import { getSummaryFromSlugs } from "@/actions/summaries";
+import { getAdminSummaryFromSlugs, getSummaryFromSlugs } from "@/actions/summaries";
 import AuthorDescription from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/author/AuthorDescription";
 import AuthorDescriptionSkeleton from "./components/author/skeleton/AuthorDescriptionSkeleton";
 import TableOfContents from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/table-of-contents/TableOfContents";
@@ -29,7 +29,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug, author_slug } = params;
 
-  const summary = await getSummaryFromSlugs(author_slug, slug);
+  const summary = await getAdminSummaryFromSlugs(author_slug, slug);
 
   let title;
   if (summary?.source_type === "book") {
@@ -41,10 +41,25 @@ export async function generateMetadata({
   return {
     title,
     openGraph: {
-      title
+      title: `${summary?.title} | Mindify`,
+      description: summary?.introduction?.slice(0, 200) + "...",
+      images: [
+        {
+          url: summary?.image_url ?? "/open-graph/og-image.png"
+        }
+      ],
+      siteName: "Mindify",
+      url: `https://mindify.vercel.app/app/summary/${author_slug}/${slug}`
     },
     twitter: {
-      title
+      title: `${summary?.title} | Mindify`,
+      card: "summary_large_image",
+      description: summary?.introduction?.slice(0, 200) + "...",
+      images: [
+        {
+          url: summary?.image_url ?? "/open-graph/og-image.png"
+        }
+      ]
     }
   };
 }
