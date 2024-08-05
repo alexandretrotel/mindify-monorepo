@@ -27,14 +27,21 @@ import { Muted } from "@/components/typography/muted";
 import ProfileMinds from "@/app/app/(middleware)/profile/[uuid]/components/minds/ProfileMinds";
 import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
 import { Carousel } from "@/components/ui/carousel";
+import type { Metadata } from "next";
 
-export async function generateMetadata({ params }: { params: { uuid: UUID } }) {
+export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;
 
   const { data: userData } = await supabaseAdmin.auth.admin.getUserById(profileId);
 
   return {
-    title: `${userData?.user?.user_metadata?.name} | Mindify`
+    title: `${userData?.user?.user_metadata?.name} | Mindify`,
+    openGraph: {
+      title: `${userData?.user?.user_metadata?.name} | Mindify`
+    },
+    twitter: {
+      title: `${userData?.user?.user_metadata?.name} | Mindify`
+    }
   };
 }
 

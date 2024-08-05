@@ -4,7 +4,13 @@ import AuthProviders from "@/app/app/(auth)/components/AuthProviders";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "S'inscrire | Mindify"
+  title: "S'inscrire | Mindify",
+  openGraph: {
+    title: "S'inscrire | Mindify"
+  },
+  twitter: {
+    title: "S'inscrire | Mindify"
+  }
 };
 
 export default function SignupForm() {

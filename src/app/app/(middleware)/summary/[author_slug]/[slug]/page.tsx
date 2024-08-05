@@ -20,18 +20,32 @@ import SummaryMinds from "@/app/app/(middleware)/summary/[author_slug]/[slug]/co
 import SummaryMindsSkeleton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/minds/skeleton/SummaryMindsSkeleton";
 import AddToLibraryButtonSkeleton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/buttons/skeleton/AddToLibraryButtonSkeleton";
 import MarkAsReadButtonSkeleton from "@/app/app/(middleware)/summary/[author_slug]/[slug]/components/buttons/skeleton/MarkAsReadButtonSkeleton";
+import type { Metadata } from "next";
 
 export async function generateMetadata({
   params
 }: {
   params: { author_slug: string; slug: string };
-}) {
+}): Promise<Metadata> {
   const { slug, author_slug } = params;
 
   const summary = await getSummaryFromSlugs(author_slug, slug);
 
+  let title;
+  if (summary?.source_type === "book") {
+    title = `${summary?.title} - ${summary?.authors?.name} | Mindify`;
+  } else {
+    title = `${summary?.title} | Mindify`;
+  }
+
   return {
-    title: `${summary?.title} - ${summary?.authors?.name} | Mindify`
+    title,
+    openGraph: {
+      title
+    },
+    twitter: {
+      title
+    }
   };
 }
 
