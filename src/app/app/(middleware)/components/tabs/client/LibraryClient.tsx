@@ -101,14 +101,16 @@ const LibraryClient = ({
   }, [selectedTopic, selectedStatus, selectedSource]);
 
   useEffect(() => {
-    let filteredSummaries = summaries;
+    let filteredSummaries = [...summaries];
 
     if (selectedTopic) {
-      filteredSummaries = filteredSummaries.filter((summary) => summary?.topic === selectedTopic);
+      filteredSummaries = [...filteredSummaries].filter(
+        (summary) => summary?.topic === selectedTopic
+      );
     }
 
     if (selectedSource) {
-      filteredSummaries = filteredSummaries.filter(
+      filteredSummaries = [...filteredSummaries].filter(
         (summary) => summary?.source_type === selectedSource
       );
     }
@@ -116,16 +118,16 @@ const LibraryClient = ({
     const readSummaryIds = userReads?.map((userRead) => userRead.summary_id) ?? [];
 
     if (selectedStatus === "not_started") {
-      filteredSummaries = filteredSummaries.filter(
+      filteredSummaries = [...filteredSummaries].filter(
         (summary) => !readSummaryIds.includes(summary.id)
       );
     } else if (selectedStatus === "completed") {
-      filteredSummaries = filteredSummaries.filter((summary) =>
+      filteredSummaries = [...filteredSummaries].filter((summary) =>
         readSummaryIds.includes(summary.id)
       );
     } else if (selectedStatus === "saved") {
       const savedSummaryIds = userLibrary?.map((library) => library.summary_id) ?? [];
-      filteredSummaries = filteredSummaries.filter((summary) =>
+      filteredSummaries = [...filteredSummaries].filter((summary) =>
         savedSummaryIds.includes(summary.id)
       );
     }
