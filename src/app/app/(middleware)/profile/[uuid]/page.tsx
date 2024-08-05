@@ -35,7 +35,28 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
   const { data: userData } = await supabaseAdmin.auth.admin.getUserById(profileId);
 
   return {
-    title: `${userData?.user?.user_metadata?.name} | Mindify`
+    title: `${userData?.user?.user_metadata?.name} | Mindify`,
+    openGraph: {
+      title: `${userData?.user?.user_metadata?.name} | Mindify`,
+      description: userData?.user?.user_metadata?.biography,
+      images: [
+        {
+          url: await getUserCustomAvatarFromUserId(userData?.user?.id as UUID)
+        }
+      ],
+      siteName: "Mindify",
+      url: `https://mindify.vercel.app/app/profile/${profileId}`
+    },
+    twitter: {
+      title: `${userData?.user?.user_metadata?.name} | Mindify`,
+      card: "summary_large_image",
+      description: userData?.user?.user_metadata?.biography,
+      images: [
+        {
+          url: await getUserCustomAvatarFromUserId(userData?.user?.id as UUID)
+        }
+      ]
+    }
   };
 }
 

@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 import SummariesByTopicSkeleton from "@/app/app/(middleware)/topic/[slug]/components/skeleton/SummariesByTopicSkeleton";
 import { createClient } from "@/utils/supabase/server";
-import { getTopicFromTopicSlug } from "@/actions/topics";
+import { getAdminTopicFromTopicSlug, getTopicFromTopicSlug } from "@/actions/topics";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 import type { Metadata, ResolvingMetadata } from "next";
@@ -24,10 +24,21 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { slug } = params;
 
-  const topic = await getTopicFromTopicSlug(slug);
+  const topic = await getAdminTopicFromTopicSlug(slug);
 
   return {
-    title: `${topic?.name} | Mindify`
+    title: `${topic?.name} | Mindify`,
+    openGraph: {
+      title: `${topic?.name} | Mindify`,
+      description: `Explorez notre collection des meilleurs résumés dans la catégorie ${topic?.name.toLowerCase()}.`,
+      siteName: "Mindify",
+      url: `https://mindify.vercel.app/app/topic/${slug}`
+    },
+    twitter: {
+      title: `${topic?.name} | Mindify`,
+      card: "summary_large_image",
+      description: `Explorez notre collection des meilleurs résumés dans la catégorie ${topic?.name.toLowerCase()}.`
+    }
   };
 }
 

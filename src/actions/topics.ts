@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function addTopic(user_id: UUID, topic_id: number) {
   const supabase = createClient();
@@ -62,6 +63,23 @@ export async function getTopicFromTopicSlug(slug: string) {
   const supabase = createClient();
 
   const { data, error } = await supabase.from("topics").select("*").eq("slug", slug).maybeSingle();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer l'intérêt.");
+  }
+
+  const topic = data as Tables<"topics">;
+
+  return topic;
+}
+
+export async function getAdminTopicFromTopicSlug(slug: string) {
+  const { data, error } = await supabaseAdmin
+    .from("topics")
+    .select("*")
+    .eq("slug", slug)
+    .maybeSingle();
 
   if (error) {
     console.error(error);
