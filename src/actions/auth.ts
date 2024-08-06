@@ -60,7 +60,7 @@ export async function signUpWithPassword(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/app/check-email");
+  redirect("/auth/check-email");
 }
 
 export async function signInWithPassword(formData: FormData) {
@@ -122,7 +122,7 @@ export async function signInWithEmail(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/app/check-email");
+  redirect("/auth/check-email");
 }
 
 export async function signInWithSocials(provider: SocialProvider) {
@@ -144,8 +144,8 @@ export async function signInWithSocials(provider: SocialProvider) {
     throw new Error("Impossible de se connecter avec ce fournisseur");
   }
 
-  if (data.url) {
-    redirect(data.url);
+  if (data?.url) {
+    redirect(data?.url);
   }
 
   revalidatePath("/", "layout");

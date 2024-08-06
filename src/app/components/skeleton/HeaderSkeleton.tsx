@@ -82,7 +82,7 @@ export default function HeaderSkeleton() {
         </div>
         <div className="hidden gap-4 lg:flex lg:flex-1 lg:justify-end">
           <Button asChild variant="outline" disabled>
-            <Link href="/app/login">Se connecter</Link>
+            <Link href="/auth/login">Se connecter</Link>
           </Button>
           <ToggleTheme />
         </div>
@@ -126,7 +126,7 @@ export default function HeaderSkeleton() {
               </div>
               <div className="py-6">
                 <Button asChild disabled>
-                  <Link href="/app/login">Se connecter</Link>
+                  <Link href="/auth/login">Se connecter</Link>
                 </Button>
               </div>
             </div>
