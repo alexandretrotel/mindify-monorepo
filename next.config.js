@@ -2,7 +2,7 @@ const withPWA = require("next-pwa")({
   dest: "public",
   register: true,
   skipWaiting: true,
-  scope: "/app",
+  scope: "/",
   disable: process.env.NODE_ENV !== "production"
 });
 
