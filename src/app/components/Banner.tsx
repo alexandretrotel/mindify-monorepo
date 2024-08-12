@@ -10,7 +10,7 @@ import Span from "@/components/typography/span";
 const launchDate: Date = new Date("2024-09-02T12:00:00Z");
 
 export default function Banner() {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+  const [timeLeft, setTimeLeft] = useState<TimeLeft | undefined>(undefined);
 
   useEffect(() => {
     const updateTimer = () => {
