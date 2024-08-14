@@ -7,7 +7,7 @@ const BackHome = () => {
   return (
     <Button variant="ghost" asChild>
       <Link href="/">
-        <ChevronLeft className="mr-2 h-5 w-5" /> Retouner à l&apos;accueil
+        <ChevronLeft className="mr-2 h-5 w-5" /> Retourner à l&apos;accueil
       </Link>
     </Button>
   );
