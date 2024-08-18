@@ -27,10 +27,12 @@ import ProfileMinds from "@/app/app/profile/[uuid]/components/minds/ProfileMinds
 import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
 import { Carousel } from "@/components/ui/carousel";
 import type { Metadata } from "next";
-import { supabaseAdmin } from "@/utils/supabase/admin";
+import { createAdminClient } from "@/utils/supabase/admin";
 
 export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;
+
+  const supabaseAdmin = createAdminClient();
 
   const { data: userData } = await supabaseAdmin.auth.admin.getUserById(profileId);
 
@@ -66,6 +68,8 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
 
 const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const profileId = params.uuid;
+
+  const supabaseAdmin = createAdminClient();
 
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
   let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;

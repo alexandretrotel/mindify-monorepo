@@ -9,7 +9,7 @@ import { UUID } from "crypto";
 import type { User } from "@supabase/supabase-js";
 import { summary } from "date-streaks";
 import type { Tables } from "@/types/supabase";
-import { supabaseAdmin } from "@/utils/supabase/admin";
+import { createAdminClient } from "@/utils/supabase/admin";
 
 const nameSchema = z.object({
   name: z
@@ -148,6 +148,8 @@ export async function userUpdateAvatar(formData: FormData) {
 }
 
 export async function getUsersData(usersIds: UUID[]) {
+  const supabaseAdmin = createAdminClient();
+
   const users: User[] = await Promise.all(
     usersIds.map(async (userId) => {
       const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
@@ -316,9 +318,11 @@ export async function getUserCustomAvatar() {
 }
 
 export async function getUserCustomAvatarFromUserId(userId: UUID) {
-  const supabase = createClient();
+  const supabaseAdmin = createAdminClient();
 
   const { data: userData } = await supabaseAdmin.auth.admin.getUserById(userId);
+
+  const supabase = createClient();
 
   const fileName = `${userId}.webp`;
 
@@ -403,6 +407,8 @@ export async function getUserTopics(user_id: UUID) {
 }
 
 export async function getSummariesRepartition(userId: UUID) {
+  const supabaseAdmin = createAdminClient();
+
   const { data: readSummariesData, error: readSummariesError } = await supabaseAdmin
     .from("read_summaries")
     .select("*, summaries(*, topics(*))")
