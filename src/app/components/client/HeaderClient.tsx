@@ -85,7 +85,7 @@ export default function HeaderClient({ isUserConnected }: Readonly<{ isUserConne
             {isUserConnected ? (
               <Link href="/app">Lancer l&apos;app</Link>
             ) : (
-              <Link href="/app/login">Se connecter</Link>
+              <Link href="/auth/login">Se connecter</Link>
             )}
           </Button>
           <ToggleTheme />
@@ -133,7 +133,7 @@ export default function HeaderClient({ isUserConnected }: Readonly<{ isUserConne
                   {isUserConnected ? (
                     <Link href="/app">Lancer l&apos;app</Link>
                   ) : (
-                    <Link href="/app/login">Se connecter</Link>
+                    <Link href="/auth/login">Se connecter</Link>
                   )}
                 </Button>
               </div>
