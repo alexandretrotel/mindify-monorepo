@@ -35,7 +35,7 @@ export default function AccountProfile({
       <Separator className="max-w-lg" />
 
       <div className="flex max-w-lg flex-col gap-8">
-        <AccountAvatar userMetadata={userMetadata} userPicture={userPicture} />
+        <AccountAvatar userMetadata={userMetadata} userPicture={userPicture} userId={userId} />
         <AccountName userMetadata={userMetadata} />
         <AccountMail userMetadata={userMetadata} />
         <AccountBiography userMetadata={userMetadata} />

@@ -19,11 +19,13 @@ import { userUpdateAvatar } from "@/actions/users";
 import { LoadingButton } from "@/components/global/buttons/LoadingButton";
 import { Loader2Icon } from "lucide-react";
 import { Muted } from "@/components/typography/muted";
+import { UUID } from "crypto";
 
 export default function AccountAvatar({
   userMetadata,
-  userPicture
-}: Readonly<{ userMetadata: UserMetadata; userPicture: string }>) {
+  userPicture,
+  userId
+}: Readonly<{ userMetadata: UserMetadata; userPicture: string; userId: UUID }>) {
   const [imageError, setImageError] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [allowImageUpload, setAllowImageUpload] = useState<boolean>(false);
@@ -140,7 +142,7 @@ export default function AccountAvatar({
                   const formData = new FormData();
                   formData.append("image", imageFile);
 
-                  const result = await userUpdateAvatar(formData);
+                  const result = await userUpdateAvatar(formData, userId);
 
                   if (result) {
                     setIsImageModalOpen(false);
