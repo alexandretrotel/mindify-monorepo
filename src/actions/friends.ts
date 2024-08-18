@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { getUsersData } from "@/actions/users";
-import { createAdminClient } from "@/utils/supabase/admin";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function askForFriend(userId: UUID, profileId: UUID) {
   const supabase = createClient();
@@ -188,8 +188,6 @@ export async function getFriendRequests(userId: UUID) {
 }
 
 export async function getFriendsIds(userId: UUID) {
-  const supabaseAdmin = createAdminClient();
-
   const { data, error } = await supabaseAdmin
     .from("friends")
     .select("*")
