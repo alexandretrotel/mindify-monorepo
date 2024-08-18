@@ -8,7 +8,7 @@ import type { SummaryStatus } from "@/types/summary";
 import type { Enums } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
-import { UserMetadata } from "@supabase/supabase-js";
+import { redirect } from "next/navigation";
 
 export default async function Home({
   searchParams
@@ -19,9 +19,14 @@ export default async function Home({
 
   const supabase = createClient();
 
-  const { data } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error || !data?.user) {
+    redirect("/auth/login");
+  }
+
   const userId = data?.user?.id as UUID;
-  const userMetadata = data?.user?.user_metadata as UserMetadata;
+  const userMetadata = data?.user?.user_metadata;
 
   return (
     <Tabs defaultValue={"discover"} className="flex flex-col gap-6 md:gap-12">

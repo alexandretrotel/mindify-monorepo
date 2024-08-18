@@ -1,4 +1,5 @@
 import H1 from "@/components/typography/h1";
+import { Muted } from "@/components/typography/muted";
 import Span from "@/components/typography/span";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -9,7 +10,7 @@ export default function Page() {
       <div className="text-center">
         <Span primaryColor>404</Span>
         <H1>Page non trouvée</H1>
-        <Span>La page que vous recherchez n&apos;existe pas.</Span>
+        <Muted>La page que vous recherchez n&apos;existe pas.</Muted>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Button asChild>
             <Link href="/">Retourner à l&apos;accueil</Link>

@@ -28,6 +28,7 @@ import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
 import { Carousel } from "@/components/ui/carousel";
 import type { Metadata } from "next";
 import { createAdminClient } from "@/utils/supabase/admin";
+import { redirect } from "next/navigation";
 
 export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;
@@ -77,9 +78,14 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const profilePicture = await getUserCustomAvatarFromUserId(profileData?.user?.id as UUID);
 
   const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error || !data?.user) {
+    redirect("/auth/login");
+  }
+
   const userId = data?.user?.id as UUID;
-  const userMetadata = data?.user?.user_metadata as UserMetadata;
+  const userMetadata = data?.user?.user_metadata;
 
   const isMyProfile = userId === profileId;
 

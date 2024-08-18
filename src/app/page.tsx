@@ -4,7 +4,7 @@ import Testimonials from "@/app/components/Testimonials";
 import Pricing from "@/app/components/Pricing";
 import Footer from "@/app/components/Footer";
 import React, { Suspense } from "react";
-import Header from "@/app/components/client/Header";
+import Header from "@/app/components/Header";
 import HeaderSkeleton from "@/app/components/skeleton/HeaderSkeleton";
 
 export default async function Home() {
