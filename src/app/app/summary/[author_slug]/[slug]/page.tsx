@@ -21,6 +21,9 @@ import SummaryMindsSkeleton from "@/app/app/summary/[author_slug]/[slug]/compone
 import AddToLibraryButtonSkeleton from "@/app/app/summary/[author_slug]/[slug]/components/buttons/skeleton/AddToLibraryButtonSkeleton";
 import MarkAsReadButtonSkeleton from "@/app/app/summary/[author_slug]/[slug]/components/buttons/skeleton/MarkAsReadButtonSkeleton";
 import type { Metadata } from "next";
+import { createClient } from "@/utils/supabase/server";
+import { UUID } from "crypto";
+import { UserMetadata } from "@supabase/supabase-js";
 
 export async function generateMetadata({
   params
@@ -67,6 +70,11 @@ export async function generateMetadata({
 const Page = async ({ params }: { params: { author_slug: string; slug: string } }) => {
   const { slug, author_slug } = params;
 
+  const supabase = createClient();
+  const { data } = await supabase.auth.getUser();
+  const userId = data?.user?.id as UUID;
+  const userMetadata = data?.user?.user_metadata as UserMetadata;
+
   const summary = await getSummaryFromSlugs(author_slug, slug);
 
   if (!summary) {
@@ -84,13 +92,13 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
                   <SummaryHeader summary={summary} />
                 </Suspense>
 
-                <AccountDropdown />
+                <AccountDropdown userId={userId} userMetadata={userMetadata} />
               </div>
 
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-4">
                   <Suspense fallback={<AddToLibraryButtonSkeleton />}>
-                    <AddToLibraryButton summaryId={summary?.id} />
+                    <AddToLibraryButton summaryId={summary?.id} userId={userId} />
                   </Suspense>
                   <Source summarySourceUrl={summary?.source_url as string} />
                 </div>
@@ -108,7 +116,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
                 <div className="flex flex-col gap-4">
                   <div className="w-full md:w-fit">
                     <Suspense fallback={<MarkAsReadButtonSkeleton />}>
-                      <MarkAsReadButton summaryId={summary?.id} />
+                      <MarkAsReadButton summaryId={summary?.id} userId={userId} />
                     </Suspense>
                   </div>
                 </div>
@@ -132,7 +140,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
 
           <div className="flex flex-col gap-8">
             <Suspense fallback={<SummaryMindsSkeleton />}>
-              <SummaryMinds summaryId={summary?.id} />
+              <SummaryMinds summaryId={summary?.id} userId={userId} />
             </Suspense>
 
             <Suspense fallback={<SuggestionsSkeleton />}>

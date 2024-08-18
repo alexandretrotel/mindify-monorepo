@@ -7,7 +7,7 @@ import Span from "@/components/typography/span";
 import { Carousel } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 
-const ProfileMinds = async ({ profileId }: { profileId: UUID }) => {
+const ProfileMinds = async ({ profileId, userId }: { profileId: UUID; userId: UUID }) => {
   const profileMinds = (await getMindsFromUserId(profileId)) as (Tables<"minds"> & {
     summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
   })[];
@@ -18,7 +18,7 @@ const ProfileMinds = async ({ profileId }: { profileId: UUID }) => {
 
   const initialAreSaved = await Promise.all(
     profileMinds?.map(async (mind) => {
-      const isSaved = await isMindSaved(mind?.id).catch(() => false);
+      const isSaved = await isMindSaved(mind?.id, userId).catch(() => false);
       return isSaved;
     })
   );
@@ -33,7 +33,7 @@ const ProfileMinds = async ({ profileId }: { profileId: UUID }) => {
       </div>
 
       <Carousel opts={{ align: "start", slidesToScroll: "auto" }} className="w-full">
-        <MindsClient minds={profileMinds} initialAreSaved={initialAreSaved} />
+        <MindsClient minds={profileMinds} initialAreSaved={initialAreSaved} userId={userId} />
       </Carousel>
     </div>
   );

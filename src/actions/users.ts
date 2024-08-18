@@ -2,14 +2,14 @@
 import "server-only";
 
 import sharp from "sharp";
-import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { UUID } from "crypto";
-import type { User } from "@supabase/supabase-js";
+import type { User, UserMetadata } from "@supabase/supabase-js";
 import { summary } from "date-streaks";
 import type { Tables } from "@/types/supabase";
+import { createAdminClient } from "@/utils/supabase/admin";
 
 const nameSchema = z.object({
   name: z
@@ -96,15 +96,8 @@ const avatarSchema = z.object({
     )
 });
 
-export async function userUpdateAvatar(formData: FormData) {
+export async function userUpdateAvatar(formData: FormData, userId: UUID) {
   const supabase = createClient();
-
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-
-  if (userError || !userData?.user) {
-    console.error(userError);
-    throw new Error("Utilisateur non authentifié.");
-  }
 
   let avatarData;
   try {
@@ -116,7 +109,7 @@ export async function userUpdateAvatar(formData: FormData) {
     throw new Error("L'image doit être de type jpeg, jpg, png, tiff, webp ou avif.");
   }
 
-  const fileName = `${userData.user.id}/avatar.webp`;
+  const fileName = `${userId}/avatar.webp`;
 
   const imageBuffer = await avatarData.image.arrayBuffer();
   const processedImageBuffer = await sharp(Buffer.from(imageBuffer))
@@ -148,6 +141,8 @@ export async function userUpdateAvatar(formData: FormData) {
 }
 
 export async function getUsersData(usersIds: UUID[]) {
+  const supabaseAdmin = createAdminClient();
+
   const users: User[] = await Promise.all(
     usersIds.map(async (userId) => {
       const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
@@ -203,13 +198,7 @@ export async function getUserReadsIds(userId: UUID) {
   return reads;
 }
 
-export async function hasUserSavedSummary({
-  userId,
-  summaryId
-}: {
-  userId: UUID;
-  summaryId: number;
-}) {
+export async function hasUserSavedSummary(userId: UUID, summaryId: number) {
   const supabase = createClient();
 
   const { data: userLibraryData } = await supabase
@@ -222,13 +211,7 @@ export async function hasUserSavedSummary({
   }
 }
 
-export async function hasUserReadSummary({
-  userId,
-  summaryId
-}: {
-  userId: UUID;
-  summaryId: number;
-}) {
+export async function hasUserReadSummary(userId: UUID, summaryId: number) {
   const supabase = createClient();
 
   const { data: userReadsData } = await supabase
@@ -296,18 +279,16 @@ export async function getUserSummariesFromLibrary(userId: UUID) {
   return userLibrarySummaries;
 }
 
-export async function getUserCustomAvatar() {
+export async function getUserCustomAvatar(userId: UUID, userMetadata: UserMetadata) {
   const supabase = createClient();
 
-  const { data: userData } = await supabase.auth.getUser();
-
-  const fileName = `${userData?.user?.id}.webp`;
+  const fileName = `${userId}.webp`;
 
   const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
 
   let avatarUrlString: string;
   if (!avatarUrl) {
-    avatarUrlString = userData?.user?.user_metadata?.picture_url;
+    avatarUrlString = userMetadata?.picture_url;
   } else {
     avatarUrlString = avatarUrl?.publicUrl;
   }
@@ -316,9 +297,11 @@ export async function getUserCustomAvatar() {
 }
 
 export async function getUserCustomAvatarFromUserId(userId: UUID) {
-  const supabase = createClient();
+  const supabaseAdmin = createAdminClient();
 
   const { data: userData } = await supabaseAdmin.auth.admin.getUserById(userId);
+
+  const supabase = createClient();
 
   const fileName = `${userId}.webp`;
 
@@ -403,6 +386,8 @@ export async function getUserTopics(user_id: UUID) {
 }
 
 export async function getSummariesRepartition(userId: UUID) {
+  const supabaseAdmin = createAdminClient();
+
   const { data: readSummariesData, error: readSummariesError } = await supabaseAdmin
     .from("read_summaries")
     .select("*, summaries(*, topics(*))")

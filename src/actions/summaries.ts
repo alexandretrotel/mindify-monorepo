@@ -5,7 +5,7 @@ import { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import type { Enums, Tables } from "@/types/supabase";
-import { supabaseAdmin } from "@/utils/supabase/admin";
+import { createAdminClient } from "@/utils/supabase/admin";
 
 export async function addSummaryToLibrary(userId: UUID, summaryId: number) {
   const supabase = createClient();
@@ -96,6 +96,8 @@ export async function getSummaryFromSlugs(author_slug: string, slug: string) {
 }
 
 export async function getAdminSummaryFromSlugs(author_slug: string, slug: string) {
+  const supabaseAdmin = createAdminClient();
+
   const { data, error } = await supabaseAdmin
     .from("summaries")
     .select("*, authors(*), topics(*)")

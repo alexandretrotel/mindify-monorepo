@@ -9,17 +9,16 @@ const Library = async ({
   initialSearch,
   initialTopic,
   initialSource,
-  initialStatus
+  initialStatus,
+  userId
 }: {
   initialSearch: string | undefined;
   initialTopic: string | undefined;
   initialSource: Enums<"source"> | undefined;
   initialStatus: SummaryStatus | undefined;
+  userId: UUID;
 }) => {
   const supabase = createClient();
-
-  const { data: userData } = await supabase.auth.getUser();
-  const userId = userData?.user?.id as UUID;
 
   const { data: summariesData } = await supabase
     .from("summaries")

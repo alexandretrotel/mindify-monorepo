@@ -2,8 +2,6 @@ import SummariesByTopic from "@/app/app/topic/[slug]/components/SummariesByTopic
 import AccountDropdown from "@/components/global/AccountDropdown";
 import H3 from "@/components/typography/h3";
 import { Badge } from "@/components/ui/badge";
-import { supabaseDefaultClient } from "@/utils/supabase/default";
-import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 import SummariesByTopicSkeleton from "@/app/app/topic/[slug]/components/skeleton/SummariesByTopicSkeleton";
 import { createClient } from "@/utils/supabase/server";
@@ -11,8 +9,8 @@ import { getAdminTopicFromTopicSlug, getTopicFromTopicSlug } from "@/actions/top
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 import type { Metadata, ResolvingMetadata } from "next";
-
-export const revalidate = 60 * 15; // 15 minutes
+import { UserMetadata } from "@supabase/supabase-js";
+import { UUID } from "crypto";
 
 export async function generateMetadata(
   {
@@ -52,22 +50,14 @@ export async function generateMetadata(
   };
 }
 
-export async function generateStaticParams() {
-  const { data: topicsData } = await supabaseDefaultClient.from("topics").select("*");
-
-  if (!topicsData) {
-    notFound();
-  }
-
-  return topicsData?.map((topic) => ({
-    slug: topic?.slug
-  }));
-}
-
 const Page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
 
   const supabase = createClient();
+
+  const { data } = await supabase.auth.getUser();
+  const userId = data?.user?.id as UUID;
+  const userMetadata = data?.user?.user_metadata as UserMetadata;
 
   const topic = await getTopicFromTopicSlug(slug);
   const { data: summariesData } = await supabase
@@ -101,7 +91,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
               </Muted>
             </div>
 
-            <AccountDropdown />
+            <AccountDropdown userId={userId} userMetadata={userMetadata} />
           </div>
         </div>
 

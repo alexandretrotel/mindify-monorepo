@@ -14,11 +14,8 @@ import { getUserPersonalizedSummariesFromInterests } from "@/actions/users";
 import type { UUID } from "crypto";
 import { Muted } from "@/components/typography/muted";
 
-const Personalized = async () => {
+const Personalized = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
-
-  const { data: userData } = await supabase.auth.getUser();
-  const userId = userData?.user?.id as UUID;
 
   const summariesMatchingUserTopics = await getUserPersonalizedSummariesFromInterests(userId);
 

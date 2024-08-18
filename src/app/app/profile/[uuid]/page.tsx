@@ -8,7 +8,6 @@ import { UUID } from "crypto";
 import React, { Suspense } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { supabaseAdmin } from "@/utils/supabase/admin";
 import CopyProfileLinkButton from "@/app/app/profile/[uuid]/components/header/CopyProfileLink";
 import Friendship from "@/app/app/profile/[uuid]/components/header/Friendship";
 import MyFriends from "@/app/app/profile/[uuid]/components/friends/MyFriends";
@@ -28,9 +27,12 @@ import ProfileMinds from "@/app/app/profile/[uuid]/components/minds/ProfileMinds
 import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
 import { Carousel } from "@/components/ui/carousel";
 import type { Metadata } from "next";
+import { createAdminClient } from "@/utils/supabase/admin";
 
 export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;
+
+  const supabaseAdmin = createAdminClient();
 
   const { data: userData } = await supabaseAdmin.auth.admin.getUserById(profileId);
 
@@ -67,15 +69,17 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
 const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const profileId = params.uuid;
 
+  const supabaseAdmin = createAdminClient();
+
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
   let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
 
   const profilePicture = await getUserCustomAvatarFromUserId(profileData?.user?.id as UUID);
 
   const supabase = createClient();
-
-  const { data: userData } = await supabase.auth.getUser();
-  const userId: UUID = userData?.user?.id as UUID;
+  const { data } = await supabase.auth.getUser();
+  const userId = data?.user?.id as UUID;
+  const userMetadata = data?.user?.user_metadata as UserMetadata;
 
   const isMyProfile = userId === profileId;
 
@@ -105,7 +109,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
           </div>
         </div>
 
-        <AccountDropdown />
+        <AccountDropdown userId={userId} userMetadata={userMetadata} />
       </div>
 
       <div className="flex w-full flex-wrap items-center gap-4">
@@ -163,7 +167,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
               </Carousel>
             }
           >
-            <ProfileMinds profileId={profileId} />
+            <ProfileMinds profileId={profileId} userId={userId} />
           </Suspense>
 
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-4">

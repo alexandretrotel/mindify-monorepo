@@ -9,15 +9,18 @@ import { Muted } from "@/components/typography/muted";
 import type { Tables } from "@/types/supabase";
 import { saveMind, unsaveMind } from "@/actions/minds";
 import { useToast } from "@/components/ui/use-toast";
+import { UUID } from "crypto";
 
 const Mind = ({
   mind,
-  initialIsSaved
+  initialIsSaved,
+  userId
 }: {
   mind: Tables<"minds"> & {
     summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
   };
   initialIsSaved: boolean;
+  userId: UUID;
 }) => {
   const [isSaved, setIsSaved] = useState(initialIsSaved);
 
@@ -28,7 +31,7 @@ const Mind = ({
       setIsSaved(false);
 
       try {
-        await unsaveMind(mind?.id);
+        await unsaveMind(mind?.id, userId);
       } catch (error) {
         setIsSaved(true);
         console.error(error);
@@ -42,7 +45,7 @@ const Mind = ({
       setIsSaved(true);
 
       try {
-        await saveMind(mind?.id);
+        await saveMind(mind?.id, userId);
       } catch (error) {
         setIsSaved(false);
         console.error(error);

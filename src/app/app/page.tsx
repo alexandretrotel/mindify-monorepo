@@ -6,6 +6,9 @@ import LibrarySkeleton from "@/app/app/components/skeleton/LibrarySkeleton";
 import { Suspense } from "react";
 import type { SummaryStatus } from "@/types/summary";
 import type { Enums } from "@/types/supabase";
+import { createClient } from "@/utils/supabase/server";
+import { UUID } from "crypto";
+import { UserMetadata } from "@supabase/supabase-js";
 
 export default async function Home({
   searchParams
@@ -13,6 +16,12 @@ export default async function Home({
   searchParams: { search: string; topic: string; source: Enums<"source">; status: SummaryStatus };
 }>) {
   const { search, topic, source, status } = searchParams;
+
+  const supabase = createClient();
+
+  const { data } = await supabase.auth.getUser();
+  const userId = data?.user?.id as UUID;
+  const userMetadata = data?.user?.user_metadata as UserMetadata;
 
   return (
     <Tabs defaultValue={"discover"} className="flex flex-col gap-6 md:gap-12">
@@ -28,13 +37,13 @@ export default async function Home({
         </TabsList>
 
         <div className="flex items-center gap-4">
-          <AccountDropdown />
+          <AccountDropdown userId={userId} userMetadata={userMetadata} />
         </div>
       </header>
 
       <main>
         <TabsContent value="discover">
-          <Discover />
+          <Discover userId={userId} />
         </TabsContent>
 
         <TabsContent value="library">
@@ -44,6 +53,7 @@ export default async function Home({
               initialTopic={topic}
               initialSource={source}
               initialStatus={status}
+              userId={userId}
             />
           </Suspense>
         </TabsContent>

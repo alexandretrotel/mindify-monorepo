@@ -14,12 +14,7 @@ import Link from "next/link";
 import { Muted } from "@/components/typography/muted";
 import { createClient } from "@/utils/supabase/server";
 
-const SavedSummaries = async () => {
-  const supabase = createClient();
-
-  const { data: userData } = await supabase.auth.getUser();
-  const userId = userData?.user?.id as UUID;
-
+const SavedSummaries = async ({ userId }: { userId: UUID }) => {
   const savedSummaries = await getUserSummariesFromLibrary(userId);
 
   return (

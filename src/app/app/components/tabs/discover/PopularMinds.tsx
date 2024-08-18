@@ -5,8 +5,9 @@ import { Muted } from "@/components/typography/muted";
 import { getAllMinds, getMostSavedMinds, isMindSaved } from "@/actions/minds";
 import MindsClient from "@/components/global/MindsClient";
 import { Tables } from "@/types/supabase";
+import { UUID } from "crypto";
 
-const PopularMinds = async () => {
+const PopularMinds = async ({ userId }: { userId: UUID }) => {
   const popularMinds = await getMostSavedMinds();
   const allMinds = await getAllMinds(10);
 
@@ -25,7 +26,7 @@ const PopularMinds = async () => {
 
   const AreMindsSaved = await Promise.all(
     finalMinds?.map(async (mind) => {
-      const isSaved = await isMindSaved(mind?.id).catch(() => false);
+      const isSaved = await isMindSaved(mind?.id, userId).catch(() => false);
       return isSaved;
     })
   );
@@ -44,7 +45,7 @@ const PopularMinds = async () => {
           <Muted>Les idées clés qui vous serviront dans votre vie.</Muted>
         </div>
 
-        <MindsClient minds={finalMinds} initialAreSaved={AreMindsSaved} />
+        <MindsClient minds={finalMinds} initialAreSaved={AreMindsSaved} userId={userId} />
       </div>
     </Carousel>
   );
