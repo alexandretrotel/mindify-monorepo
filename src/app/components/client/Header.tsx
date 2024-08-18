@@ -27,7 +27,7 @@ const navigation = [
   { name: "FAQ", href: "#faq" }
 ];
 
-export default function HeaderClient({ isUserConnected }: Readonly<{ isUserConnected: boolean }>) {
+export default function HeaderClient() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -82,11 +82,7 @@ export default function HeaderClient({ isUserConnected }: Readonly<{ isUserConne
         </div>
         <div className="hidden gap-4 lg:flex lg:flex-1 lg:justify-end">
           <Button asChild variant="outline">
-            {isUserConnected ? (
-              <Link href="/app">Lancer l&apos;app</Link>
-            ) : (
-              <Link href="/auth/login">Se connecter</Link>
-            )}
+            <Link href="/auth/login">Se connecter</Link>
           </Button>
           <ToggleTheme />
         </div>
@@ -130,11 +126,7 @@ export default function HeaderClient({ isUserConnected }: Readonly<{ isUserConne
               </div>
               <div className="py-6">
                 <Button asChild>
-                  {isUserConnected ? (
-                    <Link href="/app">Lancer l&apos;app</Link>
-                  ) : (
-                    <Link href="/auth/login">Se connecter</Link>
-                  )}
+                  <Link href="/app">Se connecter</Link>
                 </Button>
               </div>
             </div>

@@ -13,23 +13,24 @@ import PopularMinds from "@/app/app/components/tabs/discover/PopularMinds";
 import PopularMindsSkeleton from "@/app/app/components/tabs/discover/skeleton/PopularMindsSkeleton";
 import RandomMinds from "@/app/app/components/tabs/discover/RandomMinds";
 import RandomMindsSkeleton from "@/app/app/components/tabs/discover/skeleton/randomMindsSkeleton";
+import { UUID } from "crypto";
 
-const Discover = async () => {
+const Discover = async ({ userId }: { userId: UUID }) => {
   return (
     <div className="mx-auto flex flex-col gap-8 md:gap-16 lg:justify-between">
       <div className="relative w-full">
         <Suspense fallback={<StatisticsSkeleton />}>
-          <Statistics />
+          <Statistics userId={userId} />
         </Suspense>
       </div>
 
       <div className="flex flex-col gap-16">
         <Suspense fallback={<PersonalizedSkeleton />}>
-          <Personalized />
+          <Personalized userId={userId} />
         </Suspense>
 
         <Suspense fallback={<PopularMindsSkeleton />}>
-          <PopularMinds />
+          <PopularMinds userId={userId} />
         </Suspense>
 
         <Suspense fallback={<PopularSkeleton />}>
@@ -37,15 +38,15 @@ const Discover = async () => {
         </Suspense>
 
         <Suspense fallback={<CategoriesSkeleton />}>
-          <Categories />
+          <Categories userId={userId} />
         </Suspense>
 
         <Suspense fallback={<RandomMindsSkeleton />}>
-          <RandomMinds />
+          <RandomMinds userId={userId} />
         </Suspense>
 
         <Suspense fallback={<SavedSummariesSkeleton />}>
-          <SavedSummaries />
+          <SavedSummaries userId={userId} />
         </Suspense>
       </div>
     </div>

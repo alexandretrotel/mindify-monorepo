@@ -128,17 +128,8 @@ export async function getMindsFromUserId(userId: UUID) {
   }
 }
 
-export async function saveMind(mindId: number) {
+export async function saveMind(mindId: number, userId: UUID) {
   const supabase = createClient();
-
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-
-  const userId: UUID = userData?.user?.id as UUID;
-
-  if (userError) {
-    console.error(userError);
-    throw new Error("Impossible de récupérer l'utilisateur");
-  }
 
   const { error } = await supabase.from("saved_minds").insert({
     user_id: userId,
@@ -151,17 +142,8 @@ export async function saveMind(mindId: number) {
   }
 }
 
-export async function unsaveMind(mindId: number) {
+export async function unsaveMind(mindId: number, userId: UUID) {
   const supabase = createClient();
-
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-
-  const userId: UUID = userData?.user?.id as UUID;
-
-  if (userError) {
-    console.error(userError);
-    throw new Error("Impossible de récupérer l'utilisateur");
-  }
 
   const { error } = await supabase
     .from("saved_minds")
@@ -175,17 +157,8 @@ export async function unsaveMind(mindId: number) {
   }
 }
 
-export async function isMindSaved(mindId: number) {
+export async function isMindSaved(mindId: number, userId: UUID) {
   const supabase = createClient();
-
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-
-  const userId: UUID = userData?.user?.id as UUID;
-
-  if (userError) {
-    console.error(userError);
-    throw new Error("Impossible de récupérer l'utilisateur");
-  }
 
   const { data, error } = await supabase
     .from("saved_minds")

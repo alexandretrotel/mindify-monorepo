@@ -4,31 +4,31 @@ import { getUserTopics, getUserCustomAvatar } from "@/actions/users";
 import { createClient } from "@/utils/supabase/server";
 import AccountDropdownClient from "@/components/global/client/AccountDropdownClient";
 import type { Tables } from "@/types/supabase";
+import { UserMetadata } from "@supabase/supabase-js";
 
-const AccountDropdown = async () => {
+const AccountDropdown = async ({
+  userId,
+  userMetadata
+}: {
+  userId: UUID;
+  userMetadata: UserMetadata;
+}) => {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
+  const { data: topicsData } = await supabase.from("topics").select("*");
 
-  if (!error && data?.user) {
-    const userId = data?.user.id as UUID;
-    const userMetadata = data?.user?.user_metadata;
+  const userTopics = await getUserTopics(userId);
+  const userPicture = await getUserCustomAvatar(userId, userMetadata);
 
-    const { data: topicsData } = await supabase.from("topics").select("*");
-
-    const userTopics = await getUserTopics(userId);
-    const userPicture = await getUserCustomAvatar();
-
-    return (
-      <AccountDropdownClient
-        userMetadata={userMetadata}
-        userId={userId}
-        topics={topicsData as Tables<"topics">[]}
-        userTopics={userTopics}
-        userPicture={userPicture}
-      />
-    );
-  }
+  return (
+    <AccountDropdownClient
+      userMetadata={userMetadata}
+      userId={userId}
+      topics={topicsData as Tables<"topics">[]}
+      userTopics={userTopics}
+      userPicture={userPicture}
+    />
+  );
 };
 
 export default AccountDropdown;

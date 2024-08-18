@@ -1,5 +1,4 @@
 import React from "react";
-import { Card } from "@/components/ui/card";
 import H5Span from "@/components/typography/h5";
 import Span from "@/components/typography/span";
 import { sourceToString } from "@/utils/topics";

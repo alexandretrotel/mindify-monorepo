@@ -77,9 +77,9 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const profilePicture = await getUserCustomAvatarFromUserId(profileData?.user?.id as UUID);
 
   const supabase = createClient();
-
-  const { data: userData } = await supabase.auth.getUser();
-  const userId: UUID = userData?.user?.id as UUID;
+  const { data } = await supabase.auth.getUser();
+  const userId = data?.user?.id as UUID;
+  const userMetadata = data?.user?.user_metadata as UserMetadata;
 
   const isMyProfile = userId === profileId;
 
@@ -109,7 +109,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
           </div>
         </div>
 
-        <AccountDropdown />
+        <AccountDropdown userId={userId} userMetadata={userMetadata} />
       </div>
 
       <div className="flex w-full flex-wrap items-center gap-4">
@@ -167,7 +167,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
               </Carousel>
             }
           >
-            <ProfileMinds profileId={profileId} />
+            <ProfileMinds profileId={profileId} userId={userId} />
           </Suspense>
 
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-4">

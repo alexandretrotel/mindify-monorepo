@@ -3,9 +3,10 @@ import MindsClient from "@/components/global/MindsClient";
 import H2 from "@/components/typography/h2";
 import { Carousel } from "@/components/ui/carousel";
 import type { Tables } from "@/types/supabase";
+import { UUID } from "crypto";
 import React from "react";
 
-const SummaryMinds = async ({ summaryId }: { summaryId: number }) => {
+const SummaryMinds = async ({ summaryId, userId }: { summaryId: number; userId: UUID }) => {
   const summaryMinds = (await getMindsFromSummaryId(summaryId)) as (Tables<"minds"> & {
     summaries: Tables<"summaries"> & {
       authors: Tables<"authors">;
@@ -19,7 +20,7 @@ const SummaryMinds = async ({ summaryId }: { summaryId: number }) => {
 
   const initialAreSaved = await Promise.all(
     summaryMinds.map(async (mind) => {
-      return await isMindSaved(mind?.id).catch(() => false);
+      return await isMindSaved(mind?.id, userId).catch(() => false);
     })
   );
 
@@ -33,7 +34,7 @@ const SummaryMinds = async ({ summaryId }: { summaryId: number }) => {
     >
       <div className="flex flex-col gap-4">
         <H2>Les MINDS de ce résumé</H2>
-        <MindsClient minds={summaryMinds} initialAreSaved={initialAreSaved} />
+        <MindsClient minds={summaryMinds} initialAreSaved={initialAreSaved} userId={userId} />
       </div>
     </Carousel>
   );

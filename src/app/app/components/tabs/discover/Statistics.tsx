@@ -5,11 +5,8 @@ import type { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 import { getSummariesRepartition } from "@/actions/users";
 
-const Statistics = async () => {
+const Statistics = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
-
-  const { data: userData } = await supabase.auth.getUser();
-  const userId = userData?.user?.id as UUID;
 
   const { data: userReadsData } = await supabase
     .from("read_summaries")

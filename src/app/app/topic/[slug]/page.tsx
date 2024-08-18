@@ -9,6 +9,8 @@ import { getAdminTopicFromTopicSlug, getTopicFromTopicSlug } from "@/actions/top
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 import type { Metadata, ResolvingMetadata } from "next";
+import { UserMetadata } from "@supabase/supabase-js";
+import { UUID } from "crypto";
 
 export async function generateMetadata(
   {
@@ -53,6 +55,10 @@ const Page = async ({ params }: { params: { slug: string } }) => {
 
   const supabase = createClient();
 
+  const { data } = await supabase.auth.getUser();
+  const userId = data?.user?.id as UUID;
+  const userMetadata = data?.user?.user_metadata as UserMetadata;
+
   const topic = await getTopicFromTopicSlug(slug);
   const { data: summariesData } = await supabase
     .from("summaries")
@@ -85,7 +91,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
               </Muted>
             </div>
 
-            <AccountDropdown />
+            <AccountDropdown userId={userId} userMetadata={userMetadata} />
           </div>
         </div>
 
