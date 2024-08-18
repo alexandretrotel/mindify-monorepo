@@ -55,7 +55,7 @@ const SummariesByCategoryClient = ({
   };
 
   return (
-    <>
+    <React.Fragment>
       <div className="min-w-md relative max-w-md flex-1">
         <SearchIcon className="absolute left-2 top-3 flex h-4 w-4 text-muted-foreground" />
         <Input
@@ -106,7 +106,7 @@ const SummariesByCategoryClient = ({
           </PaginationNext>
         </button>
       </Pagination>
-    </>
+    </React.Fragment>
   );
 };
 

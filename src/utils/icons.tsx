@@ -8,5 +8,5 @@ export const generateMetaTags = (icons: { src: string; sizes: string }[]) => {
 };
 
 export const MetaTags: React.FC = () => {
-  return <>{generateMetaTags(icons)}</>;
+  return <React.Fragment>{generateMetaTags(icons)}</React.Fragment>;
 };

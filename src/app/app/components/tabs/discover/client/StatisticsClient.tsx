@@ -172,12 +172,12 @@ const StatisticsClient = ({
             <CardDescription>Temps de lecture</CardDescription>
             <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
               {totalReadingTimeInHours > 0 && (
-                <>
+                <React.Fragment>
                   {totalReadingTimeInHours}
                   <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
                     h
                   </span>
-                </>
+                </React.Fragment>
               )}
               {remainingMinutes}
               <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">

@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function AccountSubscription() {
-  return <></>;
+  return <React.Fragment></React.Fragment>;
 }

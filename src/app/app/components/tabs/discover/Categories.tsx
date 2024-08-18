@@ -32,7 +32,7 @@ const Categories = async () => {
     : [];
 
   return (
-    <>
+    <React.Fragment>
       <Carousel
         opts={{
           align: "start",
@@ -126,7 +126,7 @@ const Categories = async () => {
           </CarouselContent>
         </div>
       </Carousel>
-    </>
+    </React.Fragment>
   );
 };
 

@@ -45,7 +45,7 @@ const ClientAccountDropdown = ({
   const [category, setCategory] = React.useState<AccountCategory>("profile");
 
   return (
-    <>
+    <React.Fragment>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar>
@@ -137,7 +137,7 @@ const ClientAccountDropdown = ({
         userTopics={userTopics}
         userPicture={userPicture}
       />
-    </>
+    </React.Fragment>
   );
 };
 

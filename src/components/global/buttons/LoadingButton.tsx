@@ -30,10 +30,10 @@ export function LoadingButton({
       size={size}
     >
       {pending && (
-        <>
+        <React.Fragment>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           Chargement...
-        </>
+        </React.Fragment>
       )}
       {!pending && children}
     </Button>

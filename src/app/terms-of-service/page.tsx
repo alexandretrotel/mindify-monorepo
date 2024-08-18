@@ -5,5 +5,5 @@ export const metadata: Metadata = {
 };
 
 export default function TermsOfService() {
-  return <></>;
+  return <React.Fragment></React.Fragment>;
 }

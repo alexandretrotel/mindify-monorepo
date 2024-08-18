@@ -5,8 +5,6 @@ import type { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 import { getSummariesRepartition } from "@/actions/users";
 
-export const revalidate = 0;
-
 const Statistics = async () => {
   const supabase = createClient();
 

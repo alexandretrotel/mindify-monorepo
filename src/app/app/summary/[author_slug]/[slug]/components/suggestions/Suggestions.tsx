@@ -19,7 +19,7 @@ const Suggestions = async ({
   );
 
   return (
-    <>
+    <React.Fragment>
       {mostPopularSummariesFromSameTopic?.length > 0 && (
         <Carousel
           opts={{
@@ -59,7 +59,7 @@ const Suggestions = async ({
           </div>
         </Carousel>
       )}
-    </>
+    </React.Fragment>
   );
 };
 

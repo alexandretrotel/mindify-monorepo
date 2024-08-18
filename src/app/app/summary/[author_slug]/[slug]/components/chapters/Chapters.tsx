@@ -14,7 +14,7 @@ const Chapters = async ({
   const summaryChapters = await getSummaryChapters(summaryId);
 
   return (
-    <>
+    <React.Fragment>
       <div id="introduction" className="flex flex-col gap-4">
         <H2>Introduction</H2>
         <P size="lg">{summary.introduction}</P>
@@ -33,7 +33,7 @@ const Chapters = async ({
         <H2>Conclusion</H2>
         <P size="lg">{summary.conclusion}</P>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

@@ -17,8 +17,6 @@ import { FlameIcon } from "lucide-react";
 import { Muted } from "@/components/typography/muted";
 import Semibold from "@/components/typography/semibold";
 
-export const revalidate = 0;
-
 const Friends = async ({
   profileId,
   profileMetadata

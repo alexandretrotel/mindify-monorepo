@@ -115,7 +115,7 @@ const MyFriendClient = ({
   };
 
   return (
-    <>
+    <React.Fragment>
       <TabsContent value="my-friends">
         <Card>
           <ScrollArea className="h-96 w-full">
@@ -290,7 +290,7 @@ const MyFriendClient = ({
           </ScrollArea>
         </Card>
       </TabsContent>
-    </>
+    </React.Fragment>
   );
 };
 

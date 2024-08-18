@@ -5,5 +5,5 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPolicy() {
-  return <></>;
+  return <React.Fragment></React.Fragment>;
 }

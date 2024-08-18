@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function AccountNotifications() {
-  return <></>;
+  return <React.Fragment></React.Fragment>;
 }

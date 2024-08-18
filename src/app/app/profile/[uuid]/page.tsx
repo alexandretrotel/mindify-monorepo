@@ -110,13 +110,13 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
 
       <div className="flex w-full flex-wrap items-center gap-4">
         {isMyProfile || !profileId ? (
-          <>
+          <React.Fragment>
             <Button size="sm" disabled>
               Modifier le profil
             </Button>
 
             <CopyProfileLinkButton userId={userId} />
-          </>
+          </React.Fragment>
         ) : (
           <Friendship userId={userId} profileId={profileId} />
         )}

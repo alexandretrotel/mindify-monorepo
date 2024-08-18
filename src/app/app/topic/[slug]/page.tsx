@@ -12,7 +12,7 @@ import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 import type { Metadata, ResolvingMetadata } from "next";
 
-export const revalidate = 60;
+export const revalidate = 60 * 15; // 15 minutes
 
 export async function generateMetadata(
   {

@@ -3,13 +3,13 @@ import Faq from "@/app/components/Faq";
 import Testimonials from "@/app/components/Testimonials";
 import Pricing from "@/app/components/Pricing";
 import Footer from "@/app/components/Footer";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import Header from "@/app/components/Header";
 import HeaderSkeleton from "@/app/components/skeleton/HeaderSkeleton";
 
 export default async function Home() {
   return (
-    <>
+    <React.Fragment>
       <Suspense fallback={<HeaderSkeleton />}>
         <Header />
       </Suspense>
@@ -20,6 +20,6 @@ export default async function Home() {
         <Faq />
       </main>
       <Footer />
-    </>
+    </React.Fragment>
   );
 }

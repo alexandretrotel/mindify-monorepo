@@ -23,7 +23,7 @@ const SavedSummaries = async () => {
   const savedSummaries = await getUserSummariesFromLibrary(userId);
 
   return (
-    <>
+    <React.Fragment>
       {savedSummaries?.length >= 3 && (
         <Carousel
           opts={{
@@ -66,7 +66,7 @@ const SavedSummaries = async () => {
           </div>
         </Carousel>
       )}
-    </>
+    </React.Fragment>
   );
 };
 
