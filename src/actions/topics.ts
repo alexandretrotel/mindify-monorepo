@@ -20,7 +20,7 @@ export async function addTopic(user_id: UUID, topic_id: number) {
     throw new Error("Impossible d'ajouter l'intérêt'.");
   }
 
-  revalidatePath("/", "layout");
+  revalidatePath("/app", "layout");
   return { message: "Intérêt ajouté avec succès." };
 }
 
@@ -38,7 +38,7 @@ export async function removeTopic(user_id: UUID, topic_id: number) {
     throw new Error("Impossible de supprimer l'intérêt.");
   }
 
-  revalidatePath("/", "layout");
+  revalidatePath("/app", "layout");
   return { message: "Intérêt supprimé avec succès." };
 }
 

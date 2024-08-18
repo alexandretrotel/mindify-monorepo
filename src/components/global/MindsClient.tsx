@@ -21,7 +21,7 @@ const MindsClient = ({
   initialAreSaved: boolean[];
 }) => {
   return (
-    <>
+    <React.Fragment>
       <CarouselContent className="-ml-4 flex">
         {minds?.map((mind, index) => {
           return (
@@ -36,7 +36,7 @@ const MindsClient = ({
         <CarouselPrevious />
         <CarouselNext />
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

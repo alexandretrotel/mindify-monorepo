@@ -42,7 +42,7 @@ export async function userUpdateName(name: string) {
     throw new Error("Impossible de mettre à jour le nom.");
   }
 
-  revalidatePath("/", "layout");
+  revalidatePath("/app", "layout");
   return { name, message: "Nom mis à jour avec succès." };
 }
 
@@ -74,7 +74,7 @@ export async function userUpdateBiography(biography: string) {
     throw new Error("Impossible de mettre à jour la bio.");
   }
 
-  revalidatePath("/", "layout");
+  revalidatePath("/app", "layout");
   return { bio: bioData.bio, message: "Biographie mise à jour avec succès." };
 }
 
@@ -143,7 +143,7 @@ export async function userUpdateAvatar(formData: FormData) {
     throw new Error("Impossible d'obtenir l'URL publique de l'avatar.");
   }
 
-  revalidatePath("/", "layout");
+  revalidatePath("/app", "layout");
   return { message: "Avatar mis à jour avec succès." };
 }
 

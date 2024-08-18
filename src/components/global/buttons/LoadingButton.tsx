@@ -3,6 +3,7 @@ import "client-only";
 
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import React from "react";
 
 export function LoadingButton({
   children,
@@ -30,10 +31,10 @@ export function LoadingButton({
       size={size}
     >
       {pending && (
-        <>
+        <React.Fragment>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           Chargement...
-        </>
+        </React.Fragment>
       )}
       {!pending && children}
     </Button>
