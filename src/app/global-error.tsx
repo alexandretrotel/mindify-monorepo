@@ -9,6 +9,7 @@ import H1 from "@/components/typography/h1";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
+import { Muted } from "@/components/typography/muted";
 
 export default function GlobalError({
   error,
@@ -36,7 +37,7 @@ export default function GlobalError({
           <div className="text-center">
             <Span primaryColor>Erreur</Span>
             <H1>Une erreur est survenue</H1>
-            <Span>Essayez de recharger la page ou revenez plus tard.</Span>
+            <Muted>Essayez de recharger la page ou revenez plus tard.</Muted>
             <div className="mt-10 flex items-center justify-center gap-6">
               <Button asChild onClick={reset}>
                 Réessayer

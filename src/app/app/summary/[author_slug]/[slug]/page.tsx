@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import AddToLibraryButton from "@/app/app/summary/[author_slug]/[slug]/components/buttons/AddToLibraryButton";
 import MarkAsReadButton from "@/app/app/summary/[author_slug]/[slug]/components/buttons/MarkAsReadButton";
@@ -71,7 +71,12 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
   const { slug, author_slug } = params;
 
   const supabase = createClient();
-  const { data } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error || !data?.user) {
+    redirect("/auth/login");
+  }
+
   const userId = data?.user?.id as UUID;
   const userMetadata = data?.user?.user_metadata as UserMetadata;
 
