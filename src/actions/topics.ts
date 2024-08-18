@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
-import { supabaseAdmin } from "@/utils/supabase/admin";
+import { createAdminClient } from "@/utils/supabase/admin";
 
 export async function addTopic(user_id: UUID, topic_id: number) {
   const supabase = createClient();
@@ -75,6 +75,8 @@ export async function getTopicFromTopicSlug(slug: string) {
 }
 
 export async function getAdminTopicFromTopicSlug(slug: string) {
+  const supabaseAdmin = createAdminClient();
+
   const { data, error } = await supabaseAdmin
     .from("topics")
     .select("*")

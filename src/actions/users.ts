@@ -2,7 +2,7 @@
 import "server-only";
 
 import sharp from "sharp";
-import { supabaseAdmin } from "@/utils/supabase/admin";
+import { createAdminClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -148,6 +148,8 @@ export async function userUpdateAvatar(formData: FormData) {
 }
 
 export async function getUsersData(usersIds: UUID[]) {
+  const supabaseAdmin = createAdminClient();
+
   const users: User[] = await Promise.all(
     usersIds.map(async (userId) => {
       const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
@@ -316,6 +318,7 @@ export async function getUserCustomAvatar() {
 }
 
 export async function getUserCustomAvatarFromUserId(userId: UUID) {
+  const supabaseAdmin = createAdminClient();
   const supabase = createClient();
 
   const { data: userData } = await supabaseAdmin.auth.admin.getUserById(userId);
@@ -403,6 +406,8 @@ export async function getUserTopics(user_id: UUID) {
 }
 
 export async function getSummariesRepartition(userId: UUID) {
+  const supabaseAdmin = createAdminClient();
+
   const { data: readSummariesData, error: readSummariesError } = await supabaseAdmin
     .from("read_summaries")
     .select("*, summaries(*, topics(*))")

@@ -2,7 +2,7 @@ import SummariesByTopic from "@/app/app/topic/[slug]/components/SummariesByTopic
 import AccountDropdown from "@/components/global/AccountDropdown";
 import H3 from "@/components/typography/h3";
 import { Badge } from "@/components/ui/badge";
-import { supabaseDefaultClient } from "@/utils/supabase/default";
+import { createAdminClient } from "@/utils/supabase/admin";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 import SummariesByTopicSkeleton from "@/app/app/topic/[slug]/components/skeleton/SummariesByTopicSkeleton";
@@ -53,7 +53,9 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
-  const { data: topicsData } = await supabaseDefaultClient.from("topics").select("*");
+  const supabaseAdmin = createAdminClient();
+
+  const { data: topicsData } = await supabaseAdmin.from("topics").select("*");
 
   if (!topicsData) {
     notFound();
