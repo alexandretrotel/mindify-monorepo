@@ -23,7 +23,6 @@ import MarkAsReadButtonSkeleton from "@/app/app/summary/[author_slug]/[slug]/com
 import type { Metadata } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
-import { UserMetadata } from "@supabase/supabase-js";
 
 export async function generateMetadata({
   params
@@ -78,7 +77,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
   }
 
   const userId = data?.user?.id as UUID;
-  const userMetadata = data?.user?.user_metadata as UserMetadata;
+  const userMetadata = data?.user?.user_metadata;
 
   const summary = await getSummaryFromSlugs(author_slug, slug);
 
