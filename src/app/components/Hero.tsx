@@ -12,7 +12,7 @@ const Hero = async () => {
   return (
     <section
       id="home"
-      className="relative isolate flex h-full items-center justify-center px-4 pt-24 lg:pt-32"
+      className="relative isolate flex h-screen items-center justify-center px-4 pt-24 lg:pt-32"
     >
       <div className="hide-scrollbar relative text-center">
         <div className="mx-auto flex max-w-xl flex-col gap-2 text-center">
