@@ -11,6 +11,7 @@ import { getAdminTopicFromTopicSlug, getTopicFromTopicSlug } from "@/actions/top
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 import type { Metadata, ResolvingMetadata } from "next";
+import { supabaseAdmin } from "@/utils/supabase/admin-js";
 
 export const revalidate = 60 * 15; // 15 minutes
 
@@ -53,8 +54,6 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
-  const supabaseAdmin = createAdminClient();
-
   const { data: topicsData } = await supabaseAdmin.from("topics").select("*");
 
   if (!topicsData) {
