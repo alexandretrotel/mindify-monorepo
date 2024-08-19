@@ -1,9 +1,9 @@
-import SummariesByTopic from "@/app/app/topic/[slug]/components/SummariesByTopic";
+import SummariesByTopic from "@/components/features/topic/SummariesByTopic";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import H3 from "@/components/typography/h3";
 import { Badge } from "@/components/ui/badge";
 import React, { Suspense } from "react";
-import SummariesByTopicSkeleton from "@/app/app/topic/[slug]/components/skeleton/SummariesByTopicSkeleton";
+import SummariesByTopicSkeleton from "@/components/features/topic/skeleton/SummariesByTopicSkeleton";
 import { createClient } from "@/utils/supabase/server";
 import { getAdminTopicFromTopicSlug, getTopicFromTopicSlug } from "@/actions/topics";
 import type { Tables } from "@/types/supabase";

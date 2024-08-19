@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import AuthProviders from "@/app/auth/components/AuthProviders";
+import AuthProviders from "@/components/features/AuthProviders";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
