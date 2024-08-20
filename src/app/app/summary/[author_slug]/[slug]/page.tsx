@@ -23,6 +23,7 @@ import MarkAsReadButtonSkeleton from "@/components/features/summary/buttons/skel
 import type { Metadata } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
+import type { Tables } from "@/types/supabase";
 
 export async function generateMetadata({
   params
@@ -79,7 +80,11 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
   const userId = data?.user?.id as UUID;
   const userMetadata = data?.user?.user_metadata;
 
-  const summary = await getSummaryFromSlugs(author_slug, slug);
+  const summary = (await getSummaryFromSlugs(author_slug, slug)) as Tables<"summaries"> & {
+    topics: Tables<"topics">;
+    authors: Tables<"authors">;
+    chapters: Tables<"chapters">;
+  };
 
   if (!summary) {
     notFound();
@@ -114,7 +119,11 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
             <div className="flex w-full flex-col justify-between gap-8 lg:flex-row lg:gap-16">
               <div className="order-2 flex max-w-3xl flex-col gap-8 lg:order-1 lg:min-w-0 lg:grow">
                 <Suspense fallback={<ChaptersSkeleton />}>
-                  <Chapters summaryId={summary?.id} summary={summary} />
+                  <Chapters
+                    chapters={summary?.chapters}
+                    introduction={summary?.introduction}
+                    conclusion={summary?.conclusion}
+                  />
                 </Suspense>
 
                 <div className="flex flex-col gap-4">
@@ -130,11 +139,11 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
                 <div className="w-full lg:sticky lg:right-0 lg:top-0 lg:pt-8">
                   <div className="flex w-full flex-col gap-8">
                     <Suspense fallback={<TableOfContentsSkeleton />}>
-                      <TableOfContents summaryId={summary?.id} />
+                      <TableOfContents chapters={summary?.chapters} />
                     </Suspense>
 
                     <Suspense fallback={<AuthorDescriptionSkeleton />}>
-                      <AuthorDescription summaryId={summary?.id} />
+                      <AuthorDescription author={summary?.authors} />
                     </Suspense>
                   </div>
                 </div>

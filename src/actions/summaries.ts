@@ -82,7 +82,7 @@ export async function getSummaryFromSlugs(author_slug: string, slug: string) {
 
   const { data, error } = await supabase
     .from("summaries")
-    .select("*, authors(*), topics(*)")
+    .select("*, authors(*), topics(*), chapters(*)")
     .eq("slug", slug)
     .eq("authors.slug", author_slug)
     .maybeSingle();

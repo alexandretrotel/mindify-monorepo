@@ -21,7 +21,7 @@ import LibrarySnippetSkeleton from "@/components/features/profile/library/skelet
 import FriendsSkeleton from "@/components/features/profile/friends/skeleton/FriendsSkeleton";
 import MyFriendsSkeleton from "@/components/features/profile/friends/skeleton/MyFriendsSkeleton";
 import TopicsListSkeleton from "@/components/features/profile/topics/skeleton/TopicsListSkeleton";
-import { getUserCustomAvatarFromUserId } from "@/actions/users";
+import { getStorageAvatar, getUserCustomAvatarFromUserId } from "@/actions/users";
 import { Muted } from "@/components/typography/muted";
 import ProfileMinds from "@/components/features/profile/minds/ProfileMinds";
 import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
@@ -75,7 +75,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
   let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
 
-  const profilePicture = await getUserCustomAvatarFromUserId(profileData?.user?.id as UUID);
+  const profilePicture = await getStorageAvatar(profileData?.user?.id as UUID, profileMetadata);
 
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();

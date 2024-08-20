@@ -1,37 +1,36 @@
-import { getSummaryChapters } from "@/actions/summaries";
 import React from "react";
 import H2 from "@/components/typography/h2";
 import P from "@/components/typography/p";
 import type { Tables } from "@/types/supabase";
 
 const Chapters = async ({
-  summaryId,
-  summary
+  chapters,
+  introduction,
+  conclusion
 }: {
-  summaryId: number;
-  summary: Tables<"summaries">;
+  chapters: Tables<"chapters">;
+  introduction: string;
+  conclusion: string;
 }) => {
-  const summaryChapters = await getSummaryChapters(summaryId);
-
   return (
     <React.Fragment>
       <div id="introduction" className="flex flex-col gap-4">
         <H2>Introduction</H2>
-        <P size="lg">{summary.introduction}</P>
+        <P size="lg">{introduction}</P>
       </div>
 
       <div className="flex flex-col gap-8">
-        {summaryChapters?.titles?.map((title, index) => (
+        {chapters?.titles?.map((title, index) => (
           <div key={title} id={"chapter" + String(index + 1)} className="flex flex-col gap-4">
             <H2>{title}</H2>
-            <P size="lg">{summaryChapters?.texts[index]}</P>
+            <P size="lg">{chapters?.texts[index]}</P>
           </div>
         ))}
       </div>
 
       <div id="conclusion" className="flex flex-col gap-4">
         <H2>Conclusion</H2>
-        <P size="lg">{summary.conclusion}</P>
+        <P size="lg">{conclusion}</P>
       </div>
     </React.Fragment>
   );

@@ -1,14 +1,12 @@
-import { getAuthorFromSummaryId } from "@/actions/authors";
 import React from "react";
 import { ChevronDownIcon } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import H3Span from "@/components/typography/h3AsSpan";
 import Span from "@/components/typography/span";
+import type { Tables } from "@/types/supabase";
 
-const AuthorDescription = async ({ summaryId }: { summaryId: number }) => {
-  const author = await getAuthorFromSummaryId(summaryId);
-
+const AuthorDescription = async ({ author }: { author: Tables<"authors"> }) => {
   return (
     <Card>
       <Collapsible>
