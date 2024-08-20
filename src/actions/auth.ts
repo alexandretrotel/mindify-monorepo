@@ -7,6 +7,7 @@ import { z } from "zod";
 
 import { createClient } from "@/utils/supabase/server";
 import { SocialProvider } from "@/types/auth";
+import { headers } from "next/headers";
 
 const formDataMailSchema = z.object({
   email: z
@@ -31,9 +32,6 @@ const formDataSchema = z.object({
     .regex(/[a-z]/, "Le mot de passe doit contenir au moins une minuscule")
     .regex(/\d/, "Le mot de passe doit contenir au moins un chiffre")
 });
-
-const domain =
-  process.env.NODE_ENV === "production" ? "https://www.mindify.fr" : "http://localhost:3000";
 
 export async function signUpWithPassword(formData: FormData) {
   const supabase = createClient();
@@ -98,6 +96,8 @@ export async function signInWithPassword(formData: FormData) {
 export async function signInWithEmail(formData: FormData) {
   const supabase = createClient();
 
+  const origin = headers().get("origin");
+
   let data;
   try {
     data = formDataMailSchema.parse({
@@ -112,7 +112,7 @@ export async function signInWithEmail(formData: FormData) {
     email: data.email,
     options: {
       shouldCreateUser: true,
-      emailRedirectTo: `${domain}/app`
+      emailRedirectTo: `${origin}/app`
     }
   });
 
@@ -128,10 +128,12 @@ export async function signInWithEmail(formData: FormData) {
 export async function signInWithSocials(provider: SocialProvider) {
   const supabase = createClient();
 
+  const origin = headers().get("origin");
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider,
     options: {
-      redirectTo: `${domain}/auth/callback`,
+      redirectTo: `${origin}/auth/callback`,
       queryParams: {
         access_type: "offline",
         prompt: "consent"
