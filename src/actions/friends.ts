@@ -3,6 +3,7 @@ import "server-only";
 
 import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
+import { revalidatePath } from "next/cache";
 import { getUsersData } from "@/actions/users";
 import { createAdminClient } from "@/utils/supabase/admin";
 
@@ -24,6 +25,7 @@ export async function askForFriend(userId: UUID, profileId: UUID) {
     throw new Error("Impossible d'envoyer la demande d'ami.");
   }
 
+  revalidatePath(`/app`);
   return { message: "Demande d'ami envoyée avec succès." };
 }
 
@@ -37,6 +39,7 @@ export async function cancelFriendRequest(userId: UUID, profileId: UUID) {
     throw new Error("Impossible d'annuler la demande d'ami.");
   }
 
+  revalidatePath(`/app`);
   return { message: "Demande d'ami annulée avec succès." };
 }
 
@@ -76,6 +79,7 @@ export async function acceptFriendRequest(userId: UUID, profileId: UUID) {
     throw new Error("Impossible d'accepter la demande d'ami.");
   }
 
+  revalidatePath(`/app`);
   return { message: "Demande d'ami acceptée avec succès." };
 }
 
@@ -107,6 +111,7 @@ export async function rejectFriendRequest(userId: UUID, profileId: UUID) {
     throw new Error("Impossible de rejeter la demande d'ami.");
   }
 
+  revalidatePath(`/app`);
   return { message: "Demande d'ami rejetée avec succès." };
 }
 
@@ -121,6 +126,7 @@ export async function removeFriend(userId: UUID, profileId: UUID) {
     throw new Error("Impossible de supprimer l'ami.");
   }
 
+  revalidatePath(`/app`);
   return { message: "Ami supprimé avec succès." };
 }
 
@@ -142,6 +148,7 @@ export async function blockUser(userId: UUID, profileId: UUID) {
     throw new Error("Impossible de bloquer l'utilisateur.");
   }
 
+  revalidatePath(`/app`);
   return { message: "Utilisateur bloqué avec succès." };
 }
 
@@ -159,6 +166,7 @@ export async function unblockUser(userId: UUID, profileId: UUID) {
     throw new Error("Impossible de débloquer l'utilisateur.");
   }
 
+  revalidatePath(`/app`);
   return { message: "Utilisateur débloqué avec succès." };
 }
 
