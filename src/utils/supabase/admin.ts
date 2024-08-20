@@ -15,8 +15,9 @@ export function createAdminClient() {
         },
         setAll(cookiesToSet) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
+            cookiesToSet.forEach(
+              ({ name, value, options }: { name: string; value: string; options: CookieOptions }) =>
+                cookieStore.set(name, value, options)
             );
           } catch {
             // The `setAll` method was called from a Server Component.
