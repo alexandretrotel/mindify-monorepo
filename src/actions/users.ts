@@ -3,7 +3,6 @@ import "server-only";
 
 import sharp from "sharp";
 import { createClient } from "@/utils/supabase/server";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { UUID } from "crypto";
 import type { User, UserMetadata } from "@supabase/supabase-js";
@@ -42,7 +41,6 @@ export async function userUpdateName(name: string) {
     throw new Error("Impossible de mettre à jour le nom.");
   }
 
-  revalidatePath("/app", "layout");
   return { name, message: "Nom mis à jour avec succès." };
 }
 
@@ -74,7 +72,6 @@ export async function userUpdateBiography(biography: string) {
     throw new Error("Impossible de mettre à jour la bio.");
   }
 
-  revalidatePath("/app", "layout");
   return { bio: bioData.bio, message: "Biographie mise à jour avec succès." };
 }
 
@@ -136,7 +133,6 @@ export async function userUpdateAvatar(formData: FormData, userId: UUID) {
     throw new Error("Impossible d'obtenir l'URL publique de l'avatar.");
   }
 
-  revalidatePath("/app", "layout");
   return { message: "Avatar mis à jour avec succès." };
 }
 

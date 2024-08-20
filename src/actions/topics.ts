@@ -2,7 +2,6 @@
 import "server-only";
 
 import { createClient } from "@/utils/supabase/server";
-import { revalidatePath } from "next/cache";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 import { createAdminClient } from "@/utils/supabase/admin";
@@ -20,7 +19,6 @@ export async function addTopic(user_id: UUID, topic_id: number) {
     throw new Error("Impossible d'ajouter l'intérêt'.");
   }
 
-  revalidatePath("/app", "layout");
   return { message: "Intérêt ajouté avec succès." };
 }
 
@@ -38,7 +36,6 @@ export async function removeTopic(user_id: UUID, topic_id: number) {
     throw new Error("Impossible de supprimer l'intérêt.");
   }
 
-  revalidatePath("/app", "layout");
   return { message: "Intérêt supprimé avec succès." };
 }
 
