@@ -2,20 +2,15 @@ import React from "react";
 import H3 from "@/components/typography/h3";
 import { Carousel } from "@/components/ui/carousel";
 import { Muted } from "@/components/typography/muted";
-import { getRandomMinds, isMindSaved } from "@/actions/minds";
+import { areMindsSaved, getRandomMinds } from "@/actions/minds";
 import MindsClient from "@/components/global/MindsClient";
 import { UUID } from "crypto";
 
 const RandomMinds = async ({ userId }: { userId: UUID }) => {
   const allRandomMinds = await getRandomMinds();
   const randomMinds = allRandomMinds?.slice(0, 10);
-
-  const AreMindsSaved = await Promise.all(
-    randomMinds?.map(async (mind) => {
-      const isSaved = await isMindSaved(mind?.id, userId).catch(() => false);
-      return isSaved;
-    })
-  );
+  const randomMindsIds = randomMinds?.map((mind) => mind?.id);
+  const AreMindsSaved = await areMindsSaved(randomMindsIds, userId);
 
   return (
     <Carousel

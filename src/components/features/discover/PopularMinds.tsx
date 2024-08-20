@@ -2,7 +2,7 @@ import React from "react";
 import H3 from "@/components/typography/h3";
 import { Carousel } from "@/components/ui/carousel";
 import { Muted } from "@/components/typography/muted";
-import { getAllMinds, getMostSavedMinds, isMindSaved } from "@/actions/minds";
+import { getAllMinds, getMostSavedMinds, areMindsSaved } from "@/actions/minds";
 import MindsClient from "@/components/global/MindsClient";
 import { Tables } from "@/types/supabase";
 import { UUID } from "crypto";
@@ -24,12 +24,8 @@ const PopularMinds = async ({ userId }: { userId: UUID }) => {
     summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
   })[];
 
-  const AreMindsSaved = await Promise.all(
-    finalMinds?.map(async (mind) => {
-      const isSaved = await isMindSaved(mind?.id, userId).catch(() => false);
-      return isSaved;
-    })
-  );
+  const finalMindsIds = finalMinds?.map((mind) => mind?.id);
+  const AreMindsSaved = await areMindsSaved(finalMindsIds, userId);
 
   return (
     <Carousel

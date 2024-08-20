@@ -179,6 +179,23 @@ export async function isMindSaved(mindId: number, userId: UUID) {
   }
 }
 
+export async function areMindsSaved(mindIds: number[], userId: UUID) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("saved_minds")
+    .select("*")
+    .eq("user_id", userId)
+    .in("mind_id", mindIds);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de vérifier si les minds sont sauvegardés.");
+  }
+
+  return mindIds?.map((mindId) => data?.some((savedMind) => savedMind?.mind_id === mindId));
+}
+
 export async function getRandomMinds() {
   const supabase = createClient();
 
