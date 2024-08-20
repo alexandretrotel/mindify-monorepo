@@ -70,19 +70,19 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
 const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const profileId = params.uuid;
 
-  const supabaseAdmin = createAdminClient();
-
-  const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
-  let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
-
-  const profilePicture = await getStorageAvatar(profileData?.user?.id as UUID, profileMetadata);
-
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
 
   if (error || !data?.user) {
     redirect("/auth/login");
   }
+
+  const supabaseAdmin = createAdminClient();
+
+  const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
+  let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
+
+  const profilePicture = await getStorageAvatar(profileData?.user?.id as UUID, profileMetadata);
 
   const userId = data?.user?.id as UUID;
   const userMetadata = data?.user?.user_metadata;

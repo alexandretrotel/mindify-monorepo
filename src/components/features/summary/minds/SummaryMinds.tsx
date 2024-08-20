@@ -1,4 +1,4 @@
-import { getMindsFromSummaryId, isMindSaved } from "@/actions/minds";
+import { areMindsSaved, getMindsFromSummaryId } from "@/actions/minds";
 import MindsClient from "@/components/global/MindsClient";
 import H2 from "@/components/typography/h2";
 import { Carousel } from "@/components/ui/carousel";
@@ -18,11 +18,8 @@ const SummaryMinds = async ({ summaryId, userId }: { summaryId: number; userId: 
     return null;
   }
 
-  const initialAreSaved = await Promise.all(
-    summaryMinds.map(async (mind) => {
-      return await isMindSaved(mind?.id, userId).catch(() => false);
-    })
-  );
+  const summaryMindsIds = summaryMinds.map((mind) => mind.id);
+  const initialAreSaved = await areMindsSaved(summaryMindsIds, userId);
 
   return (
     <Carousel

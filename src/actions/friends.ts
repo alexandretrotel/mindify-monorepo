@@ -170,23 +170,6 @@ export async function unblockUser(userId: UUID, profileId: UUID) {
   return { message: "Utilisateur débloqué avec succès." };
 }
 
-export async function getFriendRequests(userId: UUID) {
-  const supabase = createClient();
-
-  const { data, error } = await supabase
-    .from("friends")
-    .select("friend_id")
-    .eq("user_id", userId)
-    .eq("status", "pending");
-
-  if (error) {
-    console.error(error);
-    throw new Error("Impossible de récupérer les demandes d'ami.");
-  }
-
-  return data;
-}
-
 export async function getFriendsIds(userId: UUID) {
   const supabaseAdmin = createAdminClient();
 
@@ -223,24 +206,6 @@ export async function getPendingFriendsIds(userId: UUID) {
   const pendingFriendsIds = data.flatMap((friend) => friend.user_id) as UUID[];
 
   return pendingFriendsIds;
-}
-
-export async function isFriend(userId: UUID, profileId: UUID) {
-  const supabase = createClient();
-
-  const { data, error } = await supabase
-    .from("friends")
-    .select("status")
-    .eq("user_id", userId)
-    .eq("friend_id", profileId)
-    .maybeSingle();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Impossible de vérifier si l'utilisateur est un ami.");
-  }
-
-  return data?.status === "accepted";
 }
 
 export async function getFriendsData(userId: UUID) {

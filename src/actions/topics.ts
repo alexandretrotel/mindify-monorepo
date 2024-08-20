@@ -42,38 +42,6 @@ export async function removeTopic(user_id: UUID, topic_id: number) {
   return { message: "Intérêt supprimé avec succès." };
 }
 
-export async function getTopicFromSummaryId(summary_id: number) {
-  const supabase = createClient();
-
-  const { data, error } = await supabase
-    .from("summaries")
-    .select("topics(*)")
-    .eq("id", summary_id)
-    .maybeSingle();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Impossible de récupérer l'intérêt.");
-  }
-
-  return data?.topics as Tables<"topics">;
-}
-
-export async function getTopicFromTopicSlug(slug: string) {
-  const supabase = createClient();
-
-  const { data, error } = await supabase.from("topics").select("*").eq("slug", slug).maybeSingle();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Impossible de récupérer l'intérêt.");
-  }
-
-  const topic = data as Tables<"topics">;
-
-  return topic;
-}
-
 export async function getAdminTopicFromTopicSlug(slug: string) {
   const supabaseAdmin = createAdminClient();
 

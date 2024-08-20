@@ -2,25 +2,15 @@ import React from "react";
 import H3 from "@/components/typography/h3";
 import { Carousel } from "@/components/ui/carousel";
 import { Muted } from "@/components/typography/muted";
-import { getAllMinds, getMostSavedMinds, areMindsSaved } from "@/actions/minds";
+import { getMostSavedMinds, areMindsSaved } from "@/actions/minds";
 import MindsClient from "@/components/global/MindsClient";
 import { Tables } from "@/types/supabase";
 import { UUID } from "crypto";
 
 const PopularMinds = async ({ userId }: { userId: UUID }) => {
   const popularMinds = await getMostSavedMinds();
-  const allMinds = await getAllMinds(10);
 
-  let sortedAllMinds = [...allMinds];
-  for (let i = allMinds?.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [sortedAllMinds[i], sortedAllMinds[j]] = [sortedAllMinds[j], sortedAllMinds[i]];
-  }
-
-  const finalMinds = (popularMinds?.length >= 3 ? popularMinds : sortedAllMinds)?.slice(
-    0,
-    10
-  ) as (Tables<"minds"> & {
+  const finalMinds = popularMinds?.slice(0, 10) as (Tables<"minds"> & {
     summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
   })[];
 

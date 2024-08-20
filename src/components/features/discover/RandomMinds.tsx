@@ -9,6 +9,7 @@ import { UUID } from "crypto";
 const RandomMinds = async ({ userId }: { userId: UUID }) => {
   const allRandomMinds = await getRandomMinds();
   const randomMinds = allRandomMinds?.slice(0, 10);
+
   const randomMindsIds = randomMinds?.map((mind) => mind?.id);
   const AreMindsSaved = await areMindsSaved(randomMindsIds, userId);
 
