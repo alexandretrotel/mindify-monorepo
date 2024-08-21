@@ -17,12 +17,16 @@ const Statistics = async ({ userId }: { userId: UUID }) => {
   const summaries = userReadsData?.map((item) => item?.summaries);
 
   const readingRepartitionData = await getSummariesRepartition(userId);
+  const sortedRepartitionData = [...readingRepartitionData]?.sort(
+    (a, b) => b.summaries - a.summaries
+  );
+  const readingRepartition = sortedRepartitionData?.slice(0, 6);
 
   return (
     <StatisticsClient
       userReads={userReads as Tables<"read_summaries">[]}
       summaries={summaries as Tables<"summaries">[]}
-      readingRepartition={readingRepartitionData}
+      readingRepartition={readingRepartition}
     />
   );
 };
