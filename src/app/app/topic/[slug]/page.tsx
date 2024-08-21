@@ -1,11 +1,11 @@
-import SummariesByTopic from "@/app/app/topic/[slug]/components/SummariesByTopic";
+import SummariesByTopic from "@/components/features/topic/SummariesByTopic";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import H3 from "@/components/typography/h3";
 import { Badge } from "@/components/ui/badge";
 import React, { Suspense } from "react";
-import SummariesByTopicSkeleton from "@/app/app/topic/[slug]/components/skeleton/SummariesByTopicSkeleton";
+import SummariesByTopicSkeleton from "@/components/features/topic/skeleton/SummariesByTopicSkeleton";
 import { createClient } from "@/utils/supabase/server";
-import { getAdminTopicFromTopicSlug, getTopicFromTopicSlug } from "@/actions/topics";
+import { getAdminTopicFromTopicSlug } from "@/actions/topics";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 import type { Metadata, ResolvingMetadata } from "next";
@@ -64,10 +64,10 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   const userId = data?.user?.id as UUID;
   const userMetadata = data?.user?.user_metadata;
 
-  const topic = await getTopicFromTopicSlug(slug);
   const { data: summariesData } = await supabase
     .from("summaries")
     .select("*, topics(*), authors(*)");
+  const topic = summariesData?.find((summary) => summary?.topics?.slug === slug)?.topics;
 
   const filteredSummariesData = summariesData?.filter((summary) => summary?.topics?.slug === slug);
 
@@ -85,7 +85,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-col">
               <div className="flex items-center gap-4">
-                <H3>{topic.name}</H3>
+                <H3>{topic?.name}</H3>
                 <Badge>
                   {numberOfSummaries} {numberOfSummaries > 1 ? "résumés" : "résumé"}
                 </Badge>
@@ -103,7 +103,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
         <div className="flex w-full flex-col gap-4">
           <Suspense fallback={<SummariesByTopicSkeleton />}>
             <SummariesByTopic
-              topic={topic}
+              topic={topic as Tables<"topics">}
               summariesByTopic={summariesByTopic as Tables<"summaries">[]}
             />
           </Suspense>

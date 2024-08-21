@@ -1,0 +1,56 @@
+import React, { Suspense } from "react";
+import Statistics from "@/components/features/discover/Statistics";
+import Categories from "@/components/features/discover/Categories";
+import Personalized from "@/components/features/discover/Personalized";
+import Popular from "@/components/features/discover/Popular";
+import SavedSummaries from "@/components/features/discover/SavedSummaries";
+import CategoriesSkeleton from "@/components/features/discover/skeleton/CategoriesSkeleton";
+import PersonalizedSkeleton from "@/components/features/discover/skeleton/PersonalizedSkeleton";
+import PopularSkeleton from "@/components/features/discover/skeleton/PopularSkeleton";
+import SavedSummariesSkeleton from "@/components/features/discover/skeleton/SavedSummariesSkeleton";
+import StatisticsSkeleton from "@/components/features/discover/skeleton/StatisticsSkeleton";
+import PopularMinds from "@/components/features/discover/PopularMinds";
+import PopularMindsSkeleton from "@/components/features/discover/skeleton/PopularMindsSkeleton";
+import RandomMinds from "@/components/features/discover/RandomMinds";
+import RandomMindsSkeleton from "@/components/features/discover/skeleton/randomMindsSkeleton";
+import { UUID } from "crypto";
+
+const Discover = async ({ userId }: { userId: UUID }) => {
+  return (
+    <div className="mx-auto flex flex-col gap-8 md:gap-16 lg:justify-between">
+      <div className="relative w-full">
+        <Suspense fallback={<StatisticsSkeleton />}>
+          <Statistics userId={userId} />
+        </Suspense>
+      </div>
+
+      <div className="flex flex-col gap-16">
+        <Suspense fallback={<PersonalizedSkeleton />}>
+          <Personalized userId={userId} />
+        </Suspense>
+
+        <Suspense fallback={<PopularMindsSkeleton />}>
+          <PopularMinds userId={userId} />
+        </Suspense>
+
+        <Suspense fallback={<PopularSkeleton />}>
+          <Popular />
+        </Suspense>
+
+        <Suspense fallback={<CategoriesSkeleton />}>
+          <Categories userId={userId} />
+        </Suspense>
+
+        <Suspense fallback={<RandomMindsSkeleton />}>
+          <RandomMinds userId={userId} />
+        </Suspense>
+
+        <Suspense fallback={<SavedSummariesSkeleton />}>
+          <SavedSummaries userId={userId} />
+        </Suspense>
+      </div>
+    </div>
+  );
+};
+
+export default Discover;

@@ -21,22 +21,6 @@ export async function getMindsFromSummaryId(summaryId: number) {
   return mindsData;
 }
 
-export async function getMindsFromTopicId(topicId: number) {
-  const supabase = createClient();
-
-  const { data: mindsData, error } = await supabase
-    .from("minds")
-    .select("*, summaries(*, topics(*), authors(*))")
-    .eq("summaries.topic_id", topicId);
-
-  if (error) {
-    console.error(error);
-    throw new Error("Impossible de récupérer les minds.");
-  }
-
-  return mindsData;
-}
-
 interface SavedMindsCount {
   count: number;
   mind: Tables<"minds">;
@@ -92,22 +76,6 @@ export async function getMostSavedMinds() {
   return sortedSavedMindsCount;
 }
 
-export async function getAllMinds(limit: number) {
-  const supabase = createClient();
-
-  const { data: mindsData, error } = await supabase
-    .from("minds")
-    .select("*, summaries(*, topics(*), authors(*))")
-    .limit(limit);
-
-  if (error) {
-    console.error(error);
-    throw new Error("Impossible de récupérer les minds.");
-  }
-
-  return mindsData;
-}
-
 export async function getMindsFromUserId(userId: UUID) {
   const supabase = createClient();
 
@@ -121,7 +89,7 @@ export async function getMindsFromUserId(userId: UUID) {
     throw new Error("Impossible de récupérer les minds.");
   }
 
-  if (mindsData) {
+  if (mindsData && mindsData?.length > 0) {
     return mindsData?.map((mind) => mind?.minds);
   } else {
     return [];
@@ -157,26 +125,21 @@ export async function unsaveMind(mindId: number, userId: UUID) {
   }
 }
 
-export async function isMindSaved(mindId: number, userId: UUID) {
+export async function areMindsSaved(mindIds: number[], userId: UUID) {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("saved_minds")
     .select("*")
     .eq("user_id", userId)
-    .eq("mind_id", mindId)
-    .maybeSingle();
+    .in("mind_id", mindIds);
 
   if (error) {
     console.error(error);
-    throw new Error("Impossible de vérifier si le mind est sauvegardé.");
+    throw new Error("Impossible de vérifier si les minds sont sauvegardés.");
   }
 
-  if (data) {
-    return true;
-  } else {
-    return false;
-  }
+  return mindIds?.map((mindId) => data?.some((savedMind) => savedMind?.mind_id === mindId));
 }
 
 export async function getRandomMinds() {

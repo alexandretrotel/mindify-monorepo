@@ -8,22 +8,22 @@ import { UUID } from "crypto";
 import React, { Suspense } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import CopyProfileLinkButton from "@/app/app/profile/[uuid]/components/header/CopyProfileLink";
-import Friendship from "@/app/app/profile/[uuid]/components/header/Friendship";
-import MyFriends from "@/app/app/profile/[uuid]/components/friends/MyFriends";
-import Friends from "@/app/app/profile/[uuid]/components/friends/Friends";
-import ReadingStreak from "@/app/app/profile/[uuid]/components/header/ReadingStreak";
-import TopicsList from "@/app/app/profile/[uuid]/components/topics/TopicsList";
+import CopyProfileLinkButton from "@/components/features/profile/header/CopyProfileLink";
+import Friendship from "@/components/features/profile/header/Friendship";
+import MyFriends from "@/components/features/profile/friends/MyFriends";
+import Friends from "@/components/features/profile/friends/Friends";
+import ReadingStreak from "@/components/features/profile/header/ReadingStreak";
+import TopicsList from "@/components/features/profile/topics/TopicsList";
 import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
 import { CircleHelpIcon } from "lucide-react";
-import LibrarySnippet from "@/app/app/profile/[uuid]/components/library/LibrarySnippet";
-import LibrarySnippetSkeleton from "@/app/app/profile/[uuid]/components/library/skeleton/LibrarySnippetSkeleton";
-import FriendsSkeleton from "@/app/app/profile/[uuid]/components/friends/skeleton/FriendsSkeleton";
-import MyFriendsSkeleton from "@/app/app/profile/[uuid]/components/friends/skeleton/MyFriendsSkeleton";
-import TopicsListSkeleton from "@/app/app/profile/[uuid]/components/topics/skeleton/TopicsListSkeleton";
-import { getUserCustomAvatarFromUserId } from "@/actions/users";
+import LibrarySnippet from "@/components/features/profile/library/LibrarySnippet";
+import LibrarySnippetSkeleton from "@/components/features/profile/library/skeleton/LibrarySnippetSkeleton";
+import FriendsSkeleton from "@/components/features/profile/friends/skeleton/FriendsSkeleton";
+import MyFriendsSkeleton from "@/components/features/profile/friends/skeleton/MyFriendsSkeleton";
+import TopicsListSkeleton from "@/components/features/profile/topics/skeleton/TopicsListSkeleton";
+import { getStorageAvatar, getUserCustomAvatarFromUserId } from "@/actions/users";
 import { Muted } from "@/components/typography/muted";
-import ProfileMinds from "@/app/app/profile/[uuid]/components/minds/ProfileMinds";
+import ProfileMinds from "@/components/features/profile/minds/ProfileMinds";
 import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
 import { Carousel } from "@/components/ui/carousel";
 import type { Metadata } from "next";
@@ -70,19 +70,19 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
 const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const profileId = params.uuid;
 
-  const supabaseAdmin = createAdminClient();
-
-  const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
-  let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
-
-  const profilePicture = await getUserCustomAvatarFromUserId(profileData?.user?.id as UUID);
-
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
 
   if (error || !data?.user) {
     redirect("/auth/login");
   }
+
+  const supabaseAdmin = createAdminClient();
+
+  const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
+  let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
+
+  const profilePicture = await getStorageAvatar(profileData?.user?.id as UUID, profileMetadata);
 
   const userId = data?.user?.id as UUID;
   const userMetadata = data?.user?.user_metadata;

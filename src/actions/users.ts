@@ -318,6 +318,24 @@ export async function getUserCustomAvatarFromUserId(userId: UUID) {
   return avatarUrl?.publicUrl;
 }
 
+export async function getStorageAvatar(userId: UUID, profileMetadata: UserMetadata) {
+  const supabase = createClient();
+
+  const fileName = `${userId}.webp`;
+
+  const { data } = await supabase.storage.from("avatars").list("", {
+    search: fileName
+  });
+
+  if (data?.length === 0) {
+    return profileMetadata?.picture ?? profileMetadata?.avatar_url;
+  }
+
+  const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
+
+  return avatarUrl?.publicUrl;
+}
+
 const removeDuplicates = (array: any[]) => {
   const uniqueSet = new Set();
   return array?.filter((item) => {

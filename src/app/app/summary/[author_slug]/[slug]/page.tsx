@@ -1,28 +1,29 @@
 import React, { Suspense } from "react";
 import { notFound, redirect } from "next/navigation";
 import AccountDropdown from "@/components/global/AccountDropdown";
-import AddToLibraryButton from "@/app/app/summary/[author_slug]/[slug]/components/buttons/AddToLibraryButton";
-import MarkAsReadButton from "@/app/app/summary/[author_slug]/[slug]/components/buttons/MarkAsReadButton";
-import SummaryHeader from "@/app/app/summary/[author_slug]/[slug]/components/header/SummaryHeader";
-import SummaryHeaderSkeleton from "@/app/app/summary/[author_slug]/[slug]/components/header/skeleton/SummaryHeaderSkeleton";
+import AddToLibraryButton from "@/components/features/summary/buttons/AddToLibraryButton";
+import MarkAsReadButton from "@/components/features/summary/buttons/MarkAsReadButton";
+import SummaryHeader from "@/components/features/summary/header/SummaryHeader";
+import SummaryHeaderSkeleton from "@/components/features/summary/header/skeleton/SummaryHeaderSkeleton";
 import { getAdminSummaryFromSlugs, getSummaryFromSlugs } from "@/actions/summaries";
-import AuthorDescription from "@/app/app/summary/[author_slug]/[slug]/components/author/AuthorDescription";
-import AuthorDescriptionSkeleton from "./components/author/skeleton/AuthorDescriptionSkeleton";
-import TableOfContents from "@/app/app/summary/[author_slug]/[slug]/components/table-of-contents/TableOfContents";
-import Chapters from "@/app/app/summary/[author_slug]/[slug]/components/chapters/Chapters";
-import TableOfContentsSkeleton from "@/app/app/summary/[author_slug]/[slug]/components/table-of-contents/skeleton/TableOfContentsSkeleton";
-import ChaptersSkeleton from "@/app/app/summary/[author_slug]/[slug]/components/chapters/skeleton/ChaptersSkeleton";
-import Suggestions from "@/app/app/summary/[author_slug]/[slug]/components/suggestions/Suggestions";
-import SuggestionsSkeleton from "@/app/app/summary/[author_slug]/[slug]/components/suggestions/skeleton/SuggestionsSkeleton";
-import ReadingTime from "@/app/app/summary/[author_slug]/[slug]/components/header/ReadingTime";
-import Source from "@/app/app/summary/[author_slug]/[slug]/components/header/Source";
-import SummaryMinds from "@/app/app/summary/[author_slug]/[slug]/components/minds/SummaryMinds";
-import SummaryMindsSkeleton from "@/app/app/summary/[author_slug]/[slug]/components/minds/skeleton/SummaryMindsSkeleton";
-import AddToLibraryButtonSkeleton from "@/app/app/summary/[author_slug]/[slug]/components/buttons/skeleton/AddToLibraryButtonSkeleton";
-import MarkAsReadButtonSkeleton from "@/app/app/summary/[author_slug]/[slug]/components/buttons/skeleton/MarkAsReadButtonSkeleton";
+import AuthorDescription from "@/components/features/summary/author/AuthorDescription";
+import AuthorDescriptionSkeleton from "@/components/features/summary/author/skeleton/AuthorDescriptionSkeleton";
+import TableOfContents from "@/components/features/summary/table-of-contents/TableOfContents";
+import Chapters from "@/components/features/summary/chapters/Chapters";
+import TableOfContentsSkeleton from "@/components/features/summary/table-of-contents/skeleton/TableOfContentsSkeleton";
+import ChaptersSkeleton from "@/components/features/summary/chapters/skeleton/ChaptersSkeleton";
+import Suggestions from "@/components/features/summary/suggestions/Suggestions";
+import SuggestionsSkeleton from "@/components/features/summary/suggestions/skeleton/SuggestionsSkeleton";
+import ReadingTime from "@/components/features/summary/header/ReadingTime";
+import Source from "@/components/features/summary/header/Source";
+import SummaryMinds from "@/components/features/summary/minds/SummaryMinds";
+import SummaryMindsSkeleton from "@/components/features/summary/minds/skeleton/SummaryMindsSkeleton";
+import AddToLibraryButtonSkeleton from "@/components/features/summary/buttons/skeleton/AddToLibraryButtonSkeleton";
+import MarkAsReadButtonSkeleton from "@/components/features/summary/buttons/skeleton/MarkAsReadButtonSkeleton";
 import type { Metadata } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
+import type { Tables } from "@/types/supabase";
 
 export async function generateMetadata({
   params
@@ -79,7 +80,11 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
   const userId = data?.user?.id as UUID;
   const userMetadata = data?.user?.user_metadata;
 
-  const summary = await getSummaryFromSlugs(author_slug, slug);
+  const summary = (await getSummaryFromSlugs(author_slug, slug)) as Tables<"summaries"> & {
+    topics: Tables<"topics">;
+    authors: Tables<"authors">;
+    chapters: Tables<"chapters">;
+  };
 
   if (!summary) {
     notFound();
@@ -114,7 +119,11 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
             <div className="flex w-full flex-col justify-between gap-8 lg:flex-row lg:gap-16">
               <div className="order-2 flex max-w-3xl flex-col gap-8 lg:order-1 lg:min-w-0 lg:grow">
                 <Suspense fallback={<ChaptersSkeleton />}>
-                  <Chapters summaryId={summary?.id} summary={summary} />
+                  <Chapters
+                    chapters={summary?.chapters}
+                    introduction={summary?.introduction}
+                    conclusion={summary?.conclusion}
+                  />
                 </Suspense>
 
                 <div className="flex flex-col gap-4">
@@ -130,11 +139,11 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
                 <div className="w-full lg:sticky lg:right-0 lg:top-0 lg:pt-8">
                   <div className="flex w-full flex-col gap-8">
                     <Suspense fallback={<TableOfContentsSkeleton />}>
-                      <TableOfContents summaryId={summary?.id} />
+                      <TableOfContents chapters={summary?.chapters} />
                     </Suspense>
 
                     <Suspense fallback={<AuthorDescriptionSkeleton />}>
-                      <AuthorDescription summaryId={summary?.id} />
+                      <AuthorDescription author={summary?.authors} />
                     </Suspense>
                   </div>
                 </div>

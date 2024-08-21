@@ -1,7 +1,7 @@
 import React from "react";
 import H3Span from "@/components/typography/h3AsSpan";
 import { Separator } from "@/components/ui/separator";
-import Navigation from "@/app/app/components/account/Navigation";
+import Navigation from "@/components/features/account/Navigation";
 import { XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account";

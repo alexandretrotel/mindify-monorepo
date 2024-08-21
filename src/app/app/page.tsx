@@ -1,8 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Library from "@/app/app/components/tabs/Library";
-import Discover from "@/app/app/components/tabs/Discover";
+import Library from "@/components/features/library/Library";
+import Discover from "@/components/features/discover/Discover";
 import AccountDropdown from "@/components/global/AccountDropdown";
-import LibrarySkeleton from "@/app/app/components/skeleton/LibrarySkeleton";
+import LibrarySkeleton from "@/components/features/library/skeleton/LibrarySkeleton";
 import { Suspense } from "react";
 import type { SummaryStatus } from "@/types/summary";
 import type { Enums } from "@/types/supabase";
