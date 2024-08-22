@@ -1,6 +1,5 @@
 import React, { Suspense } from "react";
 import { notFound, redirect } from "next/navigation";
-import AccountDropdown from "@/components/global/AccountDropdown";
 import AddToLibraryButton from "@/components/features/summary/buttons/AddToLibraryButton";
 import MarkAsReadButton from "@/components/features/summary/buttons/MarkAsReadButton";
 import SummaryHeader from "@/components/features/summary/header/SummaryHeader";
@@ -78,7 +77,6 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
   }
 
   const userId = data?.user?.id as UUID;
-  const userMetadata = data?.user?.user_metadata;
 
   const summary = (await getSummaryFromSlugs(author_slug, slug)) as Tables<"summaries"> & {
     topics: Tables<"topics">;
@@ -96,13 +94,9 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
         <div className="flex flex-col gap-16">
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-2">
-              <div className="flex items-start justify-between gap-4">
-                <Suspense fallback={<SummaryHeaderSkeleton />}>
-                  <SummaryHeader summary={summary} />
-                </Suspense>
-
-                <AccountDropdown userId={userId} userMetadata={userMetadata} />
-              </div>
+              <Suspense fallback={<SummaryHeaderSkeleton />}>
+                <SummaryHeader summary={summary} />
+              </Suspense>
 
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-4">

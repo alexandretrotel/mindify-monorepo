@@ -6,9 +6,8 @@ import { getUserTopics } from "@/actions/users";
 import TopicIcon from "@/components/global/TopicIcon";
 import Link from "next/link";
 
-const TopicsList = async ({ profileId, userId }: { profileId: UUID; userId: UUID }) => {
+const TopicsList = async ({ profileId }: { profileId: UUID }) => {
   const topics = await getUserTopics(profileId);
-  const myTopics = await getUserTopics(userId);
 
   const sortedTopics = topics ? [...topics]?.sort((a, b) => a?.name.localeCompare(b?.name)) : [];
 
@@ -23,12 +22,9 @@ const TopicsList = async ({ profileId, userId }: { profileId: UUID; userId: UUID
     <div className="flex flex-wrap items-center gap-2">
       {sortedTopics?.map((topic) => (
         <div key={topic?.id}>
-          <Button
-            variant={myTopics?.find((t) => t.id === topic?.id) ? "default" : "outline"}
-            asChild
-          >
+          <Button variant="outline" size="sm" asChild>
             <Link href={`/app/topic/${topic?.slug}`}>
-              <TopicIcon topic={topic} isChecked={myTopics?.some((t) => t.id === topic?.id)} />
+              <TopicIcon topic={topic} isChecked={false} />
               {topic.name}
             </Link>
           </Button>

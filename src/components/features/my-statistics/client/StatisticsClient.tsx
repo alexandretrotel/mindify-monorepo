@@ -79,10 +79,11 @@ const StatisticsClient = ({
     return { date: formattedDate, time };
   });
 
-  const totalReadingTime = userReads?.reduce((acc, read) => {
-    const summary = summaries.find((summary) => summary.id === read.summary_id);
-    return acc + (summary?.reading_time ?? 0);
-  }, 0);
+  const totalReadingTime =
+    userReads?.reduce((acc, read) => {
+      const summary = summaries?.find((summary) => summary?.id === read?.summary_id);
+      return acc + (summary?.reading_time ?? 0);
+    }, 0) ?? 0;
   const totalReadingTimeInMinutes = Math.floor(totalReadingTime % 60);
   const totalReadingTimeInHours = Math.floor((totalReadingTime - totalReadingTimeInMinutes) / 60);
   const remainingMinutes = totalReadingTime % 60;
@@ -100,7 +101,7 @@ const StatisticsClient = ({
     <div className="flex flex-col gap-4">
       <H3>Mon activité</H3>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="flex flex-col gap-2 rounded-lg border p-6">
           <div className="space-y-0 lg:pb-2">
             <CardDescription>{summariesRead > 1 ? "Résumés lus" : "Résumé lu"}</CardDescription>
@@ -112,7 +113,7 @@ const StatisticsClient = ({
             </CardTitle>
           </div>
 
-          <div className="hidden lg:block">
+          <div className="block">
             <ChartContainer
               config={{
                 reads: {
@@ -186,7 +187,7 @@ const StatisticsClient = ({
             </CardTitle>
           </div>
 
-          <div className="hidden p-0 lg:block">
+          <div className="block p-0">
             <ChartContainer
               config={{
                 time: {
@@ -239,7 +240,7 @@ const StatisticsClient = ({
         </div>
 
         {readingRepartition?.length > 0 && (
-          <div className="hidden flex-col gap-2 rounded-lg border lg:flex">
+          <div className="flex flex-col gap-2 rounded-lg border">
             <div className="space-y-0 p-6 lg:pb-2">
               <CardTitle>Répartition</CardTitle>
             </div>

@@ -1,5 +1,4 @@
 import SummariesByTopic from "@/components/features/topic/SummariesByTopic";
-import AccountDropdown from "@/components/global/AccountDropdown";
 import H3 from "@/components/typography/h3";
 import { Badge } from "@/components/ui/badge";
 import React, { Suspense } from "react";
@@ -9,7 +8,6 @@ import { getAdminTopicFromTopicSlug } from "@/actions/topics";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 import type { Metadata, ResolvingMetadata } from "next";
-import { UUID } from "crypto";
 import { redirect } from "next/navigation";
 
 export async function generateMetadata(
@@ -61,9 +59,6 @@ const Page = async ({ params }: { params: { slug: string } }) => {
     redirect("/auth/login");
   }
 
-  const userId = data?.user?.id as UUID;
-  const userMetadata = data?.user?.user_metadata;
-
   const { data: summariesData } = await supabase
     .from("summaries")
     .select("*, topics(*), authors(*)");
@@ -82,21 +77,17 @@ const Page = async ({ params }: { params: { slug: string } }) => {
     <div className="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-6 md:gap-12">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex flex-col">
-              <div className="flex items-center gap-4">
-                <H3>{topic?.name}</H3>
-                <Badge>
-                  {numberOfSummaries} {numberOfSummaries > 1 ? "résumés" : "résumé"}
-                </Badge>
-              </div>
-              <Muted>
-                Explorez notre collection des meilleurs résumés dans la catégorie{" "}
-                {topic?.name?.toLowerCase()}.
-              </Muted>
+          <div className="flex flex-col">
+            <div className="flex items-center gap-4">
+              <H3>{topic?.name}</H3>
+              <Badge>
+                {numberOfSummaries} {numberOfSummaries > 1 ? "résumés" : "résumé"}
+              </Badge>
             </div>
-
-            <AccountDropdown userId={userId} userMetadata={userMetadata} />
+            <Muted>
+              Explorez notre collection des meilleurs résumés dans la catégorie{" "}
+              {topic?.name?.toLowerCase()}.
+            </Muted>
           </div>
         </div>
 

@@ -91,11 +91,7 @@ const ClientFriendship = ({
 
   if (friendStatus === "pending") {
     return (
-      <Button
-        size="sm"
-        variant="destructive"
-        onClick={() => handleCancelFriendRequest(userId, profileId)}
-      >
+      <Button variant="destructive" onClick={() => handleCancelFriendRequest(userId, profileId)}>
         Annuler la demande d&apos;ami
       </Button>
     );
@@ -103,17 +99,13 @@ const ClientFriendship = ({
 
   if (friendStatus === "accepted") {
     return (
-      <Button size="sm" variant="destructive" onClick={() => handleRemoveFriend(userId, profileId)}>
+      <Button variant="destructive" onClick={() => handleRemoveFriend(userId, profileId)}>
         Retirer de mes amis
       </Button>
     );
   }
 
-  return (
-    <Button size="sm" onClick={() => handleAskForFriend(userId, profileId)}>
-      Demander en ami
-    </Button>
-  );
+  return <Button onClick={() => handleAskForFriend(userId, profileId)}>Demander en ami</Button>;
 };
 
 export default ClientFriendship;

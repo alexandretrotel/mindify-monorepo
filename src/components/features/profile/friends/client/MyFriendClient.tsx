@@ -17,12 +17,8 @@ import { Separator } from "@/components/ui/separator";
 import { TabsContent } from "@/components/ui/tabs";
 import H3Span from "@/components/typography/h3AsSpan";
 import H5Span from "@/components/typography/h5AsSpan";
-import Span from "@/components/typography/span";
 import type { Streaks } from "@/types/streaks";
-import ResponsiveTooltip from "@/components/global/ResponsiveTooltip";
-import { FlameIcon } from "lucide-react";
 import { Muted } from "@/components/typography/muted";
-import Semibold from "@/components/typography/semibold";
 
 const MyFriendClient = ({
   userId,
@@ -160,35 +156,9 @@ const MyFriendClient = ({
                           </Avatar>
                           <div className="flex flex-col">
                             <H5Span>
-                              <div className="flex">
-                                {friend?.user_metadata?.name ??
-                                  friend?.user_metadata?.email?.split("@")[0]}{" "}
-                                {friendsReadingStreak[index]?.todayInStreak &&
-                                  friendsReadingStreak[index]?.currentStreak !== 0 && (
-                                    <div className="ml-2 flex items-center gap-2">
-                                      <Span>•</Span>
-
-                                      <Semibold>
-                                        <ResponsiveTooltip
-                                          text="Nombre de jours consécutifs de lecture."
-                                          side="bottom"
-                                          align="center"
-                                          cursor="help"
-                                        >
-                                          <div className="flex items-center">
-                                            {friendsReadingStreak[index]?.currentStreak}
-                                            <FlameIcon className="h-4 w-4" />
-                                          </div>
-                                        </ResponsiveTooltip>
-                                      </Semibold>
-                                    </div>
-                                  )}
-                              </div>
+                              {friend?.user_metadata?.name ??
+                                friend?.user_metadata?.email?.split("@")[0]}
                             </H5Span>
-
-                            <Muted size="xs">
-                              {friend?.user_metadata?.biography ?? "Aucune biographie"}
-                            </Muted>
                           </div>
                         </div>
 

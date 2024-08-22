@@ -1,10 +1,10 @@
-import Discover from "@/components/features/discover/Discover";
-import React from "react";
+import Account from "@/components/global/Account";
 import { createClient } from "@/utils/supabase/server";
-import { UUID } from "crypto";
+import type { UUID } from "crypto";
 import { redirect } from "next/navigation";
+import React from "react";
 
-export default async function Home() {
+const MyAccount = async () => {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.getUser();
@@ -14,10 +14,9 @@ export default async function Home() {
   }
 
   const userId = data?.user?.id as UUID;
+  const userMetadata = data?.user?.user_metadata;
 
-  return (
-    <main>
-      <Discover userId={userId} />
-    </main>
-  );
-}
+  return <main></main>;
+};
+
+export default MyAccount;

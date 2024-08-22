@@ -1,10 +1,10 @@
-import Discover from "@/components/features/discover/Discover";
-import React from "react";
+import Statistics from "@/components/features/my-statistics/Statistics";
 import { createClient } from "@/utils/supabase/server";
-import { UUID } from "crypto";
+import type { UUID } from "crypto";
 import { redirect } from "next/navigation";
+import React from "react";
 
-export default async function Home() {
+const MyStatisticsPage = async () => {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.getUser();
@@ -17,7 +17,9 @@ export default async function Home() {
 
   return (
     <main>
-      <Discover userId={userId} />
+      <Statistics userId={userId} />
     </main>
   );
-}
+};
+
+export default MyStatisticsPage;
