@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import H3Span from "@/components/typography/h3AsSpan";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import BookCover from "@/components/global/BookCover";
 import type { UUID } from "crypto";
 import { getUserReadSummaries, getUserSavedSummaries } from "@/actions/users";
@@ -22,71 +21,59 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
         </div>
 
         <TabsContent value="reads" className="w-full">
-          <Carousel
-            opts={{
-              align: "start",
-              slidesToScroll: "auto"
-            }}
-            className="w-full"
-          >
-            {profileReadsSummaries.length > 0 ? (
-              <CarouselContent className="-ml-4">
-                {profileReadsSummaries?.map((summary) => {
-                  return (
-                    <CarouselItem key={summary.id} className="pl-4 md:basis-1/4">
-                      <Link
-                        href={`/app/summary/${summary.author_slug}/${summary.slug}`}
-                        className="h-full"
-                      >
-                        <BookCover
-                          title={summary.title}
-                          author={summary.authors.name}
-                          category={summary.topic}
-                          source={summary.source_type}
-                          image={summary.image_url}
-                        />
-                      </Link>
-                    </CarouselItem>
-                  );
-                })}
-              </CarouselContent>
-            ) : (
-              <div className="flex h-72 flex-col items-center justify-center gap-4 text-center">
-                <H3Span>Aucun résumé</H3Span>
-              </div>
-            )}
-          </Carousel>
+          {profileReadsSummaries.length > 0 ? (
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              {profileReadsSummaries?.map((summary) => {
+                return (
+                  <Link
+                    key={summary.id}
+                    href={`/app/summary/${summary.author_slug}/${summary.slug}`}
+                    className="h-full"
+                  >
+                    <BookCover
+                      title={summary.title}
+                      author={summary.authors.name}
+                      category={summary.topic}
+                      source={summary.source_type}
+                      image={summary.image_url}
+                    />
+                  </Link>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="flex h-72 flex-col items-center justify-center gap-4 text-center">
+              <H3Span>Aucun résumé</H3Span>
+            </div>
+          )}
         </TabsContent>
 
         <TabsContent value="saved">
-          <Carousel opts={{ align: "start", slidesToScroll: "auto" }} className="w-full">
-            {profileSavedSummaries.length > 0 ? (
-              <CarouselContent className="-ml-4">
-                {profileSavedSummaries?.map((summary) => {
-                  return (
-                    <CarouselItem key={summary.id} className="pl-4 md:basis-1/4">
-                      <Link
-                        href={`/app/summary/${summary.author_slug}/${summary.slug}`}
-                        className="h-full"
-                      >
-                        <BookCover
-                          title={summary.title}
-                          author={summary.authors.name}
-                          category={summary.topic}
-                          source={summary.source_type}
-                          image={summary.image_url}
-                        />
-                      </Link>
-                    </CarouselItem>
-                  );
-                })}
-              </CarouselContent>
-            ) : (
-              <div className="flex h-72 flex-col items-center justify-center gap-4 text-center">
-                <H3Span>Aucun résumé</H3Span>
-              </div>
-            )}
-          </Carousel>
+          {profileSavedSummaries.length > 0 ? (
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              {profileSavedSummaries?.map((summary) => {
+                return (
+                  <Link
+                    key={summary.id}
+                    href={`/app/summary/${summary.author_slug}/${summary.slug}`}
+                    className="h-full"
+                  >
+                    <BookCover
+                      title={summary.title}
+                      author={summary.authors.name}
+                      category={summary.topic}
+                      source={summary.source_type}
+                      image={summary.image_url}
+                    />
+                  </Link>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="flex h-72 flex-col items-center justify-center gap-4 text-center">
+              <H3Span>Aucun résumé</H3Span>
+            </div>
+          )}
         </TabsContent>
       </div>
     </Tabs>

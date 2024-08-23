@@ -1,11 +1,9 @@
-import React from "react";
-import MindsClient from "@/components/global/MindsClient";
+import React, { Suspense } from "react";
+import ProfileMindsClient from "@/components/features/profile/minds/client/ProfileMindsClient";
 import type { UUID } from "crypto";
 import { areMindsSaved, getMindsFromUserId } from "@/actions/minds";
 import type { Tables } from "@/types/supabase";
-import Span from "@/components/typography/span";
-import { Carousel } from "@/components/ui/carousel";
-import { Badge } from "@/components/ui/badge";
+import ProfileMindsSkeleton from "@/components/features/profile/minds/skeleton/ProfileMindsSkeleton";
 
 const ProfileMinds = async ({ profileId, userId }: { profileId: UUID; userId: UUID }) => {
   const profileMinds = (await getMindsFromUserId(profileId)) as (Tables<"minds"> & {
@@ -13,25 +11,20 @@ const ProfileMinds = async ({ profileId, userId }: { profileId: UUID; userId: UU
   })[];
 
   if (!profileMinds || profileMinds?.length === 0) {
-    return null;
+    return (
+      <div className="flex h-72 flex-col items-center justify-center gap-4 text-center text-2xl font-semibold">
+        Aucun MINDS
+      </div>
+    );
   }
 
   const profileMindsIds = profileMinds?.map((mind) => mind?.id);
   const initialAreSaved = await areMindsSaved(profileMindsIds, userId);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2">
-        <Span size="lg" semibold>
-          MINDS
-        </Span>
-        <Badge>{profileMinds?.length} MINDS</Badge>
-      </div>
-
-      <Carousel opts={{ align: "start", slidesToScroll: "auto" }} className="w-full">
-        <MindsClient minds={profileMinds} initialAreSaved={initialAreSaved} userId={userId} />
-      </Carousel>
-    </div>
+    <Suspense fallback={<ProfileMindsSkeleton />}>
+      <ProfileMindsClient minds={profileMinds} initialAreSaved={initialAreSaved} userId={userId} />
+    </Suspense>
   );
 };
 

@@ -29,7 +29,7 @@ export default function Navigation({
   userPicture: string;
 }>) {
   return (
-    <div className="flex flex-col gap-4 md:flex-row">
+    <div className="flex flex-col gap-8 md:flex-row md:gap-4">
       <div className="hide-scrollbar h-full w-full overflow-x-auto md:w-1/5">
         <NavigationMenu className="w-full min-w-full justify-start">
           <NavigationMenuList className="flex w-full gap-2 space-x-0 md:flex-col">

@@ -11,11 +11,13 @@ import type { Enums } from "@/types/supabase";
 const ClientFriendship = ({
   userId,
   profileId,
-  initialFriendStatus
+  initialFriendStatus,
+  size
 }: {
   userId: UUID;
   profileId: UUID;
   initialFriendStatus: Enums<"friends_status"> | undefined;
+  size?: "default" | "sm" | "lg" | "icon";
 }) => {
   const [friendStatus, setFriendStatus] = React.useState<Enums<"friends_status"> | undefined>(
     initialFriendStatus
@@ -91,7 +93,11 @@ const ClientFriendship = ({
 
   if (friendStatus === "pending") {
     return (
-      <Button variant="destructive" onClick={() => handleCancelFriendRequest(userId, profileId)}>
+      <Button
+        variant="destructive"
+        onClick={() => handleCancelFriendRequest(userId, profileId)}
+        size={size}
+      >
         Annuler la demande d&apos;ami
       </Button>
     );
@@ -99,13 +105,21 @@ const ClientFriendship = ({
 
   if (friendStatus === "accepted") {
     return (
-      <Button variant="destructive" onClick={() => handleRemoveFriend(userId, profileId)}>
+      <Button
+        variant="destructive"
+        onClick={() => handleRemoveFriend(userId, profileId)}
+        size={size}
+      >
         Retirer de mes amis
       </Button>
     );
   }
 
-  return <Button onClick={() => handleAskForFriend(userId, profileId)}>Demander en ami</Button>;
+  return (
+    <Button onClick={() => handleAskForFriend(userId, profileId)} size={size}>
+      Demander en ami
+    </Button>
+  );
 };
 
 export default ClientFriendship;

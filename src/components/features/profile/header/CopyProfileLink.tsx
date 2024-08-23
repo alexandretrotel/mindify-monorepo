@@ -7,16 +7,17 @@ import React from "react";
 import { useToast } from "@/components/ui/use-toast";
 
 const CopyProfileLink = ({ userId }: { userId: UUID }) => {
+  const [origin, setOrigin] = React.useState<string>();
+
   const { toast } = useToast();
 
-  let window;
-  if (typeof window === "undefined") {
-    return null;
-  }
+  React.useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
 
   const handleCopyLink = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(`${window.location.origin}/profile/${userId}`);
+      navigator.clipboard.writeText(`${origin}/app/profile/${userId}`);
 
       toast({
         title: "Lien copié",

@@ -5,15 +5,11 @@ import { UUID } from "crypto";
 import React, { Suspense } from "react";
 import { Separator } from "@/components/ui/separator";
 import Friendship from "@/components/features/profile/header/Friendship";
-import MyFriends from "@/components/features/profile/friends/MyFriends";
 import Friends from "@/components/features/profile/friends/Friends";
 import ReadingStreak from "@/components/features/profile/header/ReadingStreak";
-import TopicsList from "@/components/features/profile/topics/TopicsList";
 import LibrarySnippet from "@/components/features/profile/library/LibrarySnippet";
 import LibrarySnippetSkeleton from "@/components/features/profile/library/skeleton/LibrarySnippetSkeleton";
 import FriendsSkeleton from "@/components/features/profile/friends/skeleton/FriendsSkeleton";
-import MyFriendsSkeleton from "@/components/features/profile/friends/skeleton/MyFriendsSkeleton";
-import TopicsListSkeleton from "@/components/features/profile/topics/skeleton/TopicsListSkeleton";
 import { getUserCustomAvatarFromUserId } from "@/actions/users";
 import { Muted } from "@/components/typography/muted";
 import ProfileMinds from "@/components/features/profile/minds/ProfileMinds";
@@ -23,6 +19,11 @@ import type { Metadata } from "next";
 import { createAdminClient } from "@/utils/supabase/admin";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Statistics from "@/components/features/my-statistics/Statistics";
+import StatisticsSkeleton from "@/components/features/my-statistics/skeleton/StatisticsSkeleton";
+import CopyProfileLink from "@/components/features/profile/header/CopyProfileLink";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;
@@ -98,15 +99,19 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
             </div>
           </div>
         </div>
-
-        <div>
-          {!isMyProfile && profileId && <Friendship userId={userId} profileId={profileId} />}
-        </div>
       </div>
 
-      <Suspense fallback={<TopicsListSkeleton />}>
-        <TopicsList profileId={profileId} />
-      </Suspense>
+      <div className="grid grid-cols-2 gap-4 md:flex md:items-center">
+        {!isMyProfile && profileId ? (
+          <Friendship userId={userId} profileId={profileId} size="sm" />
+        ) : (
+          <Button size="sm" disabled asChild>
+            <Link href="/app/my-account">Modifier mon profil</Link>
+          </Button>
+        )}
+
+        <CopyProfileLink userId={profileId} />
+      </div>
 
       <Separator />
 
@@ -114,7 +119,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
         <div className="flex w-full flex-wrap items-center gap-4">
           <TabsList>
             <TabsTrigger value="summaries">Résumés</TabsTrigger>
-            <TabsTrigger value="minds">Minds</TabsTrigger>
+            <TabsTrigger value="minds">MINDS</TabsTrigger>
             <TabsTrigger value="statistics">Statistiques</TabsTrigger>
             <TabsTrigger value="friends">Amis</TabsTrigger>
           </TabsList>
@@ -140,18 +145,16 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
               </Suspense>
             </TabsContent>
 
+            <TabsContent value="statistics">
+              <Suspense fallback={<StatisticsSkeleton />}>
+                <Statistics userId={profileId} />
+              </Suspense>
+            </TabsContent>
+
             <TabsContent value="friends">
-              <div className="w-full">
-                {isMyProfile ? (
-                  <Suspense fallback={<MyFriendsSkeleton />}>
-                    <MyFriends userId={userId} />
-                  </Suspense>
-                ) : (
-                  <Suspense fallback={<FriendsSkeleton />}>
-                    <Friends profileId={profileId} profileMetadata={profileMetadata} />
-                  </Suspense>
-                )}
-              </div>
+              <Suspense fallback={<FriendsSkeleton />}>
+                <Friends profileId={profileId} userId={userId} />
+              </Suspense>
             </TabsContent>
           </div>
         </div>

@@ -5,8 +5,8 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const activeLink = "font-semibold text-white text-sm";
-const inactiveLink = "font-semibold text-muted-foreground text-sm hover:text-white";
+const activeLink = "font-semibold text-foreground text-sm";
+const inactiveLink = "font-semibold text-muted-foreground text-sm hover:text-foreground";
 
 const links = [
   { href: "/app", label: "Découvrir" },
