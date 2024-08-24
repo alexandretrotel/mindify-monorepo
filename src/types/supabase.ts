@@ -58,19 +58,16 @@ export type Database = {
         Row: {
           created_at: string
           friend_id: string
-          status: Database["public"]["Enums"]["friends_status"]
           user_id: string
         }
         Insert: {
           created_at?: string
           friend_id: string
-          status: Database["public"]["Enums"]["friends_status"]
           user_id: string
         }
         Update: {
           created_at?: string
           friend_id?: string
-          status?: Database["public"]["Enums"]["friends_status"]
           user_id?: string
         }
         Relationships: [
@@ -388,10 +385,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      friends_status: "pending" | "accepted" | "blocked"
       plan: "free" | "pro"
       source: "article" | "podcast" | "video" | "book"
-      status: "completed" | "saved"
     }
     CompositeTypes: {
       [_ in never]: never

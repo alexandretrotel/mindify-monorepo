@@ -6,6 +6,7 @@ import { UUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { getUsersData } from "@/actions/users";
 import { createAdminClient } from "@/utils/supabase/admin";
+import type { FriendStatus } from "@/types/friends";
 
 export async function askForFriend(userId: UUID, profileId: UUID) {
   const supabase = createClient();
@@ -17,8 +18,7 @@ export async function askForFriend(userId: UUID, profileId: UUID) {
 
     await supabase.from("friends").insert({
       user_id: userId,
-      friend_id: profileId,
-      status: "pending"
+      friend_id: profileId
     });
   } catch (error) {
     console.error(error);
@@ -47,32 +47,9 @@ export async function acceptFriendRequest(userId: UUID, profileId: UUID) {
   const supabase = createClient();
 
   try {
-    const { data, error } = await supabase
-      .from("friends")
-      .select("status")
-      .eq("user_id", profileId)
-      .eq("friend_id", userId);
-
-    if (error) {
-      console.error(error);
-      throw new Error("Impossible d'accepter la demande d'ami.");
-    }
-
-    if (data?.[0]?.status !== "pending") {
-      console.error(error);
-      throw new Error("La demande d'ami n'existe pas ou a déjà été acceptée.");
-    }
-
     await supabase.from("friends").upsert({
       user_id: userId,
-      friend_id: profileId,
-      status: "accepted"
-    });
-
-    await supabase.from("friends").upsert({
-      user_id: profileId,
-      friend_id: userId,
-      status: "accepted"
+      friend_id: profileId
     });
   } catch (error) {
     console.error(error);
@@ -85,23 +62,6 @@ export async function acceptFriendRequest(userId: UUID, profileId: UUID) {
 
 export async function rejectFriendRequest(userId: UUID, profileId: UUID) {
   const supabase = createClient();
-
-  const { data, error } = await supabase
-    .from("friends")
-    .select("status")
-    .eq("user_id", profileId)
-    .eq("friend_id", userId)
-    .maybeSingle();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Impossible de rejeter la demande d'ami.");
-  }
-
-  if (data?.status !== "pending") {
-    console.error(error);
-    throw new Error("La demande d'ami n'existe pas ou a déjà été acceptée.");
-  }
 
   try {
     await supabase.from("friends").delete().eq("user_id", profileId).eq("friend_id", userId);
@@ -130,61 +90,35 @@ export async function removeFriend(userId: UUID, profileId: UUID) {
   return { message: "Ami supprimé avec succès." };
 }
 
-export async function blockUser(userId: UUID, profileId: UUID) {
-  const supabase = createClient();
-
-  if (userId === profileId) {
-    throw new Error("Impossible de se bloquer soi-même.");
-  }
-
-  const { error } = await supabase.from("friends").upsert({
-    user_id: userId,
-    friend_id: profileId,
-    status: "blocked"
-  });
-
-  if (error) {
-    console.error(error);
-    throw new Error("Impossible de bloquer l'utilisateur.");
-  }
-
-  revalidatePath("/", "layout");
-  return { message: "Utilisateur bloqué avec succès." };
-}
-
-export async function unblockUser(userId: UUID, profileId: UUID) {
-  const supabase = createClient();
-
-  const { error } = await supabase
-    .from("friends")
-    .delete()
-    .eq("user_id", userId)
-    .eq("friend_id", profileId);
-
-  if (error) {
-    console.error(error);
-    throw new Error("Impossible de débloquer l'utilisateur.");
-  }
-
-  revalidatePath("/", "layout");
-  return { message: "Utilisateur débloqué avec succès." };
-}
-
 export async function getFriendsIds(userId: UUID) {
   const supabaseAdmin = createAdminClient();
 
-  const { data, error } = await supabaseAdmin
+  const { data: userToFriendData, error: userToFriendError } = await supabaseAdmin
     .from("friends")
-    .select("*")
-    .eq("user_id", userId)
-    .eq("status", "accepted");
+    .select("friend_id")
+    .eq("user_id", userId);
 
-  if (error) {
-    console.error(error);
+  if (userToFriendError) {
+    console.error(userToFriendError);
     throw new Error("Impossible de récupérer les amis.");
   }
 
-  const friendsIds = data.flatMap((friend) => friend.friend_id) as UUID[];
+  const { data: friendToUserData, error: friendToUserError } = await supabaseAdmin
+    .from("friends")
+    .select("user_id")
+    .eq("friend_id", userId);
+
+  if (friendToUserError) {
+    console.error(friendToUserError);
+    throw new Error("Impossible de récupérer les amis.");
+  }
+
+  const friendsIds = userToFriendData
+    ?.flatMap((friend) => friend?.friend_id)
+    ?.filter(
+      (friendId) =>
+        friendId !== userId && friendToUserData?.some((friend) => friend?.user_id === friendId)
+    ) as UUID[];
 
   return friendsIds;
 }
@@ -192,11 +126,7 @@ export async function getFriendsIds(userId: UUID) {
 export async function getPendingFriendsIds(userId: UUID) {
   const supabase = createClient();
 
-  const { data, error } = await supabase
-    .from("friends")
-    .select("user_id")
-    .eq("friend_id", userId)
-    .eq("status", "pending");
+  const { data, error } = await supabase.from("friends").select("user_id").eq("friend_id", userId);
 
   if (error) {
     console.error(error);
@@ -227,15 +157,24 @@ export async function getFriendStatus(userId: UUID, profileId: UUID) {
 
   const { data, error } = await supabase
     .from("friends")
-    .select("status")
+    .select("*")
     .eq("user_id", userId)
-    .eq("friend_id", profileId)
-    .maybeSingle();
+    .eq("friend_id", profileId);
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer le statut de l'ami.");
   }
 
-  return data?.status;
+  let friendStatus: FriendStatus = "none";
+
+  if (data?.length === 1) {
+    friendStatus = "pending";
+  }
+
+  if (data?.length > 1) {
+    friendStatus = "accepted";
+  }
+
+  return friendStatus;
 }

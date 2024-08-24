@@ -6,7 +6,6 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
 import { useToast } from "@/components/ui/use-toast";
-import type { Enums } from "@/types/supabase";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,6 +17,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
+import { FriendStatus } from "@/types/friends";
 
 const ClientFriendship = ({
   userId,
@@ -27,12 +27,10 @@ const ClientFriendship = ({
 }: {
   userId: UUID;
   profileId: UUID;
-  initialFriendStatus: Enums<"friends_status"> | undefined;
+  initialFriendStatus: FriendStatus;
   size?: "default" | "sm" | "lg" | "icon";
 }) => {
-  const [friendStatus, setFriendStatus] = React.useState<Enums<"friends_status"> | undefined>(
-    initialFriendStatus
-  );
+  const [friendStatus, setFriendStatus] = React.useState<FriendStatus>(initialFriendStatus);
 
   const { toast } = useToast();
 
@@ -52,7 +50,7 @@ const ClientFriendship = ({
       });
     } catch (error) {
       console.error(error);
-      setFriendStatus(undefined);
+      setFriendStatus("none");
       toast({
         title: "Erreur",
         description: "Impossible d'envoyer la demande d'ami.",
@@ -62,7 +60,7 @@ const ClientFriendship = ({
   };
 
   const handleCancelFriendRequest = async (userId: UUID, profileId: UUID) => {
-    setFriendStatus(undefined);
+    setFriendStatus("none");
 
     try {
       await cancelFriendRequest(userId, profileId);
@@ -83,7 +81,7 @@ const ClientFriendship = ({
   };
 
   const handleRemoveFriend = async (userId: UUID, profileId: UUID) => {
-    setFriendStatus(undefined);
+    setFriendStatus("none");
 
     try {
       await removeFriend(userId, profileId);
