@@ -1,1 +1,1 @@
-export type FriendStatus = "pending" | "accepted" | "rejected" | "blocked" | "none";
+export type FriendStatus = "pending" | "requested" | "accepted" | "rejected" | "blocked" | "none";

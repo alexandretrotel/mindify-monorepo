@@ -4,7 +4,7 @@ import { UUID } from "crypto";
 import { getUserCustomAvatarFromUserId } from "@/actions/users";
 import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
 
-const Friends = async ({ profileId, userId }: { profileId: UUID; userId: UUID }) => {
+const Friends = async ({ profileId }: { profileId: UUID }) => {
   const friends = await getFriendsData(profileId);
 
   const friendsPicture = await Promise.all(
@@ -14,7 +14,7 @@ const Friends = async ({ profileId, userId }: { profileId: UUID; userId: UUID })
     }) ?? []
   );
 
-  if (!friends || friends.length === 0) {
+  if (!friends || friends?.length === 0) {
     return (
       <div className="flex h-72 flex-col items-center justify-center gap-4 text-center text-2xl font-semibold">
         Aucun ami
@@ -22,7 +22,7 @@ const Friends = async ({ profileId, userId }: { profileId: UUID; userId: UUID })
     );
   }
 
-  return <FriendsClient friends={friends} friendsPicture={friendsPicture} userId={userId} />;
+  return <FriendsClient friends={friends} friendsPicture={friendsPicture} />;
 };
 
 export default Friends;
