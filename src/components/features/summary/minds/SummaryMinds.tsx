@@ -6,7 +6,15 @@ import type { Tables } from "@/types/supabase";
 import { UUID } from "crypto";
 import React from "react";
 
-const SummaryMinds = async ({ summaryId, userId }: { summaryId: number; userId: UUID }) => {
+const SummaryMinds = async ({
+  summaryId,
+  userId,
+  isConnected
+}: {
+  summaryId: number;
+  userId: UUID;
+  isConnected: boolean;
+}) => {
   const summaryMinds = (await getMindsFromSummaryId(summaryId)) as (Tables<"minds"> & {
     summaries: Tables<"summaries"> & {
       authors: Tables<"authors">;
@@ -19,7 +27,11 @@ const SummaryMinds = async ({ summaryId, userId }: { summaryId: number; userId: 
   }
 
   const summaryMindsIds = summaryMinds.map((mind) => mind.id);
-  const initialAreSaved = await areMindsSaved(summaryMindsIds, userId);
+
+  let initialAreSaved: boolean[] = summaryMindsIds?.map(() => false);
+  if (isConnected) {
+    initialAreSaved = await areMindsSaved(summaryMindsIds, userId);
+  }
 
   return (
     <Carousel
@@ -31,7 +43,12 @@ const SummaryMinds = async ({ summaryId, userId }: { summaryId: number; userId: 
     >
       <div className="flex flex-col gap-4">
         <H2>Les MINDS de ce résumé</H2>
-        <MindsClient minds={summaryMinds} initialAreSaved={initialAreSaved} userId={userId} />
+        <MindsClient
+          minds={summaryMinds}
+          initialAreSaved={initialAreSaved}
+          userId={userId}
+          isConnected={isConnected}
+        />
       </div>
     </Carousel>
   );

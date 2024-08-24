@@ -1,0 +1,36 @@
+import Footer from "@/components/features/home/Footer";
+import AccountDropdown from "@/components/global/AccountDropdown";
+import AppHeader from "@/components/global/AppHeader";
+import { createClient } from "@/utils/supabase/server";
+import type { UserMetadata } from "@supabase/supabase-js";
+import type { UUID } from "crypto";
+import React from "react";
+
+const Layout = async ({ children }: { children: React.ReactNode }) => {
+  const supabase = createClient();
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  const userId = user?.id as UUID;
+  const userMetadata = user?.user_metadata as UserMetadata;
+
+  const isConnected = !!user;
+
+  return (
+    <React.Fragment>
+      <AppHeader>
+        <AccountDropdown userId={userId} userMetadata={userMetadata} isConnected={isConnected} />
+      </AppHeader>
+
+      <div className="md:flew-row mx-auto flex w-full max-w-7xl flex-col justify-between p-4 py-12 pt-28 md:p-8 md:pt-32">
+        {children}
+      </div>
+
+      <Footer />
+    </React.Fragment>
+  );
+};
+
+export default Layout;

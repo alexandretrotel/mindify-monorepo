@@ -2,15 +2,20 @@ import React from "react";
 import H2 from "@/components/typography/h2";
 import P from "@/components/typography/p";
 import type { Tables } from "@/types/supabase";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import H3Span from "@/components/typography/h3AsSpan";
+import Semibold from "@/components/typography/semibold";
 
 const Chapters = async ({
   chapters,
   introduction,
-  conclusion
+  conclusion,
+  isConnected
 }: {
   chapters: Tables<"chapters">;
   introduction: string;
   conclusion: string;
+  isConnected: boolean;
 }) => {
   return (
     <React.Fragment>
@@ -19,19 +24,35 @@ const Chapters = async ({
         <P size="lg">{introduction}</P>
       </div>
 
-      <div className="flex flex-col gap-8">
-        {chapters?.titles?.map((title, index) => (
-          <div key={title} id={"chapter" + String(index + 1)} className="flex flex-col gap-4">
-            <H2>{title}</H2>
-            <P size="lg">{chapters?.texts[index]}</P>
+      {isConnected ? (
+        <React.Fragment>
+          <div className="flex flex-col gap-8">
+            {chapters?.titles?.map((title, index) => (
+              <div key={title} id={"chapter" + String(index + 1)} className="flex flex-col gap-4">
+                <H2>{title}</H2>
+                <P size="lg">{chapters?.texts[index]}</P>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+          <div id="conclusion" className="flex flex-col gap-4">
+            <H2>Conclusion</H2>
+            <P size="lg">{conclusion}</P>
+          </div>
+        </React.Fragment>
+      ) : (
+        <Card className="bg-primary text-primary-foreground">
+          <CardHeader>
+            <H3Span>Connectez-vous pour lire le contenu</H3Span>
+          </CardHeader>
 
-      <div id="conclusion" className="flex flex-col gap-4">
-        <H2>Conclusion</H2>
-        <P size="lg">{conclusion}</P>
-      </div>
+          <CardContent>
+            <Semibold>
+              Pour lire le contenu de ce résumé, vous devez être connecté et être abonné à Mindify
+              Pro.
+            </Semibold>
+          </CardContent>
+        </Card>
+      )}
     </React.Fragment>
   );
 };

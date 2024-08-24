@@ -1,32 +1,26 @@
 import React from "react";
 import type { UUID } from "crypto";
-import { getUserTopics, getUserCustomAvatar } from "@/actions/users";
-import { createClient } from "@/utils/supabase/server";
+import { getUserCustomAvatar } from "@/actions/users";
 import AccountDropdownClient from "@/components/global/client/AccountDropdownClient";
-import type { Tables } from "@/types/supabase";
 import { UserMetadata } from "@supabase/supabase-js";
 
 const AccountDropdown = async ({
   userId,
-  userMetadata
+  userMetadata,
+  isConnected
 }: {
   userId: UUID;
   userMetadata: UserMetadata;
+  isConnected: boolean;
 }) => {
-  const supabase = createClient();
-
-  const { data: topicsData } = await supabase.from("topics").select("*");
-
-  const userTopics = await getUserTopics(userId);
   const userPicture = await getUserCustomAvatar(userId, userMetadata);
 
   return (
     <AccountDropdownClient
       userMetadata={userMetadata}
       userId={userId}
-      topics={topicsData as Tables<"topics">[]}
-      userTopics={userTopics}
       userPicture={userPicture}
+      isConnected={isConnected}
     />
   );
 };

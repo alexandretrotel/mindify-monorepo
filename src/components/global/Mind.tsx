@@ -14,13 +14,15 @@ import { UUID } from "crypto";
 const Mind = ({
   mind,
   initialIsSaved,
-  userId
+  userId,
+  isConnected
 }: {
   mind: Tables<"minds"> & {
     summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
   };
   initialIsSaved: boolean;
   userId: UUID;
+  isConnected: boolean;
 }) => {
   const [isSaved, setIsSaved] = useState(initialIsSaved);
 
@@ -70,7 +72,11 @@ const Mind = ({
       </div>
 
       <div className="grid w-full grid-cols-2 gap-4">
-        <Button variant={isSaved ? "default" : "outline"} onClick={handleSaveMind}>
+        <Button
+          variant={isSaved ? "default" : "outline"}
+          onClick={handleSaveMind}
+          disabled={!isConnected}
+        >
           {isSaved ? "Enregistré" : "Enregistrer"}
         </Button>
 

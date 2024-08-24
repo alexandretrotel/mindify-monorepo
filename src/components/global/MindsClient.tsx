@@ -15,13 +15,15 @@ import { UUID } from "crypto";
 const MindsClient = ({
   minds,
   initialAreSaved,
-  userId
+  userId,
+  isConnected
 }: {
   minds: (Tables<"minds"> & {
     summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
   })[];
   initialAreSaved: boolean[];
   userId: UUID;
+  isConnected: boolean;
 }) => {
   return (
     <React.Fragment>
@@ -29,7 +31,12 @@ const MindsClient = ({
         {minds?.map((mind, index) => {
           return (
             <CarouselItem key={mind.id} className="pl-4 lg:basis-1/2">
-              <Mind mind={mind} initialIsSaved={initialAreSaved[index]} userId={userId} />
+              <Mind
+                mind={mind}
+                initialIsSaved={initialAreSaved[index]}
+                userId={userId}
+                isConnected={isConnected}
+              />
             </CarouselItem>
           );
         })}

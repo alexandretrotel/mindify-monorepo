@@ -53,7 +53,7 @@ const Personalized = async ({ userId }: { userId: UUID }) => {
               return (
                 <CarouselItem key={summary.id} className="pl-4 md:basis-1/3 lg:basis-1/4">
                   <Link
-                    href={`/app/summary/${summary.author_slug}/${summary.slug}`}
+                    href={`/summary/${summary.author_slug}/${summary.slug}`}
                     className="h-full"
                   >
                     <BookCover

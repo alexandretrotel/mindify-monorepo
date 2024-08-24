@@ -41,7 +41,7 @@ const Suggestions = async ({
                   <CarouselItem key={summary?.id} className="pl-4 md:basis-1/4 lg:basis-1/4">
                     <Link
                       key={summary?.id}
-                      href={`/app/summary/${summary?.author_slug}/${summary?.slug}`}
+                      href={`/summary/${summary?.author_slug}/${summary?.slug}`}
                       className="h-full"
                     >
                       <BookCover

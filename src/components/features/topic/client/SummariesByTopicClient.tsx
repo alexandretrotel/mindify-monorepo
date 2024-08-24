@@ -70,7 +70,7 @@ const SummariesByCategoryClient = ({
       {/* Summaries */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {paginatedSummaries?.map((summary) => (
-          <Link key={summary.id} href={`/app/summary/${summary.author_slug}/${summary.slug}`}>
+          <Link key={summary.id} href={`/summary/${summary.author_slug}/${summary.slug}`}>
             <BookCover
               title={summary.title}
               author={summary?.authors?.name}
@@ -82,30 +82,49 @@ const SummariesByCategoryClient = ({
         ))}
       </div>
 
-      {/* Pagination */}
-      <Pagination className="flex items-center gap-2">
-        <button onClick={handlePreviousPage}>
-          <PaginationPrevious>
-            <PaginationLink>Précédent</PaginationLink>
-          </PaginationPrevious>
-        </button>
+      {summariesByTopic?.length > itemsPerPage && (
+        <Pagination className="flex items-center gap-2">
+          <button onClick={handlePreviousPage}>
+            <PaginationPrevious>
+              <PaginationLink>Précédent</PaginationLink>
+            </PaginationPrevious>
+          </button>
 
-        <PaginationContent>
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <PaginationItem key={index}>
-              <button onClick={() => setCurrentPage(index + 1)}>
-                <PaginationLink isActive={currentPage === index + 1}>{index + 1}</PaginationLink>
-              </button>
-            </PaginationItem>
-          ))}
-        </PaginationContent>
+          <PaginationContent>
+            {Array.from({ length: totalPages }).map((_, index) => {
+              const isStart = index < 3;
+              const isEnd = index >= totalPages - 1;
+              const isCurrent = currentPage === index + 1;
 
-        <button onClick={handleNextPage}>
-          <PaginationNext>
-            <PaginationLink>Suivant</PaginationLink>
-          </PaginationNext>
-        </button>
-      </Pagination>
+              if (isStart || isEnd || isCurrent) {
+                return (
+                  <PaginationItem key={index}>
+                    <button onClick={() => setCurrentPage(index + 1)}>
+                      <PaginationLink isActive={isCurrent}>{index + 1}</PaginationLink>
+                    </button>
+                  </PaginationItem>
+                );
+              }
+
+              if (index === 3) {
+                return (
+                  <span key={index} className="mx-1">
+                    ...
+                  </span>
+                );
+              }
+
+              return null;
+            })}
+          </PaginationContent>
+
+          <button onClick={handleNextPage}>
+            <PaginationNext>
+              <PaginationLink>Suivant</PaginationLink>
+            </PaginationNext>
+          </button>
+        </Pagination>
+      )}
     </React.Fragment>
   );
 };

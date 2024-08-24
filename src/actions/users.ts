@@ -42,7 +42,7 @@ export async function userUpdateName(name: string) {
     throw new Error("Impossible de mettre à jour le nom.");
   }
 
-  revalidatePath("/app", "layout");
+  revalidatePath("/", "layout");
   return { name, message: "Nom mis à jour avec succès." };
 }
 
@@ -74,7 +74,7 @@ export async function userUpdateBiography(biography: string) {
     throw new Error("Impossible de mettre à jour la bio.");
   }
 
-  revalidatePath("/app", "layout");
+  revalidatePath("/", "layout");
   return { bio: bioData.bio, message: "Biographie mise à jour avec succès." };
 }
 
@@ -136,7 +136,7 @@ export async function userUpdateAvatar(formData: FormData, userId: UUID) {
     throw new Error("Impossible d'obtenir l'URL publique de l'avatar.");
   }
 
-  revalidatePath("/app", "layout");
+  revalidatePath("/", "layout");
   return { message: "Avatar mis à jour avec succès." };
 }
 
@@ -430,4 +430,32 @@ export async function getSummariesRepartition(userId: UUID) {
   });
 
   return topicsRepartition;
+}
+
+export async function getTopUsers() {
+  const supabase = createClient();
+
+  const { data: usersData } = await supabase.from("read_summaries").select("user_id");
+
+  if (!usersData) {
+    return [];
+  }
+
+  const usersIds = usersData?.map((user) => user?.user_id as UUID);
+
+  const usersCount = usersIds?.reduce(
+    (acc: { [key: UUID]: number }, user: UUID) => {
+      acc[user] = (acc[user] || 0) + 1;
+      return acc;
+    },
+    {} as { [key: UUID]: number }
+  );
+
+  const sortedUsers = Object.keys(usersCount)?.sort(
+    (a, b) => usersCount?.[b as UUID] - usersCount?.[a as UUID]
+  ) as UUID[];
+
+  const topUsers = await getUsersData(sortedUsers);
+
+  return topUsers;
 }

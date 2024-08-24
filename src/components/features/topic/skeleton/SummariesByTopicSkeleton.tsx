@@ -1,19 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 import React from "react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious
-} from "@/components/ui/pagination";
 import BookCoverSkeleton from "@/components/global/skeleton/BookCoverSkeleton";
 
 const itemsPerPage = 8;
-const totalPages = 1;
-const currentPage = 1;
 
 const SummariesByCategorySkeleton = async () => {
   return (
@@ -34,31 +24,6 @@ const SummariesByCategorySkeleton = async () => {
           <BookCoverSkeleton key={index} />
         ))}
       </div>
-
-      {/* Pagination */}
-      <Pagination className="flex items-center gap-2">
-        <button disabled>
-          <PaginationPrevious>
-            <PaginationLink>Précédent</PaginationLink>
-          </PaginationPrevious>
-        </button>
-
-        <PaginationContent>
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <PaginationItem key={index}>
-              <button disabled>
-                <PaginationLink isActive={currentPage === index + 1}>{index + 1}</PaginationLink>
-              </button>
-            </PaginationItem>
-          ))}
-        </PaginationContent>
-
-        <button disabled>
-          <PaginationNext>
-            <PaginationLink>Suivant</PaginationLink>
-          </PaginationNext>
-        </button>
-      </Pagination>
     </React.Fragment>
   );
 };

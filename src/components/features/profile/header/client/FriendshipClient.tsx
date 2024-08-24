@@ -6,20 +6,31 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
 import { useToast } from "@/components/ui/use-toast";
-import type { Enums } from "@/types/supabase";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
+import { FriendStatus } from "@/types/friends";
 
 const ClientFriendship = ({
   userId,
   profileId,
-  initialFriendStatus
+  initialFriendStatus,
+  size
 }: {
   userId: UUID;
   profileId: UUID;
-  initialFriendStatus: Enums<"friends_status"> | undefined;
+  initialFriendStatus: FriendStatus;
+  size?: "default" | "sm" | "lg" | "icon";
 }) => {
-  const [friendStatus, setFriendStatus] = React.useState<Enums<"friends_status"> | undefined>(
-    initialFriendStatus
-  );
+  const [friendStatus, setFriendStatus] = React.useState<FriendStatus>(initialFriendStatus);
 
   const { toast } = useToast();
 
@@ -39,7 +50,7 @@ const ClientFriendship = ({
       });
     } catch (error) {
       console.error(error);
-      setFriendStatus(undefined);
+      setFriendStatus("none");
       toast({
         title: "Erreur",
         description: "Impossible d'envoyer la demande d'ami.",
@@ -49,7 +60,7 @@ const ClientFriendship = ({
   };
 
   const handleCancelFriendRequest = async (userId: UUID, profileId: UUID) => {
-    setFriendStatus(undefined);
+    setFriendStatus("none");
 
     try {
       await cancelFriendRequest(userId, profileId);
@@ -70,7 +81,7 @@ const ClientFriendship = ({
   };
 
   const handleRemoveFriend = async (userId: UUID, profileId: UUID) => {
-    setFriendStatus(undefined);
+    setFriendStatus("none");
 
     try {
       await removeFriend(userId, profileId);
@@ -91,26 +102,78 @@ const ClientFriendship = ({
 
   if (friendStatus === "pending") {
     return (
-      <Button
-        size="sm"
-        variant="destructive"
-        onClick={() => handleCancelFriendRequest(userId, profileId)}
-      >
-        Annuler la demande d&apos;ami
-      </Button>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button variant="destructive" size={size}>
+            Annuler la demande d&apos;ami
+          </Button>
+        </AlertDialogTrigger>
+
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Êtes-vous sûr de vouloir annuler cette demande ?</AlertDialogTitle>
+
+            <AlertDialogDescription>
+              Vous ne pourrez plus voir les activités de cet ami. Vous devrez envoyer une nouvelle
+              demande d&apos;ami pour être de nouveau amis.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel asChild>
+              <Button variant="secondary" size={size}>
+                Annuler
+              </Button>
+            </AlertDialogCancel>
+
+            <AlertDialogAction asChild>
+              <Button onClick={() => handleCancelFriendRequest(userId, profileId)} size={size}>
+                Confirmer
+              </Button>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     );
   }
 
   if (friendStatus === "accepted") {
     return (
-      <Button size="sm" variant="destructive" onClick={() => handleRemoveFriend(userId, profileId)}>
-        Retirer de mes amis
-      </Button>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button variant="destructive">Retirer de mes amis</Button>
+        </AlertDialogTrigger>
+
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Êtes-vous sûr de vouloir retirer cet ami ?</AlertDialogTitle>
+
+            <AlertDialogDescription>
+              Vous ne pourrez plus voir les activités de cet ami. Vous devrez envoyer une nouvelle
+              demande d&apos;ami pour être de nouveau amis.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel asChild>
+              <Button variant="secondary" size={size}>
+                Annuler
+              </Button>
+            </AlertDialogCancel>
+
+            <AlertDialogAction asChild>
+              <Button onClick={() => handleRemoveFriend(userId, profileId)} size={size}>
+                Confirmer
+              </Button>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     );
   }
 
   return (
-    <Button size="sm" onClick={() => handleAskForFriend(userId, profileId)}>
+    <Button onClick={() => handleAskForFriend(userId, profileId)} size={size}>
       Demander en ami
     </Button>
   );
