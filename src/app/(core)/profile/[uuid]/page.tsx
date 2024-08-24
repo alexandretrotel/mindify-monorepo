@@ -156,7 +156,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
 
             <TabsContent value="friends">
               <Suspense fallback={<FriendsSkeleton />}>
-                <Friends profileId={profileId} userId={userId} />
+                <Friends profileId={profileId} />
               </Suspense>
             </TabsContent>
           </div>
