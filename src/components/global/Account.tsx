@@ -2,14 +2,12 @@ import React from "react";
 import H3Span from "@/components/typography/h3AsSpan";
 import { Separator } from "@/components/ui/separator";
 import Navigation from "@/components/features/account/Navigation";
-import { XIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import type { AccountCategory } from "@/types/account";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
-import { Tab } from "@//my-account/page";
+import { Tab } from "@/app/(core)/my-account/page";
 
 export default function Account({
   userId,
