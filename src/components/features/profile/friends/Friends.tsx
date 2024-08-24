@@ -2,7 +2,7 @@ import React from "react";
 import { getFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
 import { getUserCustomAvatarFromUserId } from "@/actions/users";
-import UserCard from "@/components/global/UserCard";
+import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
 
 const Friends = async ({ profileId, userId }: { profileId: UUID; userId: UUID }) => {
   const friends = await getFriendsData(profileId);
@@ -22,15 +22,7 @@ const Friends = async ({ profileId, userId }: { profileId: UUID; userId: UUID })
     );
   }
 
-  return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-      {friends
-        ?.filter((friend) => friend?.id !== userId)
-        ?.map((friend, index) => {
-          return <UserCard key={index} user={friend} userPicture={friendsPicture[index]} />;
-        })}
-    </div>
-  );
+  return <FriendsClient friends={friends} friendsPicture={friendsPicture} userId={userId} />;
 };
 
 export default Friends;

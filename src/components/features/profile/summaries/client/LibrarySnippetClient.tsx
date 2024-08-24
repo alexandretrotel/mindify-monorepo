@@ -1,11 +1,10 @@
 "use client";
 import "client-only";
 
-import { Input } from "@/components/ui/input";
-import { SearchIcon } from "lucide-react";
-import React, { useEffect } from "react";
-import BookCover from "@/components/global/BookCover";
+import React from "react";
+import type { Tables } from "@/types/supabase";
 import Link from "next/link";
+import BookCover from "@/components/global/BookCover";
 import {
   Pagination,
   PaginationContent,
@@ -14,30 +13,30 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "@/components/ui/pagination";
-import type { Tables } from "@/types/supabase";
 
 const itemsPerPage = 8;
 
-const SummariesByCategoryClient = ({
-  topic,
-  summariesByTopic
+const LibrarySnippetClient = ({
+  summaries
 }: {
-  topic: Tables<"topics">;
-  summariesByTopic: (Tables<"summaries"> & { author_slug: string } & {
+  summaries: (Tables<"summaries"> & {
     authors: Tables<"authors">;
+    topics: Tables<"topics">;
+    author_slug: string;
+    topic: string;
+    image_url: string;
   })[];
 }) => {
-  const [summarySearch, setSummarySearch] = React.useState<string | undefined>(undefined);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalPages, setTotalPages] = React.useState<number>(0);
 
-  useEffect(() => {
-    if (summariesByTopic) {
-      setTotalPages(Math.ceil(summariesByTopic?.length / itemsPerPage));
+  React.useEffect(() => {
+    if (summaries) {
+      setTotalPages(Math.ceil(summaries?.length / itemsPerPage));
     }
-  }, [summariesByTopic]);
+  }, [summaries]);
 
-  const paginatedSummaries = summariesByTopic?.slice(
+  const paginatedSummaries = summaries?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -55,34 +54,28 @@ const SummariesByCategoryClient = ({
   };
 
   return (
-    <React.Fragment>
-      <div className="min-w-md relative max-w-md flex-1">
-        <SearchIcon className="absolute left-2 top-3 flex h-4 w-4 text-muted-foreground" />
-        <Input
-          type="search"
-          placeholder="Titre, auteur, mots-clés, etc..."
-          className="w-full rounded-lg bg-background pl-8"
-          value={summarySearch ?? ""}
-          onChange={(e) => setSummarySearch(e.target.value)}
-        />
-      </div>
-
-      {/* Summaries */}
+    <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {paginatedSummaries?.map((summary) => (
-          <Link key={summary.id} href={`/summary/${summary.author_slug}/${summary.slug}`}>
-            <BookCover
-              title={summary.title}
-              author={summary?.authors?.name}
-              category={topic.name}
-              source={summary.source_type}
-              image={summary.image_url ?? undefined}
-            />
-          </Link>
-        ))}
+        {paginatedSummaries?.map((summary) => {
+          return (
+            <Link
+              key={summary.id}
+              href={`/summary/${summary.author_slug}/${summary.slug}`}
+              className="h-full"
+            >
+              <BookCover
+                title={summary.title}
+                author={summary.authors.name}
+                category={summary.topic}
+                source={summary.source_type}
+                image={summary.image_url}
+              />
+            </Link>
+          );
+        })}
       </div>
 
-      {summariesByTopic?.length > itemsPerPage && (
+      {summaries?.length > itemsPerPage && (
         <Pagination className="flex items-center gap-2">
           <button onClick={handlePreviousPage}>
             <PaginationPrevious>
@@ -125,8 +118,8 @@ const SummariesByCategoryClient = ({
           </button>
         </Pagination>
       )}
-    </React.Fragment>
+    </div>
   );
 };
 
-export default SummariesByCategoryClient;
+export default LibrarySnippetClient;
