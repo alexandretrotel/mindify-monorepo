@@ -10,8 +10,7 @@ const inactiveLink = "font-semibold text-muted-foreground text-sm hover:text-for
 
 const links = [
   { href: "/app/discover", label: "Découvrir" },
-  { href: "/app/library", label: "Librairie" },
-  { href: "/app/my-statistics", label: "Mes statistiques" },
+  { href: "/app/library", label: "Librairie" }
 ];
 
 const AppHeader = ({ children }: { children: React.ReactNode }) => {
