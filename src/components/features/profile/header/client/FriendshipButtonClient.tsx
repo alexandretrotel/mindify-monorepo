@@ -1,7 +1,12 @@
 "use client";
 import "client-only";
 
-import { askForFriend, cancelFriendRequest, removeFriend } from "@/actions/friends";
+import {
+  acceptFriendRequest,
+  askForFriend,
+  cancelFriendRequest,
+  removeFriend
+} from "@/actions/friends";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
@@ -19,7 +24,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { FriendStatus } from "@/types/friends";
 
-const ClientFriendship = ({
+const FriendshipButtonClient = ({
   userId,
   profileId,
   initialFriendStatus,
@@ -75,6 +80,26 @@ const ClientFriendship = ({
       toast({
         title: "Erreur",
         description: "Impossible d'annuler la demande d'ami.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleAcceptFriendRequest = async (userId: UUID, profileId: UUID) => {
+    setFriendStatus("accepted");
+
+    try {
+      await acceptFriendRequest(userId, profileId);
+      toast({
+        title: "Demande acceptée",
+        description: "La demande d'ami a été acceptée avec succès."
+      });
+    } catch (error) {
+      console.error(error);
+      setFriendStatus("requested");
+      toast({
+        title: "Erreur",
+        description: "Impossible d'accepter la demande d'ami.",
         variant: "destructive"
       });
     }
@@ -137,6 +162,18 @@ const ClientFriendship = ({
     );
   }
 
+  if (friendStatus === "requested") {
+    return (
+      <Button
+        variant="destructive"
+        onClick={() => handleAcceptFriendRequest(userId, profileId)}
+        size={size}
+      >
+        Accepter la demande d&apos;ami
+      </Button>
+    );
+  }
+
   if (friendStatus === "accepted") {
     return (
       <AlertDialog>
@@ -179,4 +216,4 @@ const ClientFriendship = ({
   );
 };
 
-export default ClientFriendship;
+export default FriendshipButtonClient;

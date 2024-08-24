@@ -4,7 +4,7 @@ import type { UserMetadata } from "@supabase/supabase-js";
 import { UUID } from "crypto";
 import React, { Suspense } from "react";
 import { Separator } from "@/components/ui/separator";
-import Friendship from "@/components/features/profile/header/Friendship";
+import Friendship from "@/components/features/profile/header/FriendshipButton";
 import Friends from "@/components/features/profile/friends/Friends";
 import ReadingStreak from "@/components/features/profile/header/ReadingStreak";
 import LibrarySnippet from "@/components/features/profile/summaries/LibrarySnippet";
