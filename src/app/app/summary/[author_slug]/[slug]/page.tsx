@@ -50,7 +50,7 @@ export async function generateMetadata({
         }
       ],
       siteName: "Mindify",
-      url: `https://mindify.vercel.app/app/summary/${author_slug}/${slug}`
+      url: `https://mindify.fr/app/summary/${author_slug}/${slug}`
     },
     twitter: {
       title: `${summary?.title} | Mindify`,

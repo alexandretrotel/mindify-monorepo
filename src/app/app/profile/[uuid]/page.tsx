@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
         }
       ],
       siteName: "Mindify",
-      url: `https://mindify.vercel.app/app/profile/${profileId}`
+      url: `https://mindify.fr/app/profile/${profileId}`
     },
     twitter: {
       title: `${userData?.user?.user_metadata?.name} | Mindify`,

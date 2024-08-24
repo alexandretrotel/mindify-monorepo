@@ -9,7 +9,7 @@ const activeLink = "font-semibold text-foreground text-sm";
 const inactiveLink = "font-semibold text-muted-foreground text-sm hover:text-foreground";
 
 const links = [
-  { href: "/app", label: "Découvrir" },
+  { href: "/app/discover", label: "Découvrir" },
   { href: "/app/library", label: "Librairie" },
   { href: "/app/my-statistics", label: "Mes statistiques" },
 ];

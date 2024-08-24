@@ -83,7 +83,7 @@ export default function HeaderClient({ isUserConnected }: Readonly<{ isUserConne
         <div className="hidden gap-4 lg:flex lg:flex-1 lg:justify-end">
           <Button asChild variant="outline">
             {isUserConnected ? (
-              <Link href="/app">Lancer l&apos;app</Link>
+              <Link href="/app/discover">Lancer l&apos;app</Link>
             ) : (
               <Link href="/auth/login">Se connecter</Link>
             )}
@@ -131,7 +131,7 @@ export default function HeaderClient({ isUserConnected }: Readonly<{ isUserConne
               <div className="py-6">
                 <Button asChild>
                   {isUserConnected ? (
-                    <Link href="/app">Lancer l&apos;app</Link>
+                    <Link href="/app/discover">Lancer l&apos;app</Link>
                   ) : (
                     <Link href="/auth/login">Se connecter</Link>
                   )}
