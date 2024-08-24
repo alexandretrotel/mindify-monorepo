@@ -13,7 +13,6 @@ import TableOfContentsSkeleton from "@/components/features/summary/table-of-cont
 import ChaptersSkeleton from "@/components/features/summary/chapters/skeleton/ChaptersSkeleton";
 import Suggestions from "@/components/features/summary/suggestions/Suggestions";
 import SuggestionsSkeleton from "@/components/features/summary/suggestions/skeleton/SuggestionsSkeleton";
-import ReadingTime from "@/components/features/summary/header/ReadingTime";
 import Source from "@/components/features/summary/header/Source";
 import SummaryMinds from "@/components/features/summary/minds/SummaryMinds";
 import SummaryMindsSkeleton from "@/components/features/summary/minds/skeleton/SummaryMindsSkeleton";
@@ -105,8 +104,6 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
                   </Suspense>
                   <Source summarySourceUrl={summary?.source_url as string} />
                 </div>
-
-                <ReadingTime summaryReadingTime={summary?.reading_time as number} />
               </div>
             </div>
 

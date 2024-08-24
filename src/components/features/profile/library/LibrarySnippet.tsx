@@ -15,7 +15,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-8">
           <TabsList>
-            <TabsTrigger value="reads">Résumés lus</TabsTrigger>
+            <TabsTrigger value="reads">Lus</TabsTrigger>
             <TabsTrigger value="saved">Enregistrés</TabsTrigger>
           </TabsList>
         </div>

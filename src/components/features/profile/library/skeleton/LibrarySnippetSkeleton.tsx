@@ -8,7 +8,7 @@ const LibrarySnippetSkeleton = () => {
       <div className="flex flex-col gap-4">
         <div className="flex items-start justify-between gap-8">
           <TabsList>
-            <TabsTrigger value="reads">Résumés lus</TabsTrigger>
+            <TabsTrigger value="reads">Lus</TabsTrigger>
             <TabsTrigger value="saved">Enregistrés</TabsTrigger>
           </TabsList>
         </div>
