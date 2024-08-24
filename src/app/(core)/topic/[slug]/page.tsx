@@ -1,6 +1,5 @@
 import SummariesByTopic from "@/components/features/topic/SummariesByTopic";
 import H3 from "@/components/typography/h3";
-import { Badge } from "@/components/ui/badge";
 import React, { Suspense } from "react";
 import SummariesByTopicSkeleton from "@/components/features/topic/skeleton/SummariesByTopicSkeleton";
 import { createClient } from "@/utils/supabase/server";
@@ -8,7 +7,6 @@ import { getAdminTopicFromTopicSlug } from "@/actions/topics";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 import type { Metadata, ResolvingMetadata } from "next";
-import { redirect } from "next/navigation";
 
 export async function generateMetadata(
   {
@@ -28,7 +26,7 @@ export async function generateMetadata(
       title: `${topic?.name} | Mindify`,
       description: `Explorez notre collection des meilleurs résumés dans la catégorie ${topic?.name.toLowerCase()}.`,
       siteName: "Mindify",
-      url: `https://mindify.fr/app/topic/${slug}`,
+      url: `https://mindify.fr/topic/${slug}`,
       images: [
         {
           url: "/open-graph/og-image.png"
@@ -53,12 +51,6 @@ const Page = async ({ params }: { params: { slug: string } }) => {
 
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data?.user) {
-    redirect("/auth/login");
-  }
-
   const { data: summariesData } = await supabase
     .from("summaries")
     .select("*, topics(*), authors(*)");
@@ -66,7 +58,6 @@ const Page = async ({ params }: { params: { slug: string } }) => {
 
   const filteredSummariesData = summariesData?.filter((summary) => summary?.topics?.slug === slug);
 
-  const numberOfSummaries = filteredSummariesData?.length as number;
   const summariesByTopic = filteredSummariesData?.map((summary) => ({
     ...summary,
     topic: summary?.topics,
@@ -80,9 +71,6 @@ const Page = async ({ params }: { params: { slug: string } }) => {
           <div className="flex flex-col">
             <div className="flex items-center gap-4">
               <H3>{topic?.name}</H3>
-              <Badge>
-                {numberOfSummaries} {numberOfSummaries > 1 ? "résumés" : "résumé"}
-              </Badge>
             </div>
             <Muted>
               Explorez notre collection des meilleurs résumés dans la catégorie{" "}

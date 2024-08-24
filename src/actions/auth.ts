@@ -90,7 +90,7 @@ export async function signInWithPassword(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/app/discover");
+  redirect("/discover");
 }
 
 export async function signInWithEmail(formData: FormData) {
@@ -112,7 +112,7 @@ export async function signInWithEmail(formData: FormData) {
     email: data.email,
     options: {
       shouldCreateUser: true,
-      emailRedirectTo: `${origin}/app/discover`
+      emailRedirectTo: `${origin}/discover`
     }
   });
 

@@ -68,7 +68,7 @@ const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: 
                   <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
                     {topicChunk.map((topic) => (
                       <Button asChild key={topic.id} className="col-span-1">
-                        <Link href={`/app/topic/${topic.slug}`} className="w-full">
+                        <Link href={`/topic/${topic.slug}`} className="w-full">
                           <TopicIcon isChecked={true} topic={topic} />
                           <H5Span>{topic.name}</H5Span>
                         </Link>
@@ -107,7 +107,7 @@ const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: 
                   acc[chunkIndex] = [];
                 }
 
-                acc[chunkIndex].push(topic as Tables<"topics">);
+                acc[chunkIndex].push(topic);
                 return acc;
               }, [] as Tables<"topics">[][])
               .map((topicChunk, index) => (
@@ -115,7 +115,7 @@ const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: 
                   <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
                     {topicChunk.map((topic) => (
                       <Button asChild key={topic.id} className="col-span-1">
-                        <Link href={`/app/topic/${topic.slug}`} className="w-full">
+                        <Link href={`/topic/${topic.slug}`} className="w-full">
                           <TopicIcon isChecked={true} topic={topic} />
                           <H5Span>{topic.name}</H5Span>
                         </Link>

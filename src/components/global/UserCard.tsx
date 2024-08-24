@@ -44,7 +44,7 @@ const UserCard = ({ user, userPicture }: { user: User; userPicture: string }) =>
         <CardFooter>
           <div className="grid w-full grid-cols-1 gap-4">
             <Button variant="secondary" size="sm" asChild>
-              <Link href={`/app/profile/${user?.id}`}>Voir le profil</Link>
+              <Link href={`/profile/${user?.id}`}>Voir le profil</Link>
             </Button>
           </div>
         </CardFooter>

@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import AddToLibraryButton from "@/components/features/summary/buttons/AddToLibraryButton";
 import MarkAsReadButton from "@/components/features/summary/buttons/MarkAsReadButton";
 import SummaryHeader from "@/components/features/summary/header/SummaryHeader";
@@ -50,7 +50,7 @@ export async function generateMetadata({
         }
       ],
       siteName: "Mindify",
-      url: `https://mindify.fr/app/summary/${author_slug}/${slug}`
+      url: `https://mindify.fr/summary/${author_slug}/${slug}`
     },
     twitter: {
       title: `${summary?.title} | Mindify`,
@@ -69,13 +69,13 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
   const { slug, author_slug } = params;
 
   const supabase = createClient();
-  const { data, error } = await supabase.auth.getUser();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-  if (error || !data?.user) {
-    redirect("/auth/login");
-  }
+  const isConnected = !!user;
 
-  const userId = data?.user?.id as UUID;
+  const userId = user?.id as UUID;
 
   const summary = (await getSummaryFromSlugs(author_slug, slug)) as Tables<"summaries"> & {
     topics: Tables<"topics">;
@@ -99,9 +99,12 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
 
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-4">
-                  <Suspense fallback={<AddToLibraryButtonSkeleton />}>
-                    <AddToLibraryButton summaryId={summary?.id} userId={userId} />
-                  </Suspense>
+                  {isConnected && (
+                    <Suspense fallback={<AddToLibraryButtonSkeleton />}>
+                      <AddToLibraryButton summaryId={summary?.id} userId={userId} />
+                    </Suspense>
+                  )}
+
                   <Source summarySourceUrl={summary?.source_url as string} />
                 </div>
               </div>
@@ -114,43 +117,50 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
                     chapters={summary?.chapters}
                     introduction={summary?.introduction}
                     conclusion={summary?.conclusion}
+                    isConnected={isConnected}
                   />
                 </Suspense>
 
-                <div className="flex flex-col gap-4">
-                  <div className="w-full md:w-fit">
-                    <Suspense fallback={<MarkAsReadButtonSkeleton />}>
-                      <MarkAsReadButton summaryId={summary?.id} userId={userId} />
-                    </Suspense>
+                {isConnected && (
+                  <div className="flex flex-col gap-4">
+                    <div className="w-full md:w-fit">
+                      <Suspense fallback={<MarkAsReadButtonSkeleton />}>
+                        <MarkAsReadButton summaryId={summary?.id} userId={userId} />
+                      </Suspense>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
-              <div className="relative order-1 w-full lg:order-2">
-                <div className="w-full lg:sticky lg:right-0 lg:top-0 lg:pt-8">
-                  <div className="flex w-full flex-col gap-8">
-                    <Suspense fallback={<TableOfContentsSkeleton />}>
-                      <TableOfContents chapters={summary?.chapters} />
-                    </Suspense>
+              {isConnected && (
+                <div className="relative order-1 w-full lg:order-2">
+                  <div className="w-full lg:sticky lg:right-0 lg:top-0 lg:pt-8">
+                    <div className="flex w-full flex-col gap-8">
+                      <Suspense fallback={<TableOfContentsSkeleton />}>
+                        <TableOfContents chapters={summary?.chapters} />
+                      </Suspense>
 
-                    <Suspense fallback={<AuthorDescriptionSkeleton />}>
-                      <AuthorDescription author={summary?.authors} />
-                    </Suspense>
+                      <Suspense fallback={<AuthorDescriptionSkeleton />}>
+                        <AuthorDescription author={summary?.authors} />
+                      </Suspense>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
-          <div className="flex flex-col gap-8">
-            <Suspense fallback={<SummaryMindsSkeleton />}>
-              <SummaryMinds summaryId={summary?.id} userId={userId} />
-            </Suspense>
+          {isConnected && (
+            <div className="flex flex-col gap-8">
+              <Suspense fallback={<SummaryMindsSkeleton />}>
+                <SummaryMinds summaryId={summary?.id} userId={userId} isConnected={isConnected} />
+              </Suspense>
 
-            <Suspense fallback={<SuggestionsSkeleton />}>
-              <Suggestions topicId={summary?.topic_id} summary={summary} />
-            </Suspense>
-          </div>
+              <Suspense fallback={<SuggestionsSkeleton />}>
+                <Suggestions topicId={summary?.topic_id} summary={summary} />
+              </Suspense>
+            </div>
+          )}
         </div>
       </div>
     </div>

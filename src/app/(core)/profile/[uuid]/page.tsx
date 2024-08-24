@@ -17,7 +17,6 @@ import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
 import { Carousel } from "@/components/ui/carousel";
 import type { Metadata } from "next";
 import { createAdminClient } from "@/utils/supabase/admin";
-import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Statistics from "@/components/features/my-statistics/Statistics";
 import StatisticsSkeleton from "@/components/features/my-statistics/skeleton/StatisticsSkeleton";
@@ -45,7 +44,7 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
         }
       ],
       siteName: "Mindify",
-      url: `https://mindify.fr/app/profile/${profileId}`
+      url: `https://mindify.fr/profile/${profileId}`
     },
     twitter: {
       title: `${userData?.user?.user_metadata?.name} | Mindify`,
@@ -66,18 +65,18 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const profileId = params.uuid;
 
   const supabase = createClient();
-  const { data, error } = await supabase.auth.getUser();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-  if (error || !data?.user) {
-    redirect("/auth/login");
-  }
+  const isConnected = !!user;
 
   const supabaseAdmin = createAdminClient();
 
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
   let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
 
-  const userId = data?.user?.id as UUID;
+  const userId = user?.id as UUID;
 
   const isMyProfile = userId === profileId;
 
@@ -102,12 +101,16 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 md:flex md:items-center">
-        {!isMyProfile && profileId ? (
-          <Friendship userId={userId} profileId={profileId} size="sm" />
-        ) : (
-          <Button size="sm" disabled asChild>
-            <Link href="/app/my-account">Modifier mon profil</Link>
-          </Button>
+        {isConnected && (
+          <React.Fragment>
+            {!isMyProfile && profileId ? (
+              <Friendship userId={userId} profileId={profileId} size="sm" />
+            ) : (
+              <Button size="sm" disabled asChild>
+                <Link href="/my-account">Modifier mon profil</Link>
+              </Button>
+            )}
+          </React.Fragment>
         )}
 
         <CopyProfileLink userId={profileId} />
@@ -141,7 +144,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
                   </Carousel>
                 }
               >
-                <ProfileMinds profileId={profileId} userId={userId} />
+                <ProfileMinds profileId={profileId} userId={userId} isConnected={isConnected} />
               </Suspense>
             </TabsContent>
 

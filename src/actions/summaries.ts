@@ -20,7 +20,7 @@ export async function addSummaryToLibrary(userId: UUID, summaryId: number) {
     throw new Error("Impossible d'ajouter le résumé à votre bibliothèque.");
   }
 
-  revalidatePath("/app", "layout");
+  revalidatePath("/", "layout");
   return { error };
 }
 
@@ -38,7 +38,7 @@ export async function removeSummaryFromLibrary(userId: UUID, summaryId: number) 
     throw new Error("Impossible de supprimer le résumé de votre bibliothèque.");
   }
 
-  revalidatePath("/app", "layout");
+  revalidatePath("/", "layout");
   return { error };
 }
 
@@ -55,7 +55,7 @@ export async function markSummaryAsRead(userId: UUID, summaryId: number) {
     throw new Error("Impossible de marquer le résumé comme lu.");
   }
 
-  revalidatePath("/app", "layout");
+  revalidatePath("/", "layout");
   return { error };
 }
 
@@ -73,7 +73,7 @@ export async function markSummaryAsUnread(userId: UUID, summaryId: number) {
     throw new Error("Impossible de marquer le résumé comme non lu.");
   }
 
-  revalidatePath("/app", "layout");
+  revalidatePath("/", "layout");
   return { error };
 }
 

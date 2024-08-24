@@ -23,7 +23,7 @@ const TopicsList = async ({ profileId }: { profileId: UUID }) => {
       {sortedTopics?.map((topic) => (
         <div key={topic?.id}>
           <Button variant="outline" size="sm" asChild>
-            <Link href={`/app/topic/${topic?.slug}`}>
+            <Link href={`/topic/${topic?.slug}`}>
               <TopicIcon topic={topic} isChecked={false} />
               {topic.name}
             </Link>

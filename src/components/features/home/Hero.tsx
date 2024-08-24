@@ -10,10 +10,7 @@ import TopicsSkeleton from "@/components/features/home/hero/skeleton/TopicsSkele
 
 const Hero = async () => {
   return (
-    <section
-      id="home"
-      className="relative isolate flex md:h-screen items-center justify-center px-4 pt-32"
-    >
+    <section id="home" className="flex items-center justify-center px-4 pt-32 md:h-screen md:pt-0">
       <div className="hide-scrollbar relative text-center">
         <div className="mx-auto flex max-w-xl flex-col gap-2 text-center">
           <H1>Mindify</H1>

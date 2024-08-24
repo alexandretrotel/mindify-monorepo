@@ -5,7 +5,15 @@ import { areMindsSaved, getMindsFromUserId } from "@/actions/minds";
 import type { Tables } from "@/types/supabase";
 import ProfileMindsSkeleton from "@/components/features/profile/minds/skeleton/ProfileMindsSkeleton";
 
-const ProfileMinds = async ({ profileId, userId }: { profileId: UUID; userId: UUID }) => {
+const ProfileMinds = async ({
+  profileId,
+  userId,
+  isConnected
+}: {
+  profileId: UUID;
+  userId: UUID;
+  isConnected: boolean;
+}) => {
   const profileMinds = (await getMindsFromUserId(profileId)) as (Tables<"minds"> & {
     summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
   })[];
@@ -19,11 +27,20 @@ const ProfileMinds = async ({ profileId, userId }: { profileId: UUID; userId: UU
   }
 
   const profileMindsIds = profileMinds?.map((mind) => mind?.id);
-  const initialAreSaved = await areMindsSaved(profileMindsIds, userId);
+
+  let initialAreSaved: boolean[] = profileMindsIds.map(() => false);
+  if (isConnected) {
+    initialAreSaved = await areMindsSaved(profileMindsIds, userId);
+  }
 
   return (
     <Suspense fallback={<ProfileMindsSkeleton />}>
-      <ProfileMindsClient minds={profileMinds} initialAreSaved={initialAreSaved} userId={userId} />
+      <ProfileMindsClient
+        minds={profileMinds}
+        initialAreSaved={initialAreSaved}
+        userId={userId}
+        isConnected={isConnected}
+      />
     </Suspense>
   );
 };

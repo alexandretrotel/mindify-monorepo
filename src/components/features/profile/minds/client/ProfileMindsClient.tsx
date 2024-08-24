@@ -6,7 +6,8 @@ import React from "react";
 const ProfileMindsClient = ({
   minds,
   initialAreSaved,
-  userId
+  userId,
+  isConnected
 }: {
   minds: (Tables<"minds"> & {
     summaries: Tables<"summaries"> & {
@@ -16,12 +17,19 @@ const ProfileMindsClient = ({
   })[];
   initialAreSaved: boolean[];
   userId: UUID;
+  isConnected: boolean;
 }) => {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {minds?.map((mind, index) => {
         return (
-          <Mind key={mind.id} mind={mind} initialIsSaved={initialAreSaved[index]} userId={userId} />
+          <Mind
+            key={mind.id}
+            mind={mind}
+            initialIsSaved={initialAreSaved[index]}
+            userId={userId}
+            isConnected={isConnected}
+          />
         );
       })}
     </div>

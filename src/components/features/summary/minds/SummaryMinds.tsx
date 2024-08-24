@@ -6,7 +6,15 @@ import type { Tables } from "@/types/supabase";
 import { UUID } from "crypto";
 import React from "react";
 
-const SummaryMinds = async ({ summaryId, userId }: { summaryId: number; userId: UUID }) => {
+const SummaryMinds = async ({
+  summaryId,
+  userId,
+  isConnected
+}: {
+  summaryId: number;
+  userId: UUID;
+  isConnected: boolean;
+}) => {
   const summaryMinds = (await getMindsFromSummaryId(summaryId)) as (Tables<"minds"> & {
     summaries: Tables<"summaries"> & {
       authors: Tables<"authors">;
@@ -19,7 +27,11 @@ const SummaryMinds = async ({ summaryId, userId }: { summaryId: number; userId: 
   }
 
   const summaryMindsIds = summaryMinds.map((mind) => mind.id);
-  const initialAreSaved = await areMindsSaved(summaryMindsIds, userId);
+
+  let initialAreSaved: boolean[] = summaryMindsIds?.map(() => false);
+  if (isConnected) {
+    initialAreSaved = await areMindsSaved(summaryMindsIds, userId);
+  }
 
   return (
     <Carousel

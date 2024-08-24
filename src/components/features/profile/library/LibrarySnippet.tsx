@@ -27,7 +27,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
                 return (
                   <Link
                     key={summary.id}
-                    href={`/app/summary/${summary.author_slug}/${summary.slug}`}
+                    href={`/summary/${summary.author_slug}/${summary.slug}`}
                     className="h-full"
                   >
                     <BookCover
@@ -55,7 +55,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
                 return (
                   <Link
                     key={summary.id}
-                    href={`/app/summary/${summary.author_slug}/${summary.slug}`}
+                    href={`/summary/${summary.author_slug}/${summary.slug}`}
                     className="h-full"
                   >
                     <BookCover

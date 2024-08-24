@@ -69,7 +69,7 @@ const AccountDropdownClient = ({
       <DropdownMenuContent side="bottom" className="mx-4">
         <DropdownMenuLabel>Menu</DropdownMenuLabel>
         <DropdownMenuItem>
-          <Link href={`/app/profile/${userId}`} className="flex w-full items-center gap-2">
+          <Link href={`/profile/${userId}`} className="flex w-full items-center gap-2">
             <UserIcon className="h-4 w-4" /> Mon profil
           </Link>
         </DropdownMenuItem>
@@ -78,13 +78,13 @@ const AccountDropdownClient = ({
 
         <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
         <DropdownMenuItem className="flex items-center gap-2">
-          <Link href={`/app/my-account?tab=profile`} className="flex w-full items-center gap-2">
+          <Link href={`/my-account?tab=profile`} className="flex w-full items-center gap-2">
             <UserPenIcon className="h-4 w-4" /> Compte
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-2" disabled>
           <Link
-            href={`/app/my-account?tab=subscription`}
+            href={`/my-account?tab=subscription`}
             className="flex w-full items-center gap-2"
           >
             <CreditCardIcon className="h-4 w-4" /> Abonnement
@@ -92,14 +92,14 @@ const AccountDropdownClient = ({
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-2" disabled>
           <Link
-            href={`/app/my-account?tab=notifications`}
+            href={`/my-account?tab=notifications`}
             className="flex w-full items-center gap-2"
           >
             <BellRingIcon className="h-4 w-4" /> Notifications
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-2" disabled>
-          <Link href={`/app/my-account?tab=settings`} className="flex w-full items-center gap-2">
+          <Link href={`/my-account?tab=settings`} className="flex w-full items-center gap-2">
             <SettingsIcon className="h-4 w-4" /> Paramètres
           </Link>
         </DropdownMenuItem>

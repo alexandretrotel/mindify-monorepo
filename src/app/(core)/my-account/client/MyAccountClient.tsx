@@ -7,7 +7,7 @@ import type { UserMetadata } from "@supabase/supabase-js";
 import type { UUID } from "crypto";
 import { AccountCategory } from "@/types/account";
 import type { Tables } from "@/types/supabase";
-import { Tab } from "@/app/app/my-account/page";
+import { Tab } from "@/app/(core)/my-account/page";
 
 const MyAccountClient = ({
   userId,

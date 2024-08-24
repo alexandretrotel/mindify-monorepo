@@ -9,7 +9,7 @@ import type { UserMetadata } from "@supabase/supabase-js";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
-import { Tab } from "@/app/app/my-account/page";
+import { Tab } from "@//my-account/page";
 
 export default function Account({
   userId,

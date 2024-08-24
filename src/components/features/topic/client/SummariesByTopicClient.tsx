@@ -70,7 +70,7 @@ const SummariesByCategoryClient = ({
       {/* Summaries */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {paginatedSummaries?.map((summary) => (
-          <Link key={summary.id} href={`/app/summary/${summary.author_slug}/${summary.slug}`}>
+          <Link key={summary.id} href={`/summary/${summary.author_slug}/${summary.slug}`}>
             <BookCover
               title={summary.title}
               author={summary?.authors?.name}

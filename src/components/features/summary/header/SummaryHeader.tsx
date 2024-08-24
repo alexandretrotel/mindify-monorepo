@@ -13,7 +13,7 @@ const SummaryHeader = async ({
   return (
     <div className="flex flex-col gap-2">
       <Span primaryColor>
-        <Link href={`/app/topic/${summary?.topics?.slug}`} className="hover:underline">
+        <Link href={`/topic/${summary?.topics?.slug}`} className="hover:underline">
           {summary?.topics?.name}
         </Link>{" "}
         • {sourceToString(summary?.source_type)}

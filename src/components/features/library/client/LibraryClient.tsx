@@ -234,7 +234,7 @@ const LibraryClient = ({
       {filteredSummaries?.length > 0 ? (
         <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
           {filteredSummaries?.map((summary) => (
-            <Link key={summary.id} href={`/app/summary/${summary?.author_slug}/${summary.slug}`}>
+            <Link key={summary.id} href={`/summary/${summary?.author_slug}/${summary.slug}`}>
               <BookCover
                 title={summary.title}
                 author={summary?.authors?.name}
