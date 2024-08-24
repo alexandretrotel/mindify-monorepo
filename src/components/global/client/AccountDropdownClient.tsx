@@ -9,7 +9,8 @@ import {
   LogOutIcon,
   SettingsIcon,
   UserIcon,
-  UserPenIcon
+  UserPenIcon,
+  UserRoundIcon
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -27,22 +28,43 @@ import Link from "next/link";
 const AccountDropdownClient = ({
   userMetadata,
   userId,
-  userPicture
+  userPicture,
+  isConnected
 }: {
   userMetadata: UserMetadata;
   userId: UUID;
   userPicture: string;
+  isConnected: boolean;
 }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar>
-          <AvatarImage src={userPicture} alt={userMetadata?.name} />
-          <AvatarFallback>
-            {userMetadata?.name ? userMetadata?.name?.charAt(0) : "J"}
-          </AvatarFallback>
-        </Avatar>
-      </DropdownMenuTrigger>
+      {isConnected ? (
+        <DropdownMenuTrigger>
+          <Avatar>
+            <AvatarImage src={userPicture} alt={userMetadata?.name} />
+            <AvatarFallback>
+              {userMetadata?.name ? (
+                userMetadata?.name?.charAt(0)
+              ) : (
+                <UserRoundIcon className="h-4 w-4" />
+              )}
+            </AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+      ) : (
+        <Link href={`/auth/login`} className="flex items-center gap-2">
+          <Avatar>
+            <AvatarImage src={userPicture} alt={userMetadata?.name} />
+            <AvatarFallback>
+              {userMetadata?.name ? (
+                userMetadata?.name?.charAt(0)
+              ) : (
+                <UserRoundIcon className="h-4 w-4" />
+              )}
+            </AvatarFallback>
+          </Avatar>
+        </Link>
+      )}
 
       <DropdownMenuContent side="bottom" className="mx-4">
         <DropdownMenuLabel>Menu</DropdownMenuLabel>

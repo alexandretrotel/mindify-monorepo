@@ -1,13 +1,8 @@
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
 import { getFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
 import { getUserCustomAvatarFromUserId } from "@/actions/users";
-import { Muted } from "@/components/typography/muted";
-import Semibold from "@/components/typography/semibold";
+import UserCard from "@/components/global/UserCard";
 
 const Friends = async ({ profileId, userId }: { profileId: UUID; userId: UUID }) => {
   const friends = await getFriendsData(profileId);
@@ -32,42 +27,7 @@ const Friends = async ({ profileId, userId }: { profileId: UUID; userId: UUID })
       {friends
         ?.filter((friend) => friend?.id !== userId)
         ?.map((friend, index) => {
-          return (
-            <Card key={friend?.id}>
-              <div className="flex h-full flex-col justify-between">
-                <div>
-                  <CardHeader>
-                    <div className="flex items-center gap-4">
-                      <Avatar>
-                        <AvatarImage src={friendsPicture[index] ?? ""} />
-                        <AvatarFallback />
-                      </Avatar>
-
-                      <CardTitle>
-                        <Semibold size="lg">{friend?.user_metadata?.name}</Semibold>
-                      </CardTitle>
-                    </div>
-                  </CardHeader>
-
-                  <CardContent>
-                    <Muted size="sm">
-                      {friend?.user_metadata?.biography
-                        ? friend?.user_metadata?.biography
-                        : "Aucune biographie"}
-                    </Muted>
-                  </CardContent>
-                </div>
-
-                <CardFooter>
-                  <div className="grid w-full grid-cols-1 gap-4">
-                    <Button variant="secondary" size="sm" asChild>
-                      <Link href={`/app/profile/${friend?.id}`}>Voir le profil</Link>
-                    </Button>
-                  </div>
-                </CardFooter>
-              </div>
-            </Card>
-          );
+          return <UserCard key={index} user={friend} userPicture={friendsPicture[index]} />;
         })}
     </div>
   );

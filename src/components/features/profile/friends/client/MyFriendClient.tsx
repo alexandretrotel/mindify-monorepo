@@ -19,6 +19,7 @@ import H3Span from "@/components/typography/h3AsSpan";
 import H5Span from "@/components/typography/h5AsSpan";
 import type { Streaks } from "@/types/streaks";
 import { Muted } from "@/components/typography/muted";
+import { UserRoundIcon } from "lucide-react";
 
 const MyFriendClient = ({
   userId,
@@ -149,9 +150,11 @@ const MyFriendClient = ({
                               }
                             />
                             <AvatarFallback>
-                              {friend.user_metadata?.name
-                                ? friend?.user_metadata?.name?.charAt(0)
-                                : "J"}
+                              {friend.user_metadata?.name ? (
+                                friend?.user_metadata?.name?.charAt(0)
+                              ) : (
+                                <UserRoundIcon className="h-4 w-4" />
+                              )}
                             </AvatarFallback>
                           </Avatar>
                           <div className="flex flex-col">
@@ -211,9 +214,11 @@ const MyFriendClient = ({
                               }
                             />
                             <AvatarFallback>
-                              {friend?.user_metadata?.name
-                                ? friend?.user_metadata?.name?.charAt(0)
-                                : "J"}
+                              {friend?.user_metadata?.name ? (
+                                friend?.user_metadata?.name?.charAt(0)
+                              ) : (
+                                <UserRoundIcon className="h-4 w-4" />
+                              )}
                             </AvatarFallback>
                           </Avatar>
                           <div className="flex flex-col">

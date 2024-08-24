@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import Statistics from "@/components/features/my-statistics/Statistics";
 import Categories from "@/components/features/discover/Categories";
 import Personalized from "@/components/features/discover/Personalized";
 import Popular from "@/components/features/discover/Popular";
@@ -8,7 +7,6 @@ import CategoriesSkeleton from "@/components/features/discover/skeleton/Categori
 import PersonalizedSkeleton from "@/components/features/discover/skeleton/PersonalizedSkeleton";
 import PopularSkeleton from "@/components/features/discover/skeleton/PopularSkeleton";
 import SavedSummariesSkeleton from "@/components/features/discover/skeleton/SavedSummariesSkeleton";
-import StatisticsSkeleton from "@/components/features/my-statistics/skeleton/StatisticsSkeleton";
 import PopularMinds from "@/components/features/discover/PopularMinds";
 import PopularMindsSkeleton from "@/components/features/discover/skeleton/PopularMindsSkeleton";
 import RandomMinds from "@/components/features/discover/RandomMinds";
@@ -16,21 +14,27 @@ import RandomMindsSkeleton from "@/components/features/discover/skeleton/randomM
 import { UUID } from "crypto";
 import MyActivity from "@/components/features/discover/MyActivity";
 import MyActivitySkeleton from "@/components/features/discover/skeleton/MyActivitySkeleton";
+import TopUsers from "@/components/features/discover/TopUsers";
+import TopUsersSkeleton from "@/components/features/discover/skeleton/TopUsersSkeleton";
 
-const Discover = async ({ userId }: { userId: UUID }) => {
+const Discover = async ({ userId, isConnected }: { userId: UUID; isConnected: boolean }) => {
   return (
     <div className="mx-auto flex flex-col gap-8 md:gap-16 lg:justify-between">
       <div className="flex flex-col gap-16">
-        <Suspense fallback={<MyActivitySkeleton />}>
-          <MyActivity userId={userId} />
-        </Suspense>
+        {isConnected && (
+          <Suspense fallback={<MyActivitySkeleton />}>
+            <MyActivity userId={userId} />
+          </Suspense>
+        )}
 
-        <Suspense fallback={<PersonalizedSkeleton />}>
-          <Personalized userId={userId} />
-        </Suspense>
+        {isConnected && (
+          <Suspense fallback={<PersonalizedSkeleton />}>
+            <Personalized userId={userId} />
+          </Suspense>
+        )}
 
         <Suspense fallback={<PopularMindsSkeleton />}>
-          <PopularMinds userId={userId} />
+          <PopularMinds userId={userId} isConnected={isConnected} />
         </Suspense>
 
         <Suspense fallback={<PopularSkeleton />}>
@@ -38,15 +42,21 @@ const Discover = async ({ userId }: { userId: UUID }) => {
         </Suspense>
 
         <Suspense fallback={<CategoriesSkeleton />}>
-          <Categories userId={userId} />
+          <Categories userId={userId} isConnected={isConnected} />
         </Suspense>
 
         <Suspense fallback={<RandomMindsSkeleton />}>
-          <RandomMinds userId={userId} />
+          <RandomMinds userId={userId} isConnected={isConnected} />
         </Suspense>
 
-        <Suspense fallback={<SavedSummariesSkeleton />}>
-          <SavedSummaries userId={userId} />
+        {isConnected && (
+          <Suspense fallback={<SavedSummariesSkeleton />}>
+            <SavedSummaries userId={userId} />
+          </Suspense>
+        )}
+
+        <Suspense fallback={<TopUsersSkeleton />}>
+          <TopUsers />
         </Suspense>
       </div>
     </div>

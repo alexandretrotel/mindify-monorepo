@@ -2,22 +2,21 @@ import Discover from "@/components/features/discover/Discover";
 import React from "react";
 import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
-import { redirect } from "next/navigation";
 
 export default async function Home() {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-  if (error || !data?.user) {
-    redirect("/auth/login");
-  }
+  const userId = user?.id as UUID;
 
-  const userId = data?.user?.id as UUID;
+  const isConnected = !!user;
 
   return (
     <main>
-      <Discover userId={userId} />
+      <Discover userId={userId} isConnected={isConnected} />
     </main>
   );
 }

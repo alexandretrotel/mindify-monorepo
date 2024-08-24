@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { userUpdateAvatar } from "@/actions/users";
 import { LoadingButton } from "@/components/global/buttons/LoadingButton";
-import { Loader2Icon } from "lucide-react";
+import { Loader2Icon, UserRoundIcon } from "lucide-react";
 import { Muted } from "@/components/typography/muted";
 import { UUID } from "crypto";
 
@@ -79,7 +79,11 @@ export default function AccountAvatar({
           <Avatar>
             <AvatarImage src={userPicture} alt={userMetadata.name} />
             <AvatarFallback>
-              {userMetadata?.name ? userMetadata?.name?.charAt(0) : "J"}
+              {userMetadata?.name ? (
+                userMetadata?.name?.charAt(0)
+              ) : (
+                <UserRoundIcon className="h-4 w-4" />
+              )}
             </AvatarFallback>
           </Avatar>
           <DialogTrigger asChild>

@@ -7,7 +7,7 @@ import MindsClient from "@/components/global/MindsClient";
 import { Tables } from "@/types/supabase";
 import { UUID } from "crypto";
 
-const PopularMinds = async ({ userId }: { userId: UUID }) => {
+const PopularMinds = async ({ userId, isConnected }: { userId: UUID; isConnected: boolean }) => {
   const popularMinds = await getMostSavedMinds();
 
   const finalMinds = popularMinds?.slice(0, 10) as (Tables<"minds"> & {
@@ -15,7 +15,11 @@ const PopularMinds = async ({ userId }: { userId: UUID }) => {
   })[];
 
   const finalMindsIds = finalMinds?.map((mind) => mind?.id);
-  const AreMindsSaved = await areMindsSaved(finalMindsIds, userId);
+
+  let areMindsSavedArray = Array<boolean>(finalMindsIds.length).fill(false);
+  if (isConnected) {
+    areMindsSavedArray = await areMindsSaved(finalMindsIds, userId);
+  }
 
   return (
     <Carousel
@@ -31,7 +35,7 @@ const PopularMinds = async ({ userId }: { userId: UUID }) => {
           <Muted>Les idées clés qui vous serviront dans votre vie.</Muted>
         </div>
 
-        <MindsClient minds={finalMinds} initialAreSaved={AreMindsSaved} userId={userId} />
+        <MindsClient minds={finalMinds} initialAreSaved={areMindsSavedArray} userId={userId} />
       </div>
     </Carousel>
   );

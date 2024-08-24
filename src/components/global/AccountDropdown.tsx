@@ -6,15 +6,22 @@ import { UserMetadata } from "@supabase/supabase-js";
 
 const AccountDropdown = async ({
   userId,
-  userMetadata
+  userMetadata,
+  isConnected
 }: {
   userId: UUID;
   userMetadata: UserMetadata;
+  isConnected: boolean;
 }) => {
   const userPicture = await getUserCustomAvatar(userId, userMetadata);
 
   return (
-    <AccountDropdownClient userMetadata={userMetadata} userId={userId} userPicture={userPicture} />
+    <AccountDropdownClient
+      userMetadata={userMetadata}
+      userId={userId}
+      userPicture={userPicture}
+      isConnected={isConnected}
+    />
   );
 };
 

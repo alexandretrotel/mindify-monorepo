@@ -16,13 +16,11 @@ const LibraryPage = async ({
 
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-  if (error || !data?.user) {
-    redirect("/auth/login");
-  }
-
-  const userId = data?.user?.id as UUID;
+  const userId = user?.id as UUID;
 
   return (
     <main>

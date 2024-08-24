@@ -431,3 +431,31 @@ export async function getSummariesRepartition(userId: UUID) {
 
   return topicsRepartition;
 }
+
+export async function getTopUsers() {
+  const supabase = createClient();
+
+  const { data: usersData } = await supabase.from("read_summaries").select("user_id");
+
+  if (!usersData) {
+    return [];
+  }
+
+  const usersIds = usersData?.map((user) => user?.user_id as UUID);
+
+  const usersCount = usersIds?.reduce(
+    (acc: { [key: UUID]: number }, user: UUID) => {
+      acc[user] = (acc[user] || 0) + 1;
+      return acc;
+    },
+    {} as { [key: UUID]: number }
+  );
+
+  const sortedUsers = Object.keys(usersCount)?.sort(
+    (a, b) => usersCount?.[b as UUID] - usersCount?.[a as UUID]
+  ) as UUID[];
+
+  const topUsers = await getUsersData(sortedUsers);
+
+  return topUsers;
+}
