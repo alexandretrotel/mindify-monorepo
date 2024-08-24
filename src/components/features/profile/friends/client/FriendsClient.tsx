@@ -17,12 +17,10 @@ const itemsPerPage = 8;
 
 const FriendsClient = ({
   friends,
-  friendsPicture,
-  userId
+  friendsPicture
 }: {
   friends: User[];
   friendsPicture: string[];
-  userId: string;
 }) => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalPages, setTotalPages] = React.useState<number>(0);
@@ -53,11 +51,9 @@ const FriendsClient = ({
   return (
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {paginatedFriends
-          ?.filter((friend) => friend?.id !== userId)
-          ?.map((friend, index) => {
-            return <UserCard key={index} user={friend} userPicture={friendsPicture[index]} />;
-          })}
+        {paginatedFriends?.map((friend, index) => {
+          return <UserCard key={index} user={friend} userPicture={friendsPicture[index]} />;
+        })}
       </div>
 
       {friends?.length > itemsPerPage && (
