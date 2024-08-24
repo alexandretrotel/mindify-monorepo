@@ -1,8 +1,8 @@
 import { UUID } from "crypto";
-import FriendshipClient from "@/components/features/profile/header/client/FriendshipClient";
+import FriendshipButtonClient from "@/components/features/profile/header/client/FriendshipButtonClient";
 import { getFriendStatus } from "@/actions/friends";
 
-const Friendship = async ({
+const FriendshipButton = async ({
   userId,
   profileId,
   size
@@ -14,7 +14,7 @@ const Friendship = async ({
   const friendStatus = await getFriendStatus(userId, profileId);
 
   return (
-    <FriendshipClient
+    <FriendshipButtonClient
       userId={userId}
       profileId={profileId}
       initialFriendStatus={friendStatus}
@@ -23,4 +23,4 @@ const Friendship = async ({
   );
 };
 
-export default Friendship;
+export default FriendshipButton;
