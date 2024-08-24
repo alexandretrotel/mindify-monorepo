@@ -43,7 +43,12 @@ const SummaryMinds = async ({
     >
       <div className="flex flex-col gap-4">
         <H2>Les MINDS de ce résumé</H2>
-        <MindsClient minds={summaryMinds} initialAreSaved={initialAreSaved} userId={userId} />
+        <MindsClient
+          minds={summaryMinds}
+          initialAreSaved={initialAreSaved}
+          userId={userId}
+          isConnected={isConnected}
+        />
       </div>
     </Carousel>
   );

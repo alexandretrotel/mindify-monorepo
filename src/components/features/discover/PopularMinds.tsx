@@ -35,7 +35,12 @@ const PopularMinds = async ({ userId, isConnected }: { userId: UUID; isConnected
           <Muted>Les idées clés qui vous serviront dans votre vie.</Muted>
         </div>
 
-        <MindsClient minds={finalMinds} initialAreSaved={areMindsSavedArray} userId={userId} />
+        <MindsClient
+          minds={finalMinds}
+          initialAreSaved={areMindsSavedArray}
+          userId={userId}
+          isConnected={isConnected}
+        />
       </div>
     </Carousel>
   );

@@ -31,7 +31,12 @@ const RandomMinds = async ({ userId, isConnected }: { userId: UUID; isConnected:
           <Muted>De quoi vous inspirer.</Muted>
         </div>
 
-        <MindsClient minds={randomMinds} initialAreSaved={areMindsSavedArray} userId={userId} />
+        <MindsClient
+          minds={randomMinds}
+          initialAreSaved={areMindsSavedArray}
+          userId={userId}
+          isConnected={isConnected}
+        />
       </div>
     </Carousel>
   );
