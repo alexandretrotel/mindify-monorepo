@@ -178,7 +178,9 @@ const FriendshipButtonClient = ({
     return (
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="destructive">Retirer de mes amis</Button>
+          <Button variant="destructive" size={size}>
+            Retirer de mes amis
+          </Button>
         </AlertDialogTrigger>
 
         <AlertDialogContent>
