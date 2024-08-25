@@ -35,7 +35,7 @@ const ReadSummaries = async ({ userId, userName }: { userId: UUID; userName: str
 
           <DialogDescription className="text-left">
             {userName} a lu <Semibold>{readSummariesCount}</Semibold> résumé
-            {(readSummariesCount as number) > 1 && "s"} jusqu'à présent.
+            {(readSummariesCount as number) > 1 && "s"} jusqu&apos;à présent.
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

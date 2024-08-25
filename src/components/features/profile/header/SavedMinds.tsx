@@ -34,7 +34,7 @@ const SavedMinds = async ({ userId, userName }: { userId: UUID; userName: string
 
           <DialogDescription className="text-left">
             {userName} a sauvegardé <Semibold>{savedMindsCount}</Semibold> MIND
-            {(savedMindsCount as number) > 1 && "S"} jusqu'à présent.
+            {(savedMindsCount as number) > 1 && "S"} jusqu&apos;à présent.
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
