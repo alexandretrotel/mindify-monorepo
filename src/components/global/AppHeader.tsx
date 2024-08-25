@@ -20,8 +20,8 @@ const AppHeader = ({
   isNotFixed
 }: {
   children: React.ReactNode;
-  isNotTransparent: boolean;
-  isNotFixed: boolean;
+  isNotTransparent?: boolean;
+  isNotFixed?: boolean;
 }) => {
   const pathname = usePathname();
 

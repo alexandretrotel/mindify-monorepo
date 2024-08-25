@@ -10,7 +10,7 @@ import ReadingStreak from "@/components/features/profile/header/ReadingStreak";
 import LibrarySnippet from "@/components/features/profile/summaries/LibrarySnippet";
 import LibrarySnippetSkeleton from "@/components/features/profile/summaries/skeleton/LibrarySnippetSkeleton";
 import FriendsSkeleton from "@/components/features/profile/friends/skeleton/FriendsSkeleton";
-import { getUserCustomAvatarFromUserId } from "@/actions/users";
+import { getStorageAvatar, getUserCustomAvatarFromUserId } from "@/actions/users";
 import { Muted } from "@/components/typography/muted";
 import ProfileMinds from "@/components/features/profile/minds/ProfileMinds";
 import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
@@ -31,6 +31,9 @@ import Footer from "@/components/features/home/Footer";
 import AppHeader from "@/components/global/AppHeader";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import profileBannerImage from "@/../public/profile/default-banner.jpg";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { EllipsisIcon, UserRoundIcon } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;
@@ -84,7 +87,8 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const supabaseAdmin = createAdminClient();
 
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
-  let profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
+  const profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
+  const profileAvatar = await getStorageAvatar(profileId, profileMetadata);
 
   const userId = user?.id as UUID;
 
@@ -97,7 +101,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
       </AppHeader>
 
       <main>
-        <div className="relative h-[150px] md:h-[300px] w-full">
+        <div className="relative mb-[56px] h-[15vh] w-full md:mb-0 md:h-[25vh]">
           <Image
             src={profileBannerImage}
             alt="Profile Banner"
@@ -105,11 +109,58 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
             objectFit="cover"
             priority
           />
+
+          <div className="absolute inset-x-0 bottom-[-42px] md:hidden">
+            <div className="flex w-full items-end justify-between gap-4 px-4">
+              <Avatar className="h-20 w-20 border-2 border-black">
+                <AvatarImage src={profileAvatar} alt={userMetadata?.name} />
+                <AvatarFallback>
+                  {userMetadata?.name ? (
+                    userMetadata?.name?.charAt(0)
+                  ) : (
+                    <UserRoundIcon className="h-4 w-4" />
+                  )}
+                </AvatarFallback>
+              </Avatar>
+
+              <div className="flex items-center gap-2">
+                <React.Fragment>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button size="sm" variant="outline">
+                        <EllipsisIcon className="h-4 w-4" />
+                      </Button>
+                    </PopoverTrigger>
+
+                    <PopoverContent>
+                      <div className="flex flex-col gap-4">
+                        <H4Span>Autres actions</H4Span>
+                        <CopyProfileLink userId={profileId} userName={profileMetadata?.name} />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+
+                  {!isMyProfile && profileId ? (
+                    <FriendshipButton
+                      userId={userId}
+                      profileId={profileId}
+                      isConnected={isConnected}
+                      size="sm"
+                    />
+                  ) : (
+                    <Button size="sm" disabled={!isConnected} asChild>
+                      <Link href="/my-account">Modifier mon profil</Link>
+                    </Button>
+                  )}
+                </React.Fragment>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="md:flew-row mx-auto flex w-full flex-col justify-between p-4 pb-12 md:p-8">
-          <div className="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-4">
-            <div className="flex w-full items-center justify-between gap-8">
+          <div className="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-8">
+            <div className="flex w-full items-start justify-between gap-8">
               <div className="flex w-full flex-col gap-4">
                 <div className="flex flex-col">
                   <div className="flex w-full flex-col gap-2 md:flex-row md:items-center md:gap-4">
@@ -141,25 +192,25 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-4 md:flex md:items-center">
-              <React.Fragment>
-                {!isMyProfile && profileId ? (
-                  <FriendshipButton
-                    userId={userId}
-                    profileId={profileId}
-                    isConnected={isConnected}
-                    size="sm"
-                  />
-                ) : (
-                  <Button size="sm" disabled asChild>
-                    <Link href="/my-account">Modifier mon profil</Link>
-                  </Button>
-                )}
-              </React.Fragment>
+              <div className="hidden md:flex md:items-center md:gap-4">
+                <React.Fragment>
+                  {!isMyProfile && profileId ? (
+                    <FriendshipButton
+                      userId={userId}
+                      profileId={profileId}
+                      isConnected={isConnected}
+                      size="sm"
+                    />
+                  ) : (
+                    <Button size="sm" disabled={!isConnected} asChild>
+                      <Link href="/my-account">Modifier mon profil</Link>
+                    </Button>
+                  )}
+                </React.Fragment>
 
-              <CopyProfileLink userId={profileId} userName={profileMetadata?.name} />
+                <CopyProfileLink userId={profileId} userName={profileMetadata?.name} />
+              </div>
             </div>
 
             <BorderTabs
