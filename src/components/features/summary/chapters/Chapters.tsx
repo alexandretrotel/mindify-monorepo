@@ -42,11 +42,11 @@ const Chapters = async ({
       ) : (
         <Card className="bg-primary text-primary-foreground">
           <CardHeader>
-            <H3Span>Connectez-vous pour lire le contenu</H3Span>
+            <H3Span onPrimaryBackground>Connectez-vous pour lire le contenu</H3Span>
           </CardHeader>
 
           <CardContent>
-            <Semibold>
+            <Semibold onPrimaryBackground>
               Pour lire le contenu de ce résumé, vous devez être connecté et être abonné à Mindify
               Pro.
             </Semibold>

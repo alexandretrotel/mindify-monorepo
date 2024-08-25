@@ -1,3 +1,12 @@
-export default function H4Span({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <span className="text-xl font-semibold">{children}</span>;
+export default function H4Span({
+  children,
+  onPrimaryBackground
+}: Readonly<{ children: React.ReactNode; onPrimaryBackground?: boolean }>) {
+  return (
+    <span
+      className={`text-xl font-semibold ${onPrimaryBackground ? "text-primary-foreground" : "text-foreground"}`}
+    >
+      {children}
+    </span>
+  );
 }

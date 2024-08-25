@@ -21,7 +21,6 @@ import Statistics from "@/components/features/profile/statistics/Statistics";
 import StatisticsSkeleton from "@/components/features/profile/statistics/skeleton/StatisticsSkeleton";
 import CopyProfileLink from "@/components/features/profile/header/CopyProfileLink";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import ProfileTopics from "@/components/features/profile/header/ProfileTopics";
 import { Skeleton } from "@/components/ui/skeleton";
 import SavedMinds from "@/components/features/profile/header/SavedMinds";
@@ -32,8 +31,19 @@ import AppHeader from "@/components/global/AppHeader";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import profileBannerImage from "@/../public/profile/default-banner.webp";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { EllipsisIcon, UserRoundIcon } from "lucide-react";
+import { CalendarIcon, EllipsisIcon, UserRoundIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
+import AccountAvatar from "@/components/features/account/metadata/Avatar";
+import AccountName from "@/components/features/account/metadata/Name";
+import AccountBiography from "@/components/features/account/metadata/Biography";
 
 export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;
@@ -72,8 +82,19 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
   };
 }
 
-const Page = async ({ params }: { params: { uuid: UUID } }) => {
+export type UserTab = "summaries" | "minds" | "statistics" | "friends";
+
+const Page = async ({
+  params,
+  searchParams
+}: {
+  params: { uuid: UUID };
+  searchParams: {
+    tab: UserTab;
+  };
+}) => {
   const profileId = params.uuid;
+  const tab = searchParams.tab;
 
   const supabase = createClient();
   const {
@@ -87,12 +108,18 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const supabaseAdmin = createAdminClient();
 
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
+  const profileUser = profileData?.user;
   const profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
   const profileAvatar = await getStorageAvatar(profileId, profileMetadata);
 
   const userId = user?.id as UUID;
 
   const isMyProfile = userId === profileId;
+
+  let userAvatar: string | undefined;
+  if (isMyProfile) {
+    userAvatar = await getStorageAvatar(userId, userMetadata);
+  }
 
   return (
     <React.Fragment>
@@ -112,16 +139,46 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
 
           <div className="absolute inset-x-0 bottom-[-42px]">
             <div className="mx-auto flex w-full max-w-7xl items-end justify-between gap-4 px-4 md:px-0">
-              <Avatar className="h-20 w-20 border-2 border-black">
-                <AvatarImage src={profileAvatar} alt={userMetadata?.name} />
-                <AvatarFallback>
-                  {userMetadata?.name ? (
-                    userMetadata?.name?.charAt(0)
-                  ) : (
-                    <UserRoundIcon className="h-4 w-4" />
-                  )}
-                </AvatarFallback>
-              </Avatar>
+              <Dialog>
+                <DialogTrigger>
+                  <Avatar className="h-20 w-20 border-2 border-background">
+                    <AvatarImage src={profileAvatar} alt={userMetadata?.name} />
+                    <AvatarFallback>
+                      {userMetadata?.name ? (
+                        userMetadata?.name?.charAt(0)
+                      ) : (
+                        <UserRoundIcon className="h-4 w-4" />
+                      )}
+                    </AvatarFallback>
+                  </Avatar>
+                </DialogTrigger>
+
+                <DialogContent className="max-w-xs md:max-w-lg">
+                  <div className="flex flex-col items-center gap-4">
+                    <Avatar className="h-32 w-32">
+                      <AvatarImage src={profileAvatar} alt={userMetadata?.name} />
+                      <AvatarFallback>
+                        {userMetadata?.name ? (
+                          userMetadata?.name?.charAt(0)
+                        ) : (
+                          <UserRoundIcon className="h-4 w-4" />
+                        )}
+                      </AvatarFallback>
+                    </Avatar>
+
+                    <div className="flex flex-col items-center justify-center gap-2 text-center">
+                      <H4Span>{profileMetadata?.name}</H4Span>
+                      <span className="flex items-center gap-1">
+                        <Muted size="sm">
+                          Membre depuis le{" "}
+                          {new Date(profileUser?.created_at as string).toLocaleDateString("fr-FR")}
+                        </Muted>
+                        <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+                      </span>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
 
               <div className="flex items-center gap-2">
                 <div className="block md:hidden">
@@ -153,9 +210,34 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
                     size="sm"
                   />
                 ) : (
-                  <Button size="sm" disabled={!isConnected} asChild>
-                    <Link href="/my-account">Modifier mon profil</Link>
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button size="sm" disabled={!isConnected}>
+                        Modifier mon profil
+                      </Button>
+                    </DialogTrigger>
+
+                    <DialogContent className="max-w-xs md:max-w-lg">
+                      <DialogHeader>
+                        <DialogTitle className="text-left">Modifier le profil</DialogTitle>
+                        <DialogDescription className="text-left">
+                          <Muted size="sm">
+                            Vous pouvez modifier les informations de votre profil.
+                          </Muted>
+                        </DialogDescription>
+                      </DialogHeader>
+
+                      <div className="flex flex-col gap-8">
+                        <AccountAvatar
+                          userId={userId}
+                          userMetadata={userMetadata}
+                          userPicture={userAvatar as string}
+                        />
+                        <AccountName userMetadata={userMetadata} />
+                        <AccountBiography userMetadata={userMetadata} />
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 )}
               </div>
             </div>
@@ -199,6 +281,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
             </div>
 
             <BorderTabs
+              defaultTab={tab}
               elements={[
                 { label: "Résumés", value: "summaries" },
                 { label: "MINDS", value: "minds" },
