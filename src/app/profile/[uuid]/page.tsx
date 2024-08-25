@@ -128,7 +128,7 @@ const Page = async ({
       </AppHeader>
 
       <main>
-        <div className="relative mb-[56px] h-[15vh] w-full md:mb-8 md:h-[25vh]">
+        <div className="relative -z-10 mb-[56px] h-[15vh] w-full md:mb-8 md:h-[25vh]">
           <Image
             src={profileBannerImage}
             alt="Profile Banner"
