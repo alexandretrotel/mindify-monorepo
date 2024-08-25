@@ -128,20 +128,20 @@ const Page = async ({
       </AppHeader>
 
       <main>
-        <div className="relative -z-10 mb-[56px] h-[15vh] w-full md:mb-8 md:h-[25vh]">
+        <div className="relative mb-[56px] h-[15vh] w-full md:mb-8 md:h-[25vh]">
           <Image
             src={profileBannerImage}
             alt="Profile Banner"
             layout="fill"
             objectFit="cover"
-            priority
+            className="-z-10"
           />
 
           <div className="absolute inset-x-0 bottom-[-42px]">
             <div className="mx-auto flex w-full max-w-7xl items-end justify-between gap-4 px-4 md:px-0">
               <Dialog>
                 <DialogTrigger>
-                  <Avatar className="h-20 w-20 border-2 border-background">
+                  <Avatar className="-z-10 h-20 w-20 border-2 border-background">
                     <AvatarImage src={profileAvatar} alt={userMetadata?.name} />
                     <AvatarFallback>
                       {userMetadata?.name ? (
@@ -183,8 +183,8 @@ const Page = async ({
               <div className="flex items-center gap-2">
                 <div className="block md:hidden">
                   <Popover>
-                    <PopoverTrigger asChild>
-                      <Button size="sm" variant="outline">
+                    <PopoverTrigger>
+                      <Button size="sm" variant="outline" className="relative -z-10">
                         <EllipsisIcon className="h-4 w-4" />
                       </Button>
                     </PopoverTrigger>
@@ -211,8 +211,8 @@ const Page = async ({
                   />
                 ) : (
                   <Dialog>
-                    <DialogTrigger asChild>
-                      <Button size="sm" disabled={!isConnected}>
+                    <DialogTrigger>
+                      <Button size="sm" disabled={!isConnected} className="relative -z-10">
                         Modifier mon profil
                       </Button>
                     </DialogTrigger>

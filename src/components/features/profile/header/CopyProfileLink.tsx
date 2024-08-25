@@ -45,7 +45,7 @@ const CopyProfileLink = ({ userId, userName }: { userId: UUID; userName: string 
   };
 
   return (
-    <Button size="sm" variant="outline" onClick={handleCopyLink}>
+    <Button size="sm" variant="outline">
       Partager le profil
     </Button>
   );
