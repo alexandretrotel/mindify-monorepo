@@ -15,12 +15,14 @@ const ShareMind = async ({
   mindId,
   isConnected,
   sharedByUserId,
-  userId
+  userId,
+  userName
 }: {
   mindId: number;
   isConnected: boolean;
   sharedByUserId: UUID;
   userId: UUID;
+  userName: string;
 }) => {
   const supabase = createClient();
 
@@ -76,7 +78,13 @@ const ShareMind = async ({
         <Semibold>Partagé par un utilisateur inconnu</Semibold>
       )}
 
-      <Mind mind={mind} userId={userId} initialIsSaved={initialIsSaved} isConnected={isConnected} />
+      <Mind
+        mind={mind}
+        userId={userId}
+        initialIsSaved={initialIsSaved}
+        isConnected={isConnected}
+        userName={userName}
+      />
     </div>
   );
 };

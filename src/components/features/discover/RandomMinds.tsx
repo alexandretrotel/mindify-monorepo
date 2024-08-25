@@ -6,7 +6,15 @@ import { areMindsSaved, getRandomMinds } from "@/actions/minds";
 import MindsClient from "@/components/global/MindsClient";
 import { UUID } from "crypto";
 
-const RandomMinds = async ({ userId, isConnected }: { userId: UUID; isConnected: boolean }) => {
+const RandomMinds = async ({
+  userId,
+  isConnected,
+  userName
+}: {
+  userId: UUID;
+  isConnected: boolean;
+  userName: string;
+}) => {
   const allRandomMinds = await getRandomMinds();
   const randomMinds = allRandomMinds?.slice(0, 10);
 
@@ -36,6 +44,7 @@ const RandomMinds = async ({ userId, isConnected }: { userId: UUID; isConnected:
           initialAreSaved={areMindsSavedArray}
           userId={userId}
           isConnected={isConnected}
+          userName={userName}
         />
       </div>
     </Carousel>

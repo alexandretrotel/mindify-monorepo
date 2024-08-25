@@ -15,7 +15,8 @@ const Mind = ({
   mind,
   initialIsSaved,
   userId,
-  isConnected
+  isConnected,
+  userName
 }: {
   mind: Tables<"minds"> & {
     summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
@@ -23,6 +24,7 @@ const Mind = ({
   initialIsSaved: boolean;
   userId: UUID;
   isConnected: boolean;
+  userName: string;
 }) => {
   const [isSaved, setIsSaved] = useState(initialIsSaved);
   const [isNavigatorShareSupported, setIsNavigatorShareSupported] = useState<boolean>(false);
@@ -72,15 +74,15 @@ const Mind = ({
 
     if (isNavigatorShareSupported) {
       navigator.share({
-        title: mind?.summaries?.title,
-        text: mind?.text,
+        title: "Partager un MIND",
+        text: `${userName} vous partage un MIND sur Mindify : ${url}`,
         url
       });
       return;
     }
 
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(url);
+      navigator.clipboard.writeText(`${userName} vous partage un MIND sur Mindify : ${url}`);
       toast({
         title: "Lien copié",
         description: "Le lien a été copié dans le presse-papiers."

@@ -163,7 +163,12 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
                   </Carousel>
                 }
               >
-                <ProfileMinds profileId={profileId} userId={userId} isConnected={isConnected} />
+                <ProfileMinds
+                  profileId={profileId}
+                  userId={userId}
+                  isConnected={isConnected}
+                  userName={user?.user_metadata?.name}
+                />
               </Suspense>
             </TabsContent>
 

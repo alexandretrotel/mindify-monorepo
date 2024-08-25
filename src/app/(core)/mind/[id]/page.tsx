@@ -78,6 +78,7 @@ const MindPage = async ({
           isConnected={isConnected}
           sharedByUserId={sharedByUserId}
           userId={userId}
+          userName={user?.user_metadata?.name as string}
         />
       </Suspense>
     </div>

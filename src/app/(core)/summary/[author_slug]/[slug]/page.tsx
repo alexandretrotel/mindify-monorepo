@@ -153,7 +153,12 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
           {isConnected && (
             <div className="flex flex-col gap-8">
               <Suspense fallback={<SummaryMindsSkeleton />}>
-                <SummaryMinds summaryId={summary?.id} userId={userId} isConnected={isConnected} />
+                <SummaryMinds
+                  summaryId={summary?.id}
+                  userId={userId}
+                  isConnected={isConnected}
+                  userName={user?.user_metadata?.name as string}
+                />
               </Suspense>
 
               <Suspense fallback={<SuggestionsSkeleton />}>

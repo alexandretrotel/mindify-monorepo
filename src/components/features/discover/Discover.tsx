@@ -17,7 +17,15 @@ import MyActivitySkeleton from "@/components/features/discover/skeleton/MyActivi
 import TopUsers from "@/components/features/discover/TopUsers";
 import TopUsersSkeleton from "@/components/features/discover/skeleton/TopUsersSkeleton";
 
-const Discover = async ({ userId, isConnected }: { userId: UUID; isConnected: boolean }) => {
+const Discover = async ({
+  userId,
+  isConnected,
+  userName
+}: {
+  userId: UUID;
+  isConnected: boolean;
+  userName: string;
+}) => {
   return (
     <div className="mx-auto flex flex-col gap-8 md:gap-16 lg:justify-between">
       <div className="flex flex-col gap-16">
@@ -34,7 +42,7 @@ const Discover = async ({ userId, isConnected }: { userId: UUID; isConnected: bo
         )}
 
         <Suspense fallback={<PopularMindsSkeleton />}>
-          <PopularMinds userId={userId} isConnected={isConnected} />
+          <PopularMinds userId={userId} isConnected={isConnected} userName={userName} />
         </Suspense>
 
         <Suspense fallback={<PopularSkeleton />}>
@@ -46,7 +54,7 @@ const Discover = async ({ userId, isConnected }: { userId: UUID; isConnected: bo
         </Suspense>
 
         <Suspense fallback={<RandomMindsSkeleton />}>
-          <RandomMinds userId={userId} isConnected={isConnected} />
+          <RandomMinds userId={userId} isConnected={isConnected} userName={userName} />
         </Suspense>
 
         {isConnected && (
