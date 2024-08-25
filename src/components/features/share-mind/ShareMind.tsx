@@ -65,11 +65,11 @@ const ShareMind = async ({
 
   return (
     <div className="flex flex-col gap-4">
-      {!!sharedByUser ? (
+      {sharedByUser ? (
         <div className="flex w-full items-end justify-between gap-4">
           <Semibold>Partagé par {sharedByUser?.user_metadata?.name}</Semibold>
 
-          <Avatar className="h-6 w-6">
+          <Avatar className="h-8 w-8">
             <AvatarImage src={sharedByUserPicture} alt={sharedByUser?.user_metadata?.name} />
             <AvatarFallback>{sharedByUser?.user_metadata?.name?.charAt(0)}</AvatarFallback>
           </Avatar>
