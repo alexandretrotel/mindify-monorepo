@@ -129,19 +129,13 @@ const Page = async ({
 
       <main>
         <div className="relative mb-[56px] h-[15vh] w-full md:mb-8 md:h-[25vh]">
-          <Image
-            src={profileBannerImage}
-            alt="Profile Banner"
-            layout="fill"
-            objectFit="cover"
-            className="-z-10"
-          />
+          <Image src={profileBannerImage} alt="Profile Banner" layout="fill" objectFit="cover" />
 
           <div className="absolute inset-x-0 bottom-[-42px]">
             <div className="mx-auto flex w-full max-w-7xl items-end justify-between gap-4 px-4 md:px-0">
               <Dialog>
                 <DialogTrigger>
-                  <Avatar className="-z-10 h-20 w-20 border-2 border-background">
+                  <Avatar className="h-20 w-20 border-2 border-background">
                     <AvatarImage src={profileAvatar} alt={userMetadata?.name} />
                     <AvatarFallback>
                       {userMetadata?.name ? (
@@ -184,7 +178,7 @@ const Page = async ({
                 <div className="block md:hidden">
                   <Popover>
                     <PopoverTrigger>
-                      <Button size="sm" variant="outline" className="relative -z-10">
+                      <Button size="sm" variant="outline">
                         <EllipsisIcon className="h-4 w-4" />
                       </Button>
                     </PopoverTrigger>
@@ -212,7 +206,7 @@ const Page = async ({
                 ) : (
                   <Dialog>
                     <DialogTrigger>
-                      <Button size="sm" disabled={!isConnected} className="relative -z-10">
+                      <Button size="sm" disabled={!isConnected}>
                         Modifier mon profil
                       </Button>
                     </DialogTrigger>
