@@ -23,17 +23,15 @@ const LibraryPage = async ({
   const userId = user?.id as UUID;
 
   return (
-    <main>
-      <Suspense fallback={<LibrarySkeleton />}>
-        <Library
-          initialSearch={search}
-          initialTopic={topic}
-          initialSource={source}
-          initialStatus={status}
-          userId={userId}
-        />
-      </Suspense>
-    </main>
+    <Suspense fallback={<LibrarySkeleton />}>
+      <Library
+        initialSearch={search}
+        initialTopic={topic}
+        initialSource={source}
+        initialStatus={status}
+        userId={userId}
+      />
+    </Suspense>
   );
 };
 

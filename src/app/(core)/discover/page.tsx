@@ -14,9 +14,5 @@ export default async function Home() {
 
   const isConnected = !!user;
 
-  return (
-    <main>
-      <Discover userId={userId} isConnected={isConnected} />
-    </main>
-  );
+  return <Discover userId={userId} isConnected={isConnected} />;
 }

@@ -24,9 +24,9 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
         <AccountDropdown userId={userId} userMetadata={userMetadata} isConnected={isConnected} />
       </AppHeader>
 
-      <div className="md:flew-row mx-auto flex w-full max-w-7xl flex-col justify-between p-4 py-12 pt-28 md:p-8 md:pt-32">
+      <main className="md:flew-row mx-auto flex w-full max-w-7xl flex-col justify-between p-4 py-12 pt-28 md:p-8 md:pt-32">
         {children}
-      </div>
+      </main>
 
       <Footer />
     </React.Fragment>
