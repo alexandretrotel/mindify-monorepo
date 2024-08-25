@@ -25,8 +25,15 @@ const Mind = ({
   isConnected: boolean;
 }) => {
   const [isSaved, setIsSaved] = useState(initialIsSaved);
+  const [isNavigatorShareSupported, setIsNavigatorShareSupported] = useState<boolean>(false);
+  const [origin, setOrigin] = useState<string | undefined>(undefined);
 
   const { toast } = useToast();
+
+  React.useEffect(() => {
+    setIsNavigatorShareSupported(!!navigator.share);
+    setOrigin(window.location.origin);
+  }, []);
 
   const handleSaveMind = async () => {
     if (isSaved) {
@@ -60,6 +67,33 @@ const Mind = ({
     }
   };
 
+  const handleShareMind = async () => {
+    const url = `${origin}/mind/${mind?.id}` + (isConnected ? `?sharedBy=${userId}` : "");
+
+    if (isNavigatorShareSupported) {
+      navigator.share({
+        title: mind?.summaries?.title,
+        text: mind?.text,
+        url
+      });
+      return;
+    }
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url);
+      toast({
+        title: "Lien copié",
+        description: "Le lien a été copié dans le presse-papiers."
+      });
+    } else {
+      toast({
+        title: "Erreur",
+        description: "Impossible de partager le mind.",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col justify-between gap-4 rounded-lg border p-6">
       <div className="flex flex-col gap-6">
@@ -80,36 +114,8 @@ const Mind = ({
           {isSaved ? "Enregistré" : "Enregistrer"}
         </Button>
 
-        <Button
-          disabled
-          variant="secondary"
-          onClick={() => {
-            if (navigator.share) {
-              navigator.share({
-                title: mind?.summaries?.title,
-                text: mind?.text,
-                url: window.location.href
-              });
-
-              return;
-            }
-
-            if (navigator.clipboard) {
-              navigator.clipboard.writeText(window.location.href);
-              toast({
-                title: "Lien copié",
-                description: "Le lien a été copié dans le presse-papiers."
-              });
-            } else {
-              toast({
-                title: "Erreur",
-                description: "Impossible de partager le mind.",
-                variant: "destructive"
-              });
-            }
-          }}
-        >
-          Partager
+        <Button variant="secondary" onClick={handleShareMind}>
+          {isNavigatorShareSupported ? "Partager le MIND" : "Copier le lien du MIND"}
         </Button>
       </div>
     </div>
