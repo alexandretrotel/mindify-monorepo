@@ -14,8 +14,8 @@ const UserCard = ({ user, userPicture }: { user: User; userPicture: string }) =>
       <div className="flex h-full flex-col justify-between">
         <div>
           <CardHeader>
-            <div className="flex items-center gap-4">
-              <Avatar>
+            <div className="flex items-center gap-2">
+              <Avatar className="h-6 w-6">
                 <AvatarImage src={userPicture ?? ""} alt={user?.user_metadata?.name} />
                 <AvatarFallback>
                   {user?.user_metadata?.name ? (
