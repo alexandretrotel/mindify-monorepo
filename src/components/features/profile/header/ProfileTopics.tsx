@@ -28,7 +28,7 @@ const ProfileTopics = async ({ userId, userName }: { userId: UUID; userName: str
 
       <DialogContent className="max-w-xs md:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-left">Intérêts de {userName}</DialogTitle>
+          <DialogTitle className="text-left">Intérêts</DialogTitle>
           <DialogDescription className="text-left">
             {userName} a <Semibold>{topics.length}</Semibold> intérêt{topics.length > 1 && "s"}.
           </DialogDescription>
