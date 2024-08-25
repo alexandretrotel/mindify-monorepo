@@ -318,7 +318,10 @@ export async function getUserCustomAvatarFromUserId(userId: UUID) {
   return avatarUrl?.publicUrl;
 }
 
-export async function getStorageAvatar(userId: UUID, profileMetadata: UserMetadata) {
+export async function getStorageAvatar(
+  userId: UUID,
+  profileMetadata: UserMetadata
+): Promise<string> {
   const supabase = createClient();
 
   const fileName = `${userId}.webp`;

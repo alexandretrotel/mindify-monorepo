@@ -169,11 +169,11 @@ const Page = async ({
                     <div className="flex flex-col items-center justify-center gap-2 text-center">
                       <H4Span>{profileMetadata?.name}</H4Span>
                       <span className="flex items-center gap-1">
-                        <CalendarIcon className="h-4 w-4" />{" "}
                         <Muted size="sm">
                           Membre depuis le{" "}
                           {new Date(profileUser?.created_at as string).toLocaleDateString("fr-FR")}
                         </Muted>
+                        <CalendarIcon className="h-4 w-4 text-muted-foreground" />
                       </span>
                     </div>
                   </div>

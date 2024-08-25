@@ -27,7 +27,7 @@ const UserCard = ({ user, userPicture }: { user: User; userPicture: string }) =>
               </Avatar>
 
               <CardTitle>
-                <Semibold size="lg">{user?.user_metadata?.name}</Semibold>
+                <Semibold size="lg">{user?.user_metadata?.name ?? "Inconnu"}</Semibold>
               </CardTitle>
             </div>
           </CardHeader>

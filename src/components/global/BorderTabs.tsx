@@ -1,5 +1,4 @@
 import { Tabs, TabsList, TabsContent, TabsTrigger } from "@radix-ui/react-tabs";
-import Link from "next/link";
 import React from "react";
 
 const BorderTabs = async ({
@@ -23,11 +22,8 @@ const BorderTabs = async ({
               key={element?.value}
               value={element.value}
               className="inline-block whitespace-nowrap border-b-2 border-transparent py-2 text-base hover:text-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-primary data-[state=active]:text-foreground lg:text-lg"
-              asChild
             >
-              <Link href={`?tab=${element.value}`} passHref>
-                {element.label}
-              </Link>
+              {element.label}
             </TabsTrigger>
           ))}
         </div>
