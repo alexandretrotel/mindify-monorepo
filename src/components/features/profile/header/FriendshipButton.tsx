@@ -1,6 +1,7 @@
 import { UUID } from "crypto";
 import FriendshipButtonClient from "@/components/features/profile/header/client/FriendshipButtonClient";
 import { getFriendStatus } from "@/actions/friends";
+import type { FriendStatus } from "@/types/friends";
 
 const FriendshipButton = async ({
   userId,
@@ -13,7 +14,10 @@ const FriendshipButton = async ({
   size?: "default" | "sm" | "lg" | "icon";
   isConnected: boolean;
 }) => {
-  const friendStatus = await getFriendStatus(userId, profileId);
+  let friendStatus: FriendStatus = "none";
+  if (isConnected) {
+    friendStatus = await getFriendStatus(userId, profileId);
+  }
 
   return (
     <FriendshipButtonClient
