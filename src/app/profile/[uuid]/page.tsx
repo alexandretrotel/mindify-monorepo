@@ -21,7 +21,6 @@ import Statistics from "@/components/features/profile/statistics/Statistics";
 import StatisticsSkeleton from "@/components/features/profile/statistics/skeleton/StatisticsSkeleton";
 import CopyProfileLink from "@/components/features/profile/header/CopyProfileLink";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import ProfileTopics from "@/components/features/profile/header/ProfileTopics";
 import { Skeleton } from "@/components/ui/skeleton";
 import SavedMinds from "@/components/features/profile/header/SavedMinds";
@@ -32,7 +31,7 @@ import AppHeader from "@/components/global/AppHeader";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import profileBannerImage from "@/../public/profile/default-banner.webp";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { EllipsisIcon, UserRoundIcon } from "lucide-react";
+import { CalendarIcon, EllipsisIcon, UserRoundIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Dialog,
@@ -98,6 +97,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
   const supabaseAdmin = createAdminClient();
 
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
+  const profileUser = profileData?.user;
   const profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
   const profileAvatar = await getStorageAvatar(profileId, profileMetadata);
 
@@ -155,9 +155,15 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
                       </AvatarFallback>
                     </Avatar>
 
-                    <div className="flex flex-col items-center justify-center text-center">
+                    <div className="flex flex-col items-center justify-center gap-2 text-center">
                       <H4Span>{profileMetadata?.name}</H4Span>
-                      <Muted size="sm">{profileMetadata?.biography ?? "Aucune biographie"}</Muted>
+                      <span className="flex items-center gap-1">
+                        <CalendarIcon className="h-4 w-4" />{" "}
+                        <Muted size="sm">
+                          Membre depuis le{" "}
+                          {new Date(profileUser?.created_at as string).toLocaleDateString("fr-FR")}
+                        </Muted>
+                      </span>
                     </div>
                   </div>
                 </DialogContent>

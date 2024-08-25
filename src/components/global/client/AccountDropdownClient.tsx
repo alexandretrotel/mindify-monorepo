@@ -92,7 +92,7 @@ const AccountDropdownClient = ({
             <BellRingIcon className="h-4 w-4" /> Notifications
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="flex items-center gap-2" disabled>
+        <DropdownMenuItem className="flex items-center gap-2">
           <Link href={`/my-account?tab=settings`} className="flex w-full items-center gap-2">
             <SettingsIcon className="h-4 w-4" /> Paramètres
           </Link>
