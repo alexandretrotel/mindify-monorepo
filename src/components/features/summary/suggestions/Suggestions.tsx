@@ -39,19 +39,15 @@ const Suggestions = async ({
                   } & { author_slug: string; topic: string }
                 ) => (
                   <CarouselItem key={summary?.id} className="pl-4 md:basis-1/4 lg:basis-1/4">
-                    <Link
-                      key={summary?.id}
-                      href={`/summary/${summary?.author_slug}/${summary?.slug}`}
-                      className="h-full"
-                    >
-                      <BookCover
-                        title={summary?.title}
-                        author={summary?.authors?.name}
-                        category={summary?.topics?.name}
-                        source={summary?.source_type}
-                        image={summary.image_url ?? undefined}
-                      />
-                    </Link>
+                    <BookCover
+                      title={summary?.title}
+                      author={summary?.authors?.name}
+                      category={summary?.topics?.name}
+                      source={summary?.source_type}
+                      image={summary.image_url ?? undefined}
+                      authorSlug={summary?.author_slug}
+                      summarySlug={summary?.slug}
+                    />
                   </CarouselItem>
                 )
               )}

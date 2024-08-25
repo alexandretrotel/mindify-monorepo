@@ -10,7 +10,6 @@ import {
 import H3 from "@/components/typography/h3";
 import type { UUID } from "crypto";
 import { getUserSummariesFromLibrary } from "@/actions/users";
-import Link from "next/link";
 import { Muted } from "@/components/typography/muted";
 
 const SavedSummaries = async ({ userId }: { userId: UUID }) => {
@@ -36,18 +35,15 @@ const SavedSummaries = async ({ userId }: { userId: UUID }) => {
               {savedSummaries?.map((summary) => {
                 return (
                   <CarouselItem key={summary.id} className="pl-4 md:basis-1/3 lg:basis-1/4">
-                    <Link
-                      href={`/summary/${summary.author_slug}/${summary.slug}`}
-                      className="h-full"
-                    >
-                      <BookCover
-                        title={summary.title}
-                        author={summary.authors.name}
-                        category={summary.topic}
-                        source={summary.source_type}
-                        image={summary.image_url ?? undefined}
-                      />
-                    </Link>
+                    <BookCover
+                      title={summary.title}
+                      author={summary.authors.name}
+                      category={summary.topic}
+                      source={summary.source_type}
+                      image={summary.image_url ?? undefined}
+                      authorSlug={summary.authors.slug}
+                      summarySlug={summary.slug}
+                    />
                   </CarouselItem>
                 );
               })}

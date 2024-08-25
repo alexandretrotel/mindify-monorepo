@@ -76,7 +76,7 @@ export default function AccountAvatar({
           {isUpdating && <Loader2Icon className="h-3 w-3 animate-spin" />}
         </Label>
         <div className="flex items-center gap-2">
-          <Avatar>
+          <Avatar className="h-10 w-10">
             <AvatarImage src={userPicture} alt={userMetadata.name} />
             <AvatarFallback>
               {userMetadata?.name ? (

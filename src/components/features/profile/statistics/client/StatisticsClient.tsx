@@ -78,6 +78,7 @@ const StatisticsClient = ({
     }, 0);
     return { date: formattedDate, time };
   });
+  const weeklySummaryReads = weekReadsData.reduce((acc, item) => acc + item.reads, 0);
 
   const totalReadingTime =
     userReads?.reduce((acc, read) => {
@@ -99,72 +100,6 @@ const StatisticsClient = ({
 
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-      <div className="flex flex-col gap-2 rounded-lg border p-6">
-        <div className="space-y-0 lg:pb-2">
-          <CardDescription>{summariesRead > 1 ? "Résumés lus" : "Résumé lu"}</CardDescription>
-          <CardTitle className="text-4xl tabular-nums">
-            {summariesRead}{" "}
-            <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
-              {summariesRead > 1 ? "résumés" : "résumé"}
-            </span>
-          </CardTitle>
-        </div>
-
-        <div className="block">
-          <ChartContainer
-            config={{
-              reads: {
-                label: "Résumés",
-                color: "hsl(var(--chart-1))"
-              }
-            }}
-          >
-            <BarChart
-              accessibilityLayer
-              margin={{
-                left: -4,
-                right: -4
-              }}
-              data={weekReadsData}
-            >
-              <Bar
-                dataKey="reads"
-                fill="var(--color-reads)"
-                radius={5}
-                fillOpacity={0.6}
-                activeBar={<Rectangle fillOpacity={0.8} />}
-              />
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={4}
-                tickFormatter={(value) => {
-                  return new Date(value).toLocaleDateString("fr", {
-                    weekday: "short"
-                  });
-                }}
-              />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    hideIndicator
-                    labelFormatter={(value) => {
-                      return new Date(value).toLocaleDateString("fr", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric"
-                      });
-                    }}
-                  />
-                }
-                cursor={false}
-              />
-            </BarChart>
-          </ChartContainer>
-        </div>
-      </div>
-
       <div className="flex flex-col gap-2 rounded-lg border">
         <div className="space-y-0 p-6 lg:pb-2">
           <CardDescription>Temps de lecture</CardDescription>
@@ -255,6 +190,74 @@ const StatisticsClient = ({
           </ChartContainer>
         </div>
       )}
+
+      <div className="flex flex-col gap-2 rounded-lg border p-6">
+        <div className="space-y-0 lg:pb-2">
+          <CardDescription>
+            {weeklySummaryReads > 1 ? "Résumés lus cette semaine" : "Résumé lu cette semaine"}
+          </CardDescription>
+          <CardTitle className="text-4xl tabular-nums">
+            {weeklySummaryReads}{" "}
+            <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
+              {weeklySummaryReads > 1 ? "résumés" : "résumé"}
+            </span>
+          </CardTitle>
+        </div>
+
+        <div className="block">
+          <ChartContainer
+            config={{
+              reads: {
+                label: "Résumés",
+                color: "hsl(var(--chart-1))"
+              }
+            }}
+          >
+            <BarChart
+              accessibilityLayer
+              margin={{
+                left: -4,
+                right: -4
+              }}
+              data={weekReadsData}
+            >
+              <Bar
+                dataKey="reads"
+                fill="var(--color-reads)"
+                radius={5}
+                fillOpacity={0.6}
+                activeBar={<Rectangle fillOpacity={0.8} />}
+              />
+              <XAxis
+                dataKey="date"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={4}
+                tickFormatter={(value) => {
+                  return new Date(value).toLocaleDateString("fr", {
+                    weekday: "short"
+                  });
+                }}
+              />
+              <ChartTooltip
+                content={
+                  <ChartTooltipContent
+                    hideIndicator
+                    labelFormatter={(value) => {
+                      return new Date(value).toLocaleDateString("fr", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                      });
+                    }}
+                  />
+                }
+                cursor={false}
+              />
+            </BarChart>
+          </ChartContainer>
+        </div>
+      </div>
     </div>
   );
 };

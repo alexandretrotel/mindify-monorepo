@@ -16,7 +16,8 @@ const MindsClient = ({
   minds,
   initialAreSaved,
   userId,
-  isConnected
+  isConnected,
+  userName
 }: {
   minds: (Tables<"minds"> & {
     summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
@@ -24,6 +25,7 @@ const MindsClient = ({
   initialAreSaved: boolean[];
   userId: UUID;
   isConnected: boolean;
+  userName: string;
 }) => {
   return (
     <React.Fragment>
@@ -36,6 +38,7 @@ const MindsClient = ({
                 initialIsSaved={initialAreSaved[index]}
                 userId={userId}
                 isConnected={isConnected}
+                userName={userName}
               />
             </CarouselItem>
           );

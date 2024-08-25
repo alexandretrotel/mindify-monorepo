@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { useToast } from "@/components/ui/use-toast";
 
-const CopyProfileLink = ({ userId }: { userId: UUID }) => {
+const CopyProfileLink = ({ userId, userName }: { userId: UUID; userName: string }) => {
   const [origin, setOrigin] = React.useState<string>();
   const [isNavigatorShareSupported, setIsNavigatorShareSupported] = React.useState<boolean>(false);
 
@@ -21,8 +21,8 @@ const CopyProfileLink = ({ userId }: { userId: UUID }) => {
   const handleCopyLink = () => {
     if (isNavigatorShareSupported) {
       navigator.share({
-        title: "Partager le lien de votre profil",
-        text: "Découvrez mon profil sur Mindify",
+        title: `Partager le profil de ${userName}`,
+        text: `Découvrez le profil de ${userName} sur Mindify, l'application pour développer votre esprit.`,
         url: `${origin}/profile/${userId}`
       });
       return;
@@ -33,7 +33,7 @@ const CopyProfileLink = ({ userId }: { userId: UUID }) => {
 
       toast({
         title: "Lien copié",
-        description: "Le lien de votre profil a été copié dans le presse-papier."
+        description: `Le lien du profil de ${userName} a été copié dans le presse-papier.`
       });
     } else {
       toast({
@@ -46,7 +46,7 @@ const CopyProfileLink = ({ userId }: { userId: UUID }) => {
 
   return (
     <Button size="sm" variant="outline" onClick={handleCopyLink}>
-      {isNavigatorShareSupported ? "Partager" : "Copier le lien"}
+      Partager le profil
     </Button>
   );
 };

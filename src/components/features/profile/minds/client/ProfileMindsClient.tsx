@@ -20,7 +20,8 @@ const ProfileMindsClient = ({
   minds,
   initialAreSaved,
   userId,
-  isConnected
+  isConnected,
+  userName
 }: {
   minds: (Tables<"minds"> & {
     summaries: Tables<"summaries"> & {
@@ -31,6 +32,7 @@ const ProfileMindsClient = ({
   initialAreSaved: boolean[];
   userId: UUID;
   isConnected: boolean;
+  userName: string;
 }) => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalPages, setTotalPages] = React.useState<number>(0);
@@ -66,6 +68,7 @@ const ProfileMindsClient = ({
               initialIsSaved={initialAreSaved[index]}
               userId={userId}
               isConnected={isConnected}
+              userName={userName}
             />
           );
         })}

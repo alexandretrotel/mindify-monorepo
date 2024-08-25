@@ -28,12 +28,14 @@ const FriendshipButtonClient = ({
   userId,
   profileId,
   initialFriendStatus,
-  size
+  size,
+  isConnected
 }: {
   userId: UUID;
   profileId: UUID;
   initialFriendStatus: FriendStatus;
   size?: "default" | "sm" | "lg" | "icon";
+  isConnected: boolean;
 }) => {
   const [friendStatus, setFriendStatus] = React.useState<FriendStatus>(initialFriendStatus);
 
@@ -128,13 +130,13 @@ const FriendshipButtonClient = ({
   if (friendStatus === "pending") {
     return (
       <AlertDialog>
-        <AlertDialogTrigger asChild>
+        <AlertDialogTrigger disabled={!isConnected} asChild>
           <Button variant="destructive" size={size}>
-            Annuler la demande d&apos;ami
+            Annuler la demande
           </Button>
         </AlertDialogTrigger>
 
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-xs md:max-w-lg">
           <AlertDialogHeader>
             <AlertDialogTitle>Êtes-vous sûr de vouloir annuler cette demande ?</AlertDialogTitle>
 
@@ -168,8 +170,9 @@ const FriendshipButtonClient = ({
         variant="destructive"
         onClick={() => handleAcceptFriendRequest(userId, profileId)}
         size={size}
+        disabled={!isConnected}
       >
-        Accepter la demande d&apos;ami
+        Accepter en ami
       </Button>
     );
   }
@@ -177,11 +180,13 @@ const FriendshipButtonClient = ({
   if (friendStatus === "accepted") {
     return (
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button variant="destructive">Retirer de mes amis</Button>
+        <AlertDialogTrigger disabled={!isConnected} asChild>
+          <Button variant="destructive" size={size}>
+            Retirer de mes amis
+          </Button>
         </AlertDialogTrigger>
 
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-xs md:max-w-lg">
           <AlertDialogHeader>
             <AlertDialogTitle>Êtes-vous sûr de vouloir retirer cet ami ?</AlertDialogTitle>
 
@@ -210,7 +215,11 @@ const FriendshipButtonClient = ({
   }
 
   return (
-    <Button onClick={() => handleAskForFriend(userId, profileId)} size={size}>
+    <Button
+      onClick={() => handleAskForFriend(userId, profileId)}
+      size={size}
+      disabled={!isConnected}
+    >
       Demander en ami
     </Button>
   );

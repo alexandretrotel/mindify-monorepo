@@ -8,11 +8,13 @@ import ProfileMindsSkeleton from "@/components/features/profile/minds/skeleton/P
 const ProfileMinds = async ({
   profileId,
   userId,
-  isConnected
+  isConnected,
+  userName
 }: {
   profileId: UUID;
   userId: UUID;
   isConnected: boolean;
+  userName: string;
 }) => {
   const profileMinds = (await getMindsFromUserId(profileId)) as (Tables<"minds"> & {
     summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
@@ -40,6 +42,7 @@ const ProfileMinds = async ({
         initialAreSaved={initialAreSaved}
         userId={userId}
         isConnected={isConnected}
+        userName={userName}
       />
     </Suspense>
   );

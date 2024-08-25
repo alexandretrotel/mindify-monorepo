@@ -133,7 +133,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
               </div>
 
               {isConnected && (
-                <div className="relative order-1 w-full lg:order-2">
+                <div className="relative order-1 w-full lg:order-2 lg:max-w-md">
                   <div className="w-full lg:sticky lg:right-0 lg:top-0 lg:pt-8">
                     <div className="flex w-full flex-col gap-8">
                       <Suspense fallback={<TableOfContentsSkeleton />}>
@@ -153,7 +153,12 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
           {isConnected && (
             <div className="flex flex-col gap-8">
               <Suspense fallback={<SummaryMindsSkeleton />}>
-                <SummaryMinds summaryId={summary?.id} userId={userId} isConnected={isConnected} />
+                <SummaryMinds
+                  summaryId={summary?.id}
+                  userId={userId}
+                  isConnected={isConnected}
+                  userName={user?.user_metadata?.name as string}
+                />
               </Suspense>
 
               <Suspense fallback={<SuggestionsSkeleton />}>

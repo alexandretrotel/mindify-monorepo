@@ -14,12 +14,20 @@ const links = [
   { href: "/library", label: "Librairie" }
 ];
 
-const AppHeader = ({ children }: { children: React.ReactNode }) => {
+const AppHeader = ({
+  children,
+  isNotTransparent,
+  isNotFixed
+}: {
+  children: React.ReactNode;
+  isNotTransparent?: boolean;
+  isNotFixed?: boolean;
+}) => {
   const pathname = usePathname();
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 flex w-full justify-center border-b border-black/10 backdrop-blur-2xl transition-colors duration-300 dark:border-white/10`}
+      className={`${isNotFixed ? "block" : "fixed"} inset-x-0 top-0 z-50 ${isNotTransparent ? "bg-white" : ""} flex w-full justify-center border-b border-black/10 backdrop-blur-2xl transition-colors duration-300 dark:border-white/10`}
     >
       <div className="flex w-full max-w-7xl items-center justify-between px-4 py-4 md:px-8">
         <div className="flex items-center gap-8">

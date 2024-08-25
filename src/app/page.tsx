@@ -31,7 +31,7 @@ export default async function HomePage() {
       <main>
         <Hero />
         <Testimonials />
-        <Pricing />
+        <Pricing isConnected={isConnected} />
         <Faq />
       </main>
 

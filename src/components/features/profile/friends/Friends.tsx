@@ -4,7 +4,23 @@ import { UUID } from "crypto";
 import { getUserCustomAvatarFromUserId } from "@/actions/users";
 import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
 
-const Friends = async ({ profileId }: { profileId: UUID }) => {
+const Friends = async ({
+  profileId,
+  profileName,
+  isConnected
+}: {
+  profileId: UUID;
+  profileName: string;
+  isConnected: boolean;
+}) => {
+  if (!isConnected) {
+    return (
+      <div className="flex h-72 flex-col items-center justify-center gap-4 text-center text-2xl font-semibold">
+        Connectez-vous pour voir les amis de {profileName}.
+      </div>
+    );
+  }
+
   const friends = await getFriendsData(profileId);
 
   const friendsPicture = await Promise.all(

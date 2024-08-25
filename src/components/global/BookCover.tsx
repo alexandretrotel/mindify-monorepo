@@ -6,44 +6,51 @@ import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Enums } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
+import Link from "next/link";
 
 const BookCover = ({
   title,
   author,
   category,
   source,
-  image
+  image,
+  authorSlug,
+  summarySlug
 }: {
   title: string;
   author: string;
   category: string;
   source: Enums<"source">;
   image: string | undefined;
+  authorSlug: string;
+  summarySlug: string;
 }) => {
   return (
-    <div className="h-full w-full overflow-hidden rounded-lg border hover:border-primary active:border-black">
-      {image ? (
-        <Image
-          src={image}
-          fill={true}
-          className="h-48 w-full object-cover object-center"
-          alt={title}
-        />
-      ) : (
-        <Skeleton className="h-48 w-full rounded-none" />
-      )}
+    <Link href={`/summary/${authorSlug}/${summarySlug}`}>
+      <div className="w-full overflow-hidden rounded-lg border hover:border-primary active:border-black">
+        {image ? (
+          <Image
+            src={image}
+            fill={true}
+            className="h-48 w-full object-cover object-center"
+            alt={title}
+          />
+        ) : (
+          <Skeleton className="h-48 w-full rounded-none" />
+        )}
 
-      <div className="flex flex-col gap-1 p-4">
-        <div className="flex flex-col">
-          <H5Span>{title}</H5Span>
-          {source === "book" && <Muted size="sm">{author}</Muted>}
+        <div className="flex flex-col gap-1 p-4">
+          <div className="flex flex-col">
+            <H5Span>{title}</H5Span>
+            {source === "book" && <Muted size="sm">{author}</Muted>}
+          </div>
+
+          <Span primaryColor size="xs">
+            {category} • {sourceToString(source)}
+          </Span>
         </div>
-
-        <Span primaryColor size="xs">
-          {category} • {sourceToString(source)}
-        </Span>
       </div>
-    </div>
+    </Link>
   );
 };
 

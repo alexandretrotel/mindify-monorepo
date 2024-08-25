@@ -28,16 +28,14 @@ const MyAccount = async ({ searchParams }: { searchParams: { tab: string | undef
   const userPicture = await getUserCustomAvatar(userId, userMetadata);
 
   return (
-    <main>
-      <MyAccountClient
-        userId={userId}
-        userMetadata={userMetadata}
-        topics={topicsData as Tables<"topics">[]}
-        userTopics={userTopics}
-        userPicture={userPicture}
-        initialTab={tab}
-      />
-    </main>
+    <MyAccountClient
+      userId={userId}
+      userMetadata={userMetadata}
+      topics={topicsData as Tables<"topics">[]}
+      userTopics={userTopics}
+      userPicture={userPicture}
+      initialTab={tab}
+    />
   );
 };
 

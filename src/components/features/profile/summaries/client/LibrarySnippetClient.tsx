@@ -3,7 +3,6 @@ import "client-only";
 
 import React from "react";
 import type { Tables } from "@/types/supabase";
-import Link from "next/link";
 import BookCover from "@/components/global/BookCover";
 import {
   Pagination,
@@ -58,19 +57,16 @@ const LibrarySnippetClient = ({
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {paginatedSummaries?.map((summary) => {
           return (
-            <Link
+            <BookCover
               key={summary.id}
-              href={`/summary/${summary.author_slug}/${summary.slug}`}
-              className="h-full"
-            >
-              <BookCover
-                title={summary.title}
-                author={summary.authors.name}
-                category={summary.topic}
-                source={summary.source_type}
-                image={summary.image_url}
-              />
-            </Link>
+              title={summary.title}
+              author={summary.authors.name}
+              category={summary.topic}
+              source={summary.source_type}
+              image={summary.image_url}
+              authorSlug={summary.author_slug}
+              summarySlug={summary.slug}
+            />
           );
         })}
       </div>

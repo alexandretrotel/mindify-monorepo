@@ -9,11 +9,13 @@ import React from "react";
 const SummaryMinds = async ({
   summaryId,
   userId,
-  isConnected
+  isConnected,
+  userName
 }: {
   summaryId: number;
   userId: UUID;
   isConnected: boolean;
+  userName: string;
 }) => {
   const summaryMinds = (await getMindsFromSummaryId(summaryId)) as (Tables<"minds"> & {
     summaries: Tables<"summaries"> & {
@@ -48,6 +50,7 @@ const SummaryMinds = async ({
           initialAreSaved={initialAreSaved}
           userId={userId}
           isConnected={isConnected}
+          userName={userName}
         />
       </div>
     </Carousel>
