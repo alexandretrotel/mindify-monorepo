@@ -82,8 +82,19 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
   };
 }
 
-const Page = async ({ params }: { params: { uuid: UUID } }) => {
+export type UserTab = "summaries" | "minds" | "statistics" | "friends";
+
+const Page = async ({
+  params,
+  searchParams
+}: {
+  params: { uuid: UUID };
+  searchParams: {
+    tab: UserTab;
+  };
+}) => {
   const profileId = params.uuid;
+  const tab = searchParams.tab;
 
   const supabase = createClient();
   const {
@@ -270,6 +281,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
             </div>
 
             <BorderTabs
+              defaultTab={tab}
               elements={[
                 { label: "Résumés", value: "summaries" },
                 { label: "MINDS", value: "minds" },
