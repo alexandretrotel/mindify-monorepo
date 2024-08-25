@@ -124,35 +124,33 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
               </Avatar>
 
               <div className="flex items-center gap-2">
-                <React.Fragment>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button size="sm" variant="outline">
-                        <EllipsisIcon className="h-4 w-4" />
-                      </Button>
-                    </PopoverTrigger>
-
-                    <PopoverContent>
-                      <div className="flex flex-col gap-4">
-                        <H4Span>Autres actions</H4Span>
-                        <CopyProfileLink userId={profileId} userName={profileMetadata?.name} />
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-
-                  {!isMyProfile && profileId ? (
-                    <FriendshipButton
-                      userId={userId}
-                      profileId={profileId}
-                      isConnected={isConnected}
-                      size="sm"
-                    />
-                  ) : (
-                    <Button size="sm" disabled={!isConnected} asChild>
-                      <Link href="/my-account">Modifier mon profil</Link>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button size="sm" variant="outline">
+                      <EllipsisIcon className="h-4 w-4" />
                     </Button>
-                  )}
-                </React.Fragment>
+                  </PopoverTrigger>
+
+                  <PopoverContent>
+                    <div className="flex flex-col gap-4">
+                      <H4Span>Autres actions</H4Span>
+                      <CopyProfileLink userId={profileId} userName={profileMetadata?.name} />
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
+                {!isMyProfile && profileId ? (
+                  <FriendshipButton
+                    userId={userId}
+                    profileId={profileId}
+                    isConnected={isConnected}
+                    size="sm"
+                  />
+                ) : (
+                  <Button size="sm" disabled={!isConnected} asChild>
+                    <Link href="/my-account">Modifier mon profil</Link>
+                  </Button>
+                )}
               </div>
             </div>
           </div>
@@ -194,20 +192,18 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
               </div>
 
               <div className="hidden md:flex md:items-center md:gap-4">
-                <React.Fragment>
-                  {!isMyProfile && profileId ? (
-                    <FriendshipButton
-                      userId={userId}
-                      profileId={profileId}
-                      isConnected={isConnected}
-                      size="sm"
-                    />
-                  ) : (
-                    <Button size="sm" disabled={!isConnected} asChild>
-                      <Link href="/my-account">Modifier mon profil</Link>
-                    </Button>
-                  )}
-                </React.Fragment>
+                {!isMyProfile && profileId ? (
+                  <FriendshipButton
+                    userId={userId}
+                    profileId={profileId}
+                    isConnected={isConnected}
+                    size="sm"
+                  />
+                ) : (
+                  <Button size="sm" disabled={!isConnected} asChild>
+                    <Link href="/my-account">Modifier mon profil</Link>
+                  </Button>
+                )}
 
                 <CopyProfileLink userId={profileId} userName={profileMetadata?.name} />
               </div>
