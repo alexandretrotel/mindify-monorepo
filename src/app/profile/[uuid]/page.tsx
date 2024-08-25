@@ -30,7 +30,7 @@ import BorderTabs from "@/components/global/BorderTabs";
 import Footer from "@/components/features/home/Footer";
 import AppHeader from "@/components/global/AppHeader";
 import AccountDropdown from "@/components/global/AccountDropdown";
-import profileBannerImage from "@/../public/profile/default-banner.jpg";
+import profileBannerImage from "@/../public/profile/default-banner.webp";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { EllipsisIcon, UserRoundIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
