@@ -101,7 +101,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
       </AppHeader>
 
       <main>
-        <div className="relative mb-[56px] h-[15vh] w-full md:mb-0 md:h-[25vh]">
+        <div className="relative mb-[56px] h-[15vh] w-full md:mb-8 md:h-[25vh]">
           <Image
             src={profileBannerImage}
             alt="Profile Banner"
@@ -110,8 +110,8 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
             priority
           />
 
-          <div className="absolute inset-x-0 bottom-[-42px] md:hidden">
-            <div className="flex w-full items-end justify-between gap-4 px-4">
+          <div className="absolute inset-x-0 bottom-[-42px]">
+            <div className="mx-auto flex w-full max-w-7xl items-end justify-between gap-4 px-4 md:px-0">
               <Avatar className="h-20 w-20 border-2 border-black">
                 <AvatarImage src={profileAvatar} alt={userMetadata?.name} />
                 <AvatarFallback>
@@ -123,7 +123,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
                 </AvatarFallback>
               </Avatar>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 md:hidden">
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button size="sm" variant="outline">
