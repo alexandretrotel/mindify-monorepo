@@ -40,7 +40,7 @@ const AccountDropdownClient = ({
     <DropdownMenu>
       {isConnected ? (
         <DropdownMenuTrigger>
-          <Avatar>
+          <Avatar className="h-8 w-8">
             <AvatarImage src={userPicture} alt={userMetadata?.name} />
             <AvatarFallback>
               {userMetadata?.name ? (
@@ -53,7 +53,7 @@ const AccountDropdownClient = ({
         </DropdownMenuTrigger>
       ) : (
         <Link href={`/auth/login`} className="flex items-center gap-2">
-          <Avatar>
+          <Avatar className="h-8 w-8">
             <AvatarImage src={userPicture} alt={userMetadata?.name} />
             <AvatarFallback>
               {userMetadata?.name ? (
@@ -83,18 +83,12 @@ const AccountDropdownClient = ({
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-2" disabled>
-          <Link
-            href={`/my-account?tab=subscription`}
-            className="flex w-full items-center gap-2"
-          >
+          <Link href={`/my-account?tab=subscription`} className="flex w-full items-center gap-2">
             <CreditCardIcon className="h-4 w-4" /> Abonnement
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex items-center gap-2" disabled>
-          <Link
-            href={`/my-account?tab=notifications`}
-            className="flex w-full items-center gap-2"
-          >
+          <Link href={`/my-account?tab=notifications`} className="flex w-full items-center gap-2">
             <BellRingIcon className="h-4 w-4" /> Notifications
           </Link>
         </DropdownMenuItem>
