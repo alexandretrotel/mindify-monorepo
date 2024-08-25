@@ -115,7 +115,7 @@ const Mind = ({
         </Button>
 
         <Button variant="secondary" onClick={handleShareMind}>
-          Partager le MIND
+          Partager
         </Button>
       </div>
     </div>
