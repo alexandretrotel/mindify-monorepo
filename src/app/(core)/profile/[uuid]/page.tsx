@@ -26,6 +26,7 @@ import Link from "next/link";
 import Semibold from "@/components/typography/semibold";
 import ProfileTopics from "@/components/features/profile/header/ProfileTopics";
 import { Skeleton } from "@/components/ui/skeleton";
+import SavedMinds from "@/components/features/profile/header/SavedMinds";
 
 export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;
@@ -93,13 +94,17 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
                 <div className="flex flex-col">
                   <H4Span>{profileMetadata?.name}</H4Span>
 
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-wrap items-center gap-4">
                     <Suspense fallback={<Skeleton className="h-4 w-12" />}>
                       <ProfileTopics userId={profileId} userName={profileMetadata?.name} />
                     </Suspense>
 
                     <Suspense fallback={<Skeleton className="h-4 w-12" />}>
                       <ReadingStreak userId={profileId} />
+                    </Suspense>
+
+                    <Suspense fallback={<Skeleton className="h-4 w-12" />}>
+                      <SavedMinds userId={profileId} />
                     </Suspense>
                   </div>
                 </div>

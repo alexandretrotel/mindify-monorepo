@@ -16,21 +16,23 @@ import { Button } from "@/components/ui/button";
 const ProfileTopics = async ({ userId, userName }: { userId: UUID; userName: string }) => {
   const topics = await getUserTopics(userId);
 
+  const sortedTopics = [...topics]?.sort((a, b) => a.name.localeCompare(b.name));
+
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger className="text-left">
         <Muted size="sm">
           <Semibold>{topics.length}</Semibold> intérêt{topics.length > 1 && "s"}
         </Muted>
       </DialogTrigger>
 
-      <DialogContent className="max-w-xs lg:max-w-lg">
+      <DialogContent className="max-w-xs md:max-w-lg">
         <DialogHeader>
           <DialogTitle className="text-left">Intérêts de {userName}</DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-wrap gap-2">
-          {topics?.map((topic) => (
+          {sortedTopics?.map((topic) => (
             <div key={topic.id}>
               <Button size="sm" variant="outline">
                 {topic.name}

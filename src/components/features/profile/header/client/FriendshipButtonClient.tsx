@@ -132,11 +132,11 @@ const FriendshipButtonClient = ({
       <AlertDialog>
         <AlertDialogTrigger disabled={!isConnected} asChild>
           <Button variant="destructive" size={size}>
-            Annuler la demande d&apos;ami
+            Annuler la demande
           </Button>
         </AlertDialogTrigger>
 
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-xs md:max-w-lg">
           <AlertDialogHeader>
             <AlertDialogTitle>Êtes-vous sûr de vouloir annuler cette demande ?</AlertDialogTitle>
 
@@ -172,7 +172,7 @@ const FriendshipButtonClient = ({
         size={size}
         disabled={!isConnected}
       >
-        Accepter la demande d&apos;ami
+        Accepter en ami
       </Button>
     );
   }
@@ -186,7 +186,7 @@ const FriendshipButtonClient = ({
           </Button>
         </AlertDialogTrigger>
 
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-xs md:max-w-lg">
           <AlertDialogHeader>
             <AlertDialogTitle>Êtes-vous sûr de vouloir retirer cet ami ?</AlertDialogTitle>
 
