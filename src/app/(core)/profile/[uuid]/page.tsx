@@ -132,7 +132,7 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
           )}
         </React.Fragment>
 
-        <CopyProfileLink userId={profileId} />
+        <CopyProfileLink userId={profileId} userName={profileMetadata?.name} />
       </div>
 
       <Separator />
