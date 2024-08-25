@@ -75,7 +75,7 @@ const Mind = ({
     if (isNavigatorShareSupported) {
       navigator.share({
         title: "Partager un MIND",
-        text: `${userName} vous partage un MIND sur Mindify : ${url}`,
+        text: `${userName} vous partage un MIND sur Mindify`,
         url
       });
       return;

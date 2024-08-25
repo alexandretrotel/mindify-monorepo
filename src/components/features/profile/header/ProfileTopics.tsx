@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import Semibold from "@/components/typography/semibold";
 import { Muted } from "@/components/typography/muted";
-import { Button } from "@/components/ui/button";
+import ProfileTopic from "@/components/features/profile/header/client/ProfileTopic";
 
 const ProfileTopics = async ({ userId, userName }: { userId: UUID; userName: string }) => {
   const topics = await getUserTopics(userId);
@@ -29,16 +29,13 @@ const ProfileTopics = async ({ userId, userName }: { userId: UUID; userName: str
       <DialogContent className="max-w-xs md:max-w-lg">
         <DialogHeader>
           <DialogTitle className="text-left">Intérêts de {userName}</DialogTitle>
+          <DialogDescription className="text-left">
+            {userName} a <Semibold>{topics.length}</Semibold> intérêt{topics.length > 1 && "s"}.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="flex flex-wrap gap-2">
-          {sortedTopics?.map((topic) => (
-            <div key={topic.id}>
-              <Button size="sm" variant="outline">
-                {topic.name}
-              </Button>
-            </div>
-          ))}
+          {sortedTopics?.map((topic) => <ProfileTopic key={topic.id} topic={topic} />)}
         </div>
       </DialogContent>
     </Dialog>

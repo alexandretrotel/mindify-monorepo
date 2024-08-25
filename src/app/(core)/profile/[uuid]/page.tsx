@@ -18,15 +18,15 @@ import { Carousel } from "@/components/ui/carousel";
 import type { Metadata } from "next";
 import { createAdminClient } from "@/utils/supabase/admin";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Statistics from "@/components/features/my-statistics/Statistics";
-import StatisticsSkeleton from "@/components/features/my-statistics/skeleton/StatisticsSkeleton";
+import Statistics from "@/components/features/profile/statistics/Statistics";
+import StatisticsSkeleton from "@/components/features/profile/statistics/skeleton/StatisticsSkeleton";
 import CopyProfileLink from "@/components/features/profile/header/CopyProfileLink";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Semibold from "@/components/typography/semibold";
 import ProfileTopics from "@/components/features/profile/header/ProfileTopics";
 import { Skeleton } from "@/components/ui/skeleton";
 import SavedMinds from "@/components/features/profile/header/SavedMinds";
+import ReadSummaries from "@/components/features/profile/header/ReadSummaries";
 
 export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;
@@ -87,24 +87,28 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
   return (
     <div className="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-4">
       <div className="flex w-full items-center justify-between gap-8">
-        <div className="flex flex-col gap-4">
+        <div className="flex w-full flex-col gap-4">
           <div className="flex flex-col">
-            <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col">
+            <div className="flex w-full flex-col gap-2 md:flex-row md:items-center md:gap-4">
+              <div className="flex w-full flex-col gap-4">
+                <div className="flex w-full flex-col">
                   <H4Span>{profileMetadata?.name}</H4Span>
 
-                  <div className="flex flex-wrap items-center gap-4">
+                  <div className="flex w-full items-center gap-4">
                     <Suspense fallback={<Skeleton className="h-4 w-12" />}>
                       <ProfileTopics userId={profileId} userName={profileMetadata?.name} />
                     </Suspense>
 
                     <Suspense fallback={<Skeleton className="h-4 w-12" />}>
-                      <ReadingStreak userId={profileId} />
+                      <ReadSummaries userId={profileId} userName={profileMetadata?.name} />
                     </Suspense>
 
                     <Suspense fallback={<Skeleton className="h-4 w-12" />}>
-                      <SavedMinds userId={profileId} />
+                      <SavedMinds userId={profileId} userName={profileMetadata?.name} />
+                    </Suspense>
+
+                    <Suspense fallback={<Skeleton className="h-4 w-12" />}>
+                      <ReadingStreak userId={profileId} userName={profileMetadata?.name} />
                     </Suspense>
                   </div>
                 </div>

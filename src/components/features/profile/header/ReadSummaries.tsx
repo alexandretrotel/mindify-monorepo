@@ -12,11 +12,11 @@ import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
 import React from "react";
 
-const SavedMinds = async ({ userId, userName }: { userId: UUID; userName: string }) => {
+const ReadSummaries = async ({ userId, userName }: { userId: UUID; userName: string }) => {
   const supabase = createClient();
 
-  const { count: savedMindsCount } = await supabase
-    .from("saved_minds")
+  const { count: readSummariesCount } = await supabase
+    .from("read_summaries")
     .select("*", { count: "exact", head: true })
     .eq("user_id", userId);
 
@@ -24,17 +24,18 @@ const SavedMinds = async ({ userId, userName }: { userId: UUID; userName: string
     <Dialog>
       <DialogTrigger>
         <Muted size="sm">
-          <Semibold>{savedMindsCount ?? 0}</Semibold> MIND{(savedMindsCount as number) > 1 && "S"}
+          <Semibold>{readSummariesCount ?? 0}</Semibold> résumé
+          {(readSummariesCount as number) > 1 && "s"} lu{(readSummariesCount as number) > 1 && "s"}
         </Muted>
       </DialogTrigger>
 
       <DialogContent className="max-w-xs md:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-left">MINDS sauvegardés</DialogTitle>
+          <DialogTitle className="text-left">Résumés lus</DialogTitle>
 
           <DialogDescription className="text-left">
-            {userName} a sauvegardé <Semibold>{savedMindsCount}</Semibold> MIND
-            {(savedMindsCount as number) > 1 && "S"} jusqu'à présent.
+            {userName} a lu <Semibold>{readSummariesCount}</Semibold> résumé
+            {(readSummariesCount as number) > 1 && "s"} jusqu'à présent.
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
@@ -42,4 +43,4 @@ const SavedMinds = async ({ userId, userName }: { userId: UUID; userName: string
   );
 };
 
-export default SavedMinds;
+export default ReadSummaries;
