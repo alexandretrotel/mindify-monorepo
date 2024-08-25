@@ -4,7 +4,7 @@ import type { UserMetadata } from "@supabase/supabase-js";
 import { UUID } from "crypto";
 import React, { Suspense } from "react";
 import { Separator } from "@/components/ui/separator";
-import Friendship from "@/components/features/profile/header/FriendshipButton";
+import FriendshipButton from "@/components/features/profile/header/FriendshipButton";
 import Friends from "@/components/features/profile/friends/Friends";
 import ReadingStreak from "@/components/features/profile/header/ReadingStreak";
 import LibrarySnippet from "@/components/features/profile/summaries/LibrarySnippet";
@@ -101,17 +101,15 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 md:flex md:items-center">
-        {isConnected && (
-          <React.Fragment>
-            {!isMyProfile && profileId ? (
-              <Friendship userId={userId} profileId={profileId} size="sm" />
-            ) : (
-              <Button size="sm" disabled asChild>
-                <Link href="/my-account">Modifier mon profil</Link>
-              </Button>
-            )}
-          </React.Fragment>
-        )}
+        <React.Fragment>
+          {!isMyProfile && profileId ? (
+            <FriendshipButton userId={userId} profileId={profileId} isConnected={isConnected} size="sm" />
+          ) : (
+            <Button size="sm" disabled asChild>
+              <Link href="/my-account">Modifier mon profil</Link>
+            </Button>
+          )}
+        </React.Fragment>
 
         <CopyProfileLink userId={profileId} />
       </div>

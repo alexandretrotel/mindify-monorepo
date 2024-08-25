@@ -5,11 +5,13 @@ import { getFriendStatus } from "@/actions/friends";
 const FriendshipButton = async ({
   userId,
   profileId,
-  size
+  size,
+  isConnected
 }: {
   userId: UUID;
   profileId: UUID;
   size?: "default" | "sm" | "lg" | "icon";
+  isConnected: boolean;
 }) => {
   const friendStatus = await getFriendStatus(userId, profileId);
 
@@ -19,6 +21,7 @@ const FriendshipButton = async ({
       profileId={profileId}
       initialFriendStatus={friendStatus}
       size={size}
+      isConnected={isConnected}
     />
   );
 };
