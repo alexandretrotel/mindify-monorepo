@@ -13,16 +13,18 @@ const BorderTabs = async ({
 }) => {
   return (
     <Tabs defaultValue={elements?.[0]?.value} className="flex flex-col gap-8">
-      <TabsList className="flex w-full items-center gap-6 border-b border-border font-semibold text-muted-foreground md:gap-8">
-        {elements?.map((element) => (
-          <TabsTrigger
-            key={element?.value}
-            value={element.value}
-            className="border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-foreground"
-          >
-            {element.label}
-          </TabsTrigger>
-        ))}
+      <TabsList className="w-full border-b border-border">
+        <div className="hide-scrollbar -mb-[1px] flex items-center justify-start gap-6 overflow-x-auto pt-1 font-semibold text-muted-foreground md:gap-8">
+          {elements?.map((element) => (
+            <TabsTrigger
+              key={element?.value}
+              value={element.value}
+              className="inline-block whitespace-nowrap border-b-2 border-transparent py-2 text-base hover:text-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-primary data-[state=active]:text-foreground lg:text-lg"
+            >
+              {element.label}
+            </TabsTrigger>
+          ))}
+        </div>
       </TabsList>
 
       {elements?.map((element, index) => (
