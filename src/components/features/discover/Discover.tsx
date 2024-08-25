@@ -27,8 +27,8 @@ const Discover = async ({
   userName: string;
 }) => {
   return (
-    <div className="mx-auto flex flex-col gap-8 md:gap-16 lg:justify-between">
-      <div className="flex flex-col gap-16">
+    <div className="mx-auto flex w-full flex-col gap-8 md:gap-16 lg:justify-between">
+      <div className="flex w-full flex-col gap-16">
         {isConnected && (
           <Suspense fallback={<MyActivitySkeleton />}>
             <MyActivity userId={userId} />
