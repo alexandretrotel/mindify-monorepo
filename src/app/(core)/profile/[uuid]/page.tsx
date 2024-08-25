@@ -23,6 +23,9 @@ import StatisticsSkeleton from "@/components/features/my-statistics/skeleton/Sta
 import CopyProfileLink from "@/components/features/profile/header/CopyProfileLink";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Semibold from "@/components/typography/semibold";
+import ProfileTopics from "@/components/features/profile/header/ProfileTopics";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;
@@ -86,12 +89,20 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
         <div className="flex flex-col gap-4">
           <div className="flex flex-col">
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
-              <div className="flex flex-col">
-                <H4Span>
-                  <div className="flex">
-                    {profileMetadata?.name} <ReadingStreak profileId={profileId} />
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col">
+                  <H4Span>{profileMetadata?.name}</H4Span>
+
+                  <div className="flex items-center gap-4">
+                    <Suspense fallback={<Skeleton className="h-4 w-12" />}>
+                      <ProfileTopics userId={profileId} userName={profileMetadata?.name} />
+                    </Suspense>
+
+                    <Suspense fallback={<Skeleton className="h-4 w-12" />}>
+                      <ReadingStreak userId={profileId} />
+                    </Suspense>
                   </div>
-                </H4Span>
+                </div>
 
                 <Muted size="sm">{profileMetadata?.biography ?? "Aucune biographie"}</Muted>
               </div>
@@ -103,7 +114,12 @@ const Page = async ({ params }: { params: { uuid: UUID } }) => {
       <div className="grid grid-cols-2 gap-4 md:flex md:items-center">
         <React.Fragment>
           {!isMyProfile && profileId ? (
-            <FriendshipButton userId={userId} profileId={profileId} isConnected={isConnected} size="sm" />
+            <FriendshipButton
+              userId={userId}
+              profileId={profileId}
+              isConnected={isConnected}
+              size="sm"
+            />
           ) : (
             <Button size="sm" disabled asChild>
               <Link href="/my-account">Modifier mon profil</Link>
