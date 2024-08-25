@@ -3,10 +3,13 @@ import React from "react";
 
 export default function Semibold({
   children,
-  size
-}: Readonly<{ children: React.ReactNode; size?: string }>) {
+  size,
+  onPrimaryBackground
+}: Readonly<{ children: React.ReactNode; size?: string; onPrimaryBackground?: boolean }>) {
   return (
-    <span className={`font-semibold text-foreground ${!!size && getTextSizeClass(size)}`}>
+    <span
+      className={`font-semibold ${onPrimaryBackground ? "text-primary-foreground" : "text-foreground"} ${!!size && getTextSizeClass(size)}`}
+    >
       {children}
     </span>
   );
