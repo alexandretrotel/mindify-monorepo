@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 import React, { useEffect } from "react";
 import BookCover from "@/components/global/BookCover";
-import Link from "next/link";
 import {
   Pagination,
   PaginationContent,
@@ -70,15 +69,16 @@ const SummariesByCategoryClient = ({
       {/* Summaries */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {paginatedSummaries?.map((summary) => (
-          <Link key={summary.id} href={`/summary/${summary.author_slug}/${summary.slug}`}>
-            <BookCover
-              title={summary.title}
-              author={summary?.authors?.name}
-              category={topic.name}
-              source={summary.source_type}
-              image={summary.image_url ?? undefined}
-            />
-          </Link>
+          <BookCover
+            key={summary.id}
+            title={summary.title}
+            author={summary?.authors?.name}
+            category={topic.name}
+            source={summary.source_type}
+            image={summary.image_url ?? undefined}
+            authorSlug={summary.author_slug}
+            summarySlug={summary.slug}
+          />
         ))}
       </div>
 

@@ -10,7 +10,7 @@ import { UserRoundIcon } from "lucide-react";
 
 const UserCard = ({ user, userPicture }: { user: User; userPicture: string }) => {
   return (
-    <Card className="h-full">
+    <Card>
       <div className="flex h-full flex-col justify-between">
         <div>
           <CardHeader>

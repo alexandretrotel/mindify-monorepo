@@ -16,7 +16,6 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import BookCover from "@/components/global/BookCover";
-import Link from "next/link";
 import type { SummaryStatusesWithValue, SummaryStatus } from "@/types/summary";
 import { getTopicNameFromTopicSlug, sourceToString } from "@/utils/topics";
 import H3Span from "@/components/typography/h3AsSpan";
@@ -234,15 +233,16 @@ const LibraryClient = ({
       {filteredSummaries?.length > 0 ? (
         <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
           {filteredSummaries?.map((summary) => (
-            <Link key={summary.id} href={`/summary/${summary?.author_slug}/${summary.slug}`}>
-              <BookCover
-                title={summary.title}
-                author={summary?.authors?.name}
-                category={summary?.topic}
-                source={summary.source_type}
-                image={summary?.image_url ?? undefined}
-              />
-            </Link>
+            <BookCover
+              key={summary.id}
+              title={summary.title}
+              author={summary?.authors?.name}
+              category={summary?.topic}
+              source={summary.source_type}
+              image={summary?.image_url ?? undefined}
+              authorSlug={summary?.authors?.slug}
+              summarySlug={summary.slug}
+            />
           ))}
         </div>
       ) : (

@@ -61,7 +61,7 @@ const Mind = ({
   };
 
   return (
-    <div className="flex h-full flex-col justify-between gap-4 rounded-lg border p-6">
+    <div className="flex flex-col justify-between gap-4 rounded-lg border p-6">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col">
           <H4Span>{mind?.summaries?.title}</H4Span>

@@ -25,7 +25,7 @@ const proPricePerMonth = 3; // in eur
 const originalProPricePerYear = proPricePerMonth * 12;
 const proPricePerYear = Math.floor(proPricePerMonth * 12 * (1 - discount / 100));
 
-export default function Pricing() {
+export default function Pricing({ isConnected }: Readonly<{ isConnected: boolean }>) {
   const [isAnnual, setIsAnnual] = useState(false);
 
   return (
@@ -84,9 +84,15 @@ export default function Pricing() {
               </ul>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" variant={"outline"} asChild>
-                <Link href="/auth/signup">S&apos;inscrire</Link>
-              </Button>
+              {isConnected ? (
+                <Button className="w-full" variant={"outline"} asChild>
+                  <Link href="/discover">Découvrir des résumés</Link>
+                </Button>
+              ) : (
+                <Button className="w-full" variant={"outline"} asChild>
+                  <Link href="/auth/signup">S&apos;inscrire</Link>
+                </Button>
+              )}
             </CardFooter>
           </Card>
 

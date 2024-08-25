@@ -7,7 +7,6 @@ import {
   CarouselNext
 } from "@/components/ui/carousel";
 import BookCover from "@/components/global/BookCover";
-import Link from "next/link";
 import H3 from "@/components/typography/h3";
 import { createClient } from "@/utils/supabase/server";
 import { getUserPersonalizedSummariesFromInterests } from "@/actions/users";
@@ -52,18 +51,15 @@ const Personalized = async ({ userId }: { userId: UUID }) => {
             ?.map((summary) => {
               return (
                 <CarouselItem key={summary.id} className="pl-4 md:basis-1/3 lg:basis-1/4">
-                  <Link
-                    href={`/summary/${summary.author_slug}/${summary.slug}`}
-                    className="h-full"
-                  >
-                    <BookCover
-                      title={summary?.title}
-                      author={summary?.authors?.name as string}
-                      category={summary?.topic}
-                      source={summary?.source_type}
-                      image={summary?.image_url ?? undefined}
-                    />
-                  </Link>
+                  <BookCover
+                    title={summary?.title}
+                    author={summary?.authors?.name as string}
+                    category={summary?.topic}
+                    source={summary?.source_type}
+                    image={summary?.image_url ?? undefined}
+                    authorSlug={summary?.authors?.slug as string}
+                    summarySlug={summary?.slug}
+                  />
                 </CarouselItem>
               );
             })}

@@ -22,7 +22,7 @@ const CopyProfileLink = ({ userId }: { userId: UUID }) => {
     if (isNavigatorShareSupported) {
       navigator.share({
         title: "Partager le lien de votre profil",
-        text: "Découvrez mon profil sur Mindify",
+        text: "Découvrez le profil de cet utilisateur sur Mindify, l'application pour développer votre esprit.",
         url: `${origin}/profile/${userId}`
       });
       return;
