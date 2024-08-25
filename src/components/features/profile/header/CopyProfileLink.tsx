@@ -46,7 +46,7 @@ const CopyProfileLink = ({ userId }: { userId: UUID }) => {
 
   return (
     <Button size="sm" variant="outline" onClick={handleCopyLink}>
-      {isNavigatorShareSupported ? "Partager" : "Copier le lien"}
+      {isNavigatorShareSupported ? "Partager le profil" : "Copier le lien du profil"}
     </Button>
   );
 };
