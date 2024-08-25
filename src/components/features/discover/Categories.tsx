@@ -1,6 +1,12 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+} from "@/components/ui/carousel";
 import Link from "next/link";
 import TopicIcon from "@/components/global/TopicIcon";
 import H3 from "@/components/typography/h3";
@@ -125,6 +131,11 @@ const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: 
                 </CarouselItem>
               ))}
           </CarouselContent>
+
+          <div className="hidden lg:block">
+            <CarouselPrevious />
+            <CarouselNext />
+          </div>
         </div>
       </Carousel>
     </React.Fragment>
