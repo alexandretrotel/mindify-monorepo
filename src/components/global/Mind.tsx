@@ -115,7 +115,7 @@ const Mind = ({
         </Button>
 
         <Button variant="secondary" onClick={handleShareMind}>
-          {isNavigatorShareSupported ? "Partager le MIND" : "Copier le lien du MIND"}
+          Partager le MIND
         </Button>
       </div>
     </div>
