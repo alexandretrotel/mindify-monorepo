@@ -2,22 +2,9 @@ import React from "react";
 import LibraryClient from "@/components/features/library/client/LibraryClient";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
-import type { SummaryStatus } from "@/types/summary";
-import type { Tables, Enums } from "@/types/supabase";
+import type { Tables } from "@/types/supabase";
 
-const Library = async ({
-  initialSearch,
-  initialTopic,
-  initialSource,
-  initialStatus,
-  userId
-}: {
-  initialSearch: string | undefined;
-  initialTopic: string | undefined;
-  initialSource: Enums<"source"> | undefined;
-  initialStatus: SummaryStatus | undefined;
-  userId: UUID;
-}) => {
+const Library = async ({ userId }: { userId: UUID }) => {
   const supabase = createClient();
 
   const { data: summariesData } = await supabase
@@ -52,10 +39,6 @@ const Library = async ({
       topics={topicsData as Tables<"topics">[]}
       userReads={userReadsData as Tables<"read_summaries">[]}
       userLibrary={userLibraryData as Tables<"saved_summaries">[]}
-      initialSearch={initialSearch}
-      initialTopic={initialTopic}
-      initialSource={initialSource}
-      initialStatus={initialStatus}
     />
   );
 };

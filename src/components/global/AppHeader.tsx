@@ -61,7 +61,7 @@ const links = [
         icon: <BookIcon className="h-4 w-4" />
       },
       {
-        href: "/library?source=videos",
+        href: "/library?source=video",
         label: "Vidéos",
         description: "Découvrez nos résumés de vidéos",
         icon: <VideoIcon className="h-4 w-4" />

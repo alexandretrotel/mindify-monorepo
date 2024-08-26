@@ -41,13 +41,7 @@ const tabs = [
   }
 ];
 
-const MyAccount = async ({ searchParams }: { searchParams: { tab: string | undefined } }) => {
-  let tab = searchParams?.tab as string;
-
-  if (!tabs.some((t) => t.key === tab)) {
-    tab = tabs[0].key;
-  }
-
+const MyAccount = async () => {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.getUser();
@@ -71,7 +65,6 @@ const MyAccount = async ({ searchParams }: { searchParams: { tab: string | undef
       topics={topicsData as Tables<"topics">[]}
       userTopics={userTopics}
       userPicture={userPicture}
-      initialTab={tab}
       tabs={tabs}
     />
   );

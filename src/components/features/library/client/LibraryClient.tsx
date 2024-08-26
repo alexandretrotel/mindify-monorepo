@@ -22,6 +22,7 @@ import H3Span from "@/components/typography/h3AsSpan";
 import { statusToString } from "@/utils/summary";
 import Fuse from "fuse.js";
 import type { Enums, Tables } from "@/types/supabase";
+import { useSearchParams } from "next/navigation";
 
 const statuses: SummaryStatusesWithValue = [
   { id: 1, name: "Pas commencé", value: "not_started" },
@@ -35,11 +36,7 @@ const LibraryClient = ({
   summaries,
   topics,
   userReads,
-  userLibrary,
-  initialSearch,
-  initialTopic,
-  initialSource,
-  initialStatus
+  userLibrary
 }: {
   summaries: (Tables<"summaries"> & { topic: string; author_slug: string } & {
     authors: Tables<"authors">;
@@ -48,11 +45,13 @@ const LibraryClient = ({
   topics: Tables<"topics">[];
   userReads: Tables<"read_summaries">[];
   userLibrary: Tables<"saved_summaries">[];
-  initialSearch: string | undefined;
-  initialTopic: string | undefined;
-  initialSource: Enums<"source"> | undefined;
-  initialStatus: SummaryStatus | undefined;
 }) => {
+  const searchParams = useSearchParams();
+  const initialSearch = searchParams.get("search") ?? undefined;
+  const initialTopic = searchParams.get("topic") ?? undefined;
+  const initialSource = searchParams.get("source") ?? (undefined as Enums<"source"> | undefined);
+  const initialStatus = searchParams.get("status") ?? (undefined as SummaryStatus | undefined);
+
   const [book, setBook] = React.useState<string | undefined>(initialSearch);
   const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(
     getTopicNameFromTopicSlug(topics, initialTopic as string)
@@ -65,6 +64,13 @@ const LibraryClient = ({
       topics: Tables<"topics">;
     })[]
   >(summaries);
+
+  useEffect(() => {
+    setBook(initialSearch);
+    setSelectedTopic(getTopicNameFromTopicSlug(topics, initialTopic as string));
+    setSelectedSource(initialSource);
+    setSelectedStatus(initialStatus);
+  }, [initialSearch, initialTopic, initialSource, initialStatus, topics]);
 
   const sortedTopics = topics ? [...topics]?.sort((a, b) => a.name.localeCompare(b.name)) : [];
 
