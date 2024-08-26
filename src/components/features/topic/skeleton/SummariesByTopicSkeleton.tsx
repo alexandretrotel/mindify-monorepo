@@ -5,7 +5,7 @@ import BookCoverSkeleton from "@/components/global/skeleton/BookCoverSkeleton";
 
 const itemsPerPage = 8;
 
-const SummariesByCategorySkeleton = async () => {
+const SummariesByTopicSkeleton = async () => {
   return (
     <React.Fragment>
       <div className="min-w-md relative max-w-md flex-1">
@@ -19,7 +19,7 @@ const SummariesByCategorySkeleton = async () => {
       </div>
 
       {/* Summaries */}
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {Array.from({ length: itemsPerPage }).map((_, index) => (
           <BookCoverSkeleton key={index} />
         ))}
@@ -28,4 +28,4 @@ const SummariesByCategorySkeleton = async () => {
   );
 };
 
-export default SummariesByCategorySkeleton;
+export default SummariesByTopicSkeleton;

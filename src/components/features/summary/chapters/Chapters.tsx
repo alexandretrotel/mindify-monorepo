@@ -2,9 +2,11 @@ import React from "react";
 import H2 from "@/components/typography/h2";
 import P from "@/components/typography/p";
 import type { Tables } from "@/types/supabase";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import H3Span from "@/components/typography/h3AsSpan";
 import Semibold from "@/components/typography/semibold";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Chapters = async ({
   chapters,
@@ -51,6 +53,14 @@ const Chapters = async ({
               Pro.
             </Semibold>
           </CardContent>
+
+          <CardFooter>
+            <Button variant="outline" asChild>
+              <Link href="/auth/login" className="text-foreground">
+                Se connecter
+              </Link>
+            </Button>
+          </CardFooter>
         </Card>
       )}
     </React.Fragment>

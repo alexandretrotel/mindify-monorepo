@@ -3,7 +3,6 @@ import { getFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
 import { getAvatar } from "@/utils/users";
 import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
-import type { UserMetadata } from "@supabase/supabase-js";
 
 const Friends = async ({
   profileId,
@@ -26,7 +25,7 @@ const Friends = async ({
 
   const friendsPicture =
     friends?.map((friend) => {
-      const picture = getAvatar(friend?.user_metadata as UserMetadata);
+      const picture = getAvatar(friend?.user_metadata);
       return picture;
     }) ?? [];
 

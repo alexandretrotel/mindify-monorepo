@@ -101,7 +101,7 @@ const StatisticsClient = ({
   if (!summariesRead) {
     return (
       <div className="flex h-72 flex-col items-center justify-center text-center">
-        <H3>Commencez à lire pour voir vos statistiques</H3>
+        <H3>Pas de données de lecture</H3>
       </div>
     );
   }

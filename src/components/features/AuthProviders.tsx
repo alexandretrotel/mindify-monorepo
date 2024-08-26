@@ -17,10 +17,6 @@ export default function AuthProviders({ isSignup }: Readonly<{ isSignup: boolean
   const { toast } = useToast();
 
   const handleSignInWithSocials = async (provider: SocialProvider) => {
-    if (isLoading) {
-      return;
-    }
-
     setIsLoading(true);
 
     try {
@@ -31,16 +27,12 @@ export default function AuthProviders({ isSignup }: Readonly<{ isSignup: boolean
         description: "Impossible de se connecter avec ce fournisseur.",
         variant: "destructive"
       });
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   const handleSignUpOrSignIn = async (formData: FormData) => {
-    if (isLoading) {
-      return;
-    }
-
     setIsLoading(true);
 
     if (isSignup) {
@@ -52,6 +44,8 @@ export default function AuthProviders({ isSignup }: Readonly<{ isSignup: boolean
           description: "Impossible de s'inscrire.",
           variant: "destructive"
         });
+      } finally {
+        setIsLoading(false);
       }
     } else {
       try {
@@ -62,10 +56,10 @@ export default function AuthProviders({ isSignup }: Readonly<{ isSignup: boolean
           description: "Impossible de se connecter.",
           variant: "destructive"
         });
+      } finally {
+        setIsLoading(false);
       }
     }
-
-    setIsLoading(false);
   };
 
   return (
@@ -107,7 +101,11 @@ export default function AuthProviders({ isSignup }: Readonly<{ isSignup: boolean
         <SubmitButton>{isSignup ? "S'inscrire" : "Se connecter"}</SubmitButton>
       </form>
 
-      <Button variant="outline" onClick={() => handleSignInWithSocials("google")}>
+      <Button
+        variant="outline"
+        onClick={() => handleSignInWithSocials("google")}
+        disabled={isLoading}
+      >
         {isSignup ? "S'inscrire" : "Se connecter"} avec Google
       </Button>
     </div>

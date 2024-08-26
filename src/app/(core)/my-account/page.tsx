@@ -31,7 +31,7 @@ const tabs = [
     key: "security",
     label: "Sécurité",
     icon: <LockIcon className="h-4 w-4" />,
-    disabled: true
+    disabled: false
   },
   {
     key: "settings",
@@ -44,14 +44,18 @@ const tabs = [
 const MyAccount = async () => {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error
+  } = await supabase.auth.getUser();
 
-  if (error || !data?.user) {
+  if (error || !user) {
     redirect("/auth/login");
   }
 
-  const userId = data?.user?.id as UUID;
-  const userMetadata = data?.user?.user_metadata;
+  const userId = user?.id as UUID;
+  const userMetadata = user?.user_metadata;
+  const userEmail = user?.email as string;
 
   const { data: topicsData } = await supabase.from("topics").select("*");
 
@@ -66,6 +70,7 @@ const MyAccount = async () => {
       userTopics={userTopics}
       userPicture={userPicture}
       tabs={tabs}
+      userEmail={userEmail}
     />
   );
 };
