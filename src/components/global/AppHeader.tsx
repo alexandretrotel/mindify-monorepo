@@ -119,8 +119,6 @@ const ListItem = React.forwardRef<React.ElementRef<typeof Link>, ListItemProps>(
             </div>
           </Link>
         </NavigationMenuLink>
-
-     
       </li>
     );
   }
