@@ -1,5 +1,5 @@
 import { areMindsSaved } from "@/actions/minds";
-import { getStorageAvatar } from "@/actions/users";
+import { getAvatar } from "@/utils/users";
 import Mind from "@/components/global/Mind";
 import Semibold from "@/components/typography/semibold";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -59,10 +59,7 @@ const ShareMind = async ({
     }
   }
 
-  const sharedByUserPicture = await getStorageAvatar(
-    sharedByUser?.id as UUID,
-    sharedByUser?.user_metadata as UserMetadata
-  );
+  const sharedByUserPicture = getAvatar(sharedByUser?.user_metadata as UserMetadata);
 
   return (
     <div className="flex flex-col gap-4">

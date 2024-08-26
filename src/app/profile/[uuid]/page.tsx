@@ -10,7 +10,7 @@ import ReadingStreak from "@/components/features/profile/header/ReadingStreak";
 import LibrarySnippet from "@/components/features/profile/summaries/LibrarySnippet";
 import LibrarySnippetSkeleton from "@/components/features/profile/summaries/skeleton/LibrarySnippetSkeleton";
 import FriendsSkeleton from "@/components/features/profile/friends/skeleton/FriendsSkeleton";
-import { getStorageAvatar, getUserCustomAvatarFromUserId } from "@/actions/users";
+import { getAvatar } from "@/utils/users";
 import { Muted } from "@/components/typography/muted";
 import ProfileMinds from "@/components/features/profile/minds/ProfileMinds";
 import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
@@ -60,8 +60,7 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
       images: [
         {
           url:
-            (await getUserCustomAvatarFromUserId(userData?.user?.id as UUID)) ??
-            "/open-graph/og-image.png"
+            getAvatar(userData?.user?.user_metadata as UserMetadata) ?? "/open-graph/og-image.png"
         }
       ],
       siteName: "Mindify",
@@ -74,8 +73,7 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
       images: [
         {
           url:
-            (await getUserCustomAvatarFromUserId(userData?.user?.id as UUID)) ??
-            "/open-graph/og-image.png"
+            getAvatar(userData?.user?.user_metadata as UserMetadata) ?? "/open-graph/og-image.png"
         }
       ]
     }
@@ -110,7 +108,7 @@ const Page = async ({
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
   const profileUser = profileData?.user;
   const profileMetadata: UserMetadata = profileData?.user?.user_metadata as UserMetadata;
-  const profileAvatar = await getStorageAvatar(profileId, profileMetadata);
+  const profileAvatar = getAvatar(profileMetadata);
 
   const userId = user?.id as UUID;
 
@@ -118,7 +116,7 @@ const Page = async ({
 
   let userAvatar: string | undefined;
   if (isMyProfile) {
-    userAvatar = await getStorageAvatar(userId, userMetadata);
+    userAvatar = getAvatar(user?.user_metadata as UserMetadata);
   }
 
   return (
