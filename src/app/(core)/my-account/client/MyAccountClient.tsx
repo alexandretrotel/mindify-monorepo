@@ -33,7 +33,7 @@ const MyAccountClient = ({
   if (!tabs.some((t) => t.key === tab)) {
     tab = tabs[0].key;
   }
-  const initialTab = tab || tabs[0].key;
+  const initialTab = tab ?? tabs[0].key;
 
   const [category, setCategory] = React.useState<string>(initialTab);
 
