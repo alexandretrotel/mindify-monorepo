@@ -142,7 +142,7 @@ const AppHeader = ({
 }) => {
   return (
     <header
-      className={`${isNotFixed ? "block" : "fixed"} relative inset-x-0 top-0 z-50 px-4 py-4 md:px-8 ${isNotTransparent ? "bg-background" : ""} flex w-full justify-center border-b border-black/10 backdrop-blur-2xl transition-colors duration-300 dark:border-white/10`}
+      className={`${isNotFixed ? "relative" : "fixed"} inset-x-0 top-0 z-50 px-4 py-4 md:px-8 ${isNotTransparent ? "bg-background" : ""} flex w-full justify-center border-b border-black/10 backdrop-blur-2xl transition-colors duration-300 dark:border-white/10`}
     >
       <NavigationMenu className="flex w-full max-w-7xl items-center justify-between">
         <NavigationMenuList>
