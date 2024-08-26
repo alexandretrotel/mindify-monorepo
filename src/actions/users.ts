@@ -11,6 +11,20 @@ import { summary } from "date-streaks";
 import type { Tables } from "@/types/supabase";
 import { createAdminClient } from "@/utils/supabase/admin";
 
+export async function deleteUser(userId: UUID) {
+  const supabaseAdmin = createAdminClient();
+
+  const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(userId);
+
+  if (deleteError) {
+    console.error(deleteError);
+    throw new Error("Impossible de supprimer le compte.");
+  }
+
+  revalidatePath("/", "layout");
+  return { message: "Compte supprimé avec succès." };
+}
+
 const nameSchema = z.object({
   name: z
     .string()

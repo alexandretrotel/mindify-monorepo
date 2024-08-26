@@ -85,7 +85,7 @@ const AccountDropdownClient = ({
             <BellRingIcon className="h-4 w-4" /> Notifications
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="flex items-center gap-2" disabled>
+        <DropdownMenuItem className="flex items-center gap-2">
           <Link href={`/my-account?tab=security`} className="flex w-full items-center gap-2">
             <LockIcon className="h-4 w-4" /> Sécurité
           </Link>

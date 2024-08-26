@@ -41,9 +41,9 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import AccountAvatar from "@/components/features/account/metadata/Avatar";
-import AccountName from "@/components/features/account/metadata/Name";
-import AccountBiography from "@/components/features/account/metadata/Biography";
+import AccountAvatar from "@/components/features/account/tabs/profile/Avatar";
+import AccountName from "@/components/features/account/tabs/profile/Name";
+import AccountBiography from "@/components/features/account/tabs/profile/Biography";
 
 export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;

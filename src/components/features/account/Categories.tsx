@@ -1,11 +1,11 @@
-import AccountSubscription from "@/components/features/account/sections/Subscription";
-import AccountNotifications from "@/components/features/account/sections/Notifications";
-import AccountSettings from "@/components/features/account/sections/Settings";
-import AccountProfile from "@/components/features/account/sections/Profile";
+import AccountSubscription from "@/components/features/account/tabs/Subscription";
+import AccountNotifications from "@/components/features/account/tabs/Notifications";
+import AccountSettings from "@/components/features/account/tabs/Settings";
+import AccountProfile from "@/components/features/account/tabs/Profile";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
-import AccountSecurity from "@/components/features/account/sections/Security";
+import AccountSecurity from "@/components/features/account/tabs/Security";
 
 export default function AccountCategories({
   userId,
@@ -13,7 +13,8 @@ export default function AccountCategories({
   category,
   topics,
   userTopics,
-  userPicture
+  userPicture,
+  userEmail
 }: Readonly<{
   userId: UUID;
   userMetadata: UserMetadata;
@@ -21,6 +22,7 @@ export default function AccountCategories({
   topics: Tables<"topics">[];
   userTopics: Tables<"topics">[];
   userPicture: string;
+  userEmail: string;
 }>) {
   if (category === "profile") {
     return (
@@ -43,7 +45,7 @@ export default function AccountCategories({
   }
 
   if (category === "security") {
-    return <AccountSecurity />;
+    return <AccountSecurity userId={userId} userEmail={userEmail} />;
   }
 
   if (category === "settings") {

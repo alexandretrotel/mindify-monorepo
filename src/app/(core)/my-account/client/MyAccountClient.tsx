@@ -14,7 +14,8 @@ const MyAccountClient = ({
   topics,
   userTopics,
   userPicture,
-  tabs
+  tabs,
+  userEmail
 }: {
   userId: UUID;
   userMetadata: UserMetadata;
@@ -27,6 +28,7 @@ const MyAccountClient = ({
     icon: JSX.Element;
     disabled: boolean;
   }[];
+  userEmail: string;
 }) => {
   const searchParams = useSearchParams();
   let tab = searchParams?.get("tab") as string | undefined;
@@ -41,7 +43,7 @@ const MyAccountClient = ({
     if (!tabs.some((t) => t.key === category)) {
       setCategory(tabs[0].key);
     }
-  }, [tabs]);
+  }, [category, tabs]);
 
   return (
     <Account
@@ -53,6 +55,7 @@ const MyAccountClient = ({
       userTopics={userTopics}
       userPicture={userPicture}
       tabs={tabs}
+      userEmail={userEmail}
     />
   );
 };

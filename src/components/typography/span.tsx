@@ -7,7 +7,8 @@ export default function Span({
   size,
   semibold,
   primaryColor,
-  onPrimaryBackground
+  onPrimaryBackground,
+  isRed
 }: Readonly<{
   children: React.ReactNode;
   center?: boolean;
@@ -15,13 +16,15 @@ export default function Span({
   semibold?: boolean;
   primaryColor?: boolean;
   onPrimaryBackground?: boolean;
+  isRed?: boolean;
 }>) {
   return (
     <span
-      className={`${!!semibold && "font-semibold"} ${getPrimaryColor(
-        primaryColor as boolean,
-        onPrimaryBackground as boolean
-      )} ${!!center && "text-center"} ${getTextSizeClass(size as string)}`}
+      className={`${!!semibold && "font-semibold"} ${
+        isRed
+          ? "text-red-500"
+          : getPrimaryColor(primaryColor as boolean, onPrimaryBackground as boolean)
+      } ${!!center && "text-center"} ${getTextSizeClass(size as string)}`}
     >
       {children}
     </span>

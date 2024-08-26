@@ -1,11 +1,11 @@
 import H3Span from "@/components/typography/h3AsSpan";
 import { Separator } from "@/components/ui/separator";
 import type { UserMetadata } from "@supabase/supabase-js";
-import AccountBiography from "@/components/features/account/metadata/Biography";
-import AccountMail from "@/components/features/account/metadata/Mail";
-import AccountName from "@/components/features/account/metadata/Name";
-import AccountAvatar from "@/components/features/account/metadata/Avatar";
-import AccountTopics from "@/components/features/account/metadata/Topics";
+import AccountBiography from "@/components/features/account/tabs/profile/Biography";
+import AccountMail from "@/components/features/account/tabs/profile/Mail";
+import AccountName from "@/components/features/account/tabs/profile/Name";
+import AccountAvatar from "@/components/features/account/tabs/profile/Avatar";
+import AccountTopics from "@/components/features/account/tabs/profile/Topics";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";

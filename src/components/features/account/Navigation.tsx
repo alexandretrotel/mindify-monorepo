@@ -18,7 +18,8 @@ export default function Navigation({
   topics,
   userTopics,
   userPicture,
-  tabs
+  tabs,
+  userEmail
 }: Readonly<{
   userId: UUID;
   userMetadata: UserMetadata;
@@ -33,6 +34,7 @@ export default function Navigation({
     icon: JSX.Element;
     disabled: boolean;
   }[];
+  userEmail: string;
 }>) {
   return (
     <div className="flex flex-col gap-8 md:flex-row md:gap-4">
@@ -65,6 +67,7 @@ export default function Navigation({
           topics={topics}
           userTopics={userTopics}
           userPicture={userPicture}
+          userEmail={userEmail}
         />
       </div>
     </div>
