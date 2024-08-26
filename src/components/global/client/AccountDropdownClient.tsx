@@ -44,11 +44,7 @@ const AccountDropdownClient = ({
           <Avatar className="h-8 w-8">
             <AvatarImage src={userPicture} alt={userMetadata?.name} />
             <AvatarFallback>
-              {userMetadata?.name ? (
-                userMetadata?.name?.charAt(0)
-              ) : (
-                <UserRoundIcon className="h-4 w-4" />
-              )}
+              <UserRoundIcon className="h-4 w-4" />
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
@@ -57,11 +53,7 @@ const AccountDropdownClient = ({
           <Avatar className="h-8 w-8">
             <AvatarImage src={userPicture} alt={userMetadata?.name} />
             <AvatarFallback>
-              {userMetadata?.name ? (
-                userMetadata?.name?.charAt(0)
-              ) : (
-                <UserRoundIcon className="h-4 w-4" />
-              )}
+              <UserRoundIcon className="h-4 w-4" />
             </AvatarFallback>
           </Avatar>
         </Link>

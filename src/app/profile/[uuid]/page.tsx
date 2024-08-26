@@ -138,11 +138,7 @@ const Page = async ({
                   <Avatar className="h-20 w-20 border-2 border-background">
                     <AvatarImage src={profileAvatar} alt={userMetadata?.name} />
                     <AvatarFallback>
-                      {userMetadata?.name ? (
-                        userMetadata?.name?.charAt(0)
-                      ) : (
-                        <UserRoundIcon className="h-4 w-4" />
-                      )}
+                      <UserRoundIcon className="h-8 w-8" />
                     </AvatarFallback>
                   </Avatar>
                 </DialogTrigger>
@@ -152,11 +148,7 @@ const Page = async ({
                     <Avatar className="h-32 w-32">
                       <AvatarImage src={profileAvatar} alt={userMetadata?.name} />
                       <AvatarFallback>
-                        {userMetadata?.name ? (
-                          userMetadata?.name?.charAt(0)
-                        ) : (
-                          <UserRoundIcon className="h-4 w-4" />
-                        )}
+                        <UserRoundIcon className="h-12 w-12" />
                       </AvatarFallback>
                     </Avatar>
 

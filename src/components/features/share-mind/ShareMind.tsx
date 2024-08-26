@@ -8,6 +8,7 @@ import { createAdminClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import type { User, UserMetadata } from "@supabase/supabase-js";
 import type { UUID } from "crypto";
+import { UserRoundIcon } from "lucide-react";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -69,9 +70,11 @@ const ShareMind = async ({
         <div className="flex w-full items-end justify-between gap-4">
           <Semibold>Partagé par {sharedByUser?.user_metadata?.name}</Semibold>
 
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-4 w-4">
             <AvatarImage src={sharedByUserPicture} alt={sharedByUser?.user_metadata?.name} />
-            <AvatarFallback>{sharedByUser?.user_metadata?.name?.charAt(0)}</AvatarFallback>
+            <AvatarFallback>
+              <UserRoundIcon className="h-6 w-6" />
+            </AvatarFallback>
           </Avatar>
         </div>
       ) : (
