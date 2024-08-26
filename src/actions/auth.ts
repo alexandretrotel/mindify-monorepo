@@ -125,38 +125,6 @@ export async function signInWithPassword(formData: FormData) {
   redirect("/discover");
 }
 
-export async function signInWithEmail(formData: FormData) {
-  const supabase = createClient();
-
-  const origin = headers().get("origin");
-
-  let data;
-  try {
-    data = formDataMailSchema.parse({
-      email: formData.get("email") as string
-    });
-  } catch (error) {
-    console.error(error);
-    throw new Error("Adresse e-mail invalide");
-  }
-
-  const { error } = await supabase.auth.signInWithOtp({
-    email: data.email,
-    options: {
-      shouldCreateUser: true,
-      emailRedirectTo: `${origin}/discover`
-    }
-  });
-
-  if (error) {
-    console.error(error);
-    throw new Error("Impossible de se connecter avec cette adresse e-mail");
-  }
-
-  revalidatePath("/", "layout");
-  redirect("/auth/check-email");
-}
-
 export async function signInWithSocials(provider: SocialProvider) {
   const supabase = createClient();
 
