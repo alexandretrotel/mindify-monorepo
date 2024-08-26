@@ -120,11 +120,7 @@ const ListItem = React.forwardRef<React.ElementRef<typeof Link>, ListItemProps>(
           </Link>
         </NavigationMenuLink>
 
-        {!lastItem && (
-          <div className="md:hidden">
-            <Separator className="my-2" />
-          </div>
-        )}
+     
       </li>
     );
   }
