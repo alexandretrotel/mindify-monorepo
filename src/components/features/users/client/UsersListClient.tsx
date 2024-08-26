@@ -16,6 +16,7 @@ import React from "react";
 import Fuse from "fuse.js";
 import { SearchIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { getAvatar } from "@/utils/users";
 
 const itemsPerPage = 8;
 
@@ -81,11 +82,15 @@ const UsersListClient = ({ usersArray }: { usersArray: User[] }) => {
       </div>
 
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {paginatedUsers?.map((user) => (
-          <li key={user.id}>
-            <UserCard user={user} userPicture={user?.user_metadata?.picture} />
-          </li>
-        ))}
+        {paginatedUsers?.map((user) => {
+          const userPicture = getAvatar(user?.user_metadata);
+
+          return (
+            <li key={user.id}>
+              <UserCard user={user} userPicture={userPicture} />
+            </li>
+          );
+        })}
       </ul>
 
       {(filteredUsers?.length as number) > itemsPerPage && (
