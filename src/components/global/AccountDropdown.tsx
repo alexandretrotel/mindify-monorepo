@@ -1,6 +1,6 @@
 import React from "react";
 import type { UUID } from "crypto";
-import { getUserCustomAvatar } from "@/actions/users";
+import { getAvatar } from "@/utils/users";
 import AccountDropdownClient from "@/components/global/client/AccountDropdownClient";
 import { UserMetadata } from "@supabase/supabase-js";
 
@@ -13,7 +13,7 @@ const AccountDropdown = async ({
   userMetadata: UserMetadata;
   isConnected: boolean;
 }) => {
-  const userPicture = await getUserCustomAvatar(userId, userMetadata);
+  const userPicture = getAvatar(userMetadata);
 
   return (
     <AccountDropdownClient

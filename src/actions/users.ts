@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { UUID } from "crypto";
-import type { User, UserMetadata } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 import { summary } from "date-streaks";
 import type { Tables } from "@/types/supabase";
 import { createAdminClient } from "@/utils/supabase/admin";
@@ -288,23 +288,6 @@ export async function getUserSummariesFromLibrary(userId: UUID) {
   })[];
 
   return userLibrarySummaries;
-}
-
-export async function getUserCustomAvatar(userId: UUID, userMetadata: UserMetadata) {
-  const supabase = createClient();
-
-  const fileName = `${userId}.webp`;
-
-  const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
-
-  let avatarUrlString: string;
-  if (!avatarUrl) {
-    avatarUrlString = userMetadata?.picture_url;
-  } else {
-    avatarUrlString = avatarUrl?.publicUrl;
-  }
-
-  return avatarUrlString;
 }
 
 const removeDuplicates = (array: any[]) => {

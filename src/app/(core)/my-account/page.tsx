@@ -3,7 +3,8 @@ import type { UUID } from "crypto";
 import { redirect } from "next/navigation";
 import React from "react";
 import MyAccountClient from "@/app/(core)/my-account/client/MyAccountClient";
-import { getUserCustomAvatar, getUserTopics } from "@/actions/users";
+import { getUserTopics } from "@/actions/users";
+import { getAvatar } from "@/utils/users";
 import type { Tables } from "@/types/supabase";
 import { BellRingIcon, CreditCardIcon, LockIcon, SettingsIcon, UserPenIcon } from "lucide-react";
 
@@ -61,7 +62,7 @@ const MyAccount = async ({ searchParams }: { searchParams: { tab: string | undef
   const { data: topicsData } = await supabase.from("topics").select("*");
 
   const userTopics = await getUserTopics(userId);
-  const userPicture = await getUserCustomAvatar(userId, userMetadata);
+  const userPicture = getAvatar(userMetadata);
 
   return (
     <MyAccountClient
