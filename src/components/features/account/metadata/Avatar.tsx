@@ -82,11 +82,7 @@ export default function AccountAvatar({
           <Avatar className="h-10 w-10">
             <AvatarImage src={userPicture} alt={userMetadata.name} />
             <AvatarFallback>
-              {userMetadata?.name ? (
-                userMetadata?.name?.charAt(0)
-              ) : (
-                <UserRoundIcon className="h-4 w-4" />
-              )}
+              <UserRoundIcon className="h-6 w-6" />
             </AvatarFallback>
           </Avatar>
           <DialogTrigger asChild>

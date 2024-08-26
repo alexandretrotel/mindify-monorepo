@@ -8,9 +8,9 @@ import {
   CarouselPrevious
 } from "@/components/ui/carousel";
 import { Muted } from "@/components/typography/muted";
-import { getStorageAvatar, getTopUsers } from "@/actions/users";
+import { getTopUsers } from "@/actions/users";
+import { getAvatar } from "@/utils/users";
 import UserCard from "@/components/global/UserCard";
-import type { UUID } from "crypto";
 
 const TopUsers = async () => {
   const topUsers = await getTopUsers();
@@ -21,12 +21,11 @@ const TopUsers = async () => {
 
   const finalTopUsers = topUsers?.slice(0, 20);
 
-  const userPictures = await Promise.all(
-    finalTopUsers?.map(async (user) => {
-      const picture = await getStorageAvatar(user?.id as UUID, user?.user_metadata);
+  const userPictures =
+    finalTopUsers?.map((user) => {
+      const picture = getAvatar(user?.user_metadata);
       return picture;
-    }) ?? []
-  );
+    }) ?? [];
 
   return (
     <Carousel

@@ -27,7 +27,7 @@ export default function AccountSettings() {
             <Muted size="sm">Choisissez entre un thème clair ou sombre.</Muted>
           </div>
 
-          <div className="grid max-w-md grid-cols-1 gap-8 pt-2 md:max-w-3xl md:grid-cols-3">
+          <div className="grid max-w-md grid-cols-2 gap-8 pt-2 md:max-w-3xl md:grid-cols-3">
             <div>
               <button onClick={() => setTheme("light")} className="w-full">
                 <div

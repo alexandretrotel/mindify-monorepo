@@ -98,78 +98,88 @@ const StatisticsClient = ({
     }
   } satisfies ChartConfig;
 
+  if (!summariesRead) {
+    return (
+      <div className="flex h-72 flex-col items-center justify-center text-center">
+        <H3>Commencez à lire pour voir vos statistiques</H3>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-      <div className="flex flex-col gap-2 rounded-lg border">
-        <div className="space-y-0 p-6 lg:pb-2">
-          <CardDescription>Temps de lecture</CardDescription>
-          <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
-            {totalReadingTimeInHours > 0 && (
-              <React.Fragment>
-                {totalReadingTimeInHours}
-                <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
-                  h
-                </span>
-              </React.Fragment>
-            )}
-            {remainingMinutes}
-            <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
-              {remainingMinutes > 1 ? "mins" : "min"}
-            </span>
-          </CardTitle>
-        </div>
+      {weekReadTimeData?.length > 0 && totalReadingTime > 0 && (
+        <div className="flex flex-col gap-2 rounded-lg border">
+          <div className="space-y-0 p-6 lg:pb-2">
+            <CardDescription>Temps de lecture</CardDescription>
+            <CardTitle className="flex items-baseline gap-1 text-4xl tabular-nums">
+              {totalReadingTimeInHours > 0 && (
+                <React.Fragment>
+                  {totalReadingTimeInHours}
+                  <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
+                    h
+                  </span>
+                </React.Fragment>
+              )}
+              {remainingMinutes}
+              <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
+                {remainingMinutes > 1 ? "mins" : "min"}
+              </span>
+            </CardTitle>
+          </div>
 
-        <div className="block p-0">
-          <ChartContainer
-            config={{
-              time: {
-                label: "Time",
-                color: "hsl(var(--chart-2))"
-              }
-            }}
-          >
-            <AreaChart
-              accessibilityLayer
-              data={weekReadTimeData}
-              margin={{
-                left: 0,
-                right: 0,
-                top: 0,
-                bottom: 0
+          <div className="block p-0">
+            <ChartContainer
+              config={{
+                time: {
+                  label: "Time",
+                  color: "hsl(var(--chart-2))"
+                }
               }}
             >
-              <XAxis dataKey="date" hide />
-              <YAxis domain={["dataMin - 5", "dataMax + 2"]} hide />
-              <defs>
-                <linearGradient id="fillTime" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-time)" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="var(--color-time)" stopOpacity={0.1} />
-                </linearGradient>
-              </defs>
-              <Area
-                dataKey="time"
-                type="monotone"
-                fill="url(#fillTime)"
-                fillOpacity={0.4}
-                stroke="var(--color-time)"
-              />
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel />}
-                formatter={(value) => (
-                  <div className="flex min-w-[120px] flex-col items-start text-xs text-muted-foreground">
-                    Temps de lecture
-                    <div className="flex gap-0.5 text-left font-mono font-medium tabular-nums text-foreground">
-                      {value}
-                      <span className="font-normal text-muted-foreground">mins</span>
+              <AreaChart
+                accessibilityLayer
+                data={weekReadTimeData}
+                margin={{
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: 0
+                }}
+              >
+                <XAxis dataKey="date" hide />
+                <YAxis domain={["dataMin - 5", "dataMax + 2"]} hide />
+                <defs>
+                  <linearGradient id="fillTime" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--color-time)" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="var(--color-time)" stopOpacity={0.1} />
+                  </linearGradient>
+                </defs>
+                <Area
+                  dataKey="time"
+                  type="monotone"
+                  fill="url(#fillTime)"
+                  fillOpacity={0.4}
+                  stroke="var(--color-time)"
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                  formatter={(value) => (
+                    <div className="flex min-w-[120px] flex-col items-start text-xs text-muted-foreground">
+                      Temps de lecture
+                      <div className="flex gap-0.5 text-left font-mono font-medium tabular-nums text-foreground">
+                        {value}
+                        <span className="font-normal text-muted-foreground">mins</span>
+                      </div>
                     </div>
-                  </div>
-                )}
-              />
-            </AreaChart>
-          </ChartContainer>
+                  )}
+                />
+              </AreaChart>
+            </ChartContainer>
+          </div>
         </div>
-      </div>
+      )}
 
       {readingRepartition?.length > 0 && (
         <div className="flex flex-col gap-2 rounded-lg border">
@@ -191,73 +201,75 @@ const StatisticsClient = ({
         </div>
       )}
 
-      <div className="flex flex-col gap-2 rounded-lg border p-6">
-        <div className="space-y-0 lg:pb-2">
-          <CardDescription>
-            {weeklySummaryReads > 1 ? "Résumés lus cette semaine" : "Résumé lu cette semaine"}
-          </CardDescription>
-          <CardTitle className="text-4xl tabular-nums">
-            {weeklySummaryReads}{" "}
-            <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
-              {weeklySummaryReads > 1 ? "résumés" : "résumé"}
-            </span>
-          </CardTitle>
-        </div>
+      {weekReadsData?.length > 0 && weeklySummaryReads > 0 && (
+        <div className="flex flex-col gap-2 rounded-lg border p-6">
+          <div className="space-y-0 lg:pb-2">
+            <CardDescription>
+              {weeklySummaryReads > 1 ? "Résumés lus cette semaine" : "Résumé lu cette semaine"}
+            </CardDescription>
+            <CardTitle className="text-4xl tabular-nums">
+              {weeklySummaryReads}{" "}
+              <span className="font-sans text-sm font-normal tracking-normal text-muted-foreground">
+                {weeklySummaryReads > 1 ? "résumés" : "résumé"}
+              </span>
+            </CardTitle>
+          </div>
 
-        <div className="block">
-          <ChartContainer
-            config={{
-              reads: {
-                label: "Résumés",
-                color: "hsl(var(--chart-1))"
-              }
-            }}
-          >
-            <BarChart
-              accessibilityLayer
-              margin={{
-                left: -4,
-                right: -4
-              }}
-              data={weekReadsData}
-            >
-              <Bar
-                dataKey="reads"
-                fill="var(--color-reads)"
-                radius={5}
-                fillOpacity={0.6}
-                activeBar={<Rectangle fillOpacity={0.8} />}
-              />
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={4}
-                tickFormatter={(value) => {
-                  return new Date(value).toLocaleDateString("fr", {
-                    weekday: "short"
-                  });
-                }}
-              />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    hideIndicator
-                    labelFormatter={(value) => {
-                      return new Date(value).toLocaleDateString("fr", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric"
-                      });
-                    }}
-                  />
+          <div className="block">
+            <ChartContainer
+              config={{
+                reads: {
+                  label: "Résumés",
+                  color: "hsl(var(--chart-1))"
                 }
-                cursor={false}
-              />
-            </BarChart>
-          </ChartContainer>
+              }}
+            >
+              <BarChart
+                accessibilityLayer
+                margin={{
+                  left: -4,
+                  right: -4
+                }}
+                data={weekReadsData}
+              >
+                <Bar
+                  dataKey="reads"
+                  fill="var(--color-reads)"
+                  radius={5}
+                  fillOpacity={0.6}
+                  activeBar={<Rectangle fillOpacity={0.8} />}
+                />
+                <XAxis
+                  dataKey="date"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={4}
+                  tickFormatter={(value) => {
+                    return new Date(value).toLocaleDateString("fr", {
+                      weekday: "short"
+                    });
+                  }}
+                />
+                <ChartTooltip
+                  content={
+                    <ChartTooltipContent
+                      hideIndicator
+                      labelFormatter={(value) => {
+                        return new Date(value).toLocaleDateString("fr", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric"
+                        });
+                      }}
+                    />
+                  }
+                  cursor={false}
+                />
+              </BarChart>
+            </ChartContainer>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

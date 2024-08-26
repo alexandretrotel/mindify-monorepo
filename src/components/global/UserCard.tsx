@@ -15,14 +15,10 @@ const UserCard = ({ user, userPicture }: { user: User; userPicture: string }) =>
         <div>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Avatar className="h-6 w-6">
-                <AvatarImage src={userPicture ?? ""} alt={user?.user_metadata?.name} />
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={userPicture} alt={user?.user_metadata?.name} />
                 <AvatarFallback>
-                  {user?.user_metadata?.name ? (
-                    user?.user_metadata?.name?.charAt(0)
-                  ) : (
-                    <UserRoundIcon className="h-4 w-4" />
-                  )}
+                  <UserRoundIcon className="h-4 w-4" />
                 </AvatarFallback>
               </Avatar>
 

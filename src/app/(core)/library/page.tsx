@@ -1,19 +1,10 @@
 import Library from "@/components/features/library/Library";
 import LibrarySkeleton from "@/components/features/library/skeleton/LibrarySkeleton";
-import type { SummaryStatus } from "@/types/summary";
-import type { Enums } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
-import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 
-const LibraryPage = async ({
-  searchParams
-}: Readonly<{
-  searchParams: { search: string; topic: string; source: Enums<"source">; status: SummaryStatus };
-}>) => {
-  const { search, topic, source, status } = searchParams;
-
+const LibraryPage = async () => {
   const supabase = createClient();
 
   const {
@@ -24,13 +15,7 @@ const LibraryPage = async ({
 
   return (
     <Suspense fallback={<LibrarySkeleton />}>
-      <Library
-        initialSearch={search}
-        initialTopic={topic}
-        initialSource={source}
-        initialStatus={status}
-        userId={userId}
-      />
+      <Library userId={userId} />
     </Suspense>
   );
 };

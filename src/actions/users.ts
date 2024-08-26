@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { UUID } from "crypto";
-import type { User, UserMetadata } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 import { summary } from "date-streaks";
 import type { Tables } from "@/types/supabase";
 import { createAdminClient } from "@/utils/supabase/admin";
@@ -134,6 +134,17 @@ export async function userUpdateAvatar(formData: FormData, userId: UUID) {
 
   if (!avatarUrl) {
     throw new Error("Impossible d'obtenir l'URL publique de l'avatar.");
+  }
+
+  const { error: updateAvatarUrlError } = await supabase.auth.updateUser({
+    data: {
+      custom_avatar: avatarUrl.publicUrl
+    }
+  });
+
+  if (updateAvatarUrlError) {
+    console.error(updateAvatarUrlError);
+    throw new Error("Impossible de mettre à jour l'URL de l'avatar.");
   }
 
   revalidatePath("/", "layout");
@@ -277,66 +288,6 @@ export async function getUserSummariesFromLibrary(userId: UUID) {
   })[];
 
   return userLibrarySummaries;
-}
-
-export async function getUserCustomAvatar(userId: UUID, userMetadata: UserMetadata) {
-  const supabase = createClient();
-
-  const fileName = `${userId}.webp`;
-
-  const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
-
-  let avatarUrlString: string;
-  if (!avatarUrl) {
-    avatarUrlString = userMetadata?.picture_url;
-  } else {
-    avatarUrlString = avatarUrl?.publicUrl;
-  }
-
-  return avatarUrlString;
-}
-
-export async function getUserCustomAvatarFromUserId(userId: UUID) {
-  const supabaseAdmin = createAdminClient();
-
-  const { data: userData } = await supabaseAdmin.auth.admin.getUserById(userId);
-
-  const supabase = createClient();
-
-  const fileName = `${userId}.webp`;
-
-  const { data } = await supabase.storage.from("avatars").list("", {
-    search: fileName
-  });
-
-  if (data?.length === 0) {
-    return userData?.user?.user_metadata?.picture ?? userData?.user?.user_metadata?.avatar_url;
-  }
-
-  const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
-
-  return avatarUrl?.publicUrl;
-}
-
-export async function getStorageAvatar(
-  userId: UUID,
-  profileMetadata: UserMetadata
-): Promise<string> {
-  const supabase = createClient();
-
-  const fileName = `${userId}.webp`;
-
-  const { data } = await supabase.storage.from("avatars").list("", {
-    search: fileName
-  });
-
-  if (data?.length === 0) {
-    return profileMetadata?.picture ?? profileMetadata?.avatar_url;
-  }
-
-  const { data: avatarUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
-
-  return avatarUrl?.publicUrl;
 }
 
 const removeDuplicates = (array: any[]) => {

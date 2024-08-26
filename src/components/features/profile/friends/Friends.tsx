@@ -1,8 +1,9 @@
 import React from "react";
 import { getFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
-import { getUserCustomAvatarFromUserId } from "@/actions/users";
+import { getAvatar } from "@/utils/users";
 import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
+import type { UserMetadata } from "@supabase/supabase-js";
 
 const Friends = async ({
   profileId,
@@ -23,12 +24,11 @@ const Friends = async ({
 
   const friends = await getFriendsData(profileId);
 
-  const friendsPicture = await Promise.all(
-    friends?.map(async (friend) => {
-      const picture = await getUserCustomAvatarFromUserId(friend?.id as UUID);
+  const friendsPicture =
+    friends?.map((friend) => {
+      const picture = getAvatar(friend?.user_metadata as UserMetadata);
       return picture;
-    }) ?? []
-  );
+    }) ?? [];
 
   if (!friends || friends?.length === 0) {
     return (

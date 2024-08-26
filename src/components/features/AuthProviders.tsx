@@ -72,6 +72,20 @@ export default function AuthProviders({ isSignup }: Readonly<{ isSignup: boolean
     <div className="grid gap-4">
       <form action={handleSignUpOrSignIn} className="grid gap-4" method="post">
         <div className="grid gap-4">
+          {isSignup && (
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="firstName">Prénom</Label>
+                <Input id="firstName" type="text" name="firstName" placeholder="Jean" required />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="lastName">Nom</Label>
+                <Input id="lastName" type="text" name="lastName" placeholder="Dupont" required />
+              </div>
+            </div>
+          )}
+
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" type="email" name="email" placeholder="jean@mindify.fr" required />

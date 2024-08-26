@@ -33,14 +33,38 @@ const formDataSchema = z.object({
     .regex(/\d/, "Le mot de passe doit contenir au moins un chiffre")
 });
 
+const formDataSignupSchema = z.object({
+  email: z
+    .string({
+      invalid_type_error: "Adresse e-mail invalide"
+    })
+    .email(),
+  password: z
+    .string({
+      invalid_type_error: "Mot de passe invalide"
+    })
+    .min(8, "Le mot de passe doit contenir au moins 8 caractères")
+    .max(100, "Le mot de passe ne doit pas dépasser 100 caractères")
+    .regex(/[a-z]/, "Le mot de passe doit contenir au moins une minuscule")
+    .regex(/\d/, "Le mot de passe doit contenir au moins un chiffre"),
+  firstName: z.string({
+    invalid_type_error: "Prénom invalide"
+  }),
+  lastName: z.string({
+    invalid_type_error: "Nom invalide"
+  })
+});
+
 export async function signUpWithPassword(formData: FormData) {
   const supabase = createClient();
 
   let data;
   try {
-    data = formDataSchema.parse({
+    data = formDataSignupSchema.parse({
       email: formData.get("email") as string,
-      password: formData.get("password") as string
+      password: formData.get("password") as string,
+      firstName: formData.get("firstName") as string,
+      lastName: formData.get("lastName") as string
     });
   } catch (error) {
     console.error(error);
@@ -49,7 +73,15 @@ export async function signUpWithPassword(formData: FormData) {
 
   const { error } = await supabase.auth.signUp({
     email: data.email,
-    password: data.password
+    password: data.password,
+    options: {
+      data: {
+        first_name: data.firstName,
+        last_name: data.lastName,
+        name: `${data.firstName} ${data.lastName}`,
+        full_name: `${data.firstName} ${data.lastName}`
+      }
+    }
   });
 
   if (error) {

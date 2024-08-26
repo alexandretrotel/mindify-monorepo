@@ -5,9 +5,8 @@ import Account from "@/components/global/Account";
 import React from "react";
 import type { UserMetadata } from "@supabase/supabase-js";
 import type { UUID } from "crypto";
-import { AccountCategory } from "@/types/account";
 import type { Tables } from "@/types/supabase";
-import { Tab } from "@/app/(core)/my-account/page";
+import { useSearchParams } from "next/navigation";
 
 const MyAccountClient = ({
   userId,
@@ -15,16 +14,34 @@ const MyAccountClient = ({
   topics,
   userTopics,
   userPicture,
-  initialTab
+  tabs
 }: {
   userId: UUID;
   userMetadata: UserMetadata;
   topics: Tables<"topics">[];
   userTopics: Tables<"topics">[];
   userPicture: string;
-  initialTab?: Tab;
+  tabs: {
+    key: string;
+    label: string;
+    icon: JSX.Element;
+    disabled: boolean;
+  }[];
 }) => {
-  const [category, setCategory] = React.useState<AccountCategory>("profile");
+  const searchParams = useSearchParams();
+  let tab = searchParams?.get("tab") as string | undefined;
+  if (!tabs.some((t) => t.key === tab)) {
+    tab = tabs[0].key;
+  }
+  const initialTab = tab ?? tabs[0].key;
+
+  const [category, setCategory] = React.useState<string>(initialTab);
+
+  React.useEffect(() => {
+    if (!tabs.some((t) => t.key === category)) {
+      setCategory(tabs[0].key);
+    }
+  }, [tabs]);
 
   return (
     <Account
@@ -35,7 +52,7 @@ const MyAccountClient = ({
       topics={topics}
       userTopics={userTopics}
       userPicture={userPicture}
-      initialTab={initialTab}
+      tabs={tabs}
     />
   );
 };

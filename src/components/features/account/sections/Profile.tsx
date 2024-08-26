@@ -26,7 +26,7 @@ export default function AccountProfile({
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col">
-        <H3Span>Profil</H3Span>
+        <H3Span>Compte</H3Span>
         <Muted size="sm">
           Renseignez les informations que les autres utilisateurs verront sur votre profil.
         </Muted>
