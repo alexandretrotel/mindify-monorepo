@@ -7,7 +7,7 @@ const UsersList = async () => {
 
   const { data: users } = await supabaseAdmin.auth.admin.listUsers();
   const usersArray = users?.users?.sort((a, b) =>
-    a?.user_metadata?.name.localeCompare(b?.user_metadata?.name)
+    a?.user_metadata?.name?.localeCompare(b?.user_metadata?.name)
   );
 
   return <UsersListClient usersArray={usersArray} />;
