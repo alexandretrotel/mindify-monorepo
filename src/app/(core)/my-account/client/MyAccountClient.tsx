@@ -5,9 +5,7 @@ import Account from "@/components/global/Account";
 import React from "react";
 import type { UserMetadata } from "@supabase/supabase-js";
 import type { UUID } from "crypto";
-import { AccountCategory } from "@/types/account";
 import type { Tables } from "@/types/supabase";
-import { Tab } from "@/app/(core)/my-account/page";
 
 const MyAccountClient = ({
   userId,
@@ -15,16 +13,22 @@ const MyAccountClient = ({
   topics,
   userTopics,
   userPicture,
-  initialTab
+  initialTab,
+  tabs
 }: {
   userId: UUID;
   userMetadata: UserMetadata;
   topics: Tables<"topics">[];
   userTopics: Tables<"topics">[];
   userPicture: string;
-  initialTab?: Tab;
+  initialTab: string;
+  tabs: {
+    key: string;
+    label: string;
+    icon: JSX.Element;
+  }[];
 }) => {
-  const [category, setCategory] = React.useState<AccountCategory>("profile");
+  const [category, setCategory] = React.useState<string>(initialTab);
 
   return (
     <Account
@@ -35,7 +39,7 @@ const MyAccountClient = ({
       topics={topics}
       userTopics={userTopics}
       userPicture={userPicture}
-      initialTab={initialTab}
+      tabs={tabs}
     />
   );
 };

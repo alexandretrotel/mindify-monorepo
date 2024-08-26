@@ -2,12 +2,10 @@ import React from "react";
 import H3Span from "@/components/typography/h3AsSpan";
 import { Separator } from "@/components/ui/separator";
 import Navigation from "@/components/features/account/Navigation";
-import type { AccountCategory } from "@/types/account";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
-import { Tab } from "@/app/(core)/my-account/page";
 
 export default function Account({
   userId,
@@ -17,16 +15,21 @@ export default function Account({
   topics,
   userTopics,
   userPicture,
-  initialTab
+  tabs
 }: Readonly<{
   userId: UUID;
   userMetadata: UserMetadata;
-  category: AccountCategory;
-  setCategory: React.Dispatch<React.SetStateAction<AccountCategory>>;
+  category: string;
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
   topics: Tables<"topics">[];
   userTopics: Tables<"topics">[];
   userPicture: string;
-  initialTab?: Tab;
+  tabs: {
+    key: string;
+    label: string;
+    icon: JSX.Element;
+    disabled: boolean;
+  }[];
 }>) {
   return (
     <div className="flex flex-col gap-8">
@@ -45,6 +48,7 @@ export default function Account({
         topics={topics}
         userTopics={userTopics}
         userPicture={userPicture}
+        tabs={tabs}
       />
     </div>
   );

@@ -2,14 +2,50 @@ import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
 import { redirect } from "next/navigation";
 import React from "react";
-import MyAccountClient from "./client/MyAccountClient";
+import MyAccountClient from "@/app/(core)/my-account/client/MyAccountClient";
 import { getUserCustomAvatar, getUserTopics } from "@/actions/users";
 import type { Tables } from "@/types/supabase";
+import { BellRingIcon, CreditCardIcon, LockIcon, SettingsIcon, UserPenIcon } from "lucide-react";
 
-export type Tab = "profile" | "subscriptions" | "notifications" | "settings";
+const tabs = [
+  {
+    key: "profile",
+    label: "Compte",
+    icon: <UserPenIcon className="h-4 w-4" />,
+    disabled: false
+  },
+  {
+    key: "subscription",
+    label: "Abonnement",
+    icon: <CreditCardIcon className="h-4 w-4" />,
+    disabled: true
+  },
+  {
+    key: "notifications",
+    label: "Notifications",
+    icon: <BellRingIcon className="h-4 w-4" />,
+    disabled: true
+  },
+  {
+    key: "security",
+    label: "Sécurité",
+    icon: <LockIcon className="h-4 w-4" />,
+    disabled: true
+  },
+  {
+    key: "settings",
+    label: "Paramètres",
+    icon: <SettingsIcon className="h-4 w-4" />,
+    disabled: false
+  }
+];
 
 const MyAccount = async ({ searchParams }: { searchParams: { tab: string | undefined } }) => {
-  const tab = searchParams?.tab as Tab;
+  let tab = searchParams?.tab as string;
+
+  if (!tabs.some((t) => t.key === tab)) {
+    tab = tabs[0].key;
+  }
 
   const supabase = createClient();
 
@@ -35,6 +71,7 @@ const MyAccount = async ({ searchParams }: { searchParams: { tab: string | undef
       userTopics={userTopics}
       userPicture={userPicture}
       initialTab={tab}
+      tabs={tabs}
     />
   );
 };
