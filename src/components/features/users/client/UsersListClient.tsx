@@ -80,7 +80,7 @@ const UsersListClient = ({ usersArray }: { usersArray: User[] }) => {
         />
       </div>
 
-      <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {paginatedUsers?.map((user) => (
           <li key={user.id}>
             <UserCard user={user} userPicture={user?.user_metadata?.picture} />
