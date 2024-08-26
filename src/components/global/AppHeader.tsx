@@ -22,10 +22,18 @@ import {
   UsersRoundIcon,
   VideoIcon
 } from "lucide-react";
-import { Separator } from "../ui/separator";
 
-const links = [
-  { href: "/", label: "Accueil" },
+const links: {
+  label: string;
+  trigger?: boolean;
+  href?: string;
+  children?: {
+    href: string;
+    label: string;
+    description: string;
+    icon: React.ReactNode;
+  }[];
+}[] = [
   {
     label: "Découvrir",
     trigger: true,
@@ -141,7 +149,7 @@ const AppHeader = ({
       <NavigationMenu className="flex w-full max-w-7xl items-center justify-between">
         <NavigationMenuList>
           {links?.map((link) => (
-            <NavigationMenuItem key={link.href}>
+            <NavigationMenuItem key={link.label}>
               {link.trigger ? (
                 <React.Fragment>
                   <NavigationMenuTrigger>{link.label}</NavigationMenuTrigger>
@@ -153,7 +161,7 @@ const AppHeader = ({
                           href={child.href}
                           title={child.label}
                           icon={child.icon}
-                          lastItem={index === link?.children?.length - 1}
+                          lastItem={index === (link?.children?.length as number) - 1}
                         >
                           {child.description}
                         </ListItem>
@@ -162,7 +170,7 @@ const AppHeader = ({
                   </NavigationMenuContent>
                 </React.Fragment>
               ) : (
-                <Link key={link.href} href={link.href ?? ""} legacyBehavior passHref>
+                <Link key={link.label} href={link?.href ?? ""} legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     {link.label}
                   </NavigationMenuLink>

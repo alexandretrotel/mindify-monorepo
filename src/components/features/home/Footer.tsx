@@ -10,6 +10,10 @@ import { Muted } from "@/components/typography/muted";
 import Semibold from "@/components/typography/semibold";
 
 const navigation = {
+  "learn-more": [
+    { name: "À propos", href: "/about" },
+    { name: "Roadmap", href: "/roadmap" }
+  ],
   support: [
     { name: "Signaler un problème", href: "/support/report" },
     { name: "Demander une fonctionnalité", href: "/support/request" }
@@ -78,7 +82,7 @@ export default function Footer() {
   return (
     <footer aria-labelledby="footer-heading">
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
-        <div className="flex flex-col items-start justify-between gap-8 md:flex-row">
+        <div className="flex flex-col items-start justify-between gap-16 md:flex-row">
           <div className="flex max-w-sm flex-col gap-4">
             <Link href="/" className="flex items-center gap-2">
               <Image src={Logo} alt="Mindify" width={32} height={32} />
@@ -102,7 +106,24 @@ export default function Footer() {
               </div>
             )}
           </div>
-          <div className="flex flex-col items-start gap-8 md:flex-row md:gap-16">
+
+          <div className="flex w-full flex-col items-start justify-evenly gap-8 md:flex-row md:gap-16">
+            <div className="flex flex-col gap-4">
+              <Semibold>À propos</Semibold>
+              <ul className="flex flex-col gap-4">
+                {navigation["learn-more"].map((item) => (
+                  <li key={item.name}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-muted-foreground hover:text-black dark:hover:text-white"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <div className="flex flex-col gap-4">
               <Semibold>Support</Semibold>
               <ul className="flex flex-col gap-4">
