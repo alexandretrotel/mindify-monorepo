@@ -21,7 +21,7 @@ const CopyProfileLink = ({ userId, userName }: { userId: UUID; userName: string 
   const handleCopyLink = () => {
     if (isNavigatorShareSupported) {
       navigator.share({
-        title: `Partager le profil de ${userName}`,
+        title: `Profil de ${userName}`,
         text: `Découvrez le profil de ${userName} sur Mindify, l'application pour développer votre esprit.`,
         url: `${origin}/profile/${userId}`
       });
@@ -45,7 +45,7 @@ const CopyProfileLink = ({ userId, userName }: { userId: UUID; userName: string 
   };
 
   return (
-    <Button size="sm" variant="outline">
+    <Button size="sm" variant="outline" onClick={handleCopyLink}>
       Partager le profil
     </Button>
   );

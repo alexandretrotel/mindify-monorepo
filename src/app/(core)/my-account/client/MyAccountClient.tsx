@@ -26,6 +26,7 @@ const MyAccountClient = ({
     key: string;
     label: string;
     icon: JSX.Element;
+    disabled: boolean;
   }[];
 }) => {
   const [category, setCategory] = React.useState<string>(initialTab);

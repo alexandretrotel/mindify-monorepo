@@ -267,7 +267,11 @@ const Page = async ({
                         </div>
                       </div>
 
-                      <Muted size="sm">{profileMetadata?.biography ?? "Aucune biographie"}</Muted>
+                      <Muted size="sm">
+                        {profileMetadata?.biography && profileMetadata?.biography?.length > 0
+                          ? profileMetadata?.biography
+                          : "Aucune biographie"}
+                      </Muted>
                     </div>
                   </div>
                 </div>
