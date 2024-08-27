@@ -22,6 +22,13 @@ import type { Metadata } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
+import BorderTabs from "@/components/global/BorderTabs";
+import AuthorDescriptionMobile from "@/components/features/summary/author/AuthorDescriptionMobile";
+import AuthorDescriptionMobileSkeleton from "@/components/features/summary/author/skeleton/AuthorDescriptionMobileSkeleton";
+import SummaryMindsMobileSkeleton from "@/components/features/summary/minds/skeleton/SummaryMindsMobileSkeleton";
+import SummaryMindsMobile from "@/components/features/summary/minds/SummaryMindsMobile";
+import TableOfContentsMobile from "@/components/features/summary/table-of-contents/TableOfContentsMobile";
+import TableOfContentsMobileSkeleton from "@/components/features/summary/table-of-contents/skeleton/TableOfContentsMobileSkeleton";
 
 export async function generateMetadata({
   params
@@ -98,7 +105,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
               </Suspense>
 
               <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center">
                   {isConnected && (
                     <Suspense fallback={<AddToLibraryButtonSkeleton />}>
                       <AddToLibraryButton summaryId={summary?.id} userId={userId} />
@@ -110,8 +117,58 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
               </div>
             </div>
 
-            <div className="flex w-full flex-col justify-between gap-8 lg:flex-row lg:gap-16">
-              <div className="order-2 flex max-w-3xl flex-col gap-8 lg:order-1 lg:min-w-0 lg:grow">
+            <div className="flex flex-col gap-8 md:hidden">
+              <BorderTabs
+                elements={[
+                  { label: "Résumé", value: "summary" },
+                  { label: "Auteur", value: "author" },
+                  { label: "MINDS", value: "minds" }
+                ]}
+              >
+                <div className="flex flex-col">
+                  <div className="flex flex-col gap-8">
+                    <Suspense fallback={<TableOfContentsMobileSkeleton />}>
+                      <TableOfContentsMobile chapters={summary?.chapters} />
+                    </Suspense>
+
+                    <Suspense fallback={<ChaptersSkeleton />}>
+                      <Chapters
+                        chapters={summary?.chapters}
+                        introduction={summary?.introduction}
+                        conclusion={summary?.conclusion}
+                        isConnected={isConnected}
+                      />
+                    </Suspense>
+
+                    {isConnected && (
+                      <div className="flex flex-col gap-4">
+                        <div className="w-full md:w-fit">
+                          <Suspense fallback={<MarkAsReadButtonSkeleton />}>
+                            <MarkAsReadButton summaryId={summary?.id} userId={userId} />
+                          </Suspense>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <Suspense fallback={<AuthorDescriptionMobileSkeleton />}>
+                  <AuthorDescriptionMobile author={summary?.authors} />
+                </Suspense>
+
+                <Suspense fallback={<SummaryMindsMobileSkeleton />}>
+                  <SummaryMindsMobile
+                    summaryId={summary?.id}
+                    userId={userId}
+                    isConnected={isConnected}
+                    userName={user?.user_metadata?.name as string}
+                  />
+                </Suspense>
+              </BorderTabs>
+            </div>
+
+            <div className="hidden w-full flex-row justify-between gap-16 lg:flex">
+              <div className="flex min-w-0 max-w-3xl grow flex-col gap-8">
                 <Suspense fallback={<ChaptersSkeleton />}>
                   <Chapters
                     chapters={summary?.chapters}
@@ -133,8 +190,8 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
               </div>
 
               {isConnected && (
-                <div className="relative order-1 w-full lg:order-2 lg:max-w-md">
-                  <div className="w-full lg:sticky lg:right-0 lg:top-0 lg:pt-8">
+                <div className="relative w-full lg:max-w-md">
+                  <div className="sticky right-0 top-0 w-full pt-8">
                     <div className="flex w-full flex-col gap-8">
                       <Suspense fallback={<TableOfContentsSkeleton />}>
                         <TableOfContents chapters={summary?.chapters} />
@@ -151,7 +208,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
           </div>
 
           {isConnected && (
-            <div className="flex flex-col gap-8">
+            <div className="hidden flex-col gap-8 lg:flex">
               <Suspense fallback={<SummaryMindsSkeleton />}>
                 <SummaryMinds
                   summaryId={summary?.id}
