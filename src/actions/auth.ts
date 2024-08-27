@@ -158,10 +158,12 @@ export async function signOut() {
   revalidatePath("/", "layout");
 }
 
-export async function resetPassword(email: string) {
+export async function resetPassword(email: string, origin: string) {
   const supabase = createClient();
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email);
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${origin}/my-account?tab=security`
+  });
 
   if (error) {
     console.error(error);

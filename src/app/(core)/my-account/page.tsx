@@ -55,7 +55,6 @@ const MyAccount = async () => {
 
   const userId = user?.id as UUID;
   const userMetadata = user?.user_metadata;
-  const userEmail = user?.email as string;
 
   const { data: topicsData } = await supabase.from("topics").select("*");
 
@@ -70,7 +69,6 @@ const MyAccount = async () => {
       userTopics={userTopics}
       userPicture={userPicture}
       tabs={tabs}
-      userEmail={userEmail}
     />
   );
 };

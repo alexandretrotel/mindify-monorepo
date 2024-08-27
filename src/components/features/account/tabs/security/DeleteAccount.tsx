@@ -72,7 +72,7 @@ const DeleteAccount = ({ userId }: { userId: UUID }) => {
                 variant="destructive"
                 onClick={handleDeleteAccount}
                 disabled={isUpdating}
-                className="flex w-fit items-center gap-1"
+                className="flex items-center gap-1"
               >
                 {isUpdating && <Loader2Icon className="h-3 w-3 animate-spin" />}
                 Supprimer

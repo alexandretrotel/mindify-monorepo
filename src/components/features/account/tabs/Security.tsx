@@ -6,10 +6,7 @@ import DeleteAccount from "@/components/features/account/tabs/security/DeleteAcc
 import type { UUID } from "crypto";
 import ChangePassword from "@/components/features/account/tabs/security/ChangePassword";
 
-export default function AccountSecurity({
-  userId,
-  userEmail
-}: Readonly<{ userId: UUID; userEmail: string }>) {
+export default function AccountSecurity({ userId }: Readonly<{ userId: UUID }>) {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col">
@@ -22,7 +19,7 @@ export default function AccountSecurity({
       <Separator className="max-w-lg" />
 
       <div className="flex max-w-lg flex-col gap-8">
-        <ChangePassword userEmail={userEmail} />
+        <ChangePassword />
         <DeleteAccount userId={userId} />
       </div>
     </div>
