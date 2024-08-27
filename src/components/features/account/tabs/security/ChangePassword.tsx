@@ -8,55 +8,15 @@ import { Button } from "@/components/ui/button";
 import { Muted } from "@/components/typography/muted";
 import { useToast } from "@/components/ui/use-toast";
 import Span from "@/components/typography/span";
-import { createClient } from "@/utils/supabase/client";
-import { resetPassword, updatePassword } from "@/actions/auth";
-import { set } from "date-fns";
+import { updatePassword } from "@/actions/auth";
 import { Loader2Icon } from "lucide-react";
 
-const ChangePassword = ({ userEmail }: { userEmail: string }) => {
+const ChangePassword = () => {
   const [newPassword, setNewPassword] = React.useState<string | undefined>(undefined);
   const [confirmPassword, setConfirmPassword] = React.useState<string | undefined>(undefined);
-  const [inResetFlow, setInResetFlow] = React.useState<boolean>(false);
   const [isUpdating, setIsUpdating] = React.useState<boolean>(false);
-  const [origin, setOrigin] = React.useState<string | undefined>(undefined);
 
   const { toast } = useToast();
-
-  const supabase = createClient();
-
-  React.useEffect(() => {
-    setOrigin(window.location.origin);
-  }, []);
-
-  React.useEffect(() => {
-    supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event == "PASSWORD_RECOVERY") {
-        setInResetFlow(true);
-      }
-    });
-  }, [supabase, toast]);
-
-  const handleResetPassword = async () => {
-    setIsUpdating(true);
-
-    try {
-      await resetPassword(userEmail, origin as string);
-    } catch (error) {
-      console.error("Error updating user:", error);
-      toast({
-        title: "Erreur",
-        description: "Une erreur est survenue lors de la mise à jour de votre mot de passe.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsUpdating(false);
-    }
-
-    toast({
-      title: "Mail de réinitialisation envoyé",
-      description: "Un email de réinitialisation de mot de passe a été envoyé à votre adresse."
-    });
-  };
 
   const handleChangePassword = async () => {
     if (!newPassword || !confirmPassword || newPassword !== confirmPassword) {
@@ -83,32 +43,6 @@ const ChangePassword = ({ userEmail }: { userEmail: string }) => {
       description: "Votre mot de passe a été modifié avec succès."
     });
   };
-
-  if (!inResetFlow) {
-    return (
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col">
-          <Label htmlFor="old-password" className="flex items-center gap-2 text-sm font-medium">
-            Mot de passe
-          </Label>
-
-          <Muted size="sm">Vous allez reçevoir un email de réinitialisation de mot de passe.</Muted>
-        </div>
-
-        <div>
-          <Button
-            size="sm"
-            className="flex items-center gap-1"
-            onClick={handleResetPassword}
-            disabled={isUpdating}
-          >
-            {isUpdating && <Loader2Icon className="h-3 w-3 animate-spin" />}
-            Réinitialiser mon mot de passe
-          </Button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col gap-4">

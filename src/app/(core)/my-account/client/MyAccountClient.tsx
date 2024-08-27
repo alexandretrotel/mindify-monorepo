@@ -14,8 +14,7 @@ const MyAccountClient = ({
   topics,
   userTopics,
   userPicture,
-  tabs,
-  userEmail
+  tabs
 }: {
   userId: UUID;
   userMetadata: UserMetadata;
@@ -28,7 +27,6 @@ const MyAccountClient = ({
     icon: JSX.Element;
     disabled: boolean;
   }[];
-  userEmail: string;
 }) => {
   const searchParams = useSearchParams();
   let tab = searchParams?.get("tab") as string | undefined;
@@ -55,7 +53,6 @@ const MyAccountClient = ({
       userTopics={userTopics}
       userPicture={userPicture}
       tabs={tabs}
-      userEmail={userEmail}
     />
   );
 };

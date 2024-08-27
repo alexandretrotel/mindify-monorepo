@@ -13,8 +13,7 @@ export default function AccountCategories({
   category,
   topics,
   userTopics,
-  userPicture,
-  userEmail
+  userPicture
 }: Readonly<{
   userId: UUID;
   userMetadata: UserMetadata;
@@ -22,7 +21,6 @@ export default function AccountCategories({
   topics: Tables<"topics">[];
   userTopics: Tables<"topics">[];
   userPicture: string;
-  userEmail: string;
 }>) {
   if (category === "profile") {
     return (
@@ -45,7 +43,7 @@ export default function AccountCategories({
   }
 
   if (category === "security") {
-    return <AccountSecurity userId={userId} userEmail={userEmail} />;
+    return <AccountSecurity userId={userId} />;
   }
 
   if (category === "settings") {

@@ -3,7 +3,6 @@ import {
   NavigationMenuItem,
   NavigationMenuList
 } from "@/components/ui/navigation-menu";
-import { BellRingIcon, CreditCardIcon, SettingsIcon, UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AccountCategories from "@/components/features/account/Categories";
 import type { UserMetadata } from "@supabase/supabase-js";
@@ -18,8 +17,7 @@ export default function Navigation({
   topics,
   userTopics,
   userPicture,
-  tabs,
-  userEmail
+  tabs
 }: Readonly<{
   userId: UUID;
   userMetadata: UserMetadata;
@@ -34,7 +32,6 @@ export default function Navigation({
     icon: JSX.Element;
     disabled: boolean;
   }[];
-  userEmail: string;
 }>) {
   return (
     <div className="flex flex-col gap-8 md:flex-row md:gap-4">
@@ -67,7 +64,6 @@ export default function Navigation({
           topics={topics}
           userTopics={userTopics}
           userPicture={userPicture}
-          userEmail={userEmail}
         />
       </div>
     </div>

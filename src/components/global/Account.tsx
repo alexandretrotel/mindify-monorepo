@@ -15,8 +15,7 @@ export default function Account({
   topics,
   userTopics,
   userPicture,
-  tabs,
-  userEmail
+  tabs
 }: Readonly<{
   userId: UUID;
   userMetadata: UserMetadata;
@@ -31,7 +30,6 @@ export default function Account({
     icon: JSX.Element;
     disabled: boolean;
   }[];
-  userEmail: string;
 }>) {
   return (
     <div className="flex flex-col gap-8">
@@ -51,7 +49,6 @@ export default function Account({
         userTopics={userTopics}
         userPicture={userPicture}
         tabs={tabs}
-        userEmail={userEmail}
       />
     </div>
   );
