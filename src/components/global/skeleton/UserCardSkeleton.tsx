@@ -3,9 +3,9 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const UserCardSkeleton = () => {
+const UserCardSkeleton = ({ heightFull }: { heightFull?: boolean }) => {
   return (
-    <Card>
+    <Card className={`${heightFull ? "h-full" : ""}`}>
       <div className="flex h-full flex-col justify-between">
         <div>
           <CardHeader>

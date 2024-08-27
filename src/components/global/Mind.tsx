@@ -16,7 +16,8 @@ const Mind = ({
   initialIsSaved,
   userId,
   isConnected,
-  userName
+  userName,
+  heightFull
 }: {
   mind: Tables<"minds"> & {
     summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
@@ -25,6 +26,7 @@ const Mind = ({
   userId: UUID;
   isConnected: boolean;
   userName: string;
+  heightFull?: boolean;
 }) => {
   const [isSaved, setIsSaved] = useState(initialIsSaved);
   const [isNavigatorShareSupported, setIsNavigatorShareSupported] = useState<boolean>(false);
@@ -97,7 +99,9 @@ const Mind = ({
   };
 
   return (
-    <div className="flex flex-col justify-between gap-4 rounded-lg border p-6">
+    <div
+      className={`flex flex-col justify-between gap-4 rounded-lg border p-6 ${heightFull ? "h-full" : ""}`}
+    >
       <div className="flex flex-col gap-6">
         <div className="flex flex-col">
           <H4Span>{mind?.summaries?.title}</H4Span>

@@ -49,7 +49,7 @@ const LibrarySkeleton = async () => {
 
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
         {[...Array(8)].map((_, index) => (
-          <BookCoverSkeleton key={index} />
+          <BookCoverSkeleton key={index} heightFull />
         ))}
       </div>
     </div>

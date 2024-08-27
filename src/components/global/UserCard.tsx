@@ -8,9 +8,17 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { UserRoundIcon } from "lucide-react";
 
-const UserCard = ({ user, userPicture }: { user: User; userPicture: string }) => {
+const UserCard = ({
+  user,
+  userPicture,
+  heightFull
+}: {
+  user: User;
+  userPicture: string;
+  heightFull?: boolean;
+}) => {
   return (
-    <Card>
+    <Card className={`${heightFull ? "h-full" : ""}`}>
       <div className="flex h-full flex-col justify-between">
         <div>
           <CardHeader>

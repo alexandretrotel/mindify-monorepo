@@ -15,7 +15,8 @@ const BookCover = ({
   source,
   image,
   authorSlug,
-  summarySlug
+  summarySlug,
+  heightFull
 }: {
   title: string;
   author: string;
@@ -24,10 +25,16 @@ const BookCover = ({
   image: string | undefined;
   authorSlug: string;
   summarySlug: string;
+  heightFull?: boolean;
 }) => {
   return (
-    <Link href={`/summary/${authorSlug}/${summarySlug}`}>
-      <div className="w-full overflow-hidden rounded-lg border hover:border-primary active:border-black">
+    <Link
+      href={`/summary/${authorSlug}/${summarySlug}`}
+      className={`${heightFull ? "h-full" : ""}`}
+    >
+      <div
+        className={`w-full overflow-hidden rounded-lg border hover:border-primary active:border-black ${heightFull ? "h-full" : ""}`}
+      >
         {image ? (
           <Image
             src={image}
