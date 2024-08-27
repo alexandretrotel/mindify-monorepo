@@ -1,7 +1,6 @@
 import React from "react";
 import { getFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
-import { getAvatar } from "@/utils/users";
 import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { User } from "@supabase/supabase-js";
@@ -17,16 +16,14 @@ const getCommonOrPendingFriends = async (
   const userFriends = await getFriendsData(userId);
 
   if (!isMyProfile) {
-    const commonFriends = profileFriends?.friendsData.filter((friend) => {
+    const commonFriends = profileFriends?.friendsData?.filter((friend) => {
       return userFriends?.friendsData?.find((userFriend) => userFriend?.id === friend?.id);
     });
-
     return commonFriends;
+  } else {
+    const pendingFriends = userFriends?.askedFriendsData;
+    return pendingFriends;
   }
-
-  const pendingFriends = userFriends?.askedFriendsData;
-
-  return pendingFriends;
 };
 
 const Friends = async ({
@@ -50,16 +47,14 @@ const Friends = async ({
     );
   }
 
-  const friends = await getFriendsData(profileId);
-  const commonOrPendingFriends = await getCommonOrPendingFriends(profileId, friends, isMyProfile);
+  const profileFriends = await getFriendsData(profileId);
+  const commonOrPendingFriends = await getCommonOrPendingFriends(
+    userId,
+    profileFriends,
+    isMyProfile
+  );
 
-  const friendsPicture =
-    friends?.friendsData?.map((friend) => {
-      const picture = getAvatar(friend?.user_metadata);
-      return picture;
-    }) ?? [];
-
-  if (!friends || friends?.friendsData?.length === 0) {
+  if (!profileFriends || profileFriends?.friendsData?.length === 0) {
     return (
       <div className="flex h-72 flex-col items-center justify-center gap-4 text-center text-2xl font-semibold">
         Aucun ami
@@ -77,12 +72,12 @@ const Friends = async ({
 
       <div className="flex flex-col">
         <TabsContent value="all">
-          <FriendsClient friends={friends?.friendsData} friendsPicture={friendsPicture} />
+          <FriendsClient friends={profileFriends?.friendsData} />
         </TabsContent>
 
         {!isMyProfile && (
           <TabsContent value="common">
-            <FriendsClient friends={commonOrPendingFriends} friendsPicture={friendsPicture} />
+            <FriendsClient friends={commonOrPendingFriends} />
           </TabsContent>
         )}
 
@@ -90,7 +85,6 @@ const Friends = async ({
           <TabsContent value="pending">
             <FriendsClient
               friends={commonOrPendingFriends}
-              friendsPicture={friendsPicture}
               cancelFriendRequestObject={
                 isMyProfile && {
                   userId,

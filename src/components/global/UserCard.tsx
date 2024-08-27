@@ -42,7 +42,9 @@ const UserCard = ({
     displayButton: boolean;
   };
 }) => {
-  const [friendStatus, setFriendStatus] = React.useState<FriendStatus>("none");
+  const [friendStatus, setFriendStatus] = React.useState<FriendStatus>(
+    cancelFriendRequestObject?.displayButton ? "pending" : "none"
+  );
 
   const { toast } = useToast();
 
@@ -67,7 +69,7 @@ const UserCard = ({
     }
   };
 
-  if (cancelFriendRequestObject?.displayButton && friendStatus !== "pending") {
+  if (cancelFriendRequestObject?.displayButton && friendStatus === "none") {
     return null;
   }
 

@@ -13,16 +13,15 @@ import {
   PaginationPrevious
 } from "@/components/ui/pagination";
 import type { UUID } from "crypto";
+import { getAvatar } from "@/utils/users";
 
 const itemsPerPage = 8;
 
 const FriendsClient = ({
   friends,
-  friendsPicture,
   cancelFriendRequestObject
 }: {
   friends: User[];
-  friendsPicture: string[];
   cancelFriendRequestObject?: {
     userId: UUID;
     profileId: UUID;
@@ -68,11 +67,13 @@ const FriendsClient = ({
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {paginatedFriends?.map((friend, index) => {
+          const picture = getAvatar(friend?.user_metadata);
+
           return (
             <UserCard
               key={index}
               user={friend}
-              userPicture={friendsPicture[index]}
+              userPicture={picture}
               cancelFriendRequestObject={cancelFriendRequestObject}
             />
           );
