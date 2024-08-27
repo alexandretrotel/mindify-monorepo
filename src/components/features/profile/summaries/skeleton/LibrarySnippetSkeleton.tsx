@@ -16,7 +16,7 @@ const LibrarySnippetSkeleton = () => {
         <TabsContent value="reads" className="w-full">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {Array.from({ length: 6 }).map((_, index) => (
-              <BookCoverSkeleton key={index} />
+              <BookCoverSkeleton key={index} heightFull />
             ))}
           </div>
         </TabsContent>
@@ -24,7 +24,7 @@ const LibrarySnippetSkeleton = () => {
         <TabsContent value="saved">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {Array.from({ length: 6 }).map((_, index) => (
-              <BookCoverSkeleton key={index} />
+              <BookCoverSkeleton key={index} heightFull />
             ))}
           </div>
         </TabsContent>

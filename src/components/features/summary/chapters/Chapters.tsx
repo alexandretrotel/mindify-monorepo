@@ -42,20 +42,20 @@ const Chapters = async ({
           </div>
         </React.Fragment>
       ) : (
-        <Card className="bg-primary text-primary-foreground">
+        <Card>
           <CardHeader>
-            <H3Span onPrimaryBackground>Connectez-vous pour lire le contenu</H3Span>
+            <H3Span>Connectez-vous pour lire le contenu</H3Span>
           </CardHeader>
 
           <CardContent>
-            <Semibold onPrimaryBackground>
+            <Semibold>
               Pour lire le contenu de ce résumé, vous devez être connecté et être abonné à Mindify
               Pro.
             </Semibold>
           </CardContent>
 
           <CardFooter>
-            <Button variant="outline" asChild>
+            <Button asChild>
               <Link href="/auth/login" className="text-foreground">
                 Se connecter
               </Link>

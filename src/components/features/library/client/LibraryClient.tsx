@@ -248,6 +248,7 @@ const LibraryClient = ({
               image={summary?.image_url ?? undefined}
               authorSlug={summary?.authors?.slug}
               summarySlug={summary.slug}
+              heightFull
             />
           ))}
         </div>

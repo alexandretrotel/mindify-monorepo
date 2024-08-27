@@ -5,24 +5,25 @@ import BookCoverSkeleton from "@/components/global/skeleton/BookCoverSkeleton";
 
 const SuggestionsSkeleton = async () => {
   return (
-    <Carousel
-      opts={{
-        align: "start",
-        slidesToScroll: "auto"
-      }}
-      className="w-full"
-    >
-      <div className="flex flex-col gap-4">
-        <H2>À découvrir aussi...</H2>
-        <CarouselContent className="-ml-4">
+    <div className="flex flex-col gap-4">
+      <H2>À découvrir aussi...</H2>
+
+      <Carousel
+        opts={{
+          align: "start",
+          slidesToScroll: "auto"
+        }}
+        className="w-full"
+      >
+        <CarouselContent className="-ml-4 flex">
           {[...Array(4)].map((_, index) => (
             <CarouselItem key={index} className="pl-4 md:basis-1/4 lg:basis-1/4">
-              <BookCoverSkeleton />
+              <BookCoverSkeleton heightFull />
             </CarouselItem>
           ))}
         </CarouselContent>
-      </div>
-    </Carousel>
+      </Carousel>
+    </div>
   );
 };
 

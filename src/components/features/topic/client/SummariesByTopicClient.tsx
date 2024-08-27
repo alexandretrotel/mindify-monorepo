@@ -66,7 +66,6 @@ const SummariesByCategoryClient = ({
         />
       </div>
 
-      {/* Summaries */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {paginatedSummaries?.map((summary) => (
           <BookCover
@@ -78,6 +77,7 @@ const SummariesByCategoryClient = ({
             image={summary.image_url ?? undefined}
             authorSlug={summary.author_slug}
             summarySlug={summary.slug}
+            heightFull
           />
         ))}
       </div>

@@ -3,6 +3,7 @@ import "client-only";
 
 import React from "react";
 import {
+  Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -28,7 +29,13 @@ const MindsClient = ({
   userName: string;
 }) => {
   return (
-    <React.Fragment>
+    <Carousel
+      opts={{
+        align: "start",
+        slidesToScroll: "auto"
+      }}
+      className="w-full"
+    >
       <CarouselContent className="-ml-4 flex">
         {minds?.map((mind, index) => {
           return (
@@ -39,6 +46,7 @@ const MindsClient = ({
                 userId={userId}
                 isConnected={isConnected}
                 userName={userName}
+                heightFull
               />
             </CarouselItem>
           );
@@ -49,7 +57,7 @@ const MindsClient = ({
         <CarouselPrevious />
         <CarouselNext />
       </div>
-    </React.Fragment>
+    </Carousel>
   );
 };
 

@@ -15,20 +15,20 @@ const Popular = async () => {
   const popularSummaries = await getMostPopularSummaries();
 
   return (
-    <Carousel
-      opts={{
-        align: "start",
-        slidesToScroll: "auto"
-      }}
-      className="w-full"
-    >
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col">
-          <H3>Les + populaires</H3>
-          <Muted>Explorez les résumés les plus lus.</Muted>
-        </div>
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
+        <H3>Les + populaires</H3>
+        <Muted>Explorez les résumés les plus lus.</Muted>
+      </div>
 
-        <CarouselContent className="-ml-4">
+      <Carousel
+        opts={{
+          align: "start",
+          slidesToScroll: "auto"
+        }}
+        className="w-full"
+      >
+        <CarouselContent className="-ml-4 flex">
           {popularSummaries?.slice(0, 15)?.map((summary) => {
             return (
               <CarouselItem key={summary.id} className="pl-4 md:basis-1/3 lg:basis-1/4">
@@ -40,6 +40,7 @@ const Popular = async () => {
                   image={summary.image_url ?? undefined}
                   authorSlug={summary.authors.slug}
                   summarySlug={summary.slug}
+                  heightFull
                 />
               </CarouselItem>
             );
@@ -50,8 +51,8 @@ const Popular = async () => {
           <CarouselPrevious />
           <CarouselNext />
         </div>
-      </div>
-    </Carousel>
+      </Carousel>
+    </div>
   );
 };
 

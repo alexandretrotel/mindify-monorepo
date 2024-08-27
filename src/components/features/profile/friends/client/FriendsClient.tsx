@@ -12,15 +12,22 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "@/components/ui/pagination";
+import type { UUID } from "crypto";
+import { getAvatar } from "@/utils/users";
 
 const itemsPerPage = 8;
 
 const FriendsClient = ({
   friends,
-  friendsPicture
+  cancelFriendRequestObject
 }: {
   friends: User[];
-  friendsPicture: string[];
+  cancelFriendRequestObject?: {
+    userId: UUID;
+    profileId: UUID;
+    isConnected: boolean;
+    displayButton: boolean;
+  };
 }) => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalPages, setTotalPages] = React.useState<number>(0);
@@ -30,6 +37,14 @@ const FriendsClient = ({
       setTotalPages(Math.ceil(friends?.length / itemsPerPage));
     }
   }, [friends]);
+
+  if (!friends || friends?.length === 0) {
+    return (
+      <div className="flex h-72 flex-col items-center justify-center gap-4 text-center text-2xl font-semibold">
+        Aucun ami
+      </div>
+    );
+  }
 
   const paginatedFriends = friends?.slice(
     (currentPage - 1) * itemsPerPage,
@@ -52,7 +67,16 @@ const FriendsClient = ({
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {paginatedFriends?.map((friend, index) => {
-          return <UserCard key={index} user={friend} userPicture={friendsPicture[index]} />;
+          const picture = getAvatar(friend?.user_metadata);
+
+          return (
+            <UserCard
+              key={index}
+              user={friend}
+              userPicture={picture}
+              cancelFriendRequestObject={cancelFriendRequestObject}
+            />
+          );
         })}
       </div>
 

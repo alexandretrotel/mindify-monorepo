@@ -6,20 +6,20 @@ import { Muted } from "@/components/typography/muted";
 
 const CategoriesSkeleton = async () => {
   return (
-    <Carousel
-      opts={{
-        align: "start",
-        slidesToScroll: "auto"
-      }}
-      className="w-full"
-    >
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col">
-          <H3>Vos intérêts</H3>
-          <Muted>Explorez des résumés en fonction de certains sujets.</Muted>
-        </div>
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
+        <H3>Vos intérêts</H3>
+        <Muted>Explorez des résumés en fonction de certains sujets.</Muted>
+      </div>
 
-        <CarouselContent className="-ml-4">
+      <Carousel
+        opts={{
+          align: "start",
+          slidesToScroll: "auto"
+        }}
+        className="w-full"
+      >
+        <CarouselContent className="-ml-4 flex">
           {[...Array(6)].map((_, index) => (
             <CarouselItem key={index} className="pl-4">
               <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
@@ -30,8 +30,8 @@ const CategoriesSkeleton = async () => {
             </CarouselItem>
           ))}
         </CarouselContent>
-      </div>
-    </Carousel>
+      </Carousel>
+    </div>
   );
 };
 

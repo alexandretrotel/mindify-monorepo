@@ -87,7 +87,7 @@ const UsersListClient = ({ usersArray }: { usersArray: User[] }) => {
 
           return (
             <li key={user.id}>
-              <UserCard user={user} userPicture={userPicture} />
+              <UserCard user={user} userPicture={userPicture} heightFull />
             </li>
           );
         })}

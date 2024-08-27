@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 
-const MindSkeleton = () => {
+const MindSkeleton = ({ heightFull }: { heightFull?: boolean }) => {
   return (
-    <div className="flex h-full flex-col justify-between gap-4 rounded-lg border p-6">
+    <div
+      className={`flex ${heightFull ? "h-full" : ""} flex-col justify-between gap-4 rounded-lg border p-6`}
+    >
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <Skeleton className="h-8 w-96" />

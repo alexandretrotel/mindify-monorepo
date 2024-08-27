@@ -9,8 +9,8 @@ const UsersListSkeleton = async () => {
 
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {[...Array(8)].map((_, index) => (
-          <li key={index}>
-            <UserCardSkeleton />
+          <li key={index} className="h-full">
+            <UserCardSkeleton heightFull />
           </li>
         ))}
       </ul>

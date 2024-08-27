@@ -14,7 +14,6 @@ import { getAvatar } from "@/utils/users";
 import { Muted } from "@/components/typography/muted";
 import ProfileMinds from "@/components/features/profile/minds/ProfileMinds";
 import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
-import { Carousel } from "@/components/ui/carousel";
 import type { Metadata } from "next";
 import { createAdminClient } from "@/utils/supabase/admin";
 import Statistics from "@/components/features/profile/statistics/Statistics";
@@ -281,13 +280,7 @@ const Page = async ({
                 <LibrarySnippet profileId={profileId} />
               </Suspense>
 
-              <Suspense
-                fallback={
-                  <Carousel>
-                    <MindsSkeleton />
-                  </Carousel>
-                }
-              >
+              <Suspense fallback={<MindsSkeleton />}>
                 <ProfileMinds
                   profileId={profileId}
                   userId={userId}
@@ -305,6 +298,8 @@ const Page = async ({
                   profileId={profileId}
                   profileName={profileMetadata?.name}
                   isConnected={isConnected}
+                  isMyProfile={isMyProfile}
+                  userId={userId}
                 />
               </Suspense>
             </BorderTabs>

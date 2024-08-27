@@ -66,6 +66,7 @@ const LibrarySnippetClient = ({
               image={summary.image_url}
               authorSlug={summary.author_slug}
               summarySlug={summary.slug}
+              heightFull
             />
           );
         })}

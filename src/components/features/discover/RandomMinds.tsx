@@ -1,6 +1,5 @@
 import React from "react";
 import H3 from "@/components/typography/h3";
-import { Carousel } from "@/components/ui/carousel";
 import { Muted } from "@/components/typography/muted";
 import { areMindsSaved, getRandomMinds } from "@/actions/minds";
 import MindsClient from "@/components/global/MindsClient";
@@ -26,28 +25,20 @@ const RandomMinds = async ({
   }
 
   return (
-    <Carousel
-      opts={{
-        align: "start",
-        slidesToScroll: "auto"
-      }}
-      className="w-full"
-    >
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col">
-          <H3>Quelques MINDS au hasard</H3>
-          <Muted>De quoi vous inspirer.</Muted>
-        </div>
-
-        <MindsClient
-          minds={randomMinds}
-          initialAreSaved={areMindsSavedArray}
-          userId={userId}
-          isConnected={isConnected}
-          userName={userName}
-        />
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
+        <H3>Quelques MINDS au hasard</H3>
+        <Muted>De quoi vous inspirer.</Muted>
       </div>
-    </Carousel>
+
+      <MindsClient
+        minds={randomMinds}
+        initialAreSaved={areMindsSavedArray}
+        userId={userId}
+        isConnected={isConnected}
+        userName={userName}
+      />
+    </div>
   );
 };
 
