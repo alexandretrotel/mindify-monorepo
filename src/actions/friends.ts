@@ -102,8 +102,6 @@ export async function getFriendsIds(userId: UUID) {
     throw new Error("Impossible de récupérer les amis.");
   }
 
-  const askedFriendsIds = userToFriendData?.flatMap((friend) => friend?.friend_id) as UUID[];
-
   const { data: friendToUserData, error: friendToUserError } = await supabase
     .from("friends")
     .select("user_id")
@@ -119,6 +117,13 @@ export async function getFriendsIds(userId: UUID) {
     ?.filter(
       (friendId) =>
         friendId !== userId && friendToUserData?.some((friend) => friend?.user_id === friendId)
+    ) as UUID[];
+
+  const askedFriendsIds = userToFriendData
+    ?.flatMap((friend) => friend?.friend_id)
+    ?.filter(
+      (friendId) =>
+        friendId !== userId && !friendToUserData?.some((friend) => friend?.user_id === friendId)
     ) as UUID[];
 
   return { friendsIds, askedFriendsIds };
