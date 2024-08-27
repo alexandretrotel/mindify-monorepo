@@ -5,7 +5,6 @@ import { createClient } from "@/utils/supabase/server";
 import { UUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { getUsersData } from "@/actions/users";
-import { createAdminClient } from "@/utils/supabase/admin";
 import type { FriendStatus } from "@/types/friends";
 
 export async function askForFriend(userId: UUID, profileId: UUID) {
@@ -103,6 +102,8 @@ export async function getFriendsIds(userId: UUID) {
     throw new Error("Impossible de récupérer les amis.");
   }
 
+  const askedFriendsIds = userToFriendData?.flatMap((friend) => friend?.friend_id) as UUID[];
+
   const { data: friendToUserData, error: friendToUserError } = await supabase
     .from("friends")
     .select("user_id")
@@ -120,7 +121,7 @@ export async function getFriendsIds(userId: UUID) {
         friendId !== userId && friendToUserData?.some((friend) => friend?.user_id === friendId)
     ) as UUID[];
 
-  return friendsIds;
+  return { friendsIds, askedFriendsIds };
 }
 
 export async function getPendingFriendsIds(userId: UUID) {
@@ -158,9 +159,10 @@ export async function getPendingFriendsIds(userId: UUID) {
 
 export async function getFriendsData(userId: UUID) {
   const friendsIds = await getFriendsIds(userId);
-  const friendsData = await getUsersData(friendsIds);
+  const friendsData = await getUsersData(friendsIds?.friendsIds);
+  const askedFriendsData = await getUsersData(friendsIds?.askedFriendsIds);
 
-  return friendsData;
+  return { friendsData, askedFriendsData };
 }
 
 export async function getPendingFriendsData(userId: UUID) {

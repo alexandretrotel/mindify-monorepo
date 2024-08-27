@@ -298,6 +298,8 @@ const Page = async ({
                   profileId={profileId}
                   profileName={profileMetadata?.name}
                   isConnected={isConnected}
+                  isMyProfile={isMyProfile}
+                  userId={userId}
                 />
               </Suspense>
             </BorderTabs>
