@@ -18,10 +18,15 @@ const ChangePassword = ({ userEmail }: { userEmail: string }) => {
   const [confirmPassword, setConfirmPassword] = React.useState<string | undefined>(undefined);
   const [inResetFlow, setInResetFlow] = React.useState<boolean>(false);
   const [isUpdating, setIsUpdating] = React.useState<boolean>(false);
+  const [origin, setOrigin] = React.useState<string | undefined>(undefined);
 
   const { toast } = useToast();
 
   const supabase = createClient();
+
+  React.useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
 
   React.useEffect(() => {
     supabase.auth.onAuthStateChange(async (event, session) => {
@@ -35,7 +40,7 @@ const ChangePassword = ({ userEmail }: { userEmail: string }) => {
     setIsUpdating(true);
 
     try {
-      await resetPassword(userEmail);
+      await resetPassword(userEmail, origin as string);
     } catch (error) {
       console.error("Error updating user:", error);
       toast({
@@ -90,21 +95,17 @@ const ChangePassword = ({ userEmail }: { userEmail: string }) => {
           <Muted size="sm">Vous allez reçevoir un email de réinitialisation de mot de passe.</Muted>
         </div>
 
-        {newPassword && confirmPassword && newPassword !== confirmPassword && (
-          <Span size="sm" isRed>
-            Les mots de passe ne correspondent pas.
-          </Span>
-        )}
-
-        <Button
-          size="sm"
-          className="flex w-fit items-center gap-1"
-          onClick={handleResetPassword}
-          disabled={isUpdating}
-        >
-          {isUpdating && <Loader2Icon className="h-3 w-3 animate-spin" />}
-          Réinitialiser mon mot de passe
-        </Button>
+        <div>
+          <Button
+            size="sm"
+            className="flex items-center gap-1"
+            onClick={handleResetPassword}
+            disabled={isUpdating}
+          >
+            {isUpdating && <Loader2Icon className="h-3 w-3 animate-spin" />}
+            Réinitialiser mon mot de passe
+          </Button>
+        </div>
       </div>
     );
   }
@@ -147,7 +148,7 @@ const ChangePassword = ({ userEmail }: { userEmail: string }) => {
 
       <Button
         size="sm"
-        className="flex w-fit items-center gap-1"
+        className="flex items-center gap-1"
         disabled={!newPassword || !confirmPassword || newPassword !== confirmPassword || isUpdating}
         onClick={handleChangePassword}
       >
