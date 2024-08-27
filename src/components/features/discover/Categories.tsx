@@ -40,23 +40,23 @@ const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: 
 
   return (
     <React.Fragment>
-      <Carousel
-        opts={{
-          align: "start",
-          slidesToScroll: "auto"
-        }}
-        className="w-full lg:hidden"
-      >
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col">
-            <H3>Vos intérêts</H3>
-            <Muted size="md">
-              {isConnected && sortedUserTopics?.length > 0
-                ? "Explorez des résumés extraits de vos sujets préférés."
-                : "Explorez des résumés en fonction de certains sujets."}
-            </Muted>
-          </div>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col">
+          <H3>Vos intérêts</H3>
+          <Muted size="md">
+            {isConnected && sortedUserTopics?.length > 0
+              ? "Explorez des résumés extraits de vos sujets préférés."
+              : "Explorez des résumés en fonction de certains sujets."}
+          </Muted>
+        </div>
 
+        <Carousel
+          opts={{
+            align: "start",
+            slidesToScroll: "auto"
+          }}
+          className="w-full lg:hidden"
+        >
           <CarouselContent className="-ml-4">
             {(isConnected && sortedUserTopics?.length >= 3 ? sortedUserTopics : sortedTopics)
               ?.reduce((acc, topic, index) => {
@@ -84,26 +84,26 @@ const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: 
                 </CarouselItem>
               ))}
           </CarouselContent>
+        </Carousel>
+      </div>
+
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col">
+          <H3>Vos intérêts</H3>
+          <Muted size="md">
+            {sortedUserTopics?.length > 0
+              ? "Explorez des résumés extraits de vos sujets préférés."
+              : "Explorez des résumés en fonction de certains sujets."}
+          </Muted>
         </div>
-      </Carousel>
 
-      <Carousel
-        opts={{
-          align: "start",
-          slidesToScroll: "auto"
-        }}
-        className="hidden w-full lg:block"
-      >
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col">
-            <H3>Vos intérêts</H3>
-            <Muted size="md">
-              {sortedUserTopics?.length > 0
-                ? "Explorez des résumés extraits de vos sujets préférés."
-                : "Explorez des résumés en fonction de certains sujets."}
-            </Muted>
-          </div>
-
+        <Carousel
+          opts={{
+            align: "start",
+            slidesToScroll: "auto"
+          }}
+          className="hidden w-full lg:block"
+        >
           <CarouselContent className="-ml-4">
             {(sortedUserTopics?.length >= 3 ? sortedUserTopics : sortedTopics)
               ?.reduce((acc, topic, index) => {
@@ -136,8 +136,8 @@ const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: 
             <CarouselPrevious />
             <CarouselNext />
           </div>
-        </div>
-      </Carousel>
+        </Carousel>
+      </div>
     </React.Fragment>
   );
 };

@@ -30,28 +30,20 @@ const PopularMinds = async ({
   }
 
   return (
-    <Carousel
-      opts={{
-        align: "start",
-        slidesToScroll: "auto"
-      }}
-      className="w-full"
-    >
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col">
-          <H3>Les MINDS préférés des utilisateurs</H3>
-          <Muted>Les idées clés qui vous serviront dans votre vie.</Muted>
-        </div>
-
-        <MindsClient
-          minds={finalMinds}
-          initialAreSaved={areMindsSavedArray}
-          userId={userId}
-          isConnected={isConnected}
-          userName={userName}
-        />
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
+        <H3>Les MINDS préférés des utilisateurs</H3>
+        <Muted>Les idées clés qui vous serviront dans votre vie.</Muted>
       </div>
-    </Carousel>
+
+      <MindsClient
+        minds={finalMinds}
+        initialAreSaved={areMindsSavedArray}
+        userId={userId}
+        isConnected={isConnected}
+        userName={userName}
+      />
+    </div>
   );
 };
 

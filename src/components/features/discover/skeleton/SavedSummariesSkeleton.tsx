@@ -12,19 +12,19 @@ import { Muted } from "@/components/typography/muted";
 
 const SavedSummariesSkeleton = async () => {
   return (
-    <Carousel
-      opts={{
-        align: "start",
-        slidesToScroll: "auto"
-      }}
-      className="w-full"
-    >
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col">
-          <H3>Votre librairie</H3>
-          <Muted>Retrouvez les résumés que vous avez sauvegardés.</Muted>
-        </div>
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
+        <H3>Votre librairie</H3>
+        <Muted>Retrouvez les résumés que vous avez sauvegardés.</Muted>
+      </div>
 
+      <Carousel
+        opts={{
+          align: "start",
+          slidesToScroll: "auto"
+        }}
+        className="w-full"
+      >
         <CarouselContent className="-ml-4">
           {Array.from({ length: 15 }).map((_, index) => {
             return (
@@ -39,8 +39,8 @@ const SavedSummariesSkeleton = async () => {
           <CarouselPrevious />
           <CarouselNext />
         </div>
-      </div>
-    </Carousel>
+      </Carousel>
+    </div>
   );
 };
 

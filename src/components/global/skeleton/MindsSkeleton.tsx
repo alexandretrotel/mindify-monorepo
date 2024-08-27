@@ -3,6 +3,7 @@ import "client-only";
 
 import React from "react";
 import {
+  Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -12,7 +13,7 @@ import MindSkeleton from "@/components/global/skeleton/MindSkeleton";
 
 const MindsSkeleton = () => {
   return (
-    <React.Fragment>
+    <Carousel>
       <CarouselContent className="-ml-4 flex">
         {Array.from({ length: 10 }, (_, index) => index).map((_, index) => (
           <CarouselItem key={index} className="pl-4 lg:basis-1/2">
@@ -25,7 +26,7 @@ const MindsSkeleton = () => {
         <CarouselPrevious />
         <CarouselNext />
       </div>
-    </React.Fragment>
+    </Carousel>
   );
 };
 

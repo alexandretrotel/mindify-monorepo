@@ -32,19 +32,19 @@ const Personalized = async ({ userId }: { userId: UUID }) => {
   });
 
   return (
-    <Carousel
-      opts={{
-        align: "start",
-        slidesToScroll: "auto"
-      }}
-      className="w-full"
-    >
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col">
-          <H3>Pour vous</H3>
-          <Muted>Découvrez des résumés adaptés à vos intérêts.</Muted>
-        </div>
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
+        <H3>Pour vous</H3>
+        <Muted>Découvrez des résumés adaptés à vos intérêts.</Muted>
+      </div>
 
+      <Carousel
+        opts={{
+          align: "start",
+          slidesToScroll: "auto"
+        }}
+        className="w-full"
+      >
         <CarouselContent className="-ml-4">
           {(summariesMatchingUserTopics?.length >= 3 ? summariesMatchingUserTopics : summaries)
             ?.slice(0, 15)
@@ -69,8 +69,8 @@ const Personalized = async ({ userId }: { userId: UUID }) => {
           <CarouselPrevious />
           <CarouselNext />
         </div>
-      </div>
-    </Carousel>
+      </Carousel>
+    </div>
   );
 };
 

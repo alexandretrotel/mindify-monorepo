@@ -12,19 +12,19 @@ import { Muted } from "@/components/typography/muted";
 
 const PopularSkeleton = async () => {
   return (
-    <Carousel
-      opts={{
-        align: "start",
-        slidesToScroll: "auto"
-      }}
-      className="w-full"
-    >
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col">
-          <H3>Les + populaires</H3>
-          <Muted>Explorez les résumés les plus lus.</Muted>
-        </div>
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
+        <H3>Les + populaires</H3>
+        <Muted>Explorez les résumés les plus lus.</Muted>
+      </div>
 
+      <Carousel
+        opts={{
+          align: "start",
+          slidesToScroll: "auto"
+        }}
+        className="w-full"
+      >
         <CarouselContent className="-ml-4">
           {[...Array(15)].map((_, index) => (
             <CarouselItem key={index} className="pl-4 md:basis-1/3 lg:basis-1/4">
@@ -37,8 +37,8 @@ const PopularSkeleton = async () => {
           <CarouselPrevious />
           <CarouselNext />
         </div>
-      </div>
-    </Carousel>
+      </Carousel>
+    </div>
   );
 };
 

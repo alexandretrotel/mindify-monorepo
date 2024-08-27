@@ -28,19 +28,19 @@ const TopUsers = async () => {
     }) ?? [];
 
   return (
-    <Carousel
-      opts={{
-        align: "start",
-        slidesToScroll: "auto"
-      }}
-      className="w-full"
-    >
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col">
-          <H3>Les plus grands lecteurs</H3>
-          <Muted>Explorez les esprits les plus brillants de notre communauté.</Muted>
-        </div>
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
+        <H3>Les plus grands lecteurs</H3>
+        <Muted>Explorez les esprits les plus brillants de notre communauté.</Muted>
+      </div>
 
+      <Carousel
+        opts={{
+          align: "start",
+          slidesToScroll: "auto"
+        }}
+        className="w-full"
+      >
         <CarouselContent className="-ml-4">
           {finalTopUsers?.map((user, index) => (
             <CarouselItem key={user?.id} className="pl-4 md:basis-1/3 lg:basis-1/4">
@@ -48,13 +48,13 @@ const TopUsers = async () => {
             </CarouselItem>
           ))}
         </CarouselContent>
-      </div>
 
-      <div className="hidden lg:block">
-        <CarouselPrevious />
-        <CarouselNext />
-      </div>
-    </Carousel>
+        <div className="hidden lg:block">
+          <CarouselPrevious />
+          <CarouselNext />
+        </div>
+      </Carousel>
+    </div>
   );
 };
 
