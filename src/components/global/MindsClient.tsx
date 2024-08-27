@@ -46,6 +46,7 @@ const MindsClient = ({
                 userId={userId}
                 isConnected={isConnected}
                 userName={userName}
+                heightFull
               />
             </CarouselItem>
           );

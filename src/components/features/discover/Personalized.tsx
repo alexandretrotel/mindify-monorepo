@@ -45,7 +45,7 @@ const Personalized = async ({ userId }: { userId: UUID }) => {
         }}
         className="w-full"
       >
-        <CarouselContent className="-ml-4">
+        <CarouselContent className="-ml-4 flex">
           {(summariesMatchingUserTopics?.length >= 3 ? summariesMatchingUserTopics : summaries)
             ?.slice(0, 15)
             ?.map((summary) => {
@@ -59,6 +59,7 @@ const Personalized = async ({ userId }: { userId: UUID }) => {
                     image={summary?.image_url ?? undefined}
                     authorSlug={summary?.authors?.slug as string}
                     summarySlug={summary?.slug}
+                    heightFull
                   />
                 </CarouselItem>
               );

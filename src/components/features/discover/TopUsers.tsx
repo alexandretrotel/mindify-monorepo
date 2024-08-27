@@ -41,10 +41,10 @@ const TopUsers = async () => {
         }}
         className="w-full"
       >
-        <CarouselContent className="-ml-4">
+        <CarouselContent className="-ml-4 flex">
           {finalTopUsers?.map((user, index) => (
             <CarouselItem key={user?.id} className="pl-4 md:basis-1/3 lg:basis-1/4">
-              <UserCard user={user} userPicture={userPictures[index]} />
+              <UserCard user={user} userPicture={userPictures[index]} heightFull />
             </CarouselItem>
           ))}
         </CarouselContent>

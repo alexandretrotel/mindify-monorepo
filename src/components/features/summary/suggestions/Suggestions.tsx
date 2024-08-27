@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { getMostPopularSummariesFromSameTopic } from "@/actions/summaries";
 import {
   Carousel,
@@ -39,7 +38,7 @@ const Suggestions = async ({
         }}
         className="w-full"
       >
-        <CarouselContent className="-ml-4">
+        <CarouselContent className="-ml-4 flex">
           {mostPopularSummariesFromSameTopic?.slice(0, 4)?.map(
             (
               summary: Tables<"summaries"> & {
@@ -56,6 +55,7 @@ const Suggestions = async ({
                   image={summary.image_url ?? undefined}
                   authorSlug={summary?.author_slug}
                   summarySlug={summary?.slug}
+                  heightFull
                 />
               </CarouselItem>
             )

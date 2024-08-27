@@ -40,7 +40,7 @@ const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: 
 
   return (
     <React.Fragment>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 lg:hidden">
         <div className="flex flex-col">
           <H3>Vos intérêts</H3>
           <Muted size="md">
@@ -55,9 +55,9 @@ const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: 
             align: "start",
             slidesToScroll: "auto"
           }}
-          className="w-full lg:hidden"
+          className="w-full"
         >
-          <CarouselContent className="-ml-4">
+          <CarouselContent className="-ml-4 flex">
             {(isConnected && sortedUserTopics?.length >= 3 ? sortedUserTopics : sortedTopics)
               ?.reduce((acc, topic, index) => {
                 const chunkIndex = Math.floor(index / 4);
@@ -87,7 +87,7 @@ const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: 
         </Carousel>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="hidden flex-col gap-4 lg:flex">
         <div className="flex flex-col">
           <H3>Vos intérêts</H3>
           <Muted size="md">
@@ -102,9 +102,9 @@ const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: 
             align: "start",
             slidesToScroll: "auto"
           }}
-          className="hidden w-full lg:block"
+          className="w-full"
         >
-          <CarouselContent className="-ml-4">
+          <CarouselContent className="-ml-4 flex">
             {(sortedUserTopics?.length >= 3 ? sortedUserTopics : sortedTopics)
               ?.reduce((acc, topic, index) => {
                 const chunkIndex = Math.floor(index / 8);

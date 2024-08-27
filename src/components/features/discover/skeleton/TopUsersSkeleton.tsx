@@ -25,10 +25,10 @@ const TopUsersSkeleton = async () => {
         }}
         className="w-full"
       >
-        <CarouselContent className="-ml-4">
+        <CarouselContent className="-ml-4 flex">
           {Array.from({ length: 20 }).map((_, index) => (
             <CarouselItem key={index} className="pl-4 md:basis-1/3 lg:basis-1/4">
-              <UserCardSkeleton />
+              <UserCardSkeleton heightFull />
             </CarouselItem>
           ))}
         </CarouselContent>

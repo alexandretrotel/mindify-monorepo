@@ -19,7 +19,7 @@ const CategoriesSkeleton = async () => {
         }}
         className="w-full"
       >
-        <CarouselContent className="-ml-4">
+        <CarouselContent className="-ml-4 flex">
           {[...Array(6)].map((_, index) => (
             <CarouselItem key={index} className="pl-4">
               <div className="grid grid-cols-2 gap-2 md:grid-cols-3">

@@ -28,7 +28,7 @@ const Popular = async () => {
         }}
         className="w-full"
       >
-        <CarouselContent className="-ml-4">
+        <CarouselContent className="-ml-4 flex">
           {popularSummaries?.slice(0, 15)?.map((summary) => {
             return (
               <CarouselItem key={summary.id} className="pl-4 md:basis-1/3 lg:basis-1/4">
@@ -40,6 +40,7 @@ const Popular = async () => {
                   image={summary.image_url ?? undefined}
                   authorSlug={summary.authors.slug}
                   summarySlug={summary.slug}
+                  heightFull
                 />
               </CarouselItem>
             );

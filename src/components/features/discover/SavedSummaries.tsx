@@ -33,7 +33,7 @@ const SavedSummaries = async ({ userId }: { userId: UUID }) => {
         }}
         className="w-full"
       >
-        <CarouselContent className="-ml-4">
+        <CarouselContent className="-ml-4 flex">
           {savedSummaries?.map((summary) => {
             return (
               <CarouselItem key={summary.id} className="pl-4 md:basis-1/3 lg:basis-1/4">
@@ -45,6 +45,7 @@ const SavedSummaries = async ({ userId }: { userId: UUID }) => {
                   image={summary.image_url ?? undefined}
                   authorSlug={summary.authors.slug}
                   summarySlug={summary.slug}
+                  heightFull
                 />
               </CarouselItem>
             );
