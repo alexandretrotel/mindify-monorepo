@@ -1,6 +1,3 @@
-"use client";
-import "client-only";
-
 import React from "react";
 import H3 from "@/components/typography/h3";
 import type { Tables } from "@/types/supabase";
@@ -9,7 +6,7 @@ import ReadTopicRepartition from "@/components/features/profile/statistics/chart
 import WeeklyReads from "@/components/features/profile/statistics/charts/WeeklyReads";
 import SummariesTypeRepartition from "@/components/features/profile/statistics/charts/SummariesTypeRepartition";
 
-const StatisticsClient = ({
+const StatisticsClient = async ({
   userReads,
   readSummaries
 }: {
