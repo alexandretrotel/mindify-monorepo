@@ -16,10 +16,7 @@ import BugsCounterSkeleton from "@/components/features/support/skeleton/BugsCoun
 
 export default function Footer({ userId }: Readonly<{ userId: UUID }>) {
   const navigation = {
-    "learn-more": [
-      { name: "À propos", href: "/about" },
-      { name: "Roadmap", href: "/roadmap" }
-    ],
+    "learn-more": [{ name: "En savoir plus", href: "/about" }],
     support: [
       {
         component: (
@@ -27,7 +24,7 @@ export default function Footer({ userId }: Readonly<{ userId: UUID }>) {
             href="/support/all"
             className="text-sm text-muted-foreground hover:text-black dark:hover:text-white"
           >
-            Voir tout
+            Roadmap
           </Link>
         )
       },
