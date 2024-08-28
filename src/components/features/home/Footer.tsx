@@ -33,7 +33,7 @@ export default function Footer({
       },
       {
         component: (
-          <BugDialog userId={userId}>
+          <BugDialog userId={userId} isConnected={isConnected}>
             <Suspense fallback={<BugsCounterSkeleton />}>
               <BugsCounter userId={userId} isConnected={isConnected} />
             </Suspense>
@@ -42,7 +42,7 @@ export default function Footer({
       },
       {
         component: (
-          <FeaturesDialog userId={userId}>
+          <FeaturesDialog userId={userId} isConnected={isConnected}>
             <Suspense fallback={<FeaturesCounterSkeleton />}>
               <FeaturesCounter userId={userId} isConnected={isConnected} />
             </Suspense>
