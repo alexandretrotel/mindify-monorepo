@@ -35,7 +35,7 @@ export default async function HomePage() {
         <Faq />
       </main>
 
-      <Footer userId={userId} />
+      <Footer userId={userId} isConnected={isConnected} />
     </React.Fragment>
   );
 }

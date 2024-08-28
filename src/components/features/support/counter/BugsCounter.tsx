@@ -3,7 +3,14 @@ import Semibold from "@/components/typography/semibold";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
 
-export default async function BugCounter({ userId }: Readonly<{ userId: UUID }>) {
+export default async function BugCounter({
+  userId,
+  isConnected
+}: Readonly<{ userId: UUID; isConnected: boolean }>) {
+  if (!isConnected) {
+    return null;
+  }
+
   const supabase = createClient();
 
   const { count, error } = await supabase

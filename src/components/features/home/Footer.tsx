@@ -14,7 +14,10 @@ import FeaturesCounter from "@/components/features/support/counter/FeaturesCount
 import BugsCounter from "@/components/features/support/counter/BugsCounter";
 import BugsCounterSkeleton from "@/components/features/support/skeleton/BugsCounterSkeleton";
 
-export default function Footer({ userId }: Readonly<{ userId: UUID }>) {
+export default function Footer({
+  userId,
+  isConnected
+}: Readonly<{ userId: UUID; isConnected: boolean }>) {
   const navigation = {
     "learn-more": [{ name: "En savoir plus", href: "/about" }],
     support: [
@@ -32,7 +35,7 @@ export default function Footer({ userId }: Readonly<{ userId: UUID }>) {
         component: (
           <BugDialog userId={userId}>
             <Suspense fallback={<BugsCounterSkeleton />}>
-              <BugsCounter userId={userId} />
+              <BugsCounter userId={userId} isConnected={isConnected} />
             </Suspense>
           </BugDialog>
         )
@@ -41,7 +44,7 @@ export default function Footer({ userId }: Readonly<{ userId: UUID }>) {
         component: (
           <FeaturesDialog userId={userId}>
             <Suspense fallback={<FeaturesCounterSkeleton />}>
-              <FeaturesCounter userId={userId} />
+              <FeaturesCounter userId={userId} isConnected={isConnected} />
             </Suspense>
           </FeaturesDialog>
         )
