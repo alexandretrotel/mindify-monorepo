@@ -105,7 +105,11 @@ export const columns: ColumnDef<
           variant = "secondary";
       }
 
-      return <Badge variant={variant}>{formattedStatus}</Badge>;
+      return (
+        <Badge className="whitespace-nowrap" variant={variant}>
+          {formattedStatus}
+        </Badge>
+      );
     }
   },
   {
