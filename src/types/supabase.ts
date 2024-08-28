@@ -332,7 +332,7 @@ export type Database = {
           created_at?: string
           description: string
           id?: number
-          status: Database["public"]["Enums"]["support_status"]
+          status?: Database["public"]["Enums"]["support_status"]
           title: string
           user_id: string
         }
