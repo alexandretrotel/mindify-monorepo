@@ -385,6 +385,14 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      bugs: "display" | "features" | "performance" | "misc"
+      features:
+        | "summaries"
+        | "social"
+        | "statistics"
+        | "notifications"
+        | "security"
+        | "misc"
       plan: "free" | "pro"
       source: "article" | "podcast" | "video" | "book"
     }

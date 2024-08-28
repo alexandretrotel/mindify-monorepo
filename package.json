@@ -7,7 +7,8 @@
     "build": "bun run next build",
     "start": "bun run next start",
     "lint": "bun run next lint",
-    "format": "bun run prettier --write ."
+    "format": "bun run prettier --write .",
+    "update-types": "sh ./scripts/update-database-types.sh"
   },
   "dependencies": {
     "@headlessui/react": "^2.1.2",
