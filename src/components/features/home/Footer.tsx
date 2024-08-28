@@ -22,7 +22,17 @@ export default function Footer({ userId }: Readonly<{ userId: UUID }>) {
     ],
     support: [
       {
-        dialog: (
+        component: (
+          <Link
+            href="/support/roadmap"
+            className="text-sm text-muted-foreground hover:text-black dark:hover:text-white"
+          >
+            Voir tout
+          </Link>
+        )
+      },
+      {
+        component: (
           <BugDialog userId={userId}>
             <Suspense fallback={<BugsCounterSkeleton />}>
               <BugsCounter userId={userId} />
@@ -31,7 +41,7 @@ export default function Footer({ userId }: Readonly<{ userId: UUID }>) {
         )
       },
       {
-        dialog: (
+        component: (
           <FeaturesDialog userId={userId}>
             <Suspense fallback={<FeaturesCounterSkeleton />}>
               <FeaturesCounter userId={userId} />
@@ -149,7 +159,7 @@ export default function Footer({ userId }: Readonly<{ userId: UUID }>) {
               <Semibold>Support</Semibold>
               <ul className="flex flex-col gap-4">
                 {navigation.support.map((item, index) => (
-                  <li key={index}>{item?.dialog}</li>
+                  <li key={index}>{item?.component}</li>
                 ))}
               </ul>
             </div>

@@ -112,3 +112,29 @@ export async function createFeatureRequest(
 
   revalidatePath("/", "layout");
 }
+
+export async function getAllBugs() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from("support_bugs").select("*");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les bugs.");
+  }
+
+  return data;
+}
+
+export async function getAllFeatures() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from("support_features").select("*");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les fonctionnalités.");
+  }
+
+  return data;
+}
