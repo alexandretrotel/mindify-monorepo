@@ -1,3 +1,6 @@
+"use client";
+import "client-only";
+
 import { CardDescription, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import type { Tables } from "@/types/supabase";

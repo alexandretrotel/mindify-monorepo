@@ -1,3 +1,6 @@
+"use client";
+import "client-only";
+
 import { CardDescription, CardTitle } from "@/components/ui/card";
 import {
   type ChartConfig,

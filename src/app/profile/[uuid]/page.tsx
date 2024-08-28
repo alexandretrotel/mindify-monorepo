@@ -307,7 +307,7 @@ const Page = async ({
         </div>
       </main>
 
-      <Footer />
+      <Footer userId={userId} />
     </React.Fragment>
   );
 };
