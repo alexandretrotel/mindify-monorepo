@@ -24,7 +24,7 @@ export default function Footer({ userId }: Readonly<{ userId: UUID }>) {
       {
         component: (
           <Link
-            href="/support/roadmap"
+            href="/support/all"
             className="text-sm text-muted-foreground hover:text-black dark:hover:text-white"
           >
             Voir tout
