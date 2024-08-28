@@ -8,6 +8,27 @@ import Logo from "@/../public/logos/mindify-square.svg";
 import H2 from "@/components/typography/h2";
 import { Muted } from "@/components/typography/muted";
 import Semibold from "@/components/typography/semibold";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 
 const navigation = {
   "learn-more": [
@@ -15,8 +36,111 @@ const navigation = {
     { name: "Roadmap", href: "/roadmap" }
   ],
   support: [
-    { name: "Signaler un problème", href: "/support/report" },
-    { name: "Demander une fonctionnalité", href: "/support/request" }
+    {
+      dialog: (
+        <Dialog>
+          <DialogTrigger className="text-sm text-muted-foreground hover:text-black dark:hover:text-white">
+            Signaler un problème
+          </DialogTrigger>
+
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Signaler un problème</DialogTitle>
+
+              <DialogDescription>
+                Vous avez rencontré des bugs ? Nous nous en excusons. Faîtes-nous remonter les
+                problèmes que vous avez rencontré et passons à autre chose !
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-2 gap-4">
+                <Input placeholder="Titre du bug" />
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Type du bug" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Bugs</SelectLabel>
+                      <SelectItem value="display">Affichage</SelectItem>
+                      <SelectItem value="features">Fonctionnalité</SelectItem>
+                      <SelectItem value="performance">Performance</SelectItem>
+                      <SelectItem value="misc">Divers</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              <Textarea placeholder="À vous de jouez !" />
+
+              <Button>Envoyer</Button>
+            </div>
+
+            <DialogFooter className="justify-start text-left sm:justify-start">
+              <Muted size="xs">
+                Actuellement, vous nous avez indiqué <Semibold>{0}</Semibold> bugs.{" "}
+                {0 === 0 ? "Merci !" : ""}
+                {/* TODO (make a server component) */}
+              </Muted>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )
+    },
+    {
+      dialog: (
+        <Dialog>
+          <DialogTrigger className="text-sm text-muted-foreground hover:text-black dark:hover:text-white">
+            Demander une fonctionnalité
+          </DialogTrigger>
+
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Demander une fonctionnalité</DialogTitle>
+
+              <DialogDescription>
+                Une idée, une envie particulière ? Faîtes-le nous savoir.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-2 gap-4">
+                <Input placeholder="Titre de la fonctionnalité" />
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Type de la fonctionnalité" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Fonctionnalités</SelectLabel>
+                      <SelectItem value="summaries">Résumés</SelectItem>
+                      <SelectItem value="social">Social</SelectItem>
+                      <SelectItem value="statistics">Statistiques</SelectItem>
+                      <SelectItem value="notifications">Notifications</SelectItem>
+                      <SelectItem value="security">Sécurité</SelectItem>
+                      <SelectItem value="misc">Divers</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              <Textarea placeholder="Exprimez votre créativité !" />
+
+              <Button>Envoyer</Button>
+            </div>
+
+            <DialogFooter className="justify-start text-left sm:justify-start">
+              <Muted size="xs">
+                Actuellement, vous nous avez proposé <Semibold>{0}</Semibold> fonctionnalités.{" "}
+                {0 === 0 ? "Merci !" : ""}
+                {/* TODO (make a server component) */}
+              </Muted>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )
+    }
   ],
   legal: [
     { name: "Politique de confidentialité", href: "/privacy-policy" },
@@ -127,15 +251,8 @@ export default function Footer() {
             <div className="flex flex-col gap-4">
               <Semibold>Support</Semibold>
               <ul className="flex flex-col gap-4">
-                {navigation.support.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-muted-foreground hover:text-black dark:hover:text-white"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
+                {navigation.support.map((item, index) => (
+                  <li key={index}>{item?.dialog}</li>
                 ))}
               </ul>
             </div>
