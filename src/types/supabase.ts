@@ -317,6 +317,82 @@ export type Database = {
           },
         ]
       }
+      support_bugs: {
+        Row: {
+          bug_type: Database["public"]["Enums"]["bugs"]
+          created_at: string
+          description: string
+          id: number
+          status: Database["public"]["Enums"]["support_status"]
+          title: string
+          user_id: string
+        }
+        Insert: {
+          bug_type: Database["public"]["Enums"]["bugs"]
+          created_at?: string
+          description: string
+          id?: number
+          status: Database["public"]["Enums"]["support_status"]
+          title: string
+          user_id: string
+        }
+        Update: {
+          bug_type?: Database["public"]["Enums"]["bugs"]
+          created_at?: string
+          description?: string
+          id?: number
+          status?: Database["public"]["Enums"]["support_status"]
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_bugs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_features: {
+        Row: {
+          created_at: string
+          description: string
+          feature_type: Database["public"]["Enums"]["features"]
+          id: number
+          status: Database["public"]["Enums"]["support_status"]
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          feature_type: Database["public"]["Enums"]["features"]
+          id?: number
+          status?: Database["public"]["Enums"]["support_status"]
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          feature_type?: Database["public"]["Enums"]["features"]
+          id?: number
+          status?: Database["public"]["Enums"]["support_status"]
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_features_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       topics: {
         Row: {
           black_icon: string | null
@@ -395,6 +471,7 @@ export type Database = {
         | "misc"
       plan: "free" | "pro"
       source: "article" | "podcast" | "video" | "book"
+      support_status: "not_started" | "in_progress" | "finished"
     }
     CompositeTypes: {
       [_ in never]: never
