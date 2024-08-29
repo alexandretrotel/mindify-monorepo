@@ -117,7 +117,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
               </div>
             </div>
 
-            <div className="flex flex-col gap-8 md:hidden">
+            <div className="flex flex-col gap-8 lg:hidden">
               <BorderTabs
                 elements={[
                   { label: "Résumé", value: "summary" },
