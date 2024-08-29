@@ -28,7 +28,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
         {children}
       </main>
 
-      <Footer userId={userId} />
+      <Footer userId={userId} isConnected={isConnected} />
     </React.Fragment>
   );
 };

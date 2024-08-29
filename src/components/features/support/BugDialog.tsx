@@ -29,7 +29,15 @@ import { useToast } from "@/components/ui/use-toast";
 import { createBugReport } from "@/actions/support";
 import type { UUID } from "crypto";
 
-const BugDialog = ({ children, userId }: { children: React.ReactNode; userId: UUID }) => {
+const BugDialog = ({
+  children,
+  userId,
+  isConnected
+}: {
+  children: React.ReactNode;
+  userId: UUID;
+  isConnected: boolean;
+}) => {
   const [title, setTitle] = React.useState<string | undefined>(undefined);
   const [type, setType] = React.useState<Enums<"bugs"> | undefined>(undefined);
   const [description, setDescription] = React.useState<string | undefined>(undefined);
@@ -40,6 +48,15 @@ const BugDialog = ({ children, userId }: { children: React.ReactNode; userId: UU
 
   const handleSubmit = async () => {
     setIsSending(true);
+
+    if (!isConnected) {
+      toast({
+        title: "Erreur",
+        description: "Vous devez être connecté pour envoyer un bug.",
+        variant: "destructive"
+      });
+      setIsSending(false);
+    }
 
     if (!title || !type || !description) {
       toast({

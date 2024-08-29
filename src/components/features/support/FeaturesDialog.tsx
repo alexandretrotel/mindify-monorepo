@@ -29,7 +29,15 @@ import { createFeatureRequest } from "@/actions/support";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2Icon } from "lucide-react";
 
-const FeaturesDialog = ({ children, userId }: { children: React.ReactNode; userId: UUID }) => {
+const FeaturesDialog = ({
+  children,
+  userId,
+  isConnected
+}: {
+  children: React.ReactNode;
+  userId: UUID;
+  isConnected: boolean;
+}) => {
   const [title, setTitle] = React.useState<string | undefined>(undefined);
   const [type, setType] = React.useState<Enums<"features"> | undefined>(undefined);
   const [description, setDescription] = React.useState<string | undefined>(undefined);
@@ -40,6 +48,15 @@ const FeaturesDialog = ({ children, userId }: { children: React.ReactNode; userI
 
   const handleSubmit = async () => {
     setIsSending(true);
+
+    if (!isConnected) {
+      toast({
+        title: "Erreur",
+        description: "Vous devez être connecté pour envoyer un bug.",
+        variant: "destructive"
+      });
+      setIsSending(false);
+    }
 
     if (!title || !type || !description) {
       toast({
