@@ -109,6 +109,60 @@ export type Database = {
           },
         ]
       }
+      minds_in_playlists: {
+        Row: {
+          created_at: string
+          id: number
+          mind_id: number
+          playlist_id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          mind_id: number
+          playlist_id: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          mind_id?: number
+          playlist_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "minds_in_playlists_mind_id_fkey"
+            columns: ["mind_id"]
+            isOneToOne: false
+            referencedRelation: "minds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "minds_in_playlists_playlist_id_fkey"
+            columns: ["playlist_id"]
+            isOneToOne: false
+            referencedRelation: "minds_playlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      minds_playlists: {
+        Row: {
+          created_at: string
+          id: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          title?: string
+        }
+        Relationships: []
+      }
       read_summaries: {
         Row: {
           created_at: string
