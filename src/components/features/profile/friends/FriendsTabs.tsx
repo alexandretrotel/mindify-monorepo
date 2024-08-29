@@ -1,9 +1,11 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { getFriendsData } from "@/actions/friends";
 import { UUID } from "crypto";
 import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { User } from "@supabase/supabase-js";
+import FriendsSkeleton from "@/components/features/profile/friends/skeleton/FriendsSkeleton";
+import CommonFriends from "@/components/features/profile/friends/CommonFriends";
+import PendingFriends from "@/components/features/profile/friends/PendingFriends";
 
 const Friends = async ({
   profileId,
@@ -28,23 +30,6 @@ const Friends = async ({
 
   const profileFriends = await getFriendsData(profileId);
 
-  const userFriends = await getFriendsData(userId);
-
-  let commonFriends;
-  let requestedFriends;
-  let pendingFriends;
-  let requestedAndPendingFriends;
-  if (!isMyProfile) {
-    commonFriends = profileFriends?.friendsData?.filter((friend) => {
-      return userFriends?.friendsData?.find((userFriend) => userFriend?.id === friend?.id);
-    });
-  } else {
-    requestedFriends = userFriends?.requestedFriendsData;
-    pendingFriends = userFriends?.askedFriendsData;
-
-    requestedAndPendingFriends = [...requestedFriends, ...pendingFriends];
-  }
-
   if (!profileFriends || profileFriends?.friendsData?.length === 0) {
     return (
       <div className="flex h-72 flex-col items-center justify-center gap-4 text-center text-2xl font-semibold">
@@ -63,28 +48,29 @@ const Friends = async ({
 
       <div className="flex flex-col">
         <TabsContent value="all">
-          <FriendsClient friends={profileFriends?.friendsData} />
+          <Suspense fallback={<FriendsSkeleton />}>
+            <FriendsClient friends={profileFriends?.friendsData} />
+          </Suspense>
         </TabsContent>
 
         {!isMyProfile && (
           <TabsContent value="common">
-            <FriendsClient friends={commonFriends as User[]} />
+            <Suspense fallback={<FriendsSkeleton />}>
+              <CommonFriends userId={userId} friends={profileFriends?.friendsData} />
+            </Suspense>
           </TabsContent>
         )}
 
         {isMyProfile && (
           <TabsContent value="pending">
-            <FriendsClient
-              friends={requestedAndPendingFriends as User[]}
-              friendRequestObject={
-                isMyProfile && {
-                  userId,
-                  isConnected,
-                  pendingFriends: pendingFriends as User[],
-                  requestedFriends: requestedFriends as User[]
-                }
-              }
-            />
+            <Suspense fallback={<FriendsSkeleton />}>
+              <PendingFriends
+                userId={userId}
+                userFriends={profileFriends}
+                isConnected={isConnected}
+                isMyProfile={isMyProfile}
+              />
+            </Suspense>
           </TabsContent>
         )}
       </div>
