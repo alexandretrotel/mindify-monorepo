@@ -126,7 +126,14 @@ export async function getFriendsIds(userId: UUID) {
         friendId !== userId && !friendToUserData?.some((friend) => friend?.user_id === friendId)
     ) as UUID[];
 
-  return { friendsIds, askedFriendsIds };
+  const requestedFriendsIds = friendToUserData
+    ?.flatMap((friend) => friend?.user_id)
+    ?.filter(
+      (friendId) =>
+        friendId !== userId && !userToFriendData?.some((friend) => friend?.friend_id === friendId)
+    ) as UUID[];
+
+  return { friendsIds, askedFriendsIds, requestedFriendsIds };
 }
 
 export async function getPendingFriendsIds(userId: UUID) {
@@ -166,8 +173,9 @@ export async function getFriendsData(userId: UUID) {
   const friendsIds = await getFriendsIds(userId);
   const friendsData = await getUsersData(friendsIds?.friendsIds);
   const askedFriendsData = await getUsersData(friendsIds?.askedFriendsIds);
+  const requestedFriendsData = await getUsersData(friendsIds?.requestedFriendsIds);
 
-  return { friendsData, askedFriendsData };
+  return { friendsData, askedFriendsData, requestedFriendsData };
 }
 
 export async function getPendingFriendsData(userId: UUID) {

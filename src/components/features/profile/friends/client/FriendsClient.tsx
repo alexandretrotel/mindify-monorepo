@@ -19,14 +19,14 @@ const itemsPerPage = 8;
 
 const FriendsClient = ({
   friends,
-  cancelFriendRequestObject
+  friendRequestObject
 }: {
   friends: User[];
-  cancelFriendRequestObject?: {
+  friendRequestObject?: {
     userId: UUID;
-    profileId: UUID;
     isConnected: boolean;
-    displayButton: boolean;
+    pendingFriends: User[];
+    requestedFriends: User[];
   };
 }) => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
@@ -68,13 +68,28 @@ const FriendsClient = ({
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {paginatedFriends?.map((friend, index) => {
           const picture = getAvatar(friend?.user_metadata);
+          const friendRequestObjectCard = {
+            ...(friendRequestObject as {
+              userId: UUID;
+              isConnected: boolean;
+              pendingFriends: User[];
+              requestedFriends: User[];
+            }),
+            displayCancelButton: friendRequestObject?.pendingFriends?.some(
+              (pendingFriend) => pendingFriend.id === friend?.id
+            ) as boolean,
+            displayRequestButton: friendRequestObject?.requestedFriends?.some(
+              (requestedFriend) => requestedFriend.id === friend?.id
+            ) as boolean,
+            friendId: friend?.id as UUID
+          };
 
           return (
             <UserCard
               key={index}
               user={friend}
               userPicture={picture}
-              cancelFriendRequestObject={cancelFriendRequestObject}
+              friendRequestObject={friendRequestObjectCard}
             />
           );
         })}
