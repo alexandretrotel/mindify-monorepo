@@ -293,7 +293,7 @@ const Page = async ({
                 <Statistics userId={profileId} />
               </Suspense>
 
-              <Suspense fallback={<FriendsSkeleton />}>
+              <Suspense fallback={<FriendsSkeleton isMyProfile={isMyProfile} />}>
                 <Friends
                   profileId={profileId}
                   profileName={profileMetadata?.name}

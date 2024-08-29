@@ -47,6 +47,9 @@ const UserCard = ({
 }) => {
   const [friendStatus, setFriendStatus] = React.useState<FriendStatus>("none");
 
+  console.log("friendRequestObject", friendRequestObject);
+  console.log("friendStatus", friendStatus);
+
   React.useEffect(() => {
     if (friendRequestObject?.requestedFriends?.find((friend) => friend.id === user.id)) {
       setFriendStatus("requested");

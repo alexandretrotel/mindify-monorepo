@@ -25,10 +25,8 @@ const FriendsClient = ({
   friendRequestObject?: {
     userId: UUID;
     isConnected: boolean;
-    pendingFriends?: User[];
-    requestedFriends?: User[];
-    displayCancelButton: boolean;
-    displayRequestButton: boolean;
+    pendingFriends: User[];
+    requestedFriends: User[];
   };
 }) => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
@@ -74,11 +72,15 @@ const FriendsClient = ({
             ...(friendRequestObject as {
               userId: UUID;
               isConnected: boolean;
-              pendingFriends?: User[];
-              requestedFriends?: User[];
-              displayCancelButton: boolean;
-              displayRequestButton: boolean;
+              pendingFriends: User[];
+              requestedFriends: User[];
             }),
+            displayCancelButton: friendRequestObject?.pendingFriends?.some(
+              (pendingFriend) => pendingFriend.id === friend?.id
+            ) as boolean,
+            displayRequestButton: friendRequestObject?.requestedFriends?.some(
+              (requestedFriend) => requestedFriend.id === friend?.id
+            ) as boolean,
             friendId: friend?.id as UUID
           };
 
