@@ -37,7 +37,7 @@ const UserCard = ({
   heightFull?: boolean;
   friendRequestObject?: {
     userId: UUID;
-    profileId: UUID;
+    friendId: UUID;
     isConnected: boolean;
     requestedFriends?: User[];
     displayRequestButton: boolean;
@@ -90,7 +90,16 @@ const UserCard = ({
           <div className="grid w-full grid-cols-1 gap-4">
             <RenderFriendRequestButton
               userId={user?.id as UUID}
-              friendRequestObject={friendRequestObject}
+              friendRequestObject={
+                friendRequestObject as {
+                  userId: UUID;
+                  friendId: UUID;
+                  isConnected: boolean;
+                  requestedFriends?: User[];
+                  displayRequestButton: boolean;
+                  displayCancelButton: boolean;
+                }
+              }
               setFriendStatus={setFriendStatus}
               toast={toast}
             />
@@ -106,21 +115,19 @@ async function RenderFriendRequestButton({
   friendRequestObject,
   setFriendStatus,
   toast
-}: {
+}: Readonly<{
   userId: UUID;
-  friendRequestObject:
-    | {
-        userId: UUID;
-        profileId: UUID;
-        isConnected: boolean;
-        requestedFriends?: User[];
-        displayRequestButton: boolean;
-        displayCancelButton: boolean;
-      }
-    | undefined;
+  friendRequestObject: {
+    userId: UUID;
+    friendId: UUID;
+    isConnected: boolean;
+    requestedFriends?: User[];
+    displayRequestButton: boolean;
+    displayCancelButton: boolean;
+  };
   setFriendStatus: React.Dispatch<React.SetStateAction<FriendStatus>>;
   toast: ReturnType<typeof useToast>["toast"];
-}) {
+}>) {
   if (friendRequestObject?.displayCancelButton) {
     return (
       <CancelButton
@@ -155,7 +162,7 @@ async function CancelButton({
 }: Readonly<{
   friendRequestObject: {
     userId: UUID;
-    profileId: UUID;
+    friendId: UUID;
     isConnected: boolean;
     requestedFriends?: User[];
     displayRequestButton: boolean;
@@ -215,7 +222,7 @@ async function CancelButton({
               onClick={() =>
                 handleCancelFriendRequest(
                   friendRequestObject?.userId,
-                  friendRequestObject?.profileId
+                  friendRequestObject?.friendId
                 )
               }
               size="sm"
@@ -236,7 +243,7 @@ async function RequestedButtons({
 }: Readonly<{
   friendRequestObject: {
     userId: UUID;
-    profileId: UUID;
+    friendId: UUID;
     isConnected: boolean;
     requestedFriends?: User[];
     displayRequestButton: boolean;
@@ -293,7 +300,7 @@ async function RequestedButtons({
         size="sm"
         disabled={!friendRequestObject?.isConnected}
         onClick={() =>
-          handleAcceptFriendRequest(friendRequestObject?.userId, friendRequestObject?.profileId)
+          handleAcceptFriendRequest(friendRequestObject?.userId, friendRequestObject?.friendId)
         }
       >
         Accepter
@@ -304,7 +311,7 @@ async function RequestedButtons({
         size="sm"
         disabled={!friendRequestObject?.isConnected}
         onClick={() =>
-          handleRejectFriendRequest(friendRequestObject?.userId, friendRequestObject?.profileId)
+          handleRejectFriendRequest(friendRequestObject?.userId, friendRequestObject?.friendId)
         }
       >
         Refuser

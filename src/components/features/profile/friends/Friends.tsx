@@ -79,7 +79,6 @@ const Friends = async ({
               friendRequestObject={
                 isMyProfile && {
                   userId,
-                  profileId,
                   isConnected,
                   requestedFriends,
                   displayCancelButton: pendingFriends?.some(

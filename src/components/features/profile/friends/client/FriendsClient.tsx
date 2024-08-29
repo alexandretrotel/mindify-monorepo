@@ -19,14 +19,11 @@ const itemsPerPage = 8;
 
 const FriendsClient = ({
   friends,
-  requestedFriends,
   friendRequestObject
 }: {
   friends: User[];
-  requestedFriends?: User[];
   friendRequestObject?: {
     userId: UUID;
-    profileId: UUID;
     isConnected: boolean;
     requestedFriends?: User[];
     displayCancelButton: boolean;
@@ -72,13 +69,23 @@ const FriendsClient = ({
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {paginatedFriends?.map((friend, index) => {
           const picture = getAvatar(friend?.user_metadata);
+          const friendRequestObjectCard = {
+            ...(friendRequestObject as {
+              userId: UUID;
+              isConnected: boolean;
+              requestedFriends?: User[];
+              displayCancelButton: boolean;
+              displayRequestButton: boolean;
+            }),
+            friendId: friend?.id as UUID
+          };
 
           return (
             <UserCard
               key={index}
               user={friend}
               userPicture={picture}
-              friendRequestObject={friendRequestObject}
+              friendRequestObject={friendRequestObjectCard}
             />
           );
         })}
