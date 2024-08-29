@@ -80,6 +80,7 @@ const Friends = async ({
                 isMyProfile && {
                   userId,
                   isConnected,
+                  pendingFriends,
                   requestedFriends,
                   displayCancelButton: pendingFriends?.some(
                     (profileUser) => profileUser?.id === profileId

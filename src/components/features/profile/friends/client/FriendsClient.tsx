@@ -25,6 +25,7 @@ const FriendsClient = ({
   friendRequestObject?: {
     userId: UUID;
     isConnected: boolean;
+    pendingFriends?: User[];
     requestedFriends?: User[];
     displayCancelButton: boolean;
     displayRequestButton: boolean;
@@ -73,6 +74,7 @@ const FriendsClient = ({
             ...(friendRequestObject as {
               userId: UUID;
               isConnected: boolean;
+              pendingFriends?: User[];
               requestedFriends?: User[];
               displayCancelButton: boolean;
               displayRequestButton: boolean;

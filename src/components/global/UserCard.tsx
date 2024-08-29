@@ -39,14 +39,23 @@ const UserCard = ({
     userId: UUID;
     friendId: UUID;
     isConnected: boolean;
+    pendingFriends?: User[];
     requestedFriends?: User[];
     displayRequestButton: boolean;
     displayCancelButton: boolean;
   };
 }) => {
-  const [friendStatus, setFriendStatus] = React.useState<FriendStatus>(
-    friendRequestObject?.displayCancelButton ? "pending" : "none"
-  );
+  const [friendStatus, setFriendStatus] = React.useState<FriendStatus>("none");
+
+  React.useEffect(() => {
+    if (friendRequestObject?.requestedFriends?.find((friend) => friend.id === user.id)) {
+      setFriendStatus("requested");
+    }
+
+    if (friendRequestObject?.pendingFriends?.find((friend) => friend.id === user.id)) {
+      setFriendStatus("pending");
+    }
+  }, [friendRequestObject, user]);
 
   const { toast } = useToast();
 
