@@ -16,6 +16,8 @@ import MyActivity from "@/components/features/discover/MyActivity";
 import MyActivitySkeleton from "@/components/features/discover/skeleton/MyActivitySkeleton";
 import TopUsers from "@/components/features/discover/TopUsers";
 import TopUsersSkeleton from "@/components/features/discover/skeleton/TopUsersSkeleton";
+import RandomMindsPlaylists from "@/components/features/discover/RandomMindsPlaylists";
+import RandomMindsPlaylistsSkeleton from "@/components/features/discover/skeleton/RandomMindsPlaylistsSkeleton";
 
 const Discover = async ({
   userId,
@@ -43,6 +45,10 @@ const Discover = async ({
 
         <Suspense fallback={<PopularMindsSkeleton />}>
           <PopularMinds userId={userId} isConnected={isConnected} userName={userName} />
+        </Suspense>
+
+        <Suspense fallback={<RandomMindsPlaylistsSkeleton />}>
+          <RandomMindsPlaylists userId={userId} isConnected={isConnected} />
         </Suspense>
 
         <Suspense fallback={<PopularSkeleton />}>
