@@ -19,14 +19,18 @@ const itemsPerPage = 8;
 
 const FriendsClient = ({
   friends,
-  cancelFriendRequestObject
+  requestedFriends,
+  friendRequestObject
 }: {
   friends: User[];
-  cancelFriendRequestObject?: {
+  requestedFriends?: User[];
+  friendRequestObject?: {
     userId: UUID;
     profileId: UUID;
     isConnected: boolean;
-    displayButton: boolean;
+    requestedFriends?: User[];
+    displayCancelButton: boolean;
+    displayRequestButton: boolean;
   };
 }) => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
@@ -74,7 +78,7 @@ const FriendsClient = ({
               key={index}
               user={friend}
               userPicture={picture}
-              cancelFriendRequestObject={cancelFriendRequestObject}
+              friendRequestObject={friendRequestObject}
             />
           );
         })}

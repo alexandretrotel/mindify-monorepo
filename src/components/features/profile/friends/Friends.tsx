@@ -5,27 +5,6 @@ import FriendsClient from "@/components/features/profile/friends/client/FriendsC
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { User } from "@supabase/supabase-js";
 
-const getCommonOrPendingFriends = async (
-  userId: UUID,
-  profileFriends: {
-    friendsData: User[];
-    askedFriendsData: User[];
-  },
-  isMyProfile: boolean
-) => {
-  const userFriends = await getFriendsData(userId);
-
-  if (!isMyProfile) {
-    const commonFriends = profileFriends?.friendsData?.filter((friend) => {
-      return userFriends?.friendsData?.find((userFriend) => userFriend?.id === friend?.id);
-    });
-    return commonFriends;
-  } else {
-    const pendingFriends = userFriends?.askedFriendsData;
-    return pendingFriends;
-  }
-};
-
 const Friends = async ({
   profileId,
   profileName,
@@ -48,11 +27,23 @@ const Friends = async ({
   }
 
   const profileFriends = await getFriendsData(profileId);
-  const commonOrPendingFriends = await getCommonOrPendingFriends(
-    userId,
-    profileFriends,
-    isMyProfile
-  );
+
+  const userFriends = await getFriendsData(userId);
+
+  let commonFriends;
+  let requestedFriends;
+  let pendingFriends;
+  let requestedAndPendingFriends;
+  if (!isMyProfile) {
+    commonFriends = profileFriends?.friendsData?.filter((friend) => {
+      return userFriends?.friendsData?.find((userFriend) => userFriend?.id === friend?.id);
+    });
+  } else {
+    requestedFriends = userFriends?.requestedFriendsData;
+    pendingFriends = userFriends?.askedFriendsData;
+
+    requestedAndPendingFriends = [...requestedFriends, ...pendingFriends];
+  }
 
   if (!profileFriends || profileFriends?.friendsData?.length === 0) {
     return (
@@ -77,20 +68,26 @@ const Friends = async ({
 
         {!isMyProfile && (
           <TabsContent value="common">
-            <FriendsClient friends={commonOrPendingFriends} />
+            <FriendsClient friends={commonFriends as User[]} />
           </TabsContent>
         )}
 
         {isMyProfile && (
           <TabsContent value="pending">
             <FriendsClient
-              friends={commonOrPendingFriends}
-              cancelFriendRequestObject={
+              friends={requestedAndPendingFriends as User[]}
+              friendRequestObject={
                 isMyProfile && {
                   userId,
                   profileId,
                   isConnected,
-                  displayButton: true
+                  requestedFriends,
+                  displayCancelButton: pendingFriends?.some(
+                    (profileUser) => profileUser?.id === profileId
+                  ) as boolean,
+                  displayRequestButton: requestedFriends?.some(
+                    (profileUser) => profileUser?.id === profileId
+                  ) as boolean
                 }
               }
             />

@@ -167,7 +167,6 @@ const FriendshipButtonClient = ({
   if (friendStatus === "requested") {
     return (
       <Button
-        variant="destructive"
         onClick={() => handleAcceptFriendRequest(userId, profileId)}
         size={size}
         disabled={!isConnected}
