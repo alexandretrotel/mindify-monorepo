@@ -137,25 +137,28 @@ export type Database = {
             foreignKeyName: "minds_in_playlists_playlist_id_fkey"
             columns: ["playlist_id"]
             isOneToOne: false
-            referencedRelation: "minds_playlists"
+            referencedRelation: "playlists"
             referencedColumns: ["id"]
           },
         ]
       }
-      minds_playlists: {
+      playlists: {
         Row: {
           created_at: string
           id: number
+          slug: string | null
           title: string
         }
         Insert: {
           created_at?: string
           id?: number
+          slug?: string | null
           title: string
         }
         Update: {
           created_at?: string
           id?: number
+          slug?: string | null
           title?: string
         }
         Relationships: []

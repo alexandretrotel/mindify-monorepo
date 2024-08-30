@@ -15,7 +15,7 @@ const MindsPlaylistsClient = async ({
   userId,
   isConnected
 }: {
-  mindsPlaylists: (Tables<"minds_playlists"> & {
+  mindsPlaylists: (Tables<"playlists"> & {
     minds: Tables<"minds">[];
   })[];
   userId: UUID;

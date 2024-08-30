@@ -6,7 +6,7 @@ export async function getAllRandomMindsPlaylists() {
   const supabase = createClient();
 
   const { data: randomMindsPlaylists, error } = await supabase
-    .from("minds_playlists")
+    .from("playlists")
     .select("*, minds(*)");
 
   if (error) {

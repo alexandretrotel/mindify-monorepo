@@ -7,7 +7,7 @@ const Playlist = async ({
   playlist,
   heightFull
 }: {
-  playlist: Tables<"minds_playlists">;
+  playlist: Tables<"playlists">;
   heightFull?: boolean;
 }) => {
   return (
@@ -18,7 +18,7 @@ const Playlist = async ({
       <span className="text-4xl font-semibold text-primary-foreground">{playlist?.title}</span>
 
       <Button variant="secondary" className="w-fit" asChild>
-        <Link href={`/playlist/${playlist.id}`}>Voir la playlist</Link>
+        <Link href={`/playlist/${playlist.slug}`}>Voir la playlist</Link>
       </Button>
     </div>
   );
