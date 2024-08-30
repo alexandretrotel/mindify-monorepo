@@ -32,7 +32,7 @@ const MindsPlaylistsClient = async ({
       <CarouselContent className="-ml-4 flex">
         {mindsPlaylists?.map((playlist) => {
           return (
-            <CarouselItem key={playlist.id} className="basis-1/2 pl-4">
+            <CarouselItem key={playlist.id} className="pl-4 md:basis-1/2">
               <Playlist playlist={playlist} heightFull />
             </CarouselItem>
           );
