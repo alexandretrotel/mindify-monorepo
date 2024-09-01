@@ -30,6 +30,13 @@ const PlaylistGrid = async ({
       topics: Tables<"topics">;
     };
   })[];
+
+  if (playlistMinds?.length === 0) {
+    return (
+      <div className="flex h-72 items-center justify-center">Pas de MINDS dans cette playlist.</div>
+    );
+  }
+
   const playlistMindsIds = playlistMinds?.map((mind) => mind?.id);
 
   let areMindsSavedArray = Array<boolean>(playlistMindsIds.length).fill(false);
