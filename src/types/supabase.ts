@@ -142,6 +142,39 @@ export type Database = {
           },
         ]
       }
+      minds_in_users_playlists: {
+        Row: {
+          created_at: string
+          mind_id: number
+          user_playlist_id: number
+        }
+        Insert: {
+          created_at?: string
+          mind_id: number
+          user_playlist_id: number
+        }
+        Update: {
+          created_at?: string
+          mind_id?: number
+          user_playlist_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "minds_in_users_playlists_mind_id_fkey"
+            columns: ["mind_id"]
+            isOneToOne: false
+            referencedRelation: "minds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "minds_in_users_playlists_user_playlist_id_fkey"
+            columns: ["user_playlist_id"]
+            isOneToOne: false
+            referencedRelation: "users_playlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       playlists: {
         Row: {
           created_at: string
@@ -500,6 +533,38 @@ export type Database = {
           },
           {
             foreignKeyName: "user_topics_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users_playlists: {
+        Row: {
+          created_at: string
+          id: number
+          slug: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          slug: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          slug?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_playlists_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
