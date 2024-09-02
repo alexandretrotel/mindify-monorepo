@@ -3,7 +3,6 @@ import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { toSlug } from "@/utils/string";
-import { NextApiRequest } from "next";
 import { headers } from "next/headers";
 
 export const dynamic = "force-dynamic";
@@ -60,7 +59,7 @@ Un MIND est une idée extraite d’un média assez courte et concise sous la for
   return prompt;
 };
 
-export async function POST(req: NextApiRequest) {
+export async function POST() {
   const headersList = headers();
   const authorizationHeader = headersList.get("Authorization");
 

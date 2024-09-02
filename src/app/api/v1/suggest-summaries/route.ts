@@ -1,7 +1,6 @@
 import { createAdminClient } from "@/utils/supabase/admin";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateObject } from "ai";
-import { NextApiRequest } from "next";
 import { z } from "zod";
 import { headers } from "next/headers";
 
@@ -13,7 +12,7 @@ const google = createGoogleGenerativeAI({
 
 const model = google("gemini-1.5-flash-latest");
 
-export async function POST(req: NextApiRequest) {
+export async function POST() {
   const headersList = headers();
   const authorizationHeader = headersList.get("Authorization");
 
