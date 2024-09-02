@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/v1/suggest-summaries",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/v1/generate-summaries",
+      "schedule": "0 9 * * *"
+    }
+  ]
+}

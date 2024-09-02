@@ -22,6 +22,7 @@ const Validate = ({ summaryRequests }: { summaryRequests: Tables<"summary_reques
 
     try {
       await approveSummaryRequest(summaryRequests[currentIndex].id);
+
       toast({
         title: "Demande de résumé approuvée",
         description: "La demande de résumé a été approuvée avec succès"
@@ -45,6 +46,7 @@ const Validate = ({ summaryRequests }: { summaryRequests: Tables<"summary_reques
 
     try {
       await rejectSummaryRequest(summaryRequests[currentIndex].id);
+
       toast({
         title: "Demande de résumé rejetée",
         description: "La demande de résumé a été rejetée avec succès"
