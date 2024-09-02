@@ -409,25 +409,31 @@ export type Database = {
           author: string
           created_at: string
           id: number
+          source: Database["public"]["Enums"]["source"]
           title: string
           topic_id: number
           user_id: string | null
+          validated: boolean
         }
         Insert: {
           author: string
           created_at?: string
           id?: number
+          source: Database["public"]["Enums"]["source"]
           title: string
           topic_id: number
           user_id?: string | null
+          validated?: boolean
         }
         Update: {
           author?: string
           created_at?: string
           id?: number
+          source?: Database["public"]["Enums"]["source"]
           title?: string
           topic_id?: number
           user_id?: string | null
+          validated?: boolean
         }
         Relationships: [
           {
