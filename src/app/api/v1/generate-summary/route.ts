@@ -87,6 +87,8 @@ export async function POST() {
       const authorResult = await generateObject({
         model,
         prompt: authorPrompt,
+        schemaName: "AuthorSchema",
+        schemaDescription: "Schema for generating author descriptions",
         schema: z.object({
           description: z.string().min(200).max(500)
         })
@@ -113,6 +115,8 @@ export async function POST() {
       const summaryResult = await generateObject({
         model,
         prompt: summaryPrompt,
+        schemaName: "SummarySchema",
+        schemaDescription: "Schema for generating book summaries",
         schema: z.object({
           introduction: z.string().min(100).max(800),
           conclusion: z.string().min(100).max(800),
@@ -162,6 +166,8 @@ export async function POST() {
       const mindsResult = await generateObject({
         model,
         prompt: mindsPrompt,
+        schemaName: "MindsSchema",
+        schemaDescription: "Schema for generating minds based on the book",
         schema: z.object({
           mindsArray: z.string().min(200).max(500).array()
         })
