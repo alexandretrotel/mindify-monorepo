@@ -90,7 +90,7 @@ export async function POST() {
         schemaName: "AuthorSchema",
         schemaDescription: "Schema for generating author descriptions",
         schema: z.object({
-          description: z.string().min(200).max(500)
+          description: z.string()
         })
       });
 
@@ -118,11 +118,11 @@ export async function POST() {
         schemaName: "SummarySchema",
         schemaDescription: "Schema for generating book summaries",
         schema: z.object({
-          introduction: z.string().min(100).max(800),
-          conclusion: z.string().min(100).max(800),
+          introduction: z.string(),
+          conclusion: z.string(),
           readingTime: z.number(),
-          chaptersTitle: z.string().min(10).max(100).array(),
-          chaptersText: z.string().min(100).max(1400).array()
+          chaptersTitle: z.string().array(),
+          chaptersText: z.string().array()
         })
       });
 
@@ -169,7 +169,7 @@ export async function POST() {
         schemaName: "MindsSchema",
         schemaDescription: "Schema for generating minds based on the book",
         schema: z.object({
-          mindsArray: z.string().min(200).max(500).array()
+          mindsArray: z.string().array()
         })
       });
 
