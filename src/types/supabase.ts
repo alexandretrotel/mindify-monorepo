@@ -37,18 +37,21 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          mindify_ai: boolean | null
           texts: string[]
           titles: string[]
         }
         Insert: {
           created_at?: string
           id?: number
+          mindify_ai?: boolean | null
           texts: string[]
           titles: string[]
         }
         Update: {
           created_at?: string
           id?: number
+          mindify_ai?: boolean | null
           texts?: string[]
           titles?: string[]
         }
@@ -84,18 +87,21 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          mindify_ai: boolean | null
           summary_id: number
           text: string
         }
         Insert: {
           created_at?: string
           id?: number
+          mindify_ai?: boolean | null
           summary_id: number
           text: string
         }
         Update: {
           created_at?: string
           id?: number
+          mindify_ai?: boolean | null
           summary_id?: number
           text?: string
         }
@@ -307,6 +313,7 @@ export type Database = {
           id: number
           image_url: string | null
           introduction: string
+          mindify_ai: boolean | null
           reading_time: number | null
           slug: string
           source_type: Database["public"]["Enums"]["source"]
@@ -322,6 +329,7 @@ export type Database = {
           id?: number
           image_url?: string | null
           introduction: string
+          mindify_ai?: boolean | null
           reading_time?: number | null
           slug: string
           source_type: Database["public"]["Enums"]["source"]
@@ -337,6 +345,7 @@ export type Database = {
           id?: number
           image_url?: string | null
           introduction?: string
+          mindify_ai?: boolean | null
           reading_time?: number | null
           slug?: string
           source_type?: Database["public"]["Enums"]["source"]
