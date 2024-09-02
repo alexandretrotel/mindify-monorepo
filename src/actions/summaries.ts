@@ -192,7 +192,8 @@ export async function getMostPopularSummariesFromSameTopic(
           title: read?.summaries?.title as string,
           topic_id: read?.summaries?.topic_id as number,
           topics: read?.summaries?.topics as Tables<"topics">,
-          authors: read?.summaries?.authors as Tables<"authors">
+          authors: read?.summaries?.authors as Tables<"authors">,
+          mindify_ai: read?.summaries?.mindify_ai as boolean
         }
       };
     }
@@ -252,7 +253,8 @@ export async function getMostPopularSummaries() {
           title: read?.summaries?.title as string,
           topic_id: read?.summaries?.topic_id as number,
           topics: read?.summaries?.topics as Tables<"topics">,
-          authors: read?.summaries?.authors as Tables<"authors">
+          authors: read?.summaries?.authors as Tables<"authors">,
+          mindify_ai: read?.summaries?.mindify_ai as boolean
         }
       };
     }

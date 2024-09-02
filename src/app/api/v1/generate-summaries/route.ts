@@ -125,7 +125,8 @@ export async function POST() {
           .insert({
             name: summaryRequest.author,
             slug: authorSlug,
-            description: authorResult?.object?.description
+            description: authorResult?.object?.description,
+            mindify_ai: true
           })
           .select()
           .maybeSingle();
@@ -172,7 +173,8 @@ export async function POST() {
           .from("chapters")
           .insert({
             titles: summaryResult?.object?.chaptersTitle,
-            texts: summaryResult?.object?.chaptersText
+            texts: summaryResult?.object?.chaptersText,
+            mindify_ai: true
           })
           .select()
           .maybeSingle();
@@ -195,7 +197,8 @@ export async function POST() {
             source_type: summaryRequest.source,
             introduction: summaryResult?.object?.introduction,
             conclusion: summaryResult?.object?.conclusion,
-            reading_time: summaryResult?.object?.readingTime
+            reading_time: summaryResult?.object?.readingTime,
+            mindify_ai: true
           })
           .select()
           .maybeSingle();
