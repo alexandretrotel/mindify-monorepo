@@ -9,6 +9,29 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      admins: {
+        Row: {
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admins_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       authors: {
         Row: {
           created_at: string
@@ -37,18 +60,21 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          mindify_ai: boolean | null
           texts: string[]
           titles: string[]
         }
         Insert: {
           created_at?: string
           id?: number
+          mindify_ai?: boolean | null
           texts: string[]
           titles: string[]
         }
         Update: {
           created_at?: string
           id?: number
+          mindify_ai?: boolean | null
           texts?: string[]
           titles?: string[]
         }
@@ -84,18 +110,21 @@ export type Database = {
         Row: {
           created_at: string
           id: number
+          mindify_ai: boolean | null
           summary_id: number
           text: string
         }
         Insert: {
           created_at?: string
           id?: number
+          mindify_ai?: boolean | null
           summary_id: number
           text: string
         }
         Update: {
           created_at?: string
           id?: number
+          mindify_ai?: boolean | null
           summary_id?: number
           text?: string
         }
@@ -138,6 +167,39 @@ export type Database = {
             columns: ["playlist_id"]
             isOneToOne: false
             referencedRelation: "playlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      minds_in_users_playlists: {
+        Row: {
+          created_at: string
+          mind_id: number
+          user_playlist_id: number
+        }
+        Insert: {
+          created_at?: string
+          mind_id: number
+          user_playlist_id: number
+        }
+        Update: {
+          created_at?: string
+          mind_id?: number
+          user_playlist_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "minds_in_users_playlists_mind_id_fkey"
+            columns: ["mind_id"]
+            isOneToOne: false
+            referencedRelation: "minds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "minds_in_users_playlists_user_playlist_id_fkey"
+            columns: ["user_playlist_id"]
+            isOneToOne: false
+            referencedRelation: "users_playlists"
             referencedColumns: ["id"]
           },
         ]
@@ -274,6 +336,7 @@ export type Database = {
           id: number
           image_url: string | null
           introduction: string
+          mindify_ai: boolean | null
           reading_time: number | null
           slug: string
           source_type: Database["public"]["Enums"]["source"]
@@ -289,6 +352,7 @@ export type Database = {
           id?: number
           image_url?: string | null
           introduction: string
+          mindify_ai?: boolean | null
           reading_time?: number | null
           slug: string
           source_type: Database["public"]["Enums"]["source"]
@@ -304,6 +368,7 @@ export type Database = {
           id?: number
           image_url?: string | null
           introduction?: string
+          mindify_ai?: boolean | null
           reading_time?: number | null
           slug?: string
           source_type?: Database["public"]["Enums"]["source"]
@@ -364,6 +429,54 @@ export type Database = {
           },
           {
             foreignKeyName: "user_ratings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      summary_requests: {
+        Row: {
+          author: string
+          created_at: string
+          id: number
+          source: Database["public"]["Enums"]["source"]
+          title: string
+          topic_id: number
+          user_id: string | null
+          validated: boolean
+        }
+        Insert: {
+          author: string
+          created_at?: string
+          id?: number
+          source: Database["public"]["Enums"]["source"]
+          title: string
+          topic_id: number
+          user_id?: string | null
+          validated?: boolean
+        }
+        Update: {
+          author?: string
+          created_at?: string
+          id?: number
+          source?: Database["public"]["Enums"]["source"]
+          title?: string
+          topic_id?: number
+          user_id?: string | null
+          validated?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "summary_requests_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "summary_requests_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -500,6 +613,38 @@ export type Database = {
           },
           {
             foreignKeyName: "user_topics_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users_playlists: {
+        Row: {
+          created_at: string
+          id: number
+          slug: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          slug: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          slug?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_playlists_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"

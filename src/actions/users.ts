@@ -9,11 +9,9 @@ import { UUID } from "crypto";
 import type { User } from "@supabase/supabase-js";
 import { summary } from "date-streaks";
 import type { Tables } from "@/types/supabase";
-import { createAdminClient } from "@/utils/supabase/admin";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function deleteUser(userId: UUID) {
-  const supabaseAdmin = createAdminClient();
-
   const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(userId);
 
   if (deleteError) {
@@ -166,8 +164,6 @@ export async function userUpdateAvatar(formData: FormData, userId: UUID) {
 }
 
 export async function getUsersData(usersIds: UUID[]) {
-  const supabaseAdmin = createAdminClient();
-
   const users: User[] = await Promise.all(
     usersIds.map(async (userId) => {
       const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);

@@ -15,7 +15,7 @@ import { Muted } from "@/components/typography/muted";
 import ProfileMinds from "@/components/features/profile/minds/ProfileMinds";
 import MindsSkeleton from "@/components/global/skeleton/MindsSkeleton";
 import type { Metadata } from "next";
-import { createAdminClient } from "@/utils/supabase/admin";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 import Statistics from "@/components/features/profile/statistics/Statistics";
 import StatisticsSkeleton from "@/components/features/profile/statistics/skeleton/StatisticsSkeleton";
 import CopyProfileLink from "@/components/features/profile/header/CopyProfileLink";
@@ -47,8 +47,6 @@ import FriendsTabsSkeleton from "@/components/features/profile/friends/skeleton/
 
 export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;
-
-  const supabaseAdmin = createAdminClient();
 
   const { data: userData } = await supabaseAdmin.auth.admin.getUserById(profileId);
 
@@ -102,8 +100,6 @@ const Page = async ({
   const userMetadata = user?.user_metadata as UserMetadata;
 
   const isConnected = !!user;
-
-  const supabaseAdmin = createAdminClient();
 
   const { data: profileData } = await supabaseAdmin.auth.admin.getUserById(profileId);
   const profileUser = profileData?.user;

@@ -2,6 +2,7 @@ import { areMindsSaved } from "@/actions/minds";
 import { getMindsFromPlaylistSlug } from "@/actions/playlists";
 import Mind from "@/components/global/Mind";
 import H2 from "@/components/typography/h2";
+import H3Span from "@/components/typography/h3AsSpan";
 import type { Tables } from "@/types/supabase";
 import type { UUID } from "crypto";
 import { notFound } from "next/navigation";
@@ -30,6 +31,15 @@ const PlaylistGrid = async ({
       topics: Tables<"topics">;
     };
   })[];
+
+  if (playlistMinds?.length === 0) {
+    return (
+      <div className="flex h-72 items-center justify-center">
+        <H3Span>Pas de MINDS dans cette playlist.</H3Span>
+      </div>
+    );
+  }
+
   const playlistMindsIds = playlistMinds?.map((mind) => mind?.id);
 
   let areMindsSavedArray = Array<boolean>(playlistMindsIds.length).fill(false);
