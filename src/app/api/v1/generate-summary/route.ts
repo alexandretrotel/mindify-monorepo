@@ -52,7 +52,7 @@ const getMindsPrompt = (title: string, authorName: string): string => {
   const prompt = `
 Un MIND est une idée extraite d’un média assez courte et concise sous la forme d'une citation (entre 200 et 500 caractères). Il s’agit plus précisément du résumé d’une notion ou d’un concept clé du média source. Ainsi, les utilisateurs peuvent lire des MINDS, les sauvegarder dans leur librairie et les garder en mémoire pour les réviser. Les utilisateurs premium seuls auront accès à cette fonctionnalité de révision qui se fera sous forme de flashcards. Il est écrit du point de vue de l'auteur.
 
-Écrit entre 6 et 10 minds sur le livre ${title} de ${authorName}.
+Écrit entre 6 et 10 minds en français sur le livre ${title} de ${authorName}.
     `;
 
   return prompt;
