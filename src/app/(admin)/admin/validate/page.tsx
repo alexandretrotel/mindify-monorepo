@@ -51,7 +51,6 @@ const ValidatePage = async () => {
     );
   }
 
-  // tinder with two buttons
   return (
     <div className="flex h-screen flex-col items-center justify-center space-y-4 px-4">
       <Validate summaryRequests={summaryRequests} />

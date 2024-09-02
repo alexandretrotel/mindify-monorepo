@@ -1,6 +1,6 @@
 import ShareMind from "@/components/features/share-mind/ShareMind";
 import ShareMindSkeleton from "@/components/features/share-mind/skeleton/ShareMindSkeleton";
-import { createAdminClient } from "@/utils/supabase/admin";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
 import { Metadata } from "next";
@@ -8,8 +8,6 @@ import React, { Suspense } from "react";
 
 export async function generateMetadata({ params }: { params: { id: number } }): Promise<Metadata> {
   const { id } = params;
-
-  const supabaseAdmin = createAdminClient();
 
   const { data: mind } = await supabaseAdmin
     .from("minds")

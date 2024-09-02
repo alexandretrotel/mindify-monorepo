@@ -1,4 +1,4 @@
-import { createAdminClient } from "@/utils/supabase/admin";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";
@@ -22,8 +22,6 @@ export async function POST() {
     console.warn("Unauthorized access attempt to the API endpoint");
     return new Response("Unauthorized", { status: 401 });
   }
-
-  const supabaseAdmin = createAdminClient();
 
   try {
     const { data, error } = await supabaseAdmin

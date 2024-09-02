@@ -17,11 +17,11 @@ const Validate = ({ summaryRequests }: { summaryRequests: Tables<"summary_reques
 
   const { toast } = useToast();
 
-  const handleApprove = async () => {
+  const handleApprove = async (requestId: number) => {
     setIsApproving(true);
 
     try {
-      await approveSummaryRequest(summaryRequests[currentIndex].id);
+      await approveSummaryRequest(requestId);
 
       toast({
         title: "Demande de résumé approuvée",
@@ -41,11 +41,11 @@ const Validate = ({ summaryRequests }: { summaryRequests: Tables<"summary_reques
     }
   };
 
-  const handleReject = async () => {
+  const handleReject = async (requestId: number) => {
     setIsRejecting(true);
 
     try {
-      await rejectSummaryRequest(summaryRequests[currentIndex].id);
+      await rejectSummaryRequest(requestId);
 
       toast({
         title: "Demande de résumé rejetée",
@@ -78,7 +78,7 @@ const Validate = ({ summaryRequests }: { summaryRequests: Tables<"summary_reques
       <div className="grid w-full grid-cols-2 gap-4">
         <Button
           variant="destructive"
-          onClick={handleReject}
+          onClick={() => handleReject(summaryRequests[currentIndex].id)}
           disabled={isRejecting}
           className="flex items-center gap-2"
         >
@@ -86,7 +86,11 @@ const Validate = ({ summaryRequests }: { summaryRequests: Tables<"summary_reques
           Rejeter
         </Button>
 
-        <Button onClick={handleApprove} disabled={isApproving} className="flex items-center gap-2">
+        <Button
+          onClick={() => handleApprove(summaryRequests[currentIndex].id)}
+          disabled={isApproving}
+          className="flex items-center gap-2"
+        >
           {isApproving && <Loader2Icon className="h-3 w-3 animate-spin" />}
           Approuver
         </Button>

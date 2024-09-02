@@ -4,7 +4,7 @@ import Mind from "@/components/global/Mind";
 import Semibold from "@/components/typography/semibold";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { Tables } from "@/types/supabase";
-import { createAdminClient } from "@/utils/supabase/admin";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import type { User, UserMetadata } from "@supabase/supabase-js";
 import type { UUID } from "crypto";
@@ -45,8 +45,6 @@ const ShareMind = async ({
 
   const areMindsSavedArray = await areMindsSaved([mind?.id], userId);
   const initialIsSaved = areMindsSavedArray?.[0];
-
-  const supabaseAdmin = createAdminClient();
 
   let sharedByUser: User | null = null;
   if (sharedByUserId) {
