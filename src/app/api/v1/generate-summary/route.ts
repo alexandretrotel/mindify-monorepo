@@ -10,6 +10,8 @@ const google = createGoogleGenerativeAI({
   apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY!
 });
 
+const model = google("gemini-1.5-flash-latest");
+
 // TODO: support other summaries than books
 const getAuthorPrompt = (authorName: string): string => {
   const prompt = `Résume en français de manière concise la biographie de ${authorName} sans faire allusion à un livre en particulier. Renvoie également un slug qui correspond au nom de l'auteur.`;
@@ -56,104 +58,139 @@ Un MIND est une idée extraite d’un média assez courte et concise sous la for
   return prompt;
 };
 
-const model = google("gemini-1.5-pro-latest");
-
 export async function POST() {
   // TODO: protect this API route to be executed only once per day by cron job
   const supabaseAdmin = createAdminClient();
 
-  const { data, error } = await supabaseAdmin.from("summary_requests").select("*");
+  try {
+    const { data, error } = await supabaseAdmin.from("summary_requests").select("*");
 
-  if (error) {
-    return new Response("Error while fetching summary requests", { status: 500 });
+    if (error) {
+      return new Response("Error while fetching summary requests", { status: 500 });
+    }
+
+    if (!data || data.length === 0) {
+      return new Response("No summary request to generate", { status: 200 });
+    }
+
+    for (const summaryRequest of data) {
+      // filter to keep only validated requests
+      if (!summaryRequest?.validated) {
+        continue;
+      }
+
+      console.log("Generating summary for request", summaryRequest);
+
+      // generate all the content from the request
+      const authorPrompt = getAuthorPrompt(summaryRequest.author);
+
+      const authorResult = await generateObject({
+        model,
+        prompt: authorPrompt,
+        schema: z.object({
+          description: z.string().min(200).max(500)
+        })
+      });
+
+      const authorSlug = toSlug(summaryRequest.author);
+
+      const { data: authorData, error: authorError } = await supabaseAdmin
+        .from("authors")
+        .insert({
+          name: summaryRequest.author,
+          slug: authorSlug,
+          description: authorResult?.object?.description
+        })
+        .select()
+        .maybeSingle();
+
+      if (authorError) {
+        // TODO: handle author error (real error or author already exists ?)
+      }
+
+      const summaryPrompt = getSummaryPrompt(summaryRequest.title, summaryRequest.author);
+
+      const summaryResult = await generateObject({
+        model,
+        prompt: summaryPrompt,
+        schema: z.object({
+          introduction: z.string().min(100).max(800),
+          conclusion: z.string().min(100).max(800),
+          readingTime: z.number(),
+          chaptersTitle: z.string().min(10).max(100).array(),
+          chaptersText: z.string().min(100).max(1400).array()
+        })
+      });
+
+      const { data: chaptersData, error: chaptersError } = await supabaseAdmin
+        .from("chapters")
+        .insert({
+          titles: summaryResult?.object?.chaptersTitle,
+          texts: summaryResult?.object?.chaptersText
+        })
+        .select()
+        .maybeSingle();
+
+      if (chaptersError) {
+        // TODO: handle errors
+      }
+
+      const summaryTitleSlug = toSlug(summaryRequest.title);
+
+      const { data: summaryData, error: summaryError } = await supabaseAdmin
+        .from("summaries")
+        .insert({
+          title: summaryRequest.title,
+          slug: summaryTitleSlug,
+          topic_id: summaryRequest.topic_id,
+          author_id: authorData?.id as number,
+          chapters_id: chaptersData?.id,
+          source_type: summaryRequest.source,
+          introduction: summaryResult?.object?.introduction,
+          conclusion: summaryResult?.object?.conclusion,
+          reading_time: summaryResult?.object?.readingTime
+        })
+        .select()
+        .maybeSingle();
+
+      if (summaryError) {
+        // TODO: handle error
+      }
+
+      const mindsPrompt = getMindsPrompt(summaryRequest.title, summaryRequest.author);
+
+      const mindsResult = await generateObject({
+        model,
+        prompt: mindsPrompt,
+        schema: z.object({
+          mindsArray: z.string().min(200).max(500).array()
+        })
+      });
+
+      if (mindsResult?.object?.mindsArray) {
+        for (const mind of mindsResult.object.mindsArray) {
+          try {
+            const { error: mindsError } = await supabaseAdmin.from("minds").insert({
+              text: mind,
+              summary_id: summaryData?.id as number
+            });
+
+            if (mindsError) {
+              // TODO handle errors
+              console.error("Error inserting mind:", mindsError);
+            }
+          } catch (error) {
+            console.error("Error inserting minds:", error);
+          }
+        }
+      }
+
+      // TODO: delete the summary once added to the summary table
+    }
+
+    return new Response("Summary generation done", { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return new Response("An error occured while generating summaries", { status: 500 });
   }
-
-  if (!data || data.length === 0) {
-    return new Response("No summary request to generate", { status: 200 });
-  }
-
-  for (const summaryRequest of data) {
-    // filter to keep only validated requests
-    if (!summaryRequest?.validated) {
-      continue;
-    }
-
-    console.log("Generating summary for request", summaryRequest);
-
-    // generate all the content from the request
-    const authorPrompt = getAuthorPrompt(summaryRequest.author);
-
-    const authorResult = await generateObject({
-      model,
-      prompt: authorPrompt,
-      schema: z.object({
-        description: z.string().min(200).max(500)
-      })
-    });
-
-    const authorSlug = toSlug(summaryRequest.author);
-
-    const { data: authorData, error: authorError } = await supabaseAdmin
-      .from("authors")
-      .insert({
-        name: summaryRequest.author,
-        slug: authorSlug,
-        description: authorResult?.object?.description
-      })
-      .select()
-      .maybeSingle();
-
-    if (authorError) {
-      // TODO: handle author error (real error or author already exists ?)
-    }
-
-    const summaryPrompt = getSummaryPrompt(summaryRequest.title, summaryRequest.author);
-
-    const summaryResult = await generateObject({
-      model,
-      prompt: summaryPrompt,
-      schema: z.object({
-        introduction: z.string().min(100).max(800),
-        conclusion: z.string().min(100).max(800),
-        readingTime: z.number(),
-        chaptersTitle: z.string().min(10).max(100).array(),
-        chaptersText: z.string().min(100).max(1400).array()
-      })
-    });
-
-    const { data: chaptersData, error: chaptersError } = await supabaseAdmin
-      .from("chapters")
-      .insert({
-        titles: summaryResult?.object?.chaptersTitle,
-        texts: summaryResult?.object?.chaptersText
-      })
-      .select()
-      .maybeSingle();
-
-    if (chaptersError) {
-      // TODO: handle errors
-    }
-
-    const summaryTitleSlug = toSlug(summaryRequest.title);
-
-    const { error: summaryError } = await supabaseAdmin.from("summaries").insert({
-      title: summaryRequest.title,
-      slug: summaryTitleSlug,
-      topic_id: summaryRequest.topic_id,
-      author_id: authorData?.id as number,
-      chapters_id: chaptersData?.id,
-      source_type: summaryRequest.source,
-      introduction: summaryResult?.object?.introduction,
-      conclusion: summaryResult?.object?.conclusion,
-      reading_time: summaryResult?.object?.readingTime
-    });
-
-    if (summaryError) {
-      // TODO: handle error
-    }
-
-    // TODO: delete the summary once added to the summary table
-  }
-
-  return new Response("Summary generation done", { status: 200 });
 }
