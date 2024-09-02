@@ -404,6 +404,48 @@ export type Database = {
           },
         ]
       }
+      summary_requests: {
+        Row: {
+          author: string
+          created_at: string
+          id: number
+          title: string
+          topic_id: number
+          user_id: string | null
+        }
+        Insert: {
+          author: string
+          created_at?: string
+          id?: number
+          title: string
+          topic_id: number
+          user_id?: string | null
+        }
+        Update: {
+          author?: string
+          created_at?: string
+          id?: number
+          title?: string
+          topic_id?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "summary_requests_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "summary_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       support_bugs: {
         Row: {
           bug_type: Database["public"]["Enums"]["bugs"]
