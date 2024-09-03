@@ -3,6 +3,7 @@ import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { headers } from "next/headers";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 
@@ -12,15 +13,12 @@ const google = createGoogleGenerativeAI({
 
 const model = google("gemini-1.5-flash-latest");
 
-export async function POST() {
-  const headersList = headers();
-  const authorizationHeader = headersList.get("Authorization");
-
-  const secretToken = process.env.MINDIFY_SECRET_KEY;
-
-  if (!authorizationHeader || authorizationHeader !== `Bearer ${secretToken}`) {
-    console.warn("Unauthorized access attempt to the API endpoint");
-    return new Response("Unauthorized", { status: 401 });
+export async function GET(request: NextRequest) {
+  const authHeader = request.headers.get('authorization');
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response('Unauthorized', {
+      status: 401,
+    });
   }
 
   try {
