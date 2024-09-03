@@ -59,7 +59,7 @@ Un MIND est une idée extraite d’un média assez courte et concise sous la for
   return prompt;
 };
 
-export async function POST() {
+export async function GET() {
   const headersList = headers();
   const authorizationHeader = headersList.get("Authorization");
 
