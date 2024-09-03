@@ -12,7 +12,7 @@ const google = createGoogleGenerativeAI({
 
 const model = google("gemini-1.5-flash-latest");
 
-export async function POST() {
+export async function GET() {
   const headersList = headers();
   const authorizationHeader = headersList.get("Authorization");
 
