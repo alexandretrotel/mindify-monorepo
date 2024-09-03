@@ -14,10 +14,34 @@ const google = createGoogleGenerativeAI({
 const model = google("gemini-1.5-flash-latest");
 
 export async function GET(request: NextRequest) {
-  const authHeader = request.headers.get('authorization');
+  const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return new Response('Unauthorized', {
-      status: 401,
+    return new Response("Unauthorized", {
+      status: 401
+    });
+  }
+
+  try {
+    await fetch("/api/v1/suggest-summaries", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.CRON_SECRET}`
+      }
+    });
+
+    return new Response("Summary suggestion done", { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return new Response("Error while fetching summaries", { status: 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  const authHeader = request.headers.get("authorization");
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response("Unauthorized", {
+      status: 401
     });
   }
 

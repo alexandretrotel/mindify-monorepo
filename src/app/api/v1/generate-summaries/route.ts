@@ -3,7 +3,6 @@ import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { toSlug } from "@/utils/string";
-import { headers } from "next/headers";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -61,10 +60,34 @@ Un MIND est une idée extraite d’un média assez courte et concise sous la for
 };
 
 export async function GET(request: NextRequest) {
-  const authHeader = request.headers.get('authorization');
+  const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return new Response('Unauthorized', {
-      status: 401,
+    return new Response("Unauthorized", {
+      status: 401
+    });
+  }
+
+  try {
+    await fetch("/api/v1/generate-summaries", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.CRON_SECRET}`
+      }
+    });
+
+    return new Response("Summary generation done", { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return new Response("Error while fetching summaries", { status: 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  const authHeader = request.headers.get("authorization");
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response("Unauthorized", {
+      status: 401
     });
   }
 
@@ -247,10 +270,8 @@ export async function GET(request: NextRequest) {
         throw new Error("Error while deleting summary request");
       }
     }
-
-    return new Response("Summary generation done", { status: 200 });
   } catch (error) {
-    console.error(error);
-    return new Response("An error occured while generating summaries", { status: 500 });
+    console.error("Error while generating summaries", error);
+    return new Response("Error while generating summaries", { status: 500 });
   }
 }
