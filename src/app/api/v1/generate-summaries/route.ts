@@ -68,7 +68,10 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    await fetch("/api/v1/generate-summaries", {
+    const baseUrl = new URL(request.url).origin;
+    const suggestSummariesUrl = new URL("/api/v1/generate-summaries", baseUrl);
+
+    await fetch(suggestSummariesUrl.toString(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
