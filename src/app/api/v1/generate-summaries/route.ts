@@ -236,21 +236,19 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
         prompt: mindsPrompt,
         schemaName: "MindsSchema",
         schemaDescription: "Schema for generating minds based on the book",
-        schema: z
-          .object({
-            mind: z.string(),
-            question: z.string()
-          })
-          .array()
+        schema: z.object({
+          minds: z.string().array(),
+          questions: z.string().array()
+        })
       });
 
       if (mindsResult?.object) {
-        for (const element of mindsResult.object) {
+        for (const mind of mindsResult.object.minds) {
           try {
             const { error: mindsError } = await supabaseAdmin.from("minds").insert({
-              text: element.mind,
+              text: mind,
               summary_id: summaryDataGlobal?.id as number,
-              question: element.question
+              question: mindsResult.object.questions[mindsResult.object.minds.indexOf(mind)]
             });
 
             if (mindsError) {
