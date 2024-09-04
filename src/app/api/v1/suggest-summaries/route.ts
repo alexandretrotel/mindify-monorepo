@@ -42,20 +42,22 @@ async function suggestSummaries(supabaseURL: string, supabaseServiceRoleKey: str
   const supabaseAdmin = createClient<Database>(supabaseURL, supabaseServiceRoleKey);
 
   try {
-    const { data, error } = await supabaseAdmin
-      .from("summaries")
-      .select("title, authors(name), topics(id, name)");
+    const { data: topicsData, error: topicsError } = await supabaseAdmin.from("topics").select("*");
 
-    if (error) {
-      return new Response("Error while fetching summaries", { status: 500 });
+    if (topicsError) {
+      throw new Error("Error while fetching topics");
     }
 
-    const prompt = `Trouve 10 résumés de livres non fictifs, similaires mais différents de ceux-ci, en indiquant le titre et l'auteur en français: 
-- Titres: ${data.map((summary) => summary.title).join(", ")} 
-- Auteurs respectifs: ${data.map((summary) => summary?.authors?.name).join(", ")}. 
-Les sujets des livres doivent être en rapport avec ces couples id/nom: 
-- IDs: ${data.map((summary) => summary?.topics?.id).join(", ")}
-- Noms: ${data.map((summary) => summary?.topics?.name).join(", ")}.`;
+    const prompt = `Trouve 20 livres plutôt non fictifs, similaires mais différents de ceux-ci, en indiquant le titre et l'auteur en français ainsi que l'intérêt du livre.
+    
+    Chaque intérêt porte un nom et un identifiant. Voici les intérêts possibles :
+    ${topicsData?.map((topic) => `${topic.id}: ${topic.name}`).join("\n")}
+
+    Tu ne dois alors renvoyer que :
+    - le titre du livre
+    - l'auteur du livre
+    - l'intérêt du livre (en utilisant l'identifiant de l'intérêt)
+    `;
 
     const suggestionsResult = await generateObject({
       model,
