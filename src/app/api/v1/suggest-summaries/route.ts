@@ -22,8 +22,13 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    await suggestSummaries();
-    return new Response("Summary suggestion done", { status: 200 });
+    const response = await suggestSummaries();
+
+    if (!response) {
+      return new Response("Summary suggestion done", { status: 200 });
+    }
+
+    return response;
   } catch (error) {
     console.error(error);
     return new Response("Error while fetching summaries", { status: 500 });

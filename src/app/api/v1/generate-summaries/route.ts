@@ -71,8 +71,13 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    await generateSummaries();
-    return new Response("Summary generation done", { status: 200 });
+    const response = await generateSummaries();
+
+    if (!response) {
+      return new Response("Summary generation done", { status: 200 });
+    }
+
+    return response;
   } catch (error) {
     console.error(error);
     return new Response("Error while fetching summaries", { status: 500 });
