@@ -255,7 +255,7 @@ function Back({
                 onClick={handleSaveMind}
                 disabled={!isConnected}
               >
-                Enregistrer
+                {isSaved ? "Enregistré" : "Enregistrer"}
               </Button>
               <Button variant="secondary" className="w-full" onClick={handleShareMind}>
                 Partager
