@@ -37,6 +37,7 @@ export type Database = {
           created_at: string
           description: string | null
           id: number
+          mindify_ai: boolean
           name: string
           slug: string
         }
@@ -44,6 +45,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: number
+          mindify_ai?: boolean
           name: string
           slug: string
         }
@@ -51,6 +53,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: number
+          mindify_ai?: boolean
           name?: string
           slug?: string
         }
@@ -77,6 +80,21 @@ export type Database = {
           mindify_ai?: boolean | null
           texts?: string[]
           titles?: string[]
+        }
+        Relationships: []
+      }
+      cron_test: {
+        Row: {
+          created_at: string
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
         }
         Relationships: []
       }
