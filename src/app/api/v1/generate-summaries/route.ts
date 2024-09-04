@@ -109,166 +109,170 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
 
       console.log("Generating summary for request", summaryRequest);
 
-      // checks if the author already exists in the database
-      const { data: authorDataCheck, error: authorErrorCheck } = await supabaseAdmin
-        .from("authors")
-        .select("*")
-        .eq("name", summaryRequest.author)
-        .maybeSingle();
-
-      if (authorErrorCheck) {
-        throw new Error("Error while checking author");
-      }
-
-      let authorDataGlobal;
-      if (!authorDataCheck) {
-        // generate all the content from the request
-        const authorPrompt = getAuthorPrompt(summaryRequest.author);
-
-        const authorResult = await generateObject({
-          model,
-          prompt: authorPrompt,
-          schemaName: "AuthorSchema",
-          schemaDescription: "Schema for generating author descriptions",
-          schema: z.object({
-            description: z.string()
-          })
-        });
-
-        const authorSlug = toSlug(summaryRequest.author);
-
-        const { data: authorData, error: authorError } = await supabaseAdmin
+      try {
+        // checks if the author already exists in the database
+        const { data: authorDataCheck, error: authorErrorCheck } = await supabaseAdmin
           .from("authors")
-          .insert({
-            name: summaryRequest.author,
-            slug: authorSlug,
-            description: authorResult?.object?.description,
-            mindify_ai: true
-          })
-          .select()
+          .select("*")
+          .eq("name", summaryRequest.author)
           .maybeSingle();
 
-        if (authorError) {
-          throw new Error("Error while inserting author");
+        if (authorErrorCheck) {
+          throw new Error("Error while checking author");
         }
 
-        authorDataGlobal = authorData;
-      } else {
-        authorDataGlobal = authorDataCheck;
-      }
+        let authorDataGlobal;
+        if (!authorDataCheck) {
+          // generate all the content from the request
+          const authorPrompt = getAuthorPrompt(summaryRequest.author);
 
-      // checks if the summary already exists in the database
-      const { data: summaryDataCheck, error: summaryErrorCheck } = await supabaseAdmin
-        .from("summaries")
-        .select("*")
-        .eq("title", summaryRequest.title)
-        .maybeSingle();
+          const authorResult = await generateObject({
+            model,
+            prompt: authorPrompt,
+            schemaName: "AuthorSchema",
+            schemaDescription: "Schema for generating author descriptions",
+            schema: z.object({
+              description: z.string()
+            })
+          });
 
-      if (summaryErrorCheck) {
-        throw new Error("Error while checking summary");
-      }
+          const authorSlug = toSlug(summaryRequest.author);
 
-      let summaryDataGlobal;
-      if (!summaryDataCheck) {
-        const summaryPrompt = getSummaryPrompt(summaryRequest.title, summaryRequest.author);
+          const { data: authorData, error: authorError } = await supabaseAdmin
+            .from("authors")
+            .insert({
+              name: summaryRequest.author,
+              slug: authorSlug,
+              description: authorResult?.object?.description,
+              mindify_ai: true
+            })
+            .select()
+            .maybeSingle();
 
-        const summaryResult = await generateObject({
+          if (authorError) {
+            throw new Error("Error while inserting author");
+          }
+
+          authorDataGlobal = authorData;
+        } else {
+          authorDataGlobal = authorDataCheck;
+        }
+
+        // checks if the summary already exists in the database
+        const { data: summaryDataCheck, error: summaryErrorCheck } = await supabaseAdmin
+          .from("summaries")
+          .select("*")
+          .eq("title", summaryRequest.title)
+          .maybeSingle();
+
+        if (summaryErrorCheck) {
+          throw new Error("Error while checking summary");
+        }
+
+        let summaryDataGlobal;
+        if (!summaryDataCheck) {
+          const summaryPrompt = getSummaryPrompt(summaryRequest.title, summaryRequest.author);
+
+          const summaryResult = await generateObject({
+            model,
+            prompt: summaryPrompt,
+            schemaName: "SummarySchema",
+            schemaDescription: "Schema for generating book summaries",
+            schema: z.object({
+              introduction: z.string(),
+              conclusion: z.string(),
+              readingTime: z.number(),
+              chaptersTitle: z.string().array(),
+              chaptersText: z.string().array()
+            })
+          });
+
+          const { data: chaptersData, error: chaptersError } = await supabaseAdmin
+            .from("chapters")
+            .insert({
+              titles: summaryResult?.object?.chaptersTitle,
+              texts: summaryResult?.object?.chaptersText,
+              mindify_ai: true
+            })
+            .select()
+            .maybeSingle();
+
+          if (chaptersError) {
+            console.error("Error while inserting chapters", chaptersError);
+            throw new Error("Error while inserting chapters");
+          }
+
+          const summaryTitleSlug = toSlug(summaryRequest.title);
+
+          const { data: summaryData, error: summaryError } = await supabaseAdmin
+            .from("summaries")
+            .insert({
+              title: summaryRequest.title,
+              slug: summaryTitleSlug,
+              topic_id: summaryRequest.topic_id,
+              author_id: authorDataGlobal?.id as number,
+              chapters_id: chaptersData?.id,
+              source_type: summaryRequest.source,
+              introduction: summaryResult?.object?.introduction,
+              conclusion: summaryResult?.object?.conclusion,
+              reading_time: summaryResult?.object?.readingTime,
+              mindify_ai: true
+            })
+            .select()
+            .maybeSingle();
+
+          if (summaryError) {
+            throw new Error("Error while inserting summary");
+          }
+
+          summaryDataGlobal = summaryData;
+        } else {
+          summaryDataGlobal = summaryDataCheck;
+        }
+
+        const mindsPrompt = getMindsPrompt(summaryRequest.title, summaryRequest.author);
+
+        const mindsResult = await generateObject({
           model,
-          prompt: summaryPrompt,
-          schemaName: "SummarySchema",
-          schemaDescription: "Schema for generating book summaries",
+          prompt: mindsPrompt,
+          schemaName: "MindsSchema",
+          schemaDescription: "Schema for generating minds based on the book",
           schema: z.object({
-            introduction: z.string(),
-            conclusion: z.string(),
-            readingTime: z.number(),
-            chaptersTitle: z.string().array(),
-            chaptersText: z.string().array()
+            minds: z.string().array(),
+            questions: z.string().array()
           })
         });
 
-        const { data: chaptersData, error: chaptersError } = await supabaseAdmin
-          .from("chapters")
-          .insert({
-            titles: summaryResult?.object?.chaptersTitle,
-            texts: summaryResult?.object?.chaptersText,
-            mindify_ai: true
-          })
-          .select()
-          .maybeSingle();
+        if (mindsResult?.object) {
+          for (const mind of mindsResult.object.minds) {
+            try {
+              const { error: mindsError } = await supabaseAdmin.from("minds").insert({
+                text: mind,
+                summary_id: summaryDataGlobal?.id as number,
+                question: mindsResult.object.questions[mindsResult.object.minds.indexOf(mind)]
+              });
 
-        if (chaptersError) {
-          console.error("Error while inserting chapters", chaptersError);
-          throw new Error("Error while inserting chapters");
-        }
-
-        const summaryTitleSlug = toSlug(summaryRequest.title);
-
-        const { data: summaryData, error: summaryError } = await supabaseAdmin
-          .from("summaries")
-          .insert({
-            title: summaryRequest.title,
-            slug: summaryTitleSlug,
-            topic_id: summaryRequest.topic_id,
-            author_id: authorDataGlobal?.id as number,
-            chapters_id: chaptersData?.id,
-            source_type: summaryRequest.source,
-            introduction: summaryResult?.object?.introduction,
-            conclusion: summaryResult?.object?.conclusion,
-            reading_time: summaryResult?.object?.readingTime,
-            mindify_ai: true
-          })
-          .select()
-          .maybeSingle();
-
-        if (summaryError) {
-          throw new Error("Error while inserting summary");
-        }
-
-        summaryDataGlobal = summaryData;
-      } else {
-        summaryDataGlobal = summaryDataCheck;
-      }
-
-      const mindsPrompt = getMindsPrompt(summaryRequest.title, summaryRequest.author);
-
-      const mindsResult = await generateObject({
-        model,
-        prompt: mindsPrompt,
-        schemaName: "MindsSchema",
-        schemaDescription: "Schema for generating minds based on the book",
-        schema: z
-          .object({
-            mind: z.string(),
-            question: z.string()
-          })
-          .array()
-      });
-
-      if (mindsResult?.object) {
-        for (const element of mindsResult.object) {
-          try {
-            const { error: mindsError } = await supabaseAdmin.from("minds").insert({
-              text: element.mind,
-              summary_id: summaryDataGlobal?.id as number,
-              question: element.question
-            });
-
-            if (mindsError) {
-              throw new Error("Error inserting mind");
+              if (mindsError) {
+                throw new Error("Error inserting mind");
+              }
+            } catch (error) {
+              console.error("Error while generating mind", error);
+              continue;
             }
-          } catch (error) {
-            throw new Error("Error while inserting mind");
           }
         }
-      }
 
-      const { error: deleteError } = await supabaseAdmin
-        .from("summary_requests")
-        .delete()
-        .eq("id", summaryRequest.id);
+        const { error: deleteError } = await supabaseAdmin
+          .from("summary_requests")
+          .delete()
+          .eq("id", summaryRequest.id);
 
-      if (deleteError) {
-        throw new Error("Error while deleting summary request");
+        if (deleteError) {
+          throw new Error("Error while deleting summary request");
+        }
+      } catch (error) {
+        console.error("Error while generating summary", error);
+        continue;
       }
     }
   } catch (error) {
