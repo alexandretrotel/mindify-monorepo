@@ -10,11 +10,17 @@ import { Toaster } from "@/components/ui/toaster";
 import { loadStripe } from "@stripe/stripe-js";
 import StripeClient from "@/app/StripeClient";
 import Loading from "@/app/loading";
+import Hotjar from "@hotjar/browser";
+import { Suspense } from "react";
 
 // Import global styles
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
-import { Suspense } from "react";
+
+const siteId = 5123190;
+const hotjarVersion = 6;
+
+Hotjar.init(siteId, hotjarVersion);
 
 const fontSans = FontSans({
   subsets: ["latin"],
