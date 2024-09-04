@@ -90,7 +90,7 @@ Les sujets des livres doivent être en rapport avec ces couples id/nom:
       }
     });
 
-    return new Response(JSON.stringify(suggestionsResult?.object), { status: 200 });
+    return new Response("Summary suggestion done", { status: 200 });
   } catch (error) {
     console.error(error);
     return new Response("Error while fetching summaries", { status: 500 });
