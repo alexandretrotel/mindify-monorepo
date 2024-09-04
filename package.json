@@ -13,6 +13,7 @@
   "dependencies": {
     "@ai-sdk/google": "^0.0.46",
     "@headlessui/react": "^2.1.2",
+    "@hotjar/browser": "^1.0.9",
     "@next/third-parties": "^14.2.7",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
