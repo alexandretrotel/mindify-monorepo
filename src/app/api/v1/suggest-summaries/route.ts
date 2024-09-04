@@ -1,8 +1,9 @@
-import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";
 import type { NextRequest } from "next/server";
+import { createClient } from "@supabase/supabase-js";
+import type { Database } from "@/types/supabase";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +31,11 @@ export async function GET(request: NextRequest) {
 }
 
 async function suggestSummaries() {
+  const supabaseAdmin = createClient<Database>(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
   try {
     const { data, error } = await supabaseAdmin
       .from("summaries")

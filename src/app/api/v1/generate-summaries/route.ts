@@ -1,9 +1,10 @@
-import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { toSlug } from "@/utils/string";
 import type { NextRequest } from "next/server";
+import type { Database } from "@/types/supabase";
+import { createClient } from "@/utils/supabase/client";
 
 export const dynamic = "force-dynamic";
 
@@ -79,6 +80,11 @@ export async function GET(request: NextRequest) {
 }
 
 async function generateSummaries() {
+  const supabaseAdmin = createClient<Database>(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
   try {
     const { data, error } = await supabaseAdmin.from("summary_requests").select("*");
 
