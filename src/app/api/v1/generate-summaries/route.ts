@@ -53,6 +53,8 @@ const getMindsPrompt = (title: string, authorName: string): string => {
   const prompt = `
 Un MIND est une idée extraite d’un média assez courte et concise sous la forme d'une citation (entre 200 et 500 caractères). Il s’agit plus précisément du résumé d’une notion ou d’un concept clé du média source. Ainsi, les utilisateurs peuvent lire des MINDS, les sauvegarder dans leur librairie et les garder en mémoire pour les réviser. Les utilisateurs premium seuls auront accès à cette fonctionnalité de révision qui se fera sous forme de flashcards. Il est écrit du point de vue de l'auteur.
 
+Pour chaque MIND, écrit une question qui invite à la réflexion et à la discussion. Cette question doit être pertinente et en lien avec le MIND puisqu’elle servira de base pour la création des flashcards.
+
 Écrit entre 6 et 10 minds en français sur le livre ${title} de ${authorName}.
     `;
 
@@ -98,7 +100,7 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabaseAdmin.from("summary_requests").select("*");
 
     if (error) {
-      return new Response("Error while fetching summary requests", { status: 500 });
+      throw new Error("Error while fetching summary requests");
     }
 
     if (!data || data.length === 0) {
@@ -117,11 +119,10 @@ export async function POST(request: NextRequest) {
       const { data: authorDataCheck, error: authorErrorCheck } = await supabaseAdmin
         .from("authors")
         .select("*")
-        .textSearch("name", summaryRequest.author)
+        .eq("name", summaryRequest.author)
         .maybeSingle();
 
       if (authorErrorCheck) {
-        console.error("Error while checking author", authorErrorCheck);
         throw new Error("Error while checking author");
       }
 
@@ -153,23 +154,30 @@ export async function POST(request: NextRequest) {
           .select()
           .maybeSingle();
 
+        console.log("author insert data", {
+          name: summaryRequest.author,
+          slug: authorSlug,
+          description: authorResult?.object?.description,
+          mindify_ai: true
+        });
+
         if (authorError) {
-          console.error("Error while inserting author", authorError);
           throw new Error("Error while inserting author");
         }
 
         authorDataGlobal = authorData;
+      } else {
+        authorDataGlobal = authorDataCheck;
       }
 
       // checks if the summary already exists in the database
-
       const { data: summaryDataCheck, error: summaryErrorCheck } = await supabaseAdmin
         .from("summaries")
-        .select("title")
-        .textSearch("title", summaryRequest.title);
+        .select("*")
+        .eq("title", summaryRequest.title)
+        .maybeSingle();
 
       if (summaryErrorCheck) {
-        console.error("Error while checking summary", summaryErrorCheck);
         throw new Error("Error while checking summary");
       }
 
@@ -226,11 +234,12 @@ export async function POST(request: NextRequest) {
           .maybeSingle();
 
         if (summaryError) {
-          console.error("Error while inserting summary", summaryError);
           throw new Error("Error while inserting summary");
         }
 
         summaryDataGlobal = summaryData;
+      } else {
+        summaryDataGlobal = summaryDataCheck;
       }
 
       const mindsPrompt = getMindsPrompt(summaryRequest.title, summaryRequest.author);
@@ -240,25 +249,28 @@ export async function POST(request: NextRequest) {
         prompt: mindsPrompt,
         schemaName: "MindsSchema",
         schemaDescription: "Schema for generating minds based on the book",
-        schema: z.object({
-          mindsArray: z.string().array()
-        })
+        schema: z
+          .object({
+            mind: z.string(),
+            question: z.string()
+          })
+          .array()
       });
 
-      if (mindsResult?.object?.mindsArray) {
-        for (const mind of mindsResult.object.mindsArray) {
+      if (mindsResult?.object) {
+        for (const element of mindsResult.object) {
           try {
             const { error: mindsError } = await supabaseAdmin.from("minds").insert({
-              text: mind,
-              summary_id: summaryDataGlobal?.id as number
+              text: element.mind,
+              summary_id: summaryDataGlobal?.id as number,
+              question: element.question
             });
 
             if (mindsError) {
-              console.error("Error inserting mind:", mindsError);
               throw new Error("Error inserting mind");
             }
           } catch (error) {
-            console.error("Error inserting minds:", error);
+            throw new Error("Error while inserting mind");
           }
         }
       }
@@ -269,7 +281,6 @@ export async function POST(request: NextRequest) {
         .eq("id", summaryRequest.id);
 
       if (deleteError) {
-        console.error("Error while deleting summary request", deleteError);
         throw new Error("Error while deleting summary request");
       }
     }

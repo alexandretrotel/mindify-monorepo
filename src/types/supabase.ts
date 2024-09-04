@@ -111,6 +111,7 @@ export type Database = {
           created_at: string
           id: number
           mindify_ai: boolean | null
+          question: string | null
           summary_id: number
           text: string
         }
@@ -118,6 +119,7 @@ export type Database = {
           created_at?: string
           id?: number
           mindify_ai?: boolean | null
+          question?: string | null
           summary_id: number
           text: string
         }
@@ -125,6 +127,7 @@ export type Database = {
           created_at?: string
           id?: number
           mindify_ai?: boolean | null
+          question?: string | null
           summary_id?: number
           text?: string
         }
