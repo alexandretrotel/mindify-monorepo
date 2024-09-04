@@ -101,12 +101,6 @@ Les sujets des livres doivent être en rapport avec ces couples id/nom:
       }
     });
 
-    const { error: testError } = await supabaseAdmin.from("cron_test").insert({});
-
-    if (testError) {
-      throw new Error("Error while inserting test");
-    }
-
     return new Response("Summary suggestion done", { status: 200 });
   } catch (error) {
     console.error(error);

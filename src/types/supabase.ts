@@ -83,21 +83,6 @@ export type Database = {
         }
         Relationships: []
       }
-      cron_test: {
-        Row: {
-          created_at: string
-          id: number
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-        }
-        Update: {
-          created_at?: string
-          id?: number
-        }
-        Relationships: []
-      }
       friends: {
         Row: {
           created_at: string
