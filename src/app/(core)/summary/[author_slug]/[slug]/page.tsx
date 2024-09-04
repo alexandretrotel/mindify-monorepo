@@ -29,6 +29,7 @@ import SummaryMindsMobileSkeleton from "@/components/features/summary/minds/skel
 import SummaryMindsMobile from "@/components/features/summary/minds/SummaryMindsMobile";
 import TableOfContentsMobile from "@/components/features/summary/table-of-contents/TableOfContentsMobile";
 import TableOfContentsMobileSkeleton from "@/components/features/summary/table-of-contents/skeleton/TableOfContentsMobileSkeleton";
+import FlashcardFullscreen from "@/components/features/summary/flashcards/FlashcardFullscreen";
 
 export async function generateMetadata({
   params
@@ -83,6 +84,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
   const isConnected = !!user;
 
   const userId = user?.id as UUID;
+  const userName = user?.user_metadata?.name as string;
 
   const summary = (await getSummaryFromSlugs(author_slug, slug)) as Tables<"summaries"> & {
     topics: Tables<"topics">;
@@ -95,137 +97,146 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
   }
 
   return (
-    <div className="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-6 md:gap-12">
-      <div className="flex flex-col gap-8">
-        <div className="flex flex-col gap-16">
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-2">
-              <Suspense fallback={<SummaryHeaderSkeleton />}>
-                <SummaryHeader summary={summary} />
-              </Suspense>
-
+    <React.Fragment>
+      <div className="mx-auto mb-8 flex w-full max-w-7xl flex-col gap-6 md:gap-12">
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-16">
+            <div className="flex flex-col gap-8">
               <div className="flex flex-col gap-2">
-                <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                  {isConnected && (
-                    <Suspense fallback={<AddToLibraryButtonSkeleton />}>
-                      <AddToLibraryButton summaryId={summary?.id} userId={userId} />
-                    </Suspense>
-                  )}
+                <Suspense fallback={<SummaryHeaderSkeleton />}>
+                  <SummaryHeader summary={summary} />
+                </Suspense>
 
-                  <Source summarySourceUrl={summary?.source_url as string} />
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                    {isConnected && (
+                      <Suspense fallback={<AddToLibraryButtonSkeleton />}>
+                        <AddToLibraryButton summaryId={summary?.id} userId={userId} />
+                      </Suspense>
+                    )}
+
+                    <Source summarySourceUrl={summary?.source_url as string} />
+                  </div>
                 </div>
+              </div>
+
+              <div className="flex flex-col gap-8 lg:hidden">
+                <BorderTabs
+                  elements={[
+                    { label: "Résumé", value: "summary" },
+                    { label: "Auteur", value: "author" },
+                    { label: "MINDS", value: "minds" }
+                  ]}
+                >
+                  <div className="flex flex-col">
+                    <div className="flex flex-col gap-8">
+                      <Suspense fallback={<TableOfContentsMobileSkeleton />}>
+                        <TableOfContentsMobile chapters={summary?.chapters} />
+                      </Suspense>
+
+                      <Suspense fallback={<ChaptersSkeleton />}>
+                        <Chapters
+                          chapters={summary?.chapters}
+                          introduction={summary?.introduction}
+                          conclusion={summary?.conclusion}
+                          isConnected={isConnected}
+                        />
+                      </Suspense>
+
+                      {isConnected && (
+                        <div className="flex flex-col gap-4">
+                          <div className="w-full md:w-fit">
+                            <Suspense fallback={<MarkAsReadButtonSkeleton />}>
+                              <MarkAsReadButton summaryId={summary?.id} userId={userId} />
+                            </Suspense>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <Suspense fallback={<AuthorDescriptionMobileSkeleton />}>
+                    <AuthorDescriptionMobile author={summary?.authors} />
+                  </Suspense>
+
+                  <Suspense fallback={<SummaryMindsMobileSkeleton />}>
+                    <SummaryMindsMobile
+                      summaryId={summary?.id}
+                      userId={userId}
+                      isConnected={isConnected}
+                      userName={user?.user_metadata?.name as string}
+                    />
+                  </Suspense>
+                </BorderTabs>
+              </div>
+
+              <div className="hidden w-full flex-row justify-between gap-16 lg:flex">
+                <div className="flex min-w-0 max-w-3xl grow flex-col gap-8">
+                  <Suspense fallback={<ChaptersSkeleton />}>
+                    <Chapters
+                      chapters={summary?.chapters}
+                      introduction={summary?.introduction}
+                      conclusion={summary?.conclusion}
+                      isConnected={isConnected}
+                    />
+                  </Suspense>
+
+                  {isConnected && (
+                    <div className="flex flex-col gap-4">
+                      <div className="w-full md:w-fit">
+                        <Suspense fallback={<MarkAsReadButtonSkeleton />}>
+                          <MarkAsReadButton summaryId={summary?.id} userId={userId} />
+                        </Suspense>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {isConnected && (
+                  <div className="relative w-full lg:max-w-md">
+                    <div className="sticky right-0 top-0 w-full pt-8">
+                      <div className="flex w-full flex-col gap-8">
+                        <Suspense fallback={<TableOfContentsSkeleton />}>
+                          <TableOfContents chapters={summary?.chapters} />
+                        </Suspense>
+
+                        <Suspense fallback={<AuthorDescriptionSkeleton />}>
+                          <AuthorDescription author={summary?.authors} />
+                        </Suspense>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
-            <div className="flex flex-col gap-8 lg:hidden">
-              <BorderTabs
-                elements={[
-                  { label: "Résumé", value: "summary" },
-                  { label: "Auteur", value: "author" },
-                  { label: "MINDS", value: "minds" }
-                ]}
-              >
-                <div className="flex flex-col">
-                  <div className="flex flex-col gap-8">
-                    <Suspense fallback={<TableOfContentsMobileSkeleton />}>
-                      <TableOfContentsMobile chapters={summary?.chapters} />
-                    </Suspense>
-
-                    <Suspense fallback={<ChaptersSkeleton />}>
-                      <Chapters
-                        chapters={summary?.chapters}
-                        introduction={summary?.introduction}
-                        conclusion={summary?.conclusion}
-                        isConnected={isConnected}
-                      />
-                    </Suspense>
-
-                    {isConnected && (
-                      <div className="flex flex-col gap-4">
-                        <div className="w-full md:w-fit">
-                          <Suspense fallback={<MarkAsReadButtonSkeleton />}>
-                            <MarkAsReadButton summaryId={summary?.id} userId={userId} />
-                          </Suspense>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <Suspense fallback={<AuthorDescriptionMobileSkeleton />}>
-                  <AuthorDescriptionMobile author={summary?.authors} />
-                </Suspense>
-
-                <Suspense fallback={<SummaryMindsMobileSkeleton />}>
-                  <SummaryMindsMobile
+            {isConnected && (
+              <div className="hidden flex-col gap-8 lg:flex">
+                <Suspense fallback={<SummaryMindsSkeleton />}>
+                  <SummaryMinds
                     summaryId={summary?.id}
                     userId={userId}
                     isConnected={isConnected}
                     userName={user?.user_metadata?.name as string}
                   />
                 </Suspense>
-              </BorderTabs>
-            </div>
 
-            <div className="hidden w-full flex-row justify-between gap-16 lg:flex">
-              <div className="flex min-w-0 max-w-3xl grow flex-col gap-8">
-                <Suspense fallback={<ChaptersSkeleton />}>
-                  <Chapters
-                    chapters={summary?.chapters}
-                    introduction={summary?.introduction}
-                    conclusion={summary?.conclusion}
-                    isConnected={isConnected}
-                  />
+                <Suspense fallback={<SuggestionsSkeleton />}>
+                  <Suggestions topicId={summary?.topic_id} summary={summary} />
                 </Suspense>
-
-                {isConnected && (
-                  <div className="flex flex-col gap-4">
-                    <div className="w-full md:w-fit">
-                      <Suspense fallback={<MarkAsReadButtonSkeleton />}>
-                        <MarkAsReadButton summaryId={summary?.id} userId={userId} />
-                      </Suspense>
-                    </div>
-                  </div>
-                )}
               </div>
-
-              {isConnected && (
-                <div className="relative w-full lg:max-w-md">
-                  <div className="sticky right-0 top-0 w-full pt-8">
-                    <div className="flex w-full flex-col gap-8">
-                      <Suspense fallback={<TableOfContentsSkeleton />}>
-                        <TableOfContents chapters={summary?.chapters} />
-                      </Suspense>
-
-                      <Suspense fallback={<AuthorDescriptionSkeleton />}>
-                        <AuthorDescription author={summary?.authors} />
-                      </Suspense>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+            )}
           </div>
-
-          {isConnected && (
-            <div className="hidden flex-col gap-8 lg:flex">
-              <Suspense fallback={<SummaryMindsSkeleton />}>
-                <SummaryMinds
-                  summaryId={summary?.id}
-                  userId={userId}
-                  isConnected={isConnected}
-                  userName={user?.user_metadata?.name as string}
-                />
-              </Suspense>
-
-              <Suspense fallback={<SuggestionsSkeleton />}>
-                <Suggestions topicId={summary?.topic_id} summary={summary} />
-              </Suspense>
-            </div>
-          )}
         </div>
       </div>
-    </div>
+
+      <FlashcardFullscreen
+        summaryId={summary?.id}
+        isConnected={isConnected}
+        userId={userId}
+        userName={userName}
+      />
+    </React.Fragment>
   );
 };
 
