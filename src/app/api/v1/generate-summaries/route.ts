@@ -70,8 +70,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    await POST(request);
-
+    await generateSummaries();
     return new Response("Summary generation done", { status: 200 });
   } catch (error) {
     console.error(error);
@@ -79,14 +78,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
-  const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return new Response("Unauthorized", {
-      status: 401
-    });
-  }
-
+async function generateSummaries() {
   try {
     const { data, error } = await supabaseAdmin.from("summary_requests").select("*");
 
