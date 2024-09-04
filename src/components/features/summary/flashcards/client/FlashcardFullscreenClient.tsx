@@ -42,7 +42,7 @@ const FlashcardScreenClient = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-white p-16 px-4">
+    <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-background p-16 px-4">
       {minds.map((mind, index) => {
         if (index !== currentCard - 1) {
           return null;
