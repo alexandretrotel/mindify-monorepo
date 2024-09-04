@@ -54,7 +54,8 @@ export async function getMostSavedMinds() {
           text: read?.minds?.text as string,
           summary_id: read?.minds?.summary_id as number,
           created_at: read?.minds?.created_at as string,
-          mindify_ai: read?.minds?.mindify_ai as boolean
+          mindify_ai: read?.minds?.mindify_ai as boolean,
+          question: read?.minds?.question as string
         }
       };
     }
