@@ -1,8 +1,9 @@
-import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";
 import type { NextRequest } from "next/server";
+import { createClient } from "@supabase/supabase-js";
+import type { Database } from "@/types/supabase";
 
 export const dynamic = "force-dynamic";
 
@@ -20,23 +21,25 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  try {
-    await POST(request);
+  const supabaseURL = process.env.SUPABASE_URL!;
+  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
-    return new Response("Summary suggestion done", { status: 200 });
+  try {
+    const response = await suggestSummaries(supabaseURL, supabaseServiceRoleKey);
+
+    if (!response) {
+      return new Response("Summary suggestion done", { status: 200 });
+    }
+
+    return response;
   } catch (error) {
     console.error(error);
     return new Response("Error while fetching summaries", { status: 500 });
   }
 }
 
-export async function POST(request: NextRequest) {
-  const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return new Response("Unauthorized", {
-      status: 401
-    });
-  }
+async function suggestSummaries(supabaseURL: string, supabaseServiceRoleKey: string) {
+  const supabaseAdmin = createClient<Database>(supabaseURL, supabaseServiceRoleKey);
 
   try {
     const { data, error } = await supabaseAdmin
@@ -98,7 +101,7 @@ Les sujets des livres doivent être en rapport avec ces couples id/nom:
       }
     });
 
-    return new Response(JSON.stringify(suggestionsResult?.object), { status: 200 });
+    return new Response("Summary suggestion done", { status: 200 });
   } catch (error) {
     console.error(error);
     return new Response("Error while fetching summaries", { status: 500 });

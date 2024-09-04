@@ -1,9 +1,10 @@
-import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { toSlug } from "@/utils/string";
 import type { NextRequest } from "next/server";
+import type { Database } from "@/types/supabase";
+import { createClient } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
 
@@ -69,23 +70,25 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  try {
-    await POST(request);
+  const supabaseURL = process.env.SUPABASE_URL!;
+  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
-    return new Response("Summary generation done", { status: 200 });
+  try {
+    const response = await generateSummaries(supabaseURL, supabaseServiceRoleKey);
+
+    if (!response) {
+      return new Response("Summary generation done", { status: 200 });
+    }
+
+    return response;
   } catch (error) {
     console.error(error);
     return new Response("Error while fetching summaries", { status: 500 });
   }
 }
 
-export async function POST(request: NextRequest) {
-  const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return new Response("Unauthorized", {
-      status: 401
-    });
-  }
+async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: string) {
+  const supabaseAdmin = createClient<Database>(supabaseURL, supabaseServiceRoleKey);
 
   try {
     const { data, error } = await supabaseAdmin.from("summary_requests").select("*");
