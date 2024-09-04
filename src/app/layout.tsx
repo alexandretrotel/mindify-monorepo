@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { cn } from "@/lib/utils";
 import { Inter as FontSans } from "next/font/google";
-import { ThemeProvider } from "@/providers/theme";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import NextTopLoader from "nextjs-toploader";
@@ -10,11 +10,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { loadStripe } from "@stripe/stripe-js";
 import StripeClient from "@/app/StripeClient";
 import Loading from "@/app/loading";
+import { Suspense } from "react";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 // Import global styles
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
-import { Suspense } from "react";
+import AnalyticsProvider from "@/providers/AnalyticsProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -138,18 +140,22 @@ export default function RootLayout({
 
         <Suspense fallback={<Loading />}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <StripeClient stripePromise={stripePromise}>
-              {children}
+            <AnalyticsProvider>
+              <StripeClient stripePromise={stripePromise}>
+                {children}
 
-              <Sonner />
-              <Toaster />
-            </StripeClient>
+                <Sonner />
+                <Toaster />
+              </StripeClient>
+            </AnalyticsProvider>
           </ThemeProvider>
         </Suspense>
 
         <Analytics />
         <SpeedInsights />
       </body>
+
+      <GoogleAnalytics gaId="G-K3J5KW3Q3R" />
     </html>
   );
 }
