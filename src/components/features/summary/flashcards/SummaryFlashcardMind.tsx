@@ -221,7 +221,7 @@ function Back({
   };
 
   return (
-    <Card className="flex w-full max-w-md flex-col">
+    <Card className="md:min-w-md min-w-xs flex w-full max-w-md flex-col">
       <div className="flex h-full min-h-96 flex-col justify-between gap-8">
         <CardHeader>
           <div className="flex items-start justify-between gap-8">
