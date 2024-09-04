@@ -2,7 +2,6 @@ import { supabaseAdmin } from "@/utils/supabase/admin";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { z } from "zod";
-import { headers } from "next/headers";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -22,16 +21,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const baseUrl = new URL(request.url).origin;
-    const suggestSummariesUrl = new URL("/api/v1/suggest-summaries", baseUrl);
-
-    await fetch(suggestSummariesUrl.toString(), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.CRON_SECRET}`
-      }
-    });
+    await POST(request);
 
     return new Response("Summary suggestion done", { status: 200 });
   } catch (error) {

@@ -70,16 +70,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const baseUrl = new URL(request.url).origin;
-    const suggestSummariesUrl = new URL("/api/v1/generate-summaries", baseUrl);
-
-    await fetch(suggestSummariesUrl.toString(), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.CRON_SECRET}`
-      }
-    });
+    await POST(request);
 
     return new Response("Summary generation done", { status: 200 });
   } catch (error) {
