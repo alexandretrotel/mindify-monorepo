@@ -55,7 +55,7 @@ Un MIND est une idée extraite d’un média assez courte et concise sous la for
 
 Pour chaque MIND, écrit une question qui invite à la réflexion et à la discussion. Cette question doit être pertinente et en lien avec le MIND puisqu’elle servira de base pour la création des flashcards.
 
-Écrit entre 6 et 10 minds en français sur le livre ${title} de ${authorName}.
+Écrit entre 6 et 10 minds en français sur le livre ${title} de ${authorName} mais ne donne que le texte du mind et la question associée. Pas besoin de redonner le nom de l'auteur ou le titre du livre et ne formatte pas le texte comme une citation.
     `;
 
   return prompt;
