@@ -82,12 +82,11 @@ Les sujets des livres doivent être en rapport avec ces couples id/nom:
       const { data: suggestionDataCheck, error: suggestionErrorCheck } = await supabaseAdmin
         .from("summary_requests")
         .select("*")
-        .textSearch("title", suggestion.title)
-        .textSearch("author", suggestion.author)
+        .eq("title", suggestion.title)
+        .eq("author", suggestion.author)
         .maybeSingle();
 
       if (suggestionErrorCheck) {
-        console.error("Error while checking suggestion", suggestionErrorCheck);
         throw new Error("Error while checking suggestion");
       }
 
@@ -105,7 +104,7 @@ Les sujets des livres doivent être en rapport avec ces couples id/nom:
       });
 
       if (suggestionsError) {
-        console.error("Error while inserting suggestion", suggestionsError);
+        throw new Error("Error while inserting suggestion");
       }
     });
 
