@@ -13,7 +13,7 @@ export default function AnalyticsProvider({
   children: React.ReactNode;
 }>) {
   React.useEffect(() => {
-    Hotjar.initialize(siteId, hotjarVersion);
+    Hotjar.init(siteId, hotjarVersion);
   }, []);
 
   return <>{children}</>;
