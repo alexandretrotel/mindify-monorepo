@@ -4,7 +4,7 @@ import { z } from "zod";
 import { toSlug } from "@/utils/string";
 import type { NextRequest } from "next/server";
 import type { Database } from "@/types/supabase";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
 
