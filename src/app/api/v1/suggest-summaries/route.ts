@@ -73,35 +73,40 @@ async function suggestSummaries(supabaseURL: string, supabaseServiceRoleKey: str
         .array()
     });
 
-    suggestionsResult?.object.forEach(async (suggestion) => {
-      const { data: suggestionDataCheck, error: suggestionErrorCheck } = await supabaseAdmin
-        .from("summary_requests")
-        .select("*")
-        .eq("title", suggestion.title)
-        .eq("author", suggestion.author)
-        .maybeSingle();
+    for (const suggestion of suggestionsResult.object) {
+      try {
+        const { data: suggestionDataCheck, error: suggestionErrorCheck } = await supabaseAdmin
+          .from("summary_requests")
+          .select("*")
+          .eq("title", suggestion.title)
+          .eq("author", suggestion.author)
+          .maybeSingle();
 
-      if (suggestionErrorCheck) {
-        throw new Error("Error while checking suggestion");
+        if (suggestionErrorCheck) {
+          throw new Error("Error while checking suggestion");
+        }
+
+        if (suggestionDataCheck) {
+          console.log("Suggestion already exists in the database", suggestionDataCheck);
+          return;
+        }
+
+        const { error: suggestionsError } = await supabaseAdmin.from("summary_requests").insert({
+          title: suggestion.title,
+          author: suggestion.author,
+          topic_id: suggestion.topic,
+          validated: false,
+          source: "book" // TODO: change later
+        });
+
+        if (suggestionsError) {
+          throw new Error("Error while inserting suggestion");
+        }
+      } catch (error) {
+        console.error(error);
+        continue;
       }
-
-      if (suggestionDataCheck) {
-        console.log("Suggestion already exists in the database", suggestionDataCheck);
-        return;
-      }
-
-      const { error: suggestionsError } = await supabaseAdmin.from("summary_requests").insert({
-        title: suggestion.title,
-        author: suggestion.author,
-        topic_id: suggestion.topic,
-        validated: false,
-        source: "book" // TODO: change later
-      });
-
-      if (suggestionsError) {
-        throw new Error("Error while inserting suggestion");
-      }
-    });
+    }
 
     return new Response("Summary suggestion done", { status: 200 });
   } catch (error) {
