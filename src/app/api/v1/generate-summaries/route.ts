@@ -154,13 +154,6 @@ export async function POST(request: NextRequest) {
           .select()
           .maybeSingle();
 
-        console.log("author insert data", {
-          name: summaryRequest.author,
-          slug: authorSlug,
-          description: authorResult?.object?.description,
-          mindify_ai: true
-        });
-
         if (authorError) {
           throw new Error("Error while inserting author");
         }
