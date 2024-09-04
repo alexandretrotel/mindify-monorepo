@@ -70,8 +70,11 @@ export async function GET(request: NextRequest) {
     });
   }
 
+  const supabaseURL = process.env.SUPABASE_URL!;
+  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+
   try {
-    const response = await generateSummaries();
+    const response = await generateSummaries(supabaseURL, supabaseServiceRoleKey);
 
     if (!response) {
       return new Response("Summary generation done", { status: 200 });
@@ -84,11 +87,8 @@ export async function GET(request: NextRequest) {
   }
 }
 
-async function generateSummaries() {
-  const supabaseAdmin = createClient<Database>(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
+async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: string) {
+  const supabaseAdmin = createClient<Database>(supabaseURL, supabaseServiceRoleKey);
 
   try {
     const { data, error } = await supabaseAdmin.from("summary_requests").select("*");
