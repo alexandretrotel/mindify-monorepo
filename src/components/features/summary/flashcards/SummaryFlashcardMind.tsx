@@ -103,7 +103,7 @@ function Front({
         </CardHeader>
 
         <CardContent>
-          <Span size="lg">{mind.question}</Span>
+          <Semibold size="lg">{mind.question}</Semibold>
         </CardContent>
 
         <CardFooter>
@@ -234,7 +234,7 @@ function Back({
         </CardHeader>
 
         <CardContent>
-          <Span size="lg">{mind.text}</Span>
+          <Semibold size="lg">{mind.text}</Semibold>
         </CardContent>
 
         <CardFooter>

@@ -1,30 +1,43 @@
-import H1 from "@/components/typography/h1";
 import P from "@/components/typography/p";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import LandingFlashcard from "@/components/features/home/client/LandingFlashcard";
+import PulsatingButton from "@/components/magicui/pulsating-button";
+import Pencil from "@/../public/landing/pencil.svg";
+import Image from "next/image";
 
 const Hero = async () => {
   return (
-    <section id="home" className="flex h-screen items-center justify-center px-4">
-      <div className="grid grid-cols-1 place-items-center justify-between gap-4 md:grid-cols-2 md:gap-16">
-        <div className="mx-auto flex max-w-lg flex-col items-center gap-4 text-center">
-          <div>
-            <H1>Apprenez vite.</H1>
-            <H1>Retenez mieux.</H1>
+    <section
+      id="home"
+      className="relative flex h-screen items-center justify-center overflow-hidden px-4"
+    >
+      <div className="relative z-10 grid grid-cols-1 place-items-center justify-between gap-4 md:grid-cols-2 md:gap-16">
+        <div className="flex max-w-lg flex-col items-center text-center">
+          <div className="text-4xl font-semibold md:text-6xl">
+            <h1>Apprenez vite.</h1>
+            <h1>Retenez mieux.</h1>
+
+            <div className="relative hidden h-[64px] w-full md:flex">
+              <Image src={Pencil} alt="Pencil" fill={true} />
+            </div>
           </div>
 
-          <P>
-            Changez votre vie par la connaissance, transformez votre savoir en flashcard optimisées
-            pour l&apos;apprentissage, suivez vos progrès.
-          </P>
+          <div className="flex flex-col items-center gap-8">
+            <P>
+              Changez votre vie par la connaissance, transformez votre savoir en flashcard
+              optimisées pour l&apos;apprentissage, suivez vos progrès.
+            </P>
 
-          <Button className="w-fit" asChild>
-            <Link href="/auth/signup">Se lancer</Link>
-          </Button>
+            <PulsatingButton
+              pulseColor="#16a34a"
+              className="w-fit bg-primary px-12 text-lg hover:bg-primary/90"
+            >
+              <Link href="/auth/signup">Commencer gratuitement</Link>
+            </PulsatingButton>
+          </div>
         </div>
 
-        <div className="hidden md:flex">
+        <div className="hidden w-full items-center justify-end md:flex">
           <LandingFlashcard />
         </div>
       </div>

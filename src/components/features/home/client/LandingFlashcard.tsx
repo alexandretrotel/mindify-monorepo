@@ -43,8 +43,8 @@ const LandingFlashcard = () => {
 
 function Front({ onFlip, theme }: Readonly<{ onFlip: () => void; theme: string }>) {
   return (
-    <Card className="flex w-full min-w-80 max-w-md flex-col md:min-w-[28rem]">
-      <div className="flex h-full min-h-96 flex-col justify-between gap-8">
+    <Card className="flex w-full min-w-80 max-w-xs flex-col lg:min-w-96">
+      <div className="flex h-full min-h-[28rem] flex-col justify-between gap-8 lg:min-h-[32rem]">
         <CardHeader>
           <div className="flex items-center justify-between gap-8">
             <div className="flex flex-col">
@@ -57,12 +57,12 @@ function Front({ onFlip, theme }: Readonly<{ onFlip: () => void; theme: string }
         </CardHeader>
 
         <CardContent>
-          <Span size="lg">{mind.question}</Span>
+          <Semibold size="lg">{mind.question}</Semibold>
         </CardContent>
 
         <CardFooter>
-          <Button className="w-full" onClick={onFlip}>
-            Afficher le MIND
+          <Button className="w-full" variant="secondary" onClick={onFlip}>
+            Essayez-moi
           </Button>
         </CardFooter>
       </div>
@@ -72,8 +72,8 @@ function Front({ onFlip, theme }: Readonly<{ onFlip: () => void; theme: string }
 
 function Back({ onFlip, theme }: Readonly<{ onFlip: () => void; theme: string }>) {
   return (
-    <Card className="flex w-full min-w-80 max-w-md flex-col md:min-w-[28rem]">
-      <div className="flex h-full min-h-96 flex-col justify-between gap-8">
+    <Card className="flex w-full min-w-80 max-w-xs flex-col lg:min-w-96">
+      <div className="flex h-full min-h-[28rem] flex-col justify-between gap-8 lg:min-h-[32rem]">
         <CardHeader>
           <div className="flex items-center justify-between gap-8">
             <div className="flex flex-col">
@@ -86,11 +86,11 @@ function Back({ onFlip, theme }: Readonly<{ onFlip: () => void; theme: string }>
         </CardHeader>
 
         <CardContent>
-          <Span size="lg">{mind.answer}</Span>
+          <Semibold size="lg">{mind.answer}</Semibold>
         </CardContent>
 
         <CardFooter>
-          <Button className="w-full" onClick={onFlip}>
+          <Button className="w-full" variant="secondary" onClick={onFlip}>
             Retourner à la question
           </Button>
         </CardFooter>
