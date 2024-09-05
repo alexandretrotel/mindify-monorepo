@@ -16,7 +16,6 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 // Import global styles
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
-import Head from "next/head";
 import Script from "next/script";
 
 const fontSans = FontSans({

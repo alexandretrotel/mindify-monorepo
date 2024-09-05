@@ -52,7 +52,6 @@ const SummaryFlashcardMind = ({
         totalLength={totalLength}
         onFlip={showBack}
         handleFullscreen={handleFullscreen}
-        handleNext={handleNext}
       />
       <Back
         mind={mind}
@@ -74,8 +73,7 @@ function Front({
   index,
   totalLength,
   onFlip,
-  handleFullscreen,
-  handleNext
+  handleFullscreen
 }: Readonly<{
   mind: Tables<"minds"> & {
     summaries: Tables<"summaries"> & {
@@ -87,7 +85,6 @@ function Front({
   totalLength: number;
   onFlip: () => void;
   handleFullscreen: () => void;
-  handleNext: () => void;
 }>) {
   return (
     <Card className="flex w-full min-w-80 max-w-md flex-col md:min-w-[28rem]">
