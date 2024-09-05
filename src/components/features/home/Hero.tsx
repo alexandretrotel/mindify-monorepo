@@ -30,7 +30,7 @@ const Hero = async () => {
 
             <PulsatingButton
               pulseColor="#16a34a"
-              className="w-fit bg-primary px-12 text-lg hover:bg-primary/90"
+              className="w-fit bg-primary px-12 text-lg hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90"
             >
               <Link href="/auth/signup">Commencer gratuitement</Link>
             </PulsatingButton>
