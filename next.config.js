@@ -9,22 +9,11 @@ const withPWA = require("next-pwa")({
 /** @type {import('next').NextConfig} */
 const nextConfig = {};
 
-module.exports = withPWA({
-  redirects: async () => {
-    return [
-      {
-        source: "/",
-        destination: "/discover",
-        permanent: true
-      }
-    ];
-  }
-});
+module.exports = withPWA({});
 
 // Injected content via Sentry wizard below
 
 const { withSentryConfig } = require("@sentry/nextjs");
-const { redirect } = require("next/dist/server/api-utils");
 
 module.exports = withSentryConfig(module.exports, {
   // For all available options, see:
