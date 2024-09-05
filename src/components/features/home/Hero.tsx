@@ -12,7 +12,7 @@ const Hero = async () => {
       className="relative flex h-screen items-center justify-center overflow-hidden px-4"
     >
       <div className="relative z-10 grid grid-cols-1 place-items-center justify-between gap-4 md:grid-cols-2 md:gap-16">
-        <div className="flex max-w-lg flex-col items-center text-center">
+        <div className="flex max-w-lg flex-col items-center gap-4 text-center md:gap-0">
           <div className="text-4xl font-semibold md:text-6xl">
             <h1>Apprenez vite.</h1>
             <h1>Retenez mieux.</h1>
