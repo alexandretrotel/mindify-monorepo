@@ -19,18 +19,7 @@ export default function Footer({
   isConnected
 }: Readonly<{ userId: UUID; isConnected: boolean }>) {
   const navigation = {
-    "learn-more": [{ name: "En savoir plus", href: "/about" }],
     support: [
-      {
-        component: (
-          <Link
-            href="/support/all"
-            className="text-sm text-muted-foreground hover:text-black dark:hover:text-white"
-          >
-            Roadmap
-          </Link>
-        )
-      },
       {
         component: (
           <BugDialog userId={userId} isConnected={isConnected}>
@@ -139,22 +128,6 @@ export default function Footer({
           </div>
 
           <div className="flex w-full flex-col items-start justify-evenly gap-8 md:flex-row md:gap-16">
-            <div className="flex flex-col gap-4">
-              <Semibold>À propos</Semibold>
-              <ul className="flex flex-col gap-4">
-                {navigation["learn-more"].map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-muted-foreground hover:text-black dark:hover:text-white"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
             <div className="flex flex-col gap-4">
               <Semibold>Support</Semibold>
               <ul className="flex flex-col gap-4">
