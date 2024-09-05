@@ -45,7 +45,7 @@ const SummaryFlashcardMind = ({
   };
 
   return (
-    <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
+    <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
       <Front
         mind={mind}
         index={index}
@@ -90,7 +90,7 @@ function Front({
   handleNext: () => void;
 }>) {
   return (
-    <Card className="md:min-w-md min-w-xs flex w-full max-w-md flex-col">
+    <Card className="flex w-full min-w-80 max-w-md flex-col md:min-w-[28rem]">
       <div className="flex h-full min-h-96 flex-col justify-between gap-8">
         <CardHeader>
           <div className="flex items-start justify-between gap-8">
@@ -100,7 +100,7 @@ function Front({
             </div>
 
             <Semibold>
-              {index}/{totalLength}
+              {index + 1}/{totalLength}
             </Semibold>
           </div>
         </CardHeader>
@@ -111,7 +111,7 @@ function Front({
 
         <CardFooter>
           <div className="grid w-full grid-cols-2 gap-4">
-            <Button variant="secondary" onClick={handleFullscreen}>
+            <Button variant="outline" onClick={handleFullscreen}>
               Passer au résumé
             </Button>
             <Button className="w-full" onClick={onFlip}>
@@ -221,7 +221,7 @@ function Back({
   };
 
   return (
-    <Card className="md:min-w-md min-w-xs flex w-full max-w-md flex-col">
+    <Card className="flex w-full min-w-80 max-w-md flex-col md:min-w-[28rem]">
       <div className="flex h-full min-h-96 flex-col justify-between gap-8">
         <CardHeader>
           <div className="flex items-start justify-between gap-8">
@@ -231,7 +231,7 @@ function Back({
             </div>
 
             <Semibold>
-              {index}/{totalLength}
+              {index + 1}/{totalLength}
             </Semibold>
           </div>
         </CardHeader>
@@ -242,12 +242,6 @@ function Back({
 
         <CardFooter>
           <div className="flex w-full flex-col gap-4">
-            <Button
-              className="w-full"
-              onClick={index === totalLength - 1 ? handleFullscreen : handleNext}
-            >
-              {index === totalLength - 1 ? "Lire le résumé" : "Passer au MIND suivant"}
-            </Button>
             <div className="grid w-full grid-cols-2 gap-4">
               <Button
                 variant={isSaved ? "default" : "outline"}
@@ -257,10 +251,16 @@ function Back({
               >
                 {isSaved ? "Enregistré" : "Enregistrer"}
               </Button>
-              <Button variant="secondary" className="w-full" onClick={handleShareMind}>
+              <Button variant="outline" className="w-full" onClick={handleShareMind}>
                 Partager
               </Button>
             </div>
+            <Button
+              className="w-full"
+              onClick={index === totalLength - 1 ? handleFullscreen : handleNext}
+            >
+              {index === totalLength - 1 ? "Lire le résumé" : "Passer au MIND suivant"}
+            </Button>
           </div>
         </CardFooter>
       </div>
