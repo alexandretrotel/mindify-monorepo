@@ -42,7 +42,7 @@ const ContentCard = ({
         </div>
 
         <Button variant="secondary" className="w-full" asChild>
-          <Link href={`/summary/${summary.authors.slug}/${summary.slug}`}>Lire dès maintenant</Link>
+          <Link href={`/auth/signup`}>Lire dès maintenant</Link>
         </Button>
       </div>
     </div>
