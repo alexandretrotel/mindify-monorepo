@@ -9,7 +9,7 @@ const Hero = async () => {
   return (
     <section
       id="home"
-      className="relative flex h-screen items-center justify-center overflow-hidden px-4"
+      className="relative flex h-screen min-h-[26rem] items-center justify-center overflow-hidden px-4"
     >
       <div className="relative z-10 grid grid-cols-1 place-items-center justify-between gap-4 md:grid-cols-2 md:gap-16">
         <div className="flex max-w-lg flex-col items-center gap-4 text-center md:gap-0">
