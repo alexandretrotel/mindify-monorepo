@@ -19,7 +19,9 @@ const ContentCard = ({
   const image = summary.image_url;
 
   return (
-    <div className={`ml-4 w-96 overflow-hidden rounded-lg border`}>
+    <div
+      className={`ml-4 w-96 overflow-hidden rounded-lg border border-gray-950/[.1] bg-gray-950/[.01] dark:border-gray-50/[.1] dark:bg-gray-50/[.10]`}
+    >
       {features.summaryImageIsVisible && (
         <React.Fragment>
           {image ? (
@@ -41,7 +43,11 @@ const ContentCard = ({
           {summary.source_type === "book" && <Muted size="sm">{summary.authors.name}</Muted>}
         </div>
 
-        <Button variant="secondary" className="w-full" asChild>
+        <Button
+          variant="outline"
+          className="w-full hover:border-transparent hover:bg-primary"
+          asChild
+        >
           <Link href={`/auth/signup`}>Lire dès maintenant</Link>
         </Button>
       </div>

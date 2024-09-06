@@ -20,7 +20,7 @@ const CardsMarqueeClient = ({
   return (
     <Marquee
       gradient
-      gradientColor={resolvedTheme === "dark" ? "black" : "white"}
+      gradientColor={resolvedTheme === "dark" ? "#0c0a09" : "#fff"}
       className="-pl-4"
     >
       {summaries?.map((summary) => {
