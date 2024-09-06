@@ -45,7 +45,7 @@ const ContentCard = ({
 
         <Button
           variant="outline"
-          className="w-full hover:border-transparent hover:bg-primary"
+          className="w-full hover:border-transparent hover:bg-primary hover:text-primary-foreground"
           asChild
         >
           <Link href={`/auth/signup`}>Lire dès maintenant</Link>

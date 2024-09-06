@@ -18,7 +18,7 @@ const ContentCardSkeleton = async () => {
 
         <Button
           variant="secondary"
-          className="w-full hover:border-transparent hover:bg-primary"
+          className="w-full hover:border-transparent hover:bg-primary hover:text-primary-foreground"
           disabled
         >
           Lire dès maintenant
