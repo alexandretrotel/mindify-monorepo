@@ -6,6 +6,7 @@ import H5Span from "@/components/typography/h5AsSpan";
 import { Muted } from "@/components/typography/muted";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { features } from "@/data/features";
 
 const ContentCard = ({
   summary
@@ -19,15 +20,19 @@ const ContentCard = ({
 
   return (
     <div className={`ml-4 w-96 overflow-hidden rounded-lg border`}>
-      {image ? (
-        <Image
-          src={image}
-          fill={true}
-          className="h-48 w-full object-cover object-center"
-          alt={summary.title}
-        />
-      ) : (
-        <Skeleton className="h-48 w-full rounded-none" />
+      {features.summaryImageIsVisible && (
+        <React.Fragment>
+          {image ? (
+            <Image
+              src={image}
+              fill={true}
+              className="h-48 w-full object-cover object-center"
+              alt={summary.title}
+            />
+          ) : (
+            <Skeleton className="h-48 w-full rounded-none" />
+          )}
+        </React.Fragment>
       )}
 
       <div className="flex flex-col gap-4 p-4">

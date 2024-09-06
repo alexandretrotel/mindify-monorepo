@@ -19,7 +19,6 @@ const CardsMarqueeClient = ({
 
   return (
     <Marquee
-      pauseOnHover
       gradient
       gradientColor={resolvedTheme === "dark" ? "black" : "white"}
       className="-pl-4"
