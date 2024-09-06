@@ -291,3 +291,19 @@ export async function countSummariesByTopicId(topicId: number) {
 
   return count as number;
 }
+
+export async function getFirstSummaries(number: number) {
+  const supabase = createClient();
+
+  const { data: summaries, error } = await supabase
+    .from("summaries")
+    .select("*, topics(*), authors(*)")
+    .limit(number);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les résumés.");
+  }
+
+  return summaries;
+}
