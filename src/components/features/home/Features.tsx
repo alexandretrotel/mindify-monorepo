@@ -1,5 +1,4 @@
 import P from "@/components/typography/p";
-import { Button } from "@/components/ui/button";
 import React, { Suspense } from "react";
 import CardsMarquee from "@/components/features/home/CardsMarquee";
 import CardsMarqueeSkeleton from "@/components/features/home/skeleton/CardsMarqueeSkeleton";
