@@ -9,7 +9,7 @@ const BookCoverSkeleton = ({ heightFull }: { heightFull?: boolean }) => {
     >
       {features.summaryImageIsVisible && <Skeleton className="h-48 w-full rounded-none" />}
 
-      <div className="flex flex-col gap-2 p-4">
+      <div className="flex h-full flex-col justify-between gap-2 p-4">
         <Skeleton className="h-6 w-48" />
         <Skeleton className="h-4 w-32" />
       </div>

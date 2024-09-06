@@ -51,7 +51,7 @@ const BookCover = ({
           </React.Fragment>
         )}
 
-        <div className="flex flex-col gap-1 p-4">
+        <div className="flex h-full flex-col justify-between gap-2 p-4">
           <div className="flex flex-col">
             <H5Span>{title}</H5Span>
             {source === "book" && <Muted size="sm">{author}</Muted>}
