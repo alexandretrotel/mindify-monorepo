@@ -7,6 +7,8 @@ import { Muted } from "@/components/typography/muted";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { features } from "@/data/features";
+import Span from "@/components/typography/span";
+import { sourceToString } from "@/utils/topics";
 
 const ContentCard = ({
   summary
@@ -41,6 +43,9 @@ const ContentCard = ({
         <div className="flex flex-col">
           <H5Span>{summary.title}</H5Span>
           {summary.source_type === "book" && <Muted size="sm">{summary.authors.name}</Muted>}
+          <Span primaryColor size="xs">
+            {summary.topics.name} • {sourceToString(summary.source_type)}
+          </Span>
         </div>
 
         <Button
