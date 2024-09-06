@@ -104,12 +104,12 @@ const Testimonials = () => {
   return (
     <Section id="testimonials" fullWidth>
       <div className="hide-scrollbar relative flex h-full w-full flex-col items-center justify-center overflow-hidden">
-        <Marquee pauseOnHover className="[--duration:20s]">
+        <Marquee pauseOnHover>
           {firstRow.map((review) => (
             <ReviewCard key={review.username} {...review} />
           ))}
         </Marquee>
-        <Marquee reverse pauseOnHover className="[--duration:20s]">
+        <Marquee reverse pauseOnHover>
           {secondRow.map((review) => (
             <ReviewCard key={review.username} {...review} />
           ))}
