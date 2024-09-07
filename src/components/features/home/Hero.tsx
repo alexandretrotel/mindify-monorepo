@@ -1,6 +1,6 @@
 import P from "@/components/typography/p";
 import Link from "next/link";
-import LandingFlashcard from "@/components/features/home/client/LandingFlashcard";
+import LandingFlashcard from "@/components/features/home/client/LandingFlashcardClient";
 import PulsatingButton from "@/components/magicui/pulsating-button";
 import Pencil from "@/../public/landing/pencil.svg";
 import Image from "next/image";

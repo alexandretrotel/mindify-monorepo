@@ -1,3 +1,6 @@
+"use client";
+import "client-only";
+
 import { cn } from "@/lib/utils";
 
 interface MarqueeProps {
@@ -10,7 +13,7 @@ interface MarqueeProps {
   [key: string]: any;
 }
 
-export default function Marquee({
+export default function MarqueeClient({
   className,
   reverse,
   pauseOnHover = false,
@@ -23,7 +26,7 @@ export default function Marquee({
     <div
       {...props}
       className={cn(
-        "group flex overflow-hidden bg-background p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]",
+        "group flex overflow-hidden bg-card p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]",
         {
           "flex-row": !vertical,
           "flex-col": vertical

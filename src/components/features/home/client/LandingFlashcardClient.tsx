@@ -20,7 +20,7 @@ const mind = {
     "Pour changer une habitude, il faut la remplacer par une autre. Pour cela, il faut identifier le déclencheur de la mauvaise habitude, puis la remplacer par une habitude plus saine."
 };
 
-const LandingFlashcard = () => {
+const LandingFlashcardClient = () => {
   const [isFlipped, setIsFlipped] = React.useState(false);
 
   const { resolvedTheme } = useTheme();
@@ -61,7 +61,11 @@ function Front({ onFlip, theme }: Readonly<{ onFlip: () => void; theme: string }
         </CardContent>
 
         <CardFooter>
-          <Button className="w-full" variant="secondary" onClick={onFlip}>
+          <Button
+            className="w-full hover:border-transparent hover:bg-primary hover:text-primary-foreground"
+            variant="outline"
+            onClick={onFlip}
+          >
             Essayez-moi
           </Button>
         </CardFooter>
@@ -90,7 +94,7 @@ function Back({ onFlip, theme }: Readonly<{ onFlip: () => void; theme: string }>
         </CardContent>
 
         <CardFooter>
-          <Button className="w-full" variant="secondary" onClick={onFlip}>
+          <Button className="w-full" variant="outline" onClick={onFlip}>
             Retourner à la question
           </Button>
         </CardFooter>
@@ -113,4 +117,4 @@ function Logo({ theme }: Readonly<{ theme: string }>) {
   );
 }
 
-export default LandingFlashcard;
+export default LandingFlashcardClient;

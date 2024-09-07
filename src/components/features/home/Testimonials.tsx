@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import Marquee from "@/components/magicui/marquee";
+import Marquee from "@/components/features/home/client/MarqueeClient";
 import Image from "next/image";
 import Section from "@/components/global/Section";
 

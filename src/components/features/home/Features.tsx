@@ -5,6 +5,7 @@ import CardsMarqueeSkeleton from "@/components/features/home/skeleton/CardsMarqu
 import Link from "next/link";
 import PulsatingButton from "@/components/magicui/pulsating-button";
 import H2 from "@/components/typography/h2";
+import { QuestionCardsStackClient } from "@/components/features/home/client/QuestionCardsStackClient";
 
 const Features = async () => {
   return (
@@ -15,7 +16,7 @@ const Features = async () => {
             <div className="mx-auto w-full max-w-5xl">
               <div className="flex justify-start">
                 <div className="flex w-full flex-col">
-                  <div className="flex w-1/2 flex-col gap-4 text-center md:text-left">
+                  <div className="flex md:w-1/2 flex-col gap-4 text-center md:text-left">
                     <H2>Nous sommes convaincus que la connaissance peut changer votre vie</H2>
 
                     <P>
@@ -41,7 +42,9 @@ const Features = async () => {
 
           <div className="mx-auto w-full max-w-5xl">
             <div className="grid gap-32 md:grid-cols-2 md:gap-8">
-              <div className="order-2 md:order-1">d</div>
+              <div className="order-2 md:order-1">
+                <QuestionCardsStackClient />
+              </div>
 
               <div className="order-1 flex w-full flex-col md:order-2">
                 <div className="flex flex-col gap-4 text-center md:items-end md:text-right">

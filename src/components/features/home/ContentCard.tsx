@@ -22,7 +22,7 @@ const ContentCard = ({
 
   return (
     <div
-      className={`ml-4 w-96 overflow-hidden rounded-lg border border-gray-950/[.1] bg-gray-950/[.01] dark:border-gray-50/[.1] dark:bg-gray-50/[.10]`}
+      className={`ml-4 w-96 overflow-hidden rounded-lg border bg-card`}
     >
       {features.summaryImageIsVisible && (
         <React.Fragment>

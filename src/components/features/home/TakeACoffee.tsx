@@ -1,6 +1,5 @@
 import Section from "@/components/global/Section";
 import PulsatingButton from "@/components/magicui/pulsating-button";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 

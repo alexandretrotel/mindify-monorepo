@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import type { Tables } from "@/types/supabase";
 
-const TopicIconsHero = ({ topic }: { topic: Tables<"topics"> }) => {
+const TopicIconsHeroClient = ({ topic }: { topic: Tables<"topics"> }) => {
   const { resolvedTheme } = useTheme();
 
   const icon = resolvedTheme === "dark" ? topic.white_icon : topic.black_icon;
@@ -18,4 +18,4 @@ const TopicIconsHero = ({ topic }: { topic: Tables<"topics"> }) => {
   );
 };
 
-export default TopicIconsHero;
+export default TopicIconsHeroClient;
