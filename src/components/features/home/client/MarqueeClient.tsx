@@ -26,7 +26,7 @@ export default function MarqueeClient({
     <div
       {...props}
       className={cn(
-        "group flex overflow-hidden bg-card p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]",
+        "group flex overflow-hidden bg-background p-2 [--duration:40s] [--gap:1rem] [gap:var(--gap)]",
         {
           "flex-row": !vertical,
           "flex-col": vertical

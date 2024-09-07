@@ -43,7 +43,7 @@ const cards = [
 
 export function QuestionCardsStackClient() {
   return (
-    <div className="flex w-full items-center justify-center md:justify-start">
+    <div className="mt-16 flex w-full items-center justify-center md:mt-0 md:justify-start">
       <CardStackClient items={cards} />
     </div>
   );

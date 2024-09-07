@@ -83,9 +83,7 @@ const ReviewCard = ({
   return (
     <figure
       className={cn(
-        "hide-scrollbar relative w-96 cursor-pointer overflow-hidden rounded-xl border p-4",
-        "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
-        "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
+        "hide-scrollbar relative w-96 cursor-pointer overflow-hidden rounded-xl border bg-card p-4"
       )}
     >
       <div className="flex flex-row items-center gap-2">
