@@ -9,7 +9,6 @@ import Friends from "@/components/features/profile/friends/FriendsTabs";
 import ReadingStreak from "@/components/features/profile/header/ReadingStreak";
 import LibrarySnippet from "@/components/features/profile/summaries/LibrarySnippet";
 import LibrarySnippetSkeleton from "@/components/features/profile/summaries/skeleton/LibrarySnippetSkeleton";
-import FriendsSkeleton from "@/components/features/profile/friends/skeleton/FriendsSkeleton";
 import { getAvatar } from "@/utils/users";
 import { Muted } from "@/components/typography/muted";
 import ProfileMinds from "@/components/features/profile/minds/ProfileMinds";

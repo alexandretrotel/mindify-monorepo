@@ -1,3 +1,6 @@
+"use client";
+import "client-only";
+
 import { cn } from "@/lib/utils";
 
 interface MarqueeProps {
@@ -10,7 +13,7 @@ interface MarqueeProps {
   [key: string]: any;
 }
 
-export default function Marquee({
+export default function MarqueeClient({
   className,
   reverse,
   pauseOnHover = false,

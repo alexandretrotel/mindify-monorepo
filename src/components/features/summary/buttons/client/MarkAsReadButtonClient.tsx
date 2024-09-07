@@ -44,7 +44,7 @@ const MarkAsReadButtonClient = ({
   } else {
     return (
       <Button variant="outline" className="flex items-center gap-2" onClick={handleClick}>
-        Fini de lire ?
+        Marquer comme lu
       </Button>
     );
   }

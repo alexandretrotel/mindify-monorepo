@@ -25,6 +25,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { UserMetadata } from "@supabase/supabase-js";
 import type { UUID } from "crypto";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const AccountDropdownClient = ({
   userMetadata,
@@ -49,14 +50,11 @@ const AccountDropdownClient = ({
           </Avatar>
         </DropdownMenuTrigger>
       ) : (
-        <Link href={`/auth/login`} className="flex items-center gap-2">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src={userPicture} alt={userMetadata?.name} />
-            <AvatarFallback>
-              <UserRoundIcon className="h-4 w-4" />
-            </AvatarFallback>
-          </Avatar>
-        </Link>
+        <Button size="sm" asChild>
+          <Link href={`/auth/login`} className="flex items-center gap-2">
+            Se connecter
+          </Link>
+        </Button>
       )}
 
       <DropdownMenuContent side="bottom" className="mx-4">

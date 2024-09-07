@@ -13,12 +13,12 @@ const faqItemsGeneral = [
   {
     title: "Qu'est-ce que Mindify ?",
     content:
-      "Mindify est une application web qui vous permet d'accéder à des connaissances sur divers sujets. Vous retrouverez des idées et des concepts extraits principalement de livres, de podcasts et de vidéos."
+      "Mindify vous permet d'accéder et d’apprendre des connaissances sur divers sujets. Vous retrouverez des résumés de livres, de podcasts, de vidéos et des “MINDS” qui sont les idées principales de ces ressources. Vous pourrez ensuite enregistrer vos MINDS préférés et les apprendre grâce à un système de flashcards optimisé."
   },
   {
     title: "Pourquoi utiliser Mindify ?",
     content:
-      "Avec Mindify, vous pouvez apprendre de nouvelles choses et découvrir des idées qui peuvent changer votre vie."
+      "Chez Mindify, nous sommes convaincus que la connaissance peut changer une vie. De nos jours, nous avons tous accès à une quantité de savoir astronomique. Le problème est alors d’accéder à du contenu qualitatif et de le retenir. C’est ce que nous souhaitons vous permettre de faire grâce à Mindify. Si vous vous retrouvez dans ces problématiques, c’est que Mindify est fait pour vous."
   },
   {
     title: "Comment utiliser Mindify ?",

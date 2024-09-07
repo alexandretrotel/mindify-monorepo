@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import type { Enums } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 import Link from "next/link";
+import { features } from "@/data/features";
 
 const BookCover = ({
   title,
@@ -35,18 +36,22 @@ const BookCover = ({
       <div
         className={`w-full overflow-hidden rounded-lg border hover:border-primary active:border-black ${heightFull ? "h-full" : ""}`}
       >
-        {image ? (
-          <Image
-            src={image}
-            fill={true}
-            className="h-48 w-full object-cover object-center"
-            alt={title}
-          />
-        ) : (
-          <Skeleton className="h-48 w-full rounded-none" />
+        {features.summaryImageIsVisible && (
+          <React.Fragment>
+            {image ? (
+              <Image
+                src={image}
+                fill={true}
+                className="h-48 w-full object-cover object-center"
+                alt={title}
+              />
+            ) : (
+              <Skeleton className="h-48 w-full rounded-none" />
+            )}
+          </React.Fragment>
         )}
 
-        <div className="flex flex-col gap-1 p-4">
+        <div className="flex h-full flex-col justify-between gap-2 p-4">
           <div className="flex flex-col">
             <H5Span>{title}</H5Span>
             {source === "book" && <Muted size="sm">{author}</Muted>}
