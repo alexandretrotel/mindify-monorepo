@@ -79,7 +79,7 @@ export const CardStackClient = ({
 
             <Semibold>{card.content}</Semibold>
 
-            <Button className="w-full" asChild>
+            <Button className="w-full" disabled asChild>
               <Link href="/auth/signup">Afficher le MIND</Link>
             </Button>
           </motion.div>
