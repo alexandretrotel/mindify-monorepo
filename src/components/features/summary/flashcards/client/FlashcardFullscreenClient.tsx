@@ -11,6 +11,7 @@ import Doodle2 from "@/../public/doodles/doodle-2.svg";
 import Doodle3 from "@/../public/doodles/doodle-3.svg";
 import Doodle5 from "@/../public/doodles/doodle-5.svg";
 import Image from "next/image";
+import BackHome from "@/components/global/buttons/BackHome";
 
 const FlashcardScreenClient = ({
   minds,
@@ -48,7 +49,7 @@ const FlashcardScreenClient = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-background p-16 px-4">
+    <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-background p-4">
       <div className="relative flex h-full w-full items-center justify-center">
         <Image
           src={Doodle2}
@@ -86,6 +87,10 @@ const FlashcardScreenClient = ({
             />
           );
         })}
+
+        <div className="absolute left-0 top-0 hidden px-4 py-8 md:p-8 lg:block">
+          <BackHome />
+        </div>
       </div>
     </div>
   );

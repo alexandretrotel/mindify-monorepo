@@ -1,4 +1,5 @@
 import Section from "@/components/global/Section";
+import PulsatingButton from "@/components/magicui/pulsating-button";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
@@ -10,11 +11,15 @@ const TakeACoffee = async () => {
     <Section id="take-a-coffee">
       <div className="flex flex-col items-center gap-4 md:gap-8">
         <h2 className="text-center text-2xl font-semibold md:text-4xl">On se prend un café ?</h2>
-        <Button size="lg" className="text-base md:w-fit" asChild>
+
+        <PulsatingButton
+          pulseColor="#16a34a"
+          className="w-full bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 md:w-fit"
+        >
           <Link target="_blank" href={calendlyLink}>
             Appelle les fondateurs
           </Link>
-        </Button>
+        </PulsatingButton>
       </div>
     </Section>
   );

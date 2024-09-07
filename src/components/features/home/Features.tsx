@@ -15,11 +15,12 @@ const Features = async () => {
             <div className="mx-auto w-full max-w-5xl">
               <div className="flex justify-start">
                 <div className="flex w-full flex-col">
-                  <div className="flex flex-col gap-4 text-center md:text-left">
-                    <H2>Accède à des idées qui changeront ta vie</H2>
+                  <div className="flex w-1/2 flex-col gap-4 text-center md:text-left">
+                    <H2>Nous sommes convaincus que la connaissance peut changer votre vie</H2>
 
                     <P>
-                      On extrait pour toi les idées essentielles des livres, podcasts et vidéos.
+                      Accède à l&apos;essence des livres, podcasts et vidéos cultes grâce à un
+                      condensé des idées phares.
                     </P>
 
                     <PulsatingButton
@@ -44,15 +45,18 @@ const Features = async () => {
 
               <div className="order-1 flex w-full flex-col md:order-2">
                 <div className="flex flex-col gap-4 text-center md:items-end md:text-right">
-                  <H2>Apprends activement</H2>
+                  <H2>Nous croyons aux bénéfices d’un apprentissage actif</H2>
 
-                  <P>Ne te contente pas de lire, réfléchis afin de mieux comprendre.</P>
+                  <P>
+                    Réponds activement à des questions pour t&apos;imprégner entièrement des
+                    enseignements.
+                  </P>
 
                   <PulsatingButton
                     pulseColor="#16a34a"
                     className="w-full bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 md:w-fit"
                   >
-                    <Link href="/auth/signup">Apprends tout de suite</Link>
+                    <Link href="/auth/signup">Commence à apprendre</Link>
                   </PulsatingButton>
                 </div>
               </div>
@@ -63,18 +67,18 @@ const Features = async () => {
             <div className="grid gap-32 md:grid-cols-2 md:gap-8">
               <div className="flex w-full flex-col">
                 <div className="flex flex-col gap-4 text-center md:text-left">
-                  <H2>Dans ta mémoire, à jamais</H2>
+                  <H2>Nous pensons que 1 idée retenue en vaut 10 survolées</H2>
 
                   <P>
-                    On te donne la réponse. On te rappelle quand la revoir et tu l&apos;apprends une
-                    bonne fois pour toutes.
+                    Imprime dans ta mémoire tes idées préférées grâce à un système
+                    d&apos;apprentissage optimisé.
                   </P>
 
                   <PulsatingButton
                     pulseColor="#16a34a"
                     className="w-full bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 md:w-fit"
                   >
-                    <Link href="/auth/signup">Retiens dès maintenant</Link>
+                    <Link href="/auth/signup">Retiens réellement</Link>
                   </PulsatingButton>
                 </div>
               </div>
