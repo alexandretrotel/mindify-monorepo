@@ -4,6 +4,7 @@ import LandingFlashcard from "@/components/features/home/client/LandingFlashcard
 import PulsatingButton from "@/components/magicui/pulsating-button";
 import Pencil from "@/../public/landing/pencil.svg";
 import Image from "next/image";
+import H1 from "@/components/typography/h1";
 
 const Hero = async () => {
   return (
@@ -13,9 +14,9 @@ const Hero = async () => {
     >
       <div className="relative z-10 grid grid-cols-1 place-items-center justify-between gap-4 md:grid-cols-2 md:gap-16">
         <div className="flex max-w-lg flex-col items-center gap-4 text-center md:gap-0">
-          <div className="text-4xl font-semibold md:text-6xl">
-            <h1>Apprenez vite.</h1>
-            <h1>Retenez mieux.</h1>
+          <div>
+            <H1>Apprenez vite.</H1>
+            <H1>Retenez mieux.</H1>
 
             <div className="relative hidden h-[64px] w-full md:flex">
               <Image src={Pencil} alt="Pencil" fill={true} />

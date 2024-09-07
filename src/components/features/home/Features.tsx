@@ -4,6 +4,7 @@ import CardsMarquee from "@/components/features/home/CardsMarquee";
 import CardsMarqueeSkeleton from "@/components/features/home/skeleton/CardsMarqueeSkeleton";
 import Link from "next/link";
 import PulsatingButton from "@/components/magicui/pulsating-button";
+import H2 from "@/components/typography/h2";
 
 const Features = async () => {
   return (
@@ -15,9 +16,7 @@ const Features = async () => {
               <div className="flex justify-start">
                 <div className="flex w-full flex-col">
                   <div className="flex flex-col gap-4 text-center md:text-left">
-                    <h2 className="text-2xl font-semibold md:text-4xl">
-                      Accède à des idées qui changeront ta vie
-                    </h2>
+                    <H2>Accède à des idées qui changeront ta vie</H2>
 
                     <P>
                       On extrait pour toi les idées essentielles des livres, podcasts et vidéos.
@@ -45,7 +44,7 @@ const Features = async () => {
 
               <div className="order-1 flex w-full flex-col md:order-2">
                 <div className="flex flex-col gap-4 text-center md:items-end md:text-right">
-                  <h2 className="text-2xl font-semibold md:text-4xl">Apprends activement</h2>
+                  <H2>Apprends activement</H2>
 
                   <P>Ne te contente pas de lire, réfléchis afin de mieux comprendre.</P>
 
@@ -64,7 +63,7 @@ const Features = async () => {
             <div className="grid gap-32 md:grid-cols-2 md:gap-8">
               <div className="flex w-full flex-col">
                 <div className="flex flex-col gap-4 text-center md:text-left">
-                  <h2 className="text-2xl font-semibold md:text-4xl">Dans ta mémoire, à jamais</h2>
+                  <H2>Dans ta mémoire, à jamais</H2>
 
                   <P>
                     On te donne la réponse. On te rappelle quand la revoir et tu l&apos;apprends une
