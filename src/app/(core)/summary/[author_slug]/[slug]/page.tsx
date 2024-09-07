@@ -14,8 +14,6 @@ import ChaptersSkeleton from "@/components/features/summary/chapters/skeleton/Ch
 import Suggestions from "@/components/features/summary/suggestions/Suggestions";
 import SuggestionsSkeleton from "@/components/features/summary/suggestions/skeleton/SuggestionsSkeleton";
 import Source from "@/components/features/summary/header/Source";
-import SummaryMinds from "@/components/features/summary/minds/SummaryMinds";
-import SummaryMindsSkeleton from "@/components/features/summary/minds/skeleton/SummaryMindsSkeleton";
 import AddToLibraryButtonSkeleton from "@/components/features/summary/buttons/skeleton/AddToLibraryButtonSkeleton";
 import MarkAsReadButtonSkeleton from "@/components/features/summary/buttons/skeleton/MarkAsReadButtonSkeleton";
 import type { Metadata } from "next";
@@ -25,8 +23,6 @@ import type { Tables } from "@/types/supabase";
 import BorderTabs from "@/components/global/BorderTabs";
 import AuthorDescriptionMobile from "@/components/features/summary/author/AuthorDescriptionMobile";
 import AuthorDescriptionMobileSkeleton from "@/components/features/summary/author/skeleton/AuthorDescriptionMobileSkeleton";
-import SummaryMindsMobileSkeleton from "@/components/features/summary/minds/skeleton/SummaryMindsMobileSkeleton";
-import SummaryMindsMobile from "@/components/features/summary/minds/SummaryMindsMobile";
 import TableOfContentsMobile from "@/components/features/summary/table-of-contents/TableOfContentsMobile";
 import TableOfContentsMobileSkeleton from "@/components/features/summary/table-of-contents/skeleton/TableOfContentsMobileSkeleton";
 import FlashcardFullscreen from "@/components/features/summary/flashcards/FlashcardFullscreen";
@@ -34,6 +30,7 @@ import FlashcardsButton from "@/components/features/summary/header/FlashcardsBut
 import H2 from "@/components/typography/h2";
 import { Muted } from "@/components/typography/muted";
 import P from "@/components/typography/p";
+import { Separator } from "@/components/ui/separator";
 
 export async function generateMetadata({
   params
@@ -223,8 +220,10 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
               </div>
             </div>
 
+            <Separator className="hidden lg:block" />
+
             {isConnected && (
-              <div className="hidden flex-col gap-8 lg:flex">
+              <div className="hidden flex-col gap-16 lg:flex">
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col">
                     <H2>Les MINDS de ce résumé</H2>
