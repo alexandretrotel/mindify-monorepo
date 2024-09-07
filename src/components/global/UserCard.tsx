@@ -119,7 +119,7 @@ const UserCard = ({
   );
 };
 
-async function RenderFriendRequestButton({
+function RenderFriendRequestButton({
   userId,
   friendRequestObject,
   setFriendStatus,

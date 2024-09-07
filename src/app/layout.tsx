@@ -17,6 +17,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
 import Script from "next/script";
+import FlashcardProvider from "@/providers/FlashcardProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -140,12 +141,14 @@ export default function RootLayout({
 
         <Suspense fallback={<Loading />}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <StripeClient stripePromise={stripePromise}>
-              {children}
+            <FlashcardProvider>
+              <StripeClient stripePromise={stripePromise}>
+                {children}
 
-              <Sonner />
-              <Toaster />
-            </StripeClient>
+                <Sonner />
+                <Toaster />
+              </StripeClient>
+            </FlashcardProvider>
           </ThemeProvider>
         </Suspense>
 

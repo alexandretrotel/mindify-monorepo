@@ -5,6 +5,7 @@ import React from "react";
 import type { Tables } from "@/types/supabase";
 import SummaryFlashcardMind from "@/components/features/summary/flashcards/SummaryFlashcardMind";
 import type { UUID } from "crypto";
+import { FlashcardContext } from "@/providers/FlashcardProvider";
 
 const FlashcardScreenClient = ({
   minds,
@@ -24,11 +25,11 @@ const FlashcardScreenClient = ({
   userName: string;
   isConnected: boolean;
 }) => {
-  const [isOpen, setIsOpen] = React.useState(true);
-  const [currentCard, setCurrentCard] = React.useState(1);
+  const { isOpenFlashcardScreen, setIsOpenFlashcardScreen, currentCard, setCurrentCard } =
+    React.useContext(FlashcardContext);
 
   const handleFullscreen = () => {
-    setIsOpen(!isOpen);
+    setIsOpenFlashcardScreen(!isOpenFlashcardScreen);
   };
 
   const handleNext = () => {
@@ -37,7 +38,7 @@ const FlashcardScreenClient = ({
     }
   };
 
-  if (!isOpen) {
+  if (!isOpenFlashcardScreen) {
     return null;
   }
 
