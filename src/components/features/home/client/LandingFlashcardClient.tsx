@@ -61,11 +61,7 @@ function Front({ onFlip, theme }: Readonly<{ onFlip: () => void; theme: string }
         </CardContent>
 
         <CardFooter>
-          <Button
-            className="w-full hover:border-transparent hover:bg-primary hover:text-primary-foreground"
-            variant="outline"
-            onClick={onFlip}
-          >
+          <Button className="w-full" variant="outline" onClick={onFlip}>
             Essayez-moi
           </Button>
         </CardFooter>
