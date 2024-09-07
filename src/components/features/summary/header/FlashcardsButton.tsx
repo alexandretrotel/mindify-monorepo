@@ -13,11 +13,16 @@ const FlashcardsButton = ({
   children: React.ReactNode;
   pulsate?: boolean;
 }) => {
-  const { setIsOpenFlashcardScreen } = React.useContext(FlashcardContext);
+  const { setIsOpenFlashcardScreen, setCurrentCard } = React.useContext(FlashcardContext);
+
+  const handleOpenFlashcardScreen = () => {
+    setIsOpenFlashcardScreen(true);
+    setCurrentCard(1);
+  };
 
   if (!pulsate) {
     return (
-      <Button onClick={() => setIsOpenFlashcardScreen(true)} className="w-full md:w-fit">
+      <Button onClick={handleOpenFlashcardScreen} className="w-full md:w-fit">
         {children}
       </Button>
     );
@@ -25,7 +30,7 @@ const FlashcardsButton = ({
 
   return (
     <PulsatingButton
-      onClick={() => setIsOpenFlashcardScreen(true)}
+      onClick={handleOpenFlashcardScreen}
       pulseColor="#16a34a"
       className="w-full bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 md:w-fit"
     >
