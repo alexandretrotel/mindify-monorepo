@@ -333,6 +333,66 @@ export type Database = {
           },
         ]
       }
+      srs_data: {
+        Row: {
+          created_at: string
+          difficulty: number
+          due: string
+          elapsed_days: number
+          lapses: number
+          last_review: string
+          mind_id: number
+          reps: number
+          scheduled_days: number
+          stability: number
+          state: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          difficulty: number
+          due: string
+          elapsed_days: number
+          lapses: number
+          last_review: string
+          mind_id?: number
+          reps: number
+          scheduled_days: number
+          stability: number
+          state?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          difficulty?: number
+          due?: string
+          elapsed_days?: number
+          lapses?: number
+          last_review?: string
+          mind_id?: number
+          reps?: number
+          scheduled_days?: number
+          stability?: number
+          state?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "srs_data_mind_id_fkey"
+            columns: ["mind_id"]
+            isOneToOne: false
+            referencedRelation: "minds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "srs_data_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       summaries: {
         Row: {
           author_id: number
