@@ -57,9 +57,8 @@ export async function initializeSrsData(
         scheduled_days: card.scheduled_days,
         reps: card.reps,
         lapses: card.lapses,
-        last_review: card.last_review,
         state: card.state,
-        due: card.due,
+        due: card.due.toISOString(),
         stability: card.stability,
         difficulty: card.difficulty
       });

@@ -379,12 +379,12 @@ export type Database = {
           due: string
           elapsed_days: number
           lapses: number
-          last_review: string
+          last_review: string | null
           mind_id: number
           reps: number
           scheduled_days: number
           stability: number
-          state: string | null
+          state: number
           user_id: string
         }
         Insert: {
@@ -393,12 +393,12 @@ export type Database = {
           due: string
           elapsed_days: number
           lapses: number
-          last_review: string
+          last_review?: string | null
           mind_id?: number
           reps: number
           scheduled_days: number
           stability: number
-          state?: string | null
+          state: number
           user_id: string
         }
         Update: {
@@ -407,12 +407,12 @@ export type Database = {
           due?: string
           elapsed_days?: number
           lapses?: number
-          last_review?: string
+          last_review?: string | null
           mind_id?: number
           reps?: number
           scheduled_days?: number
           stability?: number
-          state?: string | null
+          state?: number
           user_id?: string
         }
         Relationships: [
