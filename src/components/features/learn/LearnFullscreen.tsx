@@ -19,7 +19,9 @@ export default function LearnFullscreen() {
         <Semibold>
           {currentCard}/{totalLength}
         </Semibold>
-        <Progress value={(currentCard / totalLength) * 100} className="h-2 max-w-5xl md:h-3" />
+
+        <Progress value={(currentCard / totalLength) * 100} className="h-3 max-w-5xl" />
+
         <button
           onClick={() => setIsOpenFlashcardScreen(false)}
           className="rounded-full p-2 text-muted-foreground hover:bg-muted"
@@ -27,6 +29,8 @@ export default function LearnFullscreen() {
           <XIcon className="h-5 w-5" />
         </button>
       </div>
+
+      <div className="flex h-full items-center justify-center">d</div>
     </div>
   );
 }

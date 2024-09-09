@@ -20,7 +20,7 @@ export default function CreateFlashcardSet({ disabled }: Readonly<{ disabled: bo
       type="button"
       disabled={disabled}
       onClick={handleCreate}
-      className="flex items-center justify-center rounded-lg border border-dashed bg-muted hover:border-primary hover:bg-muted/80 active:border-black"
+      className="flex h-48 items-center justify-center rounded-lg border border-dashed bg-muted hover:border-primary hover:bg-muted/80 active:border-black md:h-full"
     >
       <div className="rounded-full border bg-background p-4 text-center">
         <PlusIcon className="h-6 w-6 text-muted-foreground" />
