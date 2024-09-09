@@ -61,7 +61,7 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
   }, [finished]);
 
   React.useEffect(() => {
-    if (startTime && endTime) {
+    if (startTime && endTime && startTime > 0 && endTime > 0) {
       const totalTimeInMs = endTime - startTime - inactiveTime;
       const totalTime = new Date(totalTimeInMs > 0 ? totalTimeInMs : 0);
 
@@ -79,6 +79,8 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       setTotalTime(formattedTime);
+    } else {
+      setTotalTime("0s");
     }
   }, [startTime, endTime]);
 
@@ -96,10 +98,12 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
         inactiveStartRef.current = null;
       }
 
-      inactivityTimeoutRef.current = setTimeout(() => {
-        setIsActive(false);
-        inactiveStartRef.current = Date.now();
-      }, 10000);
+      if (inactiveStartRef.current) {
+        inactivityTimeoutRef.current = setTimeout(() => {
+          setIsActive(false);
+          inactiveStartRef.current = Date.now();
+        }, 10000);
+      }
     };
 
     window.addEventListener("mousemove", handleUserActivity);
@@ -108,8 +112,10 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       window.removeEventListener("mousemove", handleUserActivity);
       window.removeEventListener("keydown", handleUserActivity);
+
       if (inactivityTimeoutRef.current) {
         clearTimeout(inactivityTimeoutRef.current);
+        inactivityTimeoutRef.current = null;
       }
     };
   }, []);
