@@ -86,6 +86,8 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
 
   React.useEffect(() => {
     const handleUserActivity = () => {
+      if (finished) return;
+
       setIsActive(true);
 
       if (inactivityTimeoutRef.current) {
