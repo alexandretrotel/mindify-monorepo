@@ -28,7 +28,7 @@ export default function FlashcardSet({
           {totalLength} cartes
         </Span>
         <H4Span>{title}</H4Span>
-        <Muted>{description}</Muted>
+        <Muted size="sm">{description}</Muted>
       </CardHeader>
 
       <CardFooter>
