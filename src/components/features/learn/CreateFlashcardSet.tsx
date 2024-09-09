@@ -1,4 +1,5 @@
 "use client";
+import Semibold from "@/components/typography/semibold";
 import { useToast } from "@/components/ui/use-toast";
 import "client-only";
 
@@ -20,10 +21,11 @@ export default function CreateFlashcardSet({ disabled }: Readonly<{ disabled: bo
       type="button"
       disabled={disabled}
       onClick={handleCreate}
-      className="flex h-48 items-center justify-center rounded-lg border border-dashed bg-muted hover:border-primary hover:bg-muted/80 active:border-black md:h-full"
+      className="flex h-48 items-center justify-center rounded-lg border border-dashed bg-muted hover:bg-muted/80 md:h-full"
     >
-      <div className="rounded-full border bg-background p-4 text-center">
-        <PlusIcon className="h-6 w-6 text-muted-foreground" />
+      <div className="flex items-center justify-center gap-2 text-center">
+        <PlusIcon className="h-6 w-6 text-muted-foreground" />{" "}
+        <span className="font-semibold text-muted-foreground">Créer un set</span>
       </div>
     </button>
   );
