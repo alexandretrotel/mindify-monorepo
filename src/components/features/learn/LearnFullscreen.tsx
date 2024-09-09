@@ -34,10 +34,6 @@ export default function LearnFullscreen({
     totalTime
   } = React.useContext(FlashcardContext);
 
-  if (!minds) {
-    return null;
-  }
-
   if (areMindsLoading) {
     <div
       className={`fixed inset-0 z-50 h-screen w-full bg-background p-4 md:p-8 ${isOpenFlashcardScreen ? "block" : "hidden"}`}
@@ -64,6 +60,10 @@ export default function LearnFullscreen({
         <FlashcardSkeleton />
       </div>
     </div>;
+  }
+
+  if (!minds) {
+    return null;
   }
 
   return (

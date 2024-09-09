@@ -52,7 +52,6 @@ export default function FlashcardSet({
     }
 
     setStartTime(Date.now());
-    setAreMindsLoading(false);
   };
 
   return (
