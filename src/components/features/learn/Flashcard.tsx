@@ -92,7 +92,7 @@ function Front({
 }>) {
   return (
     <Card className="flex w-full min-w-80 max-w-md flex-col md:min-w-[28rem]">
-      <div className="flex h-full min-h-96 flex-col justify-between gap-4">
+      <div className="flex h-full min-h-96 w-full flex-col justify-between gap-4">
         <CardHeader>
           <div className="flex items-start justify-between gap-8">
             <div className="flex flex-col">
@@ -171,7 +171,7 @@ function Back({
 
   return (
     <Card className="flex w-full min-w-80 max-w-md flex-col md:min-w-[28rem]">
-      <div className="flex h-full min-h-96 flex-col justify-between gap-4">
+      <div className="flex h-full min-h-96 w-full flex-col justify-between gap-4">
         <CardHeader>
           <div className="flex items-start justify-between gap-8">
             <div className="flex flex-col">
