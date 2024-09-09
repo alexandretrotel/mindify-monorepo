@@ -20,7 +20,10 @@ export default function LearnFullscreen() {
           {currentCard}/{totalLength}
         </Semibold>
 
-        <Progress value={(currentCard / totalLength) * 100} className="h-3 max-w-5xl" />
+        <Progress
+          value={currentCard === 1 ? 0 : (currentCard / totalLength) * 100}
+          className="h-3 max-w-5xl"
+        />
 
         <button
           onClick={() => setIsOpenFlashcardScreen(false)}
