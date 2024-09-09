@@ -5,6 +5,7 @@ import type { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
 import { createEmptyCard, FSRS, FSRSParameters, generatorParameters, type Grade } from "ts-fsrs";
+import { revalidatePath } from "next/cache";
 
 export async function areMindsInitialized(
   userId: UUID,
@@ -80,6 +81,7 @@ export async function initializeSrsData(
     progressStore[progressId].current = i + 1;
   }
 
+  revalidatePath("/learn", "layout");
   return true;
 }
 
@@ -133,4 +135,6 @@ export async function updateSrsData(mindId: number, userId: UUID, grade: Grade) 
     console.error("Erreur lors de la mise à jour des données SRS", updateError);
     throw new Error("Erreur lors de la mise à jour des données SRS");
   }
+
+  revalidatePath("/learn", "layout");
 }

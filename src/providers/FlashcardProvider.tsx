@@ -66,6 +66,10 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
   }, [finished]);
 
   React.useEffect(() => {
+    setTotalLength(minds.length);
+  }, [minds]);
+
+  React.useEffect(() => {
     if (startTime && endTime && startTime > 0 && endTime > 0) {
       const totalTimeInMs = endTime - startTime - inactiveTime;
       const totalTime = new Date(totalTimeInMs > 0 ? totalTimeInMs : 0);
@@ -129,7 +133,7 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handleUpdateCardSrsData = async (userId: UUID, grade: Grade) => {
     try {
-      await updateSrsData(minds[currentCard].id, userId, grade);
+      await updateSrsData(minds[currentCard - 1].id, userId, grade);
     } catch (error) {
       console.error("Erreur lors de la mise à jour des données SRS", error);
       toast({

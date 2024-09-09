@@ -9,55 +9,69 @@ import React from "react";
 import { FlashcardContext } from "@/providers/FlashcardProvider";
 import Span from "@/components/typography/span";
 import type { UUID } from "crypto";
-import { getUserSavedMinds } from "@/actions/users";
+import { getUserDueMindsFromDeck, getUserSavedMinds } from "@/actions/users";
 import { useToast } from "@/components/ui/use-toast";
 
 export default function FlashcardSet({
   title,
   description,
-  totalLength,
   flashcardSetId,
   userId
 }: Readonly<{
   title: string;
   description: string;
-  totalLength: number;
   flashcardSetId: number;
   userId: UUID;
 }>) {
+  const [isDue, setIsDue] = React.useState(false);
+
   const {
     setIsOpenFlashcardScreen,
-    setTotalLength,
     setMinds,
     setAreMindsLoading,
     setStartTime,
     setCurrentCard,
-    setFinished
+    setFinished,
+    totalLength
   } = React.useContext(FlashcardContext);
 
   const { toast } = useToast();
 
+  React.useEffect(() => {
+    const fetchMinds = async () => {
+      setAreMindsLoading(true);
+
+      if (flashcardSetId === 0) {
+        try {
+          const minds = await getUserSavedMinds(userId);
+          const dueMinds = await getUserDueMindsFromDeck(userId, minds);
+
+          if (!dueMinds || dueMinds.length === 0) {
+            setMinds(minds);
+          } else {
+            setMinds(dueMinds);
+            setIsDue(true);
+          }
+        } catch (error) {
+          console.error(error);
+          toast({
+            title: "Erreur",
+            description: "Impossible de charger les cartes",
+            variant: "destructive"
+          });
+        } finally {
+          setAreMindsLoading(false);
+        }
+      }
+    };
+
+    if (userId) {
+      fetchMinds();
+    }
+  }, [userId]);
+
   const handleOpenFlashcardScreen = async () => {
     setIsOpenFlashcardScreen(true);
-    setTotalLength(totalLength);
-    setAreMindsLoading(true);
-
-    if (flashcardSetId === 0) {
-      try {
-        const minds = await getUserSavedMinds(userId);
-        setMinds(minds);
-      } catch (error) {
-        console.error(error);
-        toast({
-          title: "Erreur",
-          description: "Impossible de charger les cartes",
-          variant: "destructive"
-        });
-      } finally {
-        setAreMindsLoading(false);
-      }
-    }
-
     setStartTime(Date.now());
     setCurrentCard(1);
     setFinished(false);
@@ -67,7 +81,7 @@ export default function FlashcardSet({
     <Card>
       <CardHeader>
         <Span primaryColor size="xs">
-          {totalLength} cartes
+          {totalLength} carte{totalLength > 1 ? "s" : ""} {isDue && "à réviser"}
         </Span>
         <H4Span>{title}</H4Span>
         <Muted size="sm">{description}</Muted>
