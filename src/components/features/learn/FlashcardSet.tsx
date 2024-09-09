@@ -25,8 +25,15 @@ export default function FlashcardSet({
   flashcardSetId: number;
   userId: UUID;
 }>) {
-  const { setIsOpenFlashcardScreen, setTotalLength, setMinds, setAreMindsLoading, setStartTime } =
-    React.useContext(FlashcardContext);
+  const {
+    setIsOpenFlashcardScreen,
+    setTotalLength,
+    setMinds,
+    setAreMindsLoading,
+    setStartTime,
+    setCurrentCard,
+    setFinished
+  } = React.useContext(FlashcardContext);
 
   const { toast } = useToast();
 
@@ -52,6 +59,8 @@ export default function FlashcardSet({
     }
 
     setStartTime(Date.now());
+    setCurrentCard(1);
+    setFinished(false);
   };
 
   return (
