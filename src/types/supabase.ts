@@ -109,45 +109,6 @@ export type Database = {
           },
         ]
       }
-      mind_reviews: {
-        Row: {
-          created_at: string
-          id: number
-          mind_id: number
-          rating: number
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          mind_id: number
-          rating: number
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          mind_id?: number
-          rating?: number
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "mind_reviews_mind_id_fkey"
-            columns: ["mind_id"]
-            isOneToOne: false
-            referencedRelation: "minds"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "mind_reviews_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       minds: {
         Row: {
           created_at: string
