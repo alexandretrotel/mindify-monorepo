@@ -30,20 +30,26 @@ const Flashcard = ({
 }) => {
   const [isFlipped, setIsFlipped] = React.useState(false);
 
-  const { currentCard, setCurrentCard, totalLength } = React.useContext(FlashcardContext);
+  const { currentCard, setCurrentCard, totalLength, finished, setFinished } =
+    React.useContext(FlashcardContext);
 
   const showBack = () => {
     setIsFlipped(true);
   };
 
   const handleNext = () => {
-    if (currentCard - 1 === totalLength) {
+    if (currentCard >= totalLength) {
+      setFinished(true);
       return;
     }
 
     setIsFlipped(false);
     setCurrentCard(currentCard + 1);
   };
+
+  if (finished) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col gap-4">

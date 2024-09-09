@@ -9,6 +9,10 @@ import { Progress } from "@/components/ui/progress";
 import Flashcard from "@/components/features/learn/Flashcard";
 import type { UUID } from "crypto";
 import FlashcardSkeleton from "@/components/features/learn/skeleton/FlashcardSkeleton";
+import { Button } from "@/components/ui/button";
+import H1Span from "@/components/typography/h1AsSpan";
+import H3Span from "@/components/typography/h3AsSpan";
+import { Muted } from "@/components/typography/muted";
 
 export default function LearnFullscreen({
   userId,
@@ -25,7 +29,9 @@ export default function LearnFullscreen({
     currentCard,
     totalLength,
     minds,
-    areMindsLoading
+    areMindsLoading,
+    finished,
+    totalTime
   } = React.useContext(FlashcardContext);
 
   if (!minds) {
@@ -69,10 +75,7 @@ export default function LearnFullscreen({
           {currentCard}/{totalLength}
         </Semibold>
 
-        <Progress
-          value={currentCard === 1 ? 0 : (currentCard / totalLength) * 100}
-          className="h-3 max-w-5xl"
-        />
+        <Progress value={(currentCard / totalLength) * 100} className="h-3 max-w-5xl" />
 
         <button
           onClick={() => setIsOpenFlashcardScreen(false)}
@@ -83,21 +86,52 @@ export default function LearnFullscreen({
       </div>
 
       <div className="flex h-full items-center justify-center">
-        {minds?.map((mind, index) => {
-          if (index !== currentCard - 1) {
-            return null;
-          }
+        {finished ? (
+          <div className="flex max-w-xl flex-col gap-8 text-center">
+            <div className="flex flex-col">
+              <H1Span>On est fier de vous !</H1Span>
+              <H3Span>(Soyez fier aussi)</H3Span>
+            </div>
 
-          return (
-            <Flashcard
-              key={index}
-              mind={mind}
-              userId={userId}
-              userName={userName}
-              isConnected={isConnected}
-            />
-          );
-        })}
+            <Muted size="lg">
+              Vous auriez pu passer{" "}
+              <Semibold primaryColor size="lg">
+                {totalTime}
+              </Semibold>{" "}
+              à scroller sur les réseaux. Mais c&apos;est{" "}
+              <Semibold primaryColor size="lg">
+                {totalLength}
+              </Semibold>{" "}
+              MINDS que vous avez appris.
+            </Muted>
+
+            <Button
+              variant="outline"
+              className="mx-auto w-fit"
+              onClick={() => setIsOpenFlashcardScreen(false)}
+            >
+              Retourner au menu
+            </Button>
+          </div>
+        ) : (
+          <React.Fragment>
+            {minds?.map((mind, index) => {
+              if (index !== currentCard - 1) {
+                return null;
+              }
+
+              return (
+                <Flashcard
+                  key={index}
+                  mind={mind}
+                  userId={userId}
+                  userName={userName}
+                  isConnected={isConnected}
+                />
+              );
+            })}
+          </React.Fragment>
+        )}
       </div>
     </div>
   );

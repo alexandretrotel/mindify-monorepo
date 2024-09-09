@@ -4,11 +4,17 @@ import React from "react";
 export default function Semibold({
   children,
   size,
-  onPrimaryBackground
-}: Readonly<{ children: React.ReactNode; size?: string; onPrimaryBackground?: boolean }>) {
+  onPrimaryBackground,
+  primaryColor
+}: Readonly<{
+  children: React.ReactNode;
+  size?: string;
+  onPrimaryBackground?: boolean;
+  primaryColor?: boolean;
+}>) {
   return (
     <span
-      className={`font-semibold ${onPrimaryBackground ? "text-primary-foreground" : "text-foreground"} ${!!size && getTextSizeClass(size)}`}
+      className={`font-semibold ${primaryColor ? "text-primary" : onPrimaryBackground ? "text-primary-foreground" : "text-foreground"} ${!!size && getTextSizeClass(size)}`}
     >
       {children}
     </span>
