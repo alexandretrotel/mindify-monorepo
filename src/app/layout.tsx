@@ -12,12 +12,12 @@ import StripeClient from "@/app/StripeClient";
 import Loading from "@/app/loading";
 import { Suspense } from "react";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
+import FlashcardProvider from "@/providers/FlashcardProvider";
 
 // Import global styles
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
-import Script from "next/script";
-import FlashcardProvider from "@/providers/FlashcardProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -124,7 +124,7 @@ export const viewport: Viewport = {
 
 export const stripePromise = loadStripe(process.env.STRIPE_SECRET_KEY!);
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;

@@ -4,7 +4,7 @@ import "client-only";
 import React from "react";
 import { FlashcardContext } from "@/providers/FlashcardProvider";
 import Semibold from "@/components/typography/semibold";
-import { XIcon } from "lucide-react";
+import { Loader2Icon, XIcon } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import Flashcard from "@/components/features/learn/Flashcard";
 import type { UUID } from "crypto";
@@ -13,9 +13,11 @@ import { Button } from "@/components/ui/button";
 import H1Span from "@/components/typography/h1AsSpan";
 import H3Span from "@/components/typography/h3AsSpan";
 import { Muted } from "@/components/typography/muted";
-import { areMindsInitialized } from "@/actions/srs-data";
+import { areMindsInitialized, getProgress, initializeSrsData } from "@/actions/srs-data";
 import type { Tables } from "@/types/supabase";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
+import { v4 as uuidv4 } from "uuid";
 
 export default function LearnFullscreen({
   userId,
@@ -32,6 +34,12 @@ export default function LearnFullscreen({
       summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
     })[]
   >([]);
+  const [isInitializing, setIsInitializing] = React.useState(false);
+  const [currentProgress, setCurrentProgress] = React.useState(0);
+  const [totalProgress, setTotalProgress] = React.useState(0);
+  const [progressId] = React.useState(uuidv4());
+
+  const { toast } = useToast();
 
   const {
     isOpenFlashcardScreen,
@@ -43,6 +51,25 @@ export default function LearnFullscreen({
     finished,
     totalTime
   } = React.useContext(FlashcardContext);
+
+  React.useEffect(() => {
+    let intervalId: ReturnType<typeof setInterval>;
+
+    if (isInitializing) {
+      intervalId = setInterval(async () => {
+        const progress = await getProgress(progressId);
+        setCurrentProgress(progress.current);
+        setTotalProgress(progress.total);
+
+        if (progress.current === progress.total) {
+          clearInterval(intervalId);
+          setIsInitializing(false);
+        }
+      }, 100);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [isInitializing, progressId]);
 
   React.useEffect(() => {
     const initializeSrs = async () => {
@@ -57,6 +84,25 @@ export default function LearnFullscreen({
       setNeedSrsInitialization(false);
     }
   }, [minds, userId]);
+
+  const handleInitializeSrs = async () => {
+    setIsInitializing(true);
+
+    try {
+      await initializeSrsData(userId, mindsNotInitialized, progressId);
+      setCurrentProgress(mindsNotInitialized.length);
+      setNeedSrsInitialization(false);
+    } catch (error) {
+      console.error("Erreur lors de l'initialisation des SRS", error);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de l'initialisation du deck",
+        variant: "destructive"
+      });
+    } finally {
+      setIsInitializing(false);
+    }
+  };
 
   if (areMindsLoading) {
     <div
@@ -105,7 +151,10 @@ export default function LearnFullscreen({
             </CardHeader>
 
             <CardFooter>
-              <Button className="w-full">Commencer</Button>
+              <Button className="w-full" disabled={isInitializing} onClick={handleInitializeSrs}>
+                {isInitializing && <Loader2Icon className="mr-2 h-3 w-3 animate-spin" />}
+                {isInitializing ? `${currentProgress}/${totalProgress}` : "Commencer"}
+              </Button>
             </CardFooter>
           </Card>
         </div>

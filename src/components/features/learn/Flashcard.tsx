@@ -8,9 +8,29 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import type { Tables } from "@/types/supabase";
 import React from "react";
 import ReactCardFlip from "react-card-flip";
-import { useToast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 import type { UUID } from "crypto";
 import { FlashcardContext } from "@/providers/FlashcardProvider";
+import { Rating, type Grade } from "ts-fsrs";
+
+const ratings = [
+  {
+    label: "À revoir",
+    value: Rating.Again.valueOf()
+  },
+  {
+    label: "Difficile",
+    value: Rating.Hard.valueOf()
+  },
+  {
+    label: "Correct",
+    value: Rating.Good.valueOf()
+  },
+  {
+    label: "Facile",
+    value: Rating.Easy.valueOf()
+  }
+];
 
 const Flashcard = ({
   mind,
@@ -30,8 +50,14 @@ const Flashcard = ({
 }) => {
   const [isFlipped, setIsFlipped] = React.useState(false);
 
-  const { currentCard, setCurrentCard, totalLength, finished, setFinished } =
-    React.useContext(FlashcardContext);
+  const {
+    currentCard,
+    setCurrentCard,
+    totalLength,
+    finished,
+    setFinished,
+    handleUpdateCardSrsData
+  } = React.useContext(FlashcardContext);
 
   const showBack = () => {
     setIsFlipped(true);
@@ -47,6 +73,20 @@ const Flashcard = ({
     setCurrentCard(currentCard + 1);
   };
 
+  const handleRateCard = async (grade: Grade) => {
+    try {
+      await handleUpdateCardSrsData(userId, grade);
+      handleNext();
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour des données", error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de mettre à jour les données.",
+        variant: "destructive"
+      });
+    }
+  };
+
   if (finished) {
     return null;
   }
@@ -60,18 +100,11 @@ const Flashcard = ({
 
       {isFlipped && (
         <div className="grid grid-cols-2 gap-4">
-          <Button variant="outline" onClick={handleNext}>
-            À revoir
-          </Button>
-          <Button variant="outline" onClick={handleNext}>
-            Difficile
-          </Button>
-          <Button variant="outline" onClick={handleNext}>
-            Correct
-          </Button>
-          <Button variant="outline" onClick={handleNext}>
-            Facile
-          </Button>
+          {ratings.map(({ label, value }) => (
+            <Button key={value} variant="outline" onClick={() => handleRateCard(value)}>
+              {label}
+            </Button>
+          ))}
         </div>
       )}
     </div>

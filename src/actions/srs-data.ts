@@ -4,7 +4,7 @@ import "server-only";
 import type { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
-import { createEmptyCard } from "ts-fsrs";
+import { createEmptyCard, FSRS, FSRSParameters, generatorParameters, type Grade } from "ts-fsrs";
 
 export async function areMindsInitialized(
   userId: UUID,
@@ -38,15 +38,20 @@ export async function areMindsInitialized(
   return { initialized: mindsNotInitialized.length === 0, mindsNotInitialized };
 }
 
+let progressStore: { [key: string]: { current: number; total: number } } = {};
+
 export async function initializeSrsData(
   userId: UUID,
   minds: (Tables<"minds"> & {
     summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
-  })[]
+  })[],
+  progressId: string
 ) {
   const supabase = createClient();
+  progressStore[progressId] = { current: 0, total: minds.length };
 
-  for (const mind of minds) {
+  for (let i = 0; i < minds.length; i++) {
+    const mind = minds[i];
     const card = createEmptyCard(new Date());
 
     try {
@@ -71,7 +76,61 @@ export async function initializeSrsData(
       console.error("Erreur lors de l'initialisation des données SRS", error);
       continue;
     }
+
+    progressStore[progressId].current = i + 1;
   }
 
   return true;
+}
+
+export async function getProgress(progressId: string) {
+  return progressStore[progressId];
+}
+
+export async function updateSrsData(mindId: number, userId: UUID, grade: Grade) {
+  const supabase = createClient();
+
+  const { data: srsData, error: srsError } = await supabase
+    .from("srs_data")
+    .select("*")
+    .eq("mind_id", mindId)
+    .eq("user_id", userId)
+    .single();
+
+  if (srsError) {
+    console.error("Erreur lors de la récupération des données SRS", srsError);
+    throw new Error("Erreur lors de la récupération des données SRS");
+  }
+
+  const card = {
+    ...srsData,
+    due: srsData?.due ? new Date(srsData.due).toISOString() : new Date().toISOString(),
+    last_review: srsData?.last_review ? new Date(srsData.last_review) : undefined
+  };
+
+  const params: FSRSParameters = generatorParameters();
+  const f: FSRS = new FSRS(params);
+  const schedulingResult = f.next(card, new Date(), grade);
+  const updatedCard = schedulingResult.card;
+
+  const { error: updateError } = await supabase
+    .from("srs_data")
+    .update({
+      due: updatedCard.due.toISOString(),
+      stability: updatedCard.stability,
+      difficulty: updatedCard.difficulty,
+      elapsed_days: updatedCard.elapsed_days,
+      scheduled_days: updatedCard.scheduled_days,
+      reps: updatedCard.reps,
+      lapses: updatedCard.lapses,
+      last_review: updatedCard.last_review?.toISOString(),
+      state: updatedCard.state
+    })
+    .eq("mind_id", mindId)
+    .eq("user_id", userId);
+
+  if (updateError) {
+    console.error("Erreur lors de la mise à jour des données SRS", updateError);
+    throw new Error("Erreur lors de la mise à jour des données SRS");
+  }
 }

@@ -3,6 +3,10 @@ import "client-only";
 
 import React from "react";
 import type { Tables } from "@/types/supabase";
+import { toast } from "@/components/ui/use-toast";
+import { updateSrsData } from "@/actions/srs-data";
+import type { UUID } from "crypto";
+import type { Grade } from "ts-fsrs";
 
 export const FlashcardContext = React.createContext({
   isOpenFlashcardScreen: false,
@@ -31,7 +35,8 @@ export const FlashcardContext = React.createContext({
   setTotalTime: (time: string) => {},
   isActive: true,
   inactiveTime: 0,
-  setInactiveTime: (time: number) => {}
+  setInactiveTime: (time: number) => {},
+  handleUpdateCardSrsData: (userId: UUID, grade: Grade) => {}
 });
 
 const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
@@ -122,6 +127,19 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
+  const handleUpdateCardSrsData = async (userId: UUID, grade: Grade) => {
+    try {
+      await updateSrsData(minds[currentCard].id, userId, grade);
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour des données SRS", error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la mise à jour des données",
+        variant: "destructive"
+      });
+    }
+  };
+
   const value = React.useMemo(
     () => ({
       isOpenFlashcardScreen,
@@ -144,7 +162,8 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
       setTotalTime,
       isActive,
       inactiveTime,
-      setInactiveTime
+      setInactiveTime,
+      handleUpdateCardSrsData
     }),
     [
       currentCard,
@@ -157,7 +176,8 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
       endTime,
       totalTime,
       isActive,
-      inactiveTime
+      inactiveTime,
+      handleUpdateCardSrsData
     ]
   );
 
