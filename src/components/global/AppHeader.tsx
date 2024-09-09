@@ -17,6 +17,7 @@ import {
   BookIcon,
   BookmarkIcon,
   EyeIcon,
+  GraduationCapIcon,
   HomeIcon,
   LibraryIcon,
   UsersRoundIcon,
@@ -43,6 +44,12 @@ const links: {
         label: "Votre feed",
         description: "Laissez vous guider par nos recommandations",
         icon: <HomeIcon className="h-4 w-4" />
+      },
+      {
+        href: "/learn",
+        label: "Apprendre",
+        description: "Révisez vos connaissances à l'aide de nos flashcards",
+        icon: <GraduationCapIcon className="h-4 w-4" />
       },
       {
         href: "/discover/users",
