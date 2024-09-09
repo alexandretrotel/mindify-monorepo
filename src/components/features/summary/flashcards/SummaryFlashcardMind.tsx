@@ -52,6 +52,7 @@ const SummaryFlashcardMind = ({
         totalLength={totalLength}
         onFlip={showBack}
         handleFullscreen={handleFullscreen}
+        handleNext={handleNext}
       />
       <Back
         mind={mind}
@@ -73,7 +74,8 @@ function Front({
   index,
   totalLength,
   onFlip,
-  handleFullscreen
+  handleFullscreen,
+  handleNext
 }: Readonly<{
   mind: Tables<"minds"> & {
     summaries: Tables<"summaries"> & {
@@ -85,6 +87,7 @@ function Front({
   totalLength: number;
   onFlip: () => void;
   handleFullscreen: () => void;
+  handleNext: () => void;
 }>) {
   return (
     <Card className="flex w-full min-w-80 max-w-md flex-col md:min-w-[28rem]">
@@ -107,12 +110,16 @@ function Front({
         </CardContent>
 
         <CardFooter>
+          <Button className="w-full" onClick={onFlip}>
+            Afficher le MIND
+          </Button>
+
           <div className="grid w-full grid-cols-2 gap-4">
-            <Button variant="outline" onClick={handleFullscreen}>
+            <Button variant="ghost" onClick={handleFullscreen}>
               Passer au résumé
             </Button>
-            <Button className="w-full" onClick={onFlip}>
-              Afficher le MIND
+            <Button variant="ghost" onClick={handleNext}>
+              Passer au MIND suivant
             </Button>
           </div>
         </CardFooter>

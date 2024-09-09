@@ -13,6 +13,9 @@ import { Button } from "@/components/ui/button";
 import H1Span from "@/components/typography/h1AsSpan";
 import H3Span from "@/components/typography/h3AsSpan";
 import { Muted } from "@/components/typography/muted";
+import { areMindsInitialized } from "@/actions/srs-data";
+import type { Tables } from "@/types/supabase";
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 
 export default function LearnFullscreen({
   userId,
@@ -23,6 +26,13 @@ export default function LearnFullscreen({
   userName: string;
   isConnected: boolean;
 }) {
+  const [needSrsInitialization, setNeedSrsInitialization] = React.useState(false);
+  const [mindsNotInitialized, setMindsNotInitialized] = React.useState<
+    (Tables<"minds"> & {
+      summaries: Tables<"summaries"> & { authors: Tables<"authors">; topics: Tables<"topics"> };
+    })[]
+  >([]);
+
   const {
     isOpenFlashcardScreen,
     setIsOpenFlashcardScreen,
@@ -33,6 +43,20 @@ export default function LearnFullscreen({
     finished,
     totalTime
   } = React.useContext(FlashcardContext);
+
+  React.useEffect(() => {
+    const initializeSrs = async () => {
+      const areMindsAllInitialized = await areMindsInitialized(userId, minds);
+      setNeedSrsInitialization(!areMindsAllInitialized.initialized);
+      setMindsNotInitialized(areMindsAllInitialized.mindsNotInitialized);
+    };
+
+    if (minds && userId) {
+      initializeSrs();
+    } else {
+      setNeedSrsInitialization(false);
+    }
+  }, [minds, userId]);
 
   if (areMindsLoading) {
     <div
@@ -64,6 +88,29 @@ export default function LearnFullscreen({
 
   if (!minds) {
     return null;
+  }
+
+  if (needSrsInitialization) {
+    return (
+      <div
+        className={`fixed inset-0 z-50 h-screen w-full bg-background p-4 md:p-8 ${isOpenFlashcardScreen ? "block" : "hidden"}`}
+      >
+        <div className="flex h-full items-center justify-center">
+          <Card>
+            <CardHeader>
+              <div className="flex flex-col">
+                <Semibold>Initialisation du deck</Semibold>
+                <Muted size="sm">Vous avez {mindsNotInitialized.length} MINDS à apprendre.</Muted>
+              </div>
+            </CardHeader>
+
+            <CardFooter>
+              <Button className="w-full">Commencer</Button>
+            </CardFooter>
+          </Card>
+        </div>
+      </div>
+    );
   }
 
   return (
