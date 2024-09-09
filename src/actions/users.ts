@@ -394,3 +394,33 @@ export async function getTopUsers() {
 
   return topUsers;
 }
+
+export async function getUserSavedMinds(userId: UUID) {
+  const supabase = createClient();
+
+  const { data: savedMindsData, error } = await supabase
+    .from("saved_minds")
+    .select("*, minds(*, summaries(*, topics(*), authors(*)))")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les minds enregistrés.");
+  }
+
+  const savedMinds = savedMindsData?.map((savedMind) => ({
+    ...savedMind?.minds,
+    summaries: {
+      ...savedMind?.minds?.summaries,
+      topic: savedMind?.minds?.summaries?.topics?.name,
+      author_slug: savedMind?.minds?.summaries?.authors?.slug
+    }
+  })) as (Tables<"minds"> & {
+    summaries: Tables<"summaries"> & { topic: string; author_slug: string } & {
+      topics: Tables<"topics">;
+      authors: Tables<"authors">;
+    };
+  })[];
+
+  return savedMinds;
+}

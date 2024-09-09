@@ -19,6 +19,10 @@ export default async function LearnPage() {
   }
 
   const userId = user.id as UUID;
+  const userMetadata = user.user_metadata;
+  const userName = userMetadata.name;
+
+  const isConnected = !!user;
 
   return (
     <React.Fragment>
@@ -30,7 +34,7 @@ export default async function LearnPage() {
         </Suspense>
       </div>
 
-      <LearnFullscreen />
+      <LearnFullscreen userId={userId} userName={userName} isConnected={isConnected} />
     </React.Fragment>
   );
 }

@@ -2,8 +2,7 @@ import React from "react";
 import FlashcardSet from "@/components/features/learn/FlashcardSet";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
-import { PlusIcon } from "lucide-react";
-import CreateFlashcardSet from "./CreateFlashcardSet";
+import CreateFlashcardSet from "@/components/features/learn/CreateFlashcardSet";
 
 export default async function flashcardGrid({ userId }: { userId: UUID }) {
   const supabase = createClient();
@@ -20,7 +19,8 @@ export default async function flashcardGrid({ userId }: { userId: UUID }) {
   const savedMinds = {
     title: "Enregistrés",
     description: "Ce sont tous les minds que vous avez enregistrés.",
-    totalLength: savedMindsCount as number
+    totalLength: savedMindsCount as number,
+    flashcardSetId: 0
   };
 
   return (
@@ -29,6 +29,8 @@ export default async function flashcardGrid({ userId }: { userId: UUID }) {
         title={savedMinds.title}
         description={savedMinds.description}
         totalLength={savedMinds.totalLength}
+        flashcardSetId={savedMinds.flashcardSetId}
+        userId={userId}
       />
 
       <CreateFlashcardSet disabled={false} />
