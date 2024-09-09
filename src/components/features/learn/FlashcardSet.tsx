@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import React from "react";
 import { FlashcardContext } from "@/providers/FlashcardProvider";
+import Span from "@/components/typography/span";
 
 export default function FlashcardSet({
   title,
@@ -23,12 +24,17 @@ export default function FlashcardSet({
   return (
     <Card>
       <CardHeader>
+        <Span primaryColor size="xs">
+          {totalLength} cartes
+        </Span>
         <H4Span>{title}</H4Span>
         <Muted>{description}</Muted>
       </CardHeader>
 
       <CardFooter>
-        <Button onClick={handleOpenFlashcardScreen}>Réviser le set</Button>
+        <Button className="w-full" onClick={handleOpenFlashcardScreen}>
+          Réviser le set
+        </Button>
       </CardFooter>
     </Card>
   );

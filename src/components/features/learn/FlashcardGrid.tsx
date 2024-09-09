@@ -18,7 +18,7 @@ export default async function flashcardGrid({ userId }: { userId: UUID }) {
   }
 
   const savedMinds = {
-    title: "MINDS enregistrés",
+    title: "Enregistrés",
     description: "Ce sont tous les minds que vous avez enregistrés.",
     totalLength: savedMindsCount as number
   };
