@@ -111,10 +111,6 @@ function Front({
 
         <CardFooter>
           <div className="flex w-full flex-col gap-4">
-            <Button className="w-full" onClick={onFlip}>
-              Afficher le MIND
-            </Button>
-
             <div className="grid w-full grid-cols-2 gap-4">
               <Button variant="ghost" onClick={handleFullscreen}>
                 Passer au résumé
@@ -123,6 +119,10 @@ function Front({
                 Passer au MIND suivant
               </Button>
             </div>
+
+            <Button className="w-full" onClick={onFlip}>
+              Afficher le MIND
+            </Button>
           </div>
         </CardFooter>
       </div>
