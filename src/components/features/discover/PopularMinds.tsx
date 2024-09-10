@@ -2,7 +2,7 @@ import React from "react";
 import H3 from "@/components/typography/h3";
 import { Carousel } from "@/components/ui/carousel";
 import { Muted } from "@/components/typography/muted";
-import { getMostSavedMinds, areMindsSaved } from "@/actions/minds";
+import { getMostSavedMinds, areMindsSaved } from "@/actions/minds.action";
 import MindsClient from "@/components/global/MindsClient";
 import { Tables } from "@/types/supabase";
 import { UUID } from "crypto";

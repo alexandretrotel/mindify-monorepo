@@ -1,4 +1,4 @@
-import { areMindsSaved } from "@/actions/minds";
+import { areMindsSaved } from "@/actions/minds.action";
 import { getAvatar } from "@/utils/users";
 import Mind from "@/components/global/Mind";
 import Semibold from "@/components/typography/semibold";

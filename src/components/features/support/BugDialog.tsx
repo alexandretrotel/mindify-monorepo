@@ -26,7 +26,7 @@ import {
 import type { Enums } from "@/types/supabase";
 import { Loader2Icon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { createBugReport } from "@/actions/support";
+import { createBugReport } from "@/actions/support.action";
 import type { UUID } from "crypto";
 
 const BugDialog = ({

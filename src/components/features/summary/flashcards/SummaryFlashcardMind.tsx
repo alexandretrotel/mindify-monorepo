@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import type { Tables } from "@/types/supabase";
 import React from "react";
 import ReactCardFlip from "react-card-flip";
-import { saveMind, unsaveMind } from "@/actions/minds";
+import { saveMind, unsaveMind } from "@/actions/minds.action";
 import { useToast } from "@/components/ui/use-toast";
 import type { UUID } from "crypto";
 

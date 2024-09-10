@@ -1,4 +1,4 @@
-import { getUserTopics } from "@/actions/users";
+import { getUserTopics } from "@/actions/users.action";
 import type { UUID } from "crypto";
 import React from "react";
 import {

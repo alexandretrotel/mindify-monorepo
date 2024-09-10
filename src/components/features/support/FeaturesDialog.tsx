@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select";
 import type { Enums } from "@/types/supabase";
 import type { UUID } from "crypto";
-import { createFeatureRequest } from "@/actions/support";
+import { createFeatureRequest } from "@/actions/support.action";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2Icon } from "lucide-react";
 

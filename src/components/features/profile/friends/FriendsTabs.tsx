@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { getFriendsData } from "@/actions/friends";
+import { getFriendsData } from "@/actions/friends.action";
 import { UUID } from "crypto";
 import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

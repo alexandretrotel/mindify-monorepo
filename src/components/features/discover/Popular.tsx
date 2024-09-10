@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import BookCover from "@/components/global/BookCover";
 import H3 from "@/components/typography/h3";
-import { getMostPopularSummaries } from "@/actions/summaries";
+import { getMostPopularSummaries } from "@/actions/summaries.action";
 import { Muted } from "@/components/typography/muted";
 
 const Popular = async () => {

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
-import { userUpdateBiography } from "@/actions/users";
+import { userUpdateBiography } from "@/actions/users.action";
 import { useToast } from "@/components/ui/use-toast";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { Loader2Icon } from "lucide-react";

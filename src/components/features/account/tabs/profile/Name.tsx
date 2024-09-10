@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
-import { userUpdateName } from "@/actions/users";
+import { userUpdateName } from "@/actions/users.action";
 import type { UserMetadata } from "@supabase/supabase-js";
 import { Loader2Icon } from "lucide-react";
 import { Muted } from "@/components/typography/muted";

@@ -8,7 +8,7 @@ import {
   CarouselPrevious
 } from "@/components/ui/carousel";
 import { Muted } from "@/components/typography/muted";
-import { getTopUsers } from "@/actions/users";
+import { getTopUsers } from "@/actions/users.action";
 import { getAvatar } from "@/utils/users";
 import UserCard from "@/components/global/UserCard";
 

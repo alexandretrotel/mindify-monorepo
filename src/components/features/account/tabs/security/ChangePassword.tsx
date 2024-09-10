@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Muted } from "@/components/typography/muted";
 import { useToast } from "@/components/ui/use-toast";
 import Span from "@/components/typography/span";
-import { updatePassword } from "@/actions/auth";
+import { updatePassword } from "@/actions/auth.action";
 import { Loader2Icon } from "lucide-react";
 
 const ChangePassword = () => {

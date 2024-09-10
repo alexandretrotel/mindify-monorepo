@@ -6,7 +6,7 @@ import {
   askForFriend,
   cancelFriendRequest,
   removeFriend
-} from "@/actions/friends";
+} from "@/actions/friends.action";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";

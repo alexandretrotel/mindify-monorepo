@@ -425,14 +425,33 @@ export async function getUserSavedMinds(userId: UUID) {
   return savedMinds;
 }
 
-export async function getUserDueMindsFromDeck(userId: UUID, minds: Tables<"minds">[]) {
+export async function getUserSavedMindsIds(userId: UUID) {
+  const supabase = createClient();
+
+  const { data: savedMindsData, error } = await supabase
+    .from("saved_minds")
+    .select("minds(id)")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les minds enregistrés.");
+  }
+
+  const savedMindsIds = savedMindsData?.map((savedMind) => savedMind?.minds?.id) as number[];
+
+  return savedMindsIds;
+}
+
+export async function getUserDueMindsFromMindsIds(userId: UUID, minds: number[]) {
   const supabase = createClient();
 
   const { data: dueMindsData, error } = await supabase
     .from("srs_data")
     .select("*, minds(*, summaries(*, topics(*), authors(*)))")
     .eq("user_id", userId)
-    .lte("due", new Date().toISOString());
+    .lte("due", new Date().toISOString())
+    .in("mind_id", minds);
 
   if (error) {
     console.error(error);

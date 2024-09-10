@@ -4,10 +4,10 @@ import "client-only";
 import React from "react";
 import type { Tables } from "@/types/supabase";
 import { toast } from "@/components/ui/use-toast";
-import { updateSrsData } from "@/actions/srs-data";
+import { updateSrsData } from "@/actions/srs-data.action";
 import type { UUID } from "crypto";
 import type { Grade } from "ts-fsrs";
-import { postUserLearningSession } from "@/actions/users";
+import { postUserLearningSession } from "@/actions/users.action";
 
 export const FlashcardContext = React.createContext({
   isOpenFlashcardScreen: false,
@@ -37,7 +37,7 @@ export const FlashcardContext = React.createContext({
   isActive: true,
   inactiveTime: 0,
   setInactiveTime: (time: number) => {},
-  handleUpdateCardSrsData: (userId: UUID, grade: Grade) => {},
+  handleUpdateCardSrsData: async (userId: UUID, grade: Grade) => {},
   userId: "" as UUID,
   setUserId: (userId: UUID) => {}
 });

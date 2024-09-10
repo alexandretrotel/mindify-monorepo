@@ -4,7 +4,7 @@ import "client-only";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CheckIcon, LibraryBigIcon } from "lucide-react";
-import { addSummaryToLibrary, removeSummaryFromLibrary } from "@/actions/summaries";
+import { addSummaryToLibrary, removeSummaryFromLibrary } from "@/actions/summaries.action";
 import { UUID } from "crypto";
 import { useToast } from "@/components/ui/use-toast";
 

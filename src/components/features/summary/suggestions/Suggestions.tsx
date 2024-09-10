@@ -1,5 +1,5 @@
 import React from "react";
-import { getMostPopularSummariesFromSameTopic } from "@/actions/summaries";
+import { getMostPopularSummariesFromSameTopic } from "@/actions/summaries.action";
 import {
   Carousel,
   CarouselContent,

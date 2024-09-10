@@ -7,7 +7,7 @@ import P from "@/components/typography/p";
 import { Button } from "@/components/ui/button";
 import { Muted } from "@/components/typography/muted";
 import type { Tables } from "@/types/supabase";
-import { saveMind, unsaveMind } from "@/actions/minds";
+import { saveMind, unsaveMind } from "@/actions/minds.action";
 import { useToast } from "@/components/ui/use-toast";
 import { UUID } from "crypto";
 

@@ -1,4 +1,4 @@
-import { getMindsFromPlaylistSlug } from "@/actions/playlists";
+import { getMindsFromPlaylistSlug } from "@/actions/playlists.action";
 import PlaylistGrid from "@/components/features/playlist/PlaylistGrid";
 import PlaylistGridSkeleton from "@/components/features/playlist/skeleton/PlaylistGridSkeleton";
 import { createClient } from "@/utils/supabase/server";

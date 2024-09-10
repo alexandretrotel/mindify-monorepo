@@ -1,6 +1,6 @@
 import { UUID } from "crypto";
 import FriendshipButtonClient from "@/components/features/profile/header/client/FriendshipButtonClient";
-import { getFriendStatus } from "@/actions/friends";
+import { getFriendStatus } from "@/actions/friends.action";
 import type { FriendStatus } from "@/types/friends";
 
 const FriendshipButton = async ({

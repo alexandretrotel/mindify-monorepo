@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/carousel";
 import H3 from "@/components/typography/h3";
 import type { UUID } from "crypto";
-import { getUserSummariesFromLibrary } from "@/actions/users";
+import { getUserSummariesFromLibrary } from "@/actions/users.action";
 import { Muted } from "@/components/typography/muted";
 
 const SavedSummaries = async ({ userId }: { userId: UUID }) => {

@@ -2,7 +2,7 @@ import React from "react";
 import H3Span from "@/components/typography/h3AsSpan";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { UUID } from "crypto";
-import { getUserReadSummaries, getUserSavedSummaries } from "@/actions/users";
+import { getUserReadSummaries, getUserSavedSummaries } from "@/actions/users.action";
 import LibrarySnippetClient from "@/components/features/profile/summaries/client/LibrarySnippetClient";
 
 const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {

@@ -9,7 +9,7 @@ import React from "react";
 import { FlashcardContext } from "@/providers/FlashcardProvider";
 import Span from "@/components/typography/span";
 import type { UUID } from "crypto";
-import { getUserDueMindsFromDeck, getUserSavedMinds } from "@/actions/users";
+import { getUserDueMindsFromMindsIds, getUserSavedMindsIds } from "@/actions/users.action";
 import { useToast } from "@/components/ui/use-toast";
 
 export default function FlashcardSet({
@@ -25,8 +25,6 @@ export default function FlashcardSet({
   userId: UUID;
   heightFull?: boolean;
 }>) {
-  const [isDue, setIsDue] = React.useState(false);
-
   const {
     setIsOpenFlashcardScreen,
     setMinds,
@@ -46,15 +44,10 @@ export default function FlashcardSet({
 
       if (flashcardSetId === 0) {
         try {
-          const minds = await getUserSavedMinds(userId);
-          const dueMinds = await getUserDueMindsFromDeck(userId, minds);
+          const mindsIds = await getUserSavedMindsIds(userId);
+          const dueMinds = await getUserDueMindsFromMindsIds(userId, mindsIds);
 
-          if (!dueMinds || dueMinds.length === 0) {
-            setMinds(minds);
-          } else {
-            setMinds(dueMinds);
-            setIsDue(true);
-          }
+          setMinds(dueMinds);
         } catch (error) {
           console.error(error);
           toast({
@@ -85,14 +78,14 @@ export default function FlashcardSet({
     <Card className={`${heightFull ? "h-full max-h-56" : ""}`}>
       <CardHeader>
         <Span primaryColor size="xs">
-          {totalLength} carte{totalLength > 1 ? "s" : ""} {isDue && "à réviser"}
+          {totalLength} carte{totalLength > 1 ? "s" : ""} à réviser
         </Span>
         <H4Span>{title}</H4Span>
         <Muted size="sm">{description}</Muted>
       </CardHeader>
 
       <CardFooter>
-        <Button className="w-full" onClick={handleOpenFlashcardScreen}>
+        <Button className="w-full" onClick={handleOpenFlashcardScreen} disabled={totalLength === 0}>
           Réviser le set
         </Button>
       </CardFooter>

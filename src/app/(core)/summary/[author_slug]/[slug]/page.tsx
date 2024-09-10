@@ -4,7 +4,7 @@ import AddToLibraryButton from "@/components/features/summary/buttons/AddToLibra
 import MarkAsReadButton from "@/components/features/summary/buttons/MarkAsReadButton";
 import SummaryHeader from "@/components/features/summary/header/SummaryHeader";
 import SummaryHeaderSkeleton from "@/components/features/summary/header/skeleton/SummaryHeaderSkeleton";
-import { getAdminSummaryFromSlugs, getSummaryFromSlugs } from "@/actions/summaries";
+import { getAdminSummaryFromSlugs, getSummaryFromSlugs } from "@/actions/summaries.action";
 import AuthorDescription from "@/components/features/summary/author/AuthorDescription";
 import AuthorDescriptionSkeleton from "@/components/features/summary/author/skeleton/AuthorDescriptionSkeleton";
 import TableOfContents from "@/components/features/summary/table-of-contents/TableOfContents";

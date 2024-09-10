@@ -1,6 +1,6 @@
 import React, { useOptimistic, useState } from "react";
 import { Label } from "@/components/ui/label";
-import { removeTopic, addTopic } from "@/actions/topics";
+import { removeTopic, addTopic } from "@/actions/topics.action";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { UUID } from "crypto";
