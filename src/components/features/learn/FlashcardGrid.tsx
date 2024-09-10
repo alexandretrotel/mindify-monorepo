@@ -33,7 +33,7 @@ export default async function flashcardGrid({ userId }: { userId: UUID }) {
         heightFull
       />
 
-      <CreateFlashcardSet disabled={false} />
+      <CreateFlashcardSet disabled={false} heightFull />
     </div>
   );
 }
