@@ -34,6 +34,8 @@ export default function LearnFullscreen({
     totalTime
   } = React.useContext(FlashcardContext);
 
+  const initialTotalLength = totalLength;
+
   if (areMindsLoading) {
     return (
       <div
@@ -41,11 +43,11 @@ export default function LearnFullscreen({
       >
         <div className="flex items-center justify-between gap-4">
           <Semibold>
-            {currentCard}/{totalLength}
+            {currentCard}/{initialTotalLength}
           </Semibold>
 
           <Progress
-            value={currentCard === 1 ? 0 : (currentCard / totalLength) * 100}
+            value={currentCard === 1 ? 0 : (currentCard / initialTotalLength) * 100}
             className="h-3 max-w-5xl"
           />
 
@@ -74,10 +76,10 @@ export default function LearnFullscreen({
     >
       <div className="flex items-center justify-between gap-4">
         <Semibold>
-          {currentCard}/{totalLength}
+          {currentCard}/{initialTotalLength}
         </Semibold>
 
-        <Progress value={(currentCard / totalLength) * 100} className="h-3 max-w-5xl" />
+        <Progress value={(currentCard / initialTotalLength) * 100} className="h-3 max-w-5xl" />
 
         <button
           onClick={() => setIsOpenFlashcardScreen(false)}
@@ -102,7 +104,7 @@ export default function LearnFullscreen({
               </Semibold>{" "}
               à scroller sur les réseaux. Mais c&apos;est{" "}
               <Semibold primaryColor size="lg">
-                {totalLength}
+                {initialTotalLength}
               </Semibold>{" "}
               MINDS que vous avez appris.
             </Muted>

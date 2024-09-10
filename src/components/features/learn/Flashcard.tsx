@@ -56,7 +56,8 @@ const Flashcard = ({
     totalLength,
     finished,
     setFinished,
-    handleUpdateCardSrsData
+    handleUpdateCardSrsData,
+    setTotalLength
   } = React.useContext(FlashcardContext);
 
   const showBack = () => {
@@ -75,6 +76,9 @@ const Flashcard = ({
 
   const handleRateCard = async (grade: Grade) => {
     handleNext();
+    if (totalLength > 0) {
+      setTotalLength(totalLength - 1);
+    }
 
     try {
       await handleUpdateCardSrsData(userId, grade);
@@ -89,6 +93,7 @@ const Flashcard = ({
       if (currentCard > 0) {
         setCurrentCard(currentCard - 1);
       }
+      setTotalLength(totalLength + 1);
     }
   };
 
