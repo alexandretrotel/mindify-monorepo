@@ -110,17 +110,19 @@ function Front({
         </CardContent>
 
         <CardFooter>
-          <Button className="w-full" onClick={onFlip}>
-            Afficher le MIND
-          </Button>
+          <div className="flex w-full flex-col gap-4">
+            <Button className="w-full" onClick={onFlip}>
+              Afficher le MIND
+            </Button>
 
-          <div className="grid w-full grid-cols-2 gap-4">
-            <Button variant="ghost" onClick={handleFullscreen}>
-              Passer au résumé
-            </Button>
-            <Button variant="ghost" onClick={handleNext}>
-              Passer au MIND suivant
-            </Button>
+            <div className="grid w-full grid-cols-2 gap-4">
+              <Button variant="ghost" onClick={handleFullscreen}>
+                Passer au résumé
+              </Button>
+              <Button variant="ghost" onClick={handleNext}>
+                Passer au MIND suivant
+              </Button>
+            </div>
           </div>
         </CardFooter>
       </div>
