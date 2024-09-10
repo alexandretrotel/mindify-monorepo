@@ -5,7 +5,7 @@ import { features } from "@/data/features";
 const BookCoverSkeleton = ({ heightFull }: { heightFull?: boolean }) => {
   return (
     <div
-      className={`${heightFull ? "h-full" : ""} w-full overflow-hidden rounded-lg border hover:border-primary active:border-black`}
+      className={`${heightFull ? "h-full max-h-48" : ""} w-full overflow-hidden rounded-lg border hover:border-primary active:border-black`}
     >
       {features.summaryImageIsVisible && <Skeleton className="h-48 w-full rounded-none" />}
 

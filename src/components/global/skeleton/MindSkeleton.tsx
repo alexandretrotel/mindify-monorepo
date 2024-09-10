@@ -5,7 +5,7 @@ import React from "react";
 const MindSkeleton = ({ heightFull }: { heightFull?: boolean }) => {
   return (
     <div
-      className={`flex ${heightFull ? "h-full" : ""} flex-col justify-between gap-4 rounded-lg border p-6`}
+      className={`flex ${heightFull ? "h-full max-h-96" : ""} flex-col justify-between gap-4 rounded-lg border p-6`}
     >
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">

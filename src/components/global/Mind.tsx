@@ -100,7 +100,7 @@ const Mind = ({
 
   return (
     <div
-      className={`flex flex-col justify-between gap-4 rounded-lg border p-6 ${heightFull ? "h-full" : ""}`}
+      className={`flex flex-col justify-between gap-4 rounded-lg border p-6 ${heightFull ? "h-full max-h-96" : ""}`}
     >
       <div className="flex flex-col gap-6">
         <div className="flex flex-col">

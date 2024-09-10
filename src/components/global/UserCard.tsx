@@ -68,7 +68,7 @@ const UserCard = ({
   }
 
   return (
-    <Card className={`${heightFull ? "h-full" : ""}`}>
+    <Card className={`${heightFull ? "h-full max-h-64" : ""}`}>
       <div className="flex h-full flex-col justify-between">
         <div>
           <CardHeader>
