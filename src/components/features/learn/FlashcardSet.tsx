@@ -16,12 +16,14 @@ export default function FlashcardSet({
   title,
   description,
   flashcardSetId,
-  userId
+  userId,
+  heightFull
 }: Readonly<{
   title: string;
   description: string;
   flashcardSetId: number;
   userId: UUID;
+  heightFull?: boolean;
 }>) {
   const [isDue, setIsDue] = React.useState(false);
 
@@ -80,7 +82,7 @@ export default function FlashcardSet({
   };
 
   return (
-    <Card>
+    <Card className={`${heightFull ? "h-full max-h-56" : ""}`}>
       <CardHeader>
         <Span primaryColor size="xs">
           {totalLength} carte{totalLength > 1 ? "s" : ""} {isDue && "à réviser"}

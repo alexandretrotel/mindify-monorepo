@@ -30,6 +30,7 @@ export default async function flashcardGrid({ userId }: { userId: UUID }) {
         description={savedMinds.description}
         flashcardSetId={savedMinds.flashcardSetId}
         userId={userId}
+        heightFull
       />
 
       <CreateFlashcardSet disabled={false} />

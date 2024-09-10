@@ -3,9 +3,9 @@ import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 
-export default async function flashcardSetSkeleton() {
+export default async function flashcardSetSkeleton({ heightFull }: { heightFull?: boolean }) {
   return (
-    <Card>
+    <Card className={`${heightFull ? "h-full max-h-56" : ""}`}>
       <CardHeader>
         <div className="flex flex-col gap-2">
           <Skeleton className="h-6 w-24" />
