@@ -7,6 +7,7 @@ import { toast } from "@/components/ui/use-toast";
 import { updateSrsData } from "@/actions/srs-data";
 import type { UUID } from "crypto";
 import type { Grade } from "ts-fsrs";
+import { postUserLearningSession } from "@/actions/users";
 
 export const FlashcardContext = React.createContext({
   isOpenFlashcardScreen: false,
@@ -36,7 +37,9 @@ export const FlashcardContext = React.createContext({
   isActive: true,
   inactiveTime: 0,
   setInactiveTime: (time: number) => {},
-  handleUpdateCardSrsData: (userId: UUID, grade: Grade) => {}
+  handleUpdateCardSrsData: (userId: UUID, grade: Grade) => {},
+  userId: "" as UUID,
+  setUserId: (userId: UUID) => {}
 });
 
 const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
@@ -55,15 +58,25 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
   const [totalTime, setTotalTime] = React.useState("");
   const [isActive, setIsActive] = React.useState(true);
   const [inactiveTime, setInactiveTime] = React.useState(0);
+  const [userId, setUserId] = React.useState<UUID>("" as UUID);
 
   const inactivityTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const inactiveStartRef = React.useRef<number | null>(null);
 
   React.useEffect(() => {
+    const sendSessionData = async () => {
+      const totalTimeInMs = new Date(totalTime).getTime();
+      await postUserLearningSession(totalTimeInMs, totalLength, inactiveTime, userId);
+    };
+
     if (finished) {
       setEndTime(Date.now());
+
+      if (totalTime && totalLength && inactiveTime && userId) {
+        sendSessionData();
+      }
     }
-  }, [finished]);
+  }, [finished, inactiveTime, totalLength, totalTime, userId]);
 
   React.useEffect(() => {
     setTotalLength(minds.length);
@@ -91,7 +104,7 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
     } else {
       setTotalTime("0s");
     }
-  }, [startTime, endTime]);
+  }, [startTime, endTime, inactiveTime]);
 
   React.useEffect(() => {
     const handleUserActivity = () => {
@@ -129,20 +142,23 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
         inactivityTimeoutRef.current = null;
       }
     };
-  }, []);
+  }, [finished]);
 
-  const handleUpdateCardSrsData = async (userId: UUID, grade: Grade) => {
-    try {
-      await updateSrsData(minds[currentCard - 1].id, userId, grade);
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour des données SRS", error);
-      toast({
-        title: "Erreur",
-        description: "Une erreur est survenue lors de la mise à jour des données",
-        variant: "destructive"
-      });
-    }
-  };
+  const handleUpdateCardSrsData = React.useCallback(
+    async (userId: UUID, grade: Grade) => {
+      try {
+        await updateSrsData(minds[currentCard - 1].id, userId, grade);
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour des données SRS", error);
+        toast({
+          title: "Erreur",
+          description: "Une erreur est survenue lors de la mise à jour des données",
+          variant: "destructive"
+        });
+      }
+    },
+    [minds, currentCard]
+  );
 
   const value = React.useMemo(
     () => ({
@@ -167,7 +183,9 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
       isActive,
       inactiveTime,
       setInactiveTime,
-      handleUpdateCardSrsData
+      handleUpdateCardSrsData,
+      userId,
+      setUserId
     }),
     [
       currentCard,
@@ -181,7 +199,8 @@ const FlashcardProvider = ({ children }: { children: React.ReactNode }) => {
       totalTime,
       isActive,
       inactiveTime,
-      handleUpdateCardSrsData
+      handleUpdateCardSrsData,
+      userId
     ]
   );
 

@@ -32,7 +32,8 @@ export default function FlashcardSet({
     setStartTime,
     setCurrentCard,
     setFinished,
-    totalLength
+    totalLength,
+    setUserId
   } = React.useContext(FlashcardContext);
 
   const { toast } = useToast();
@@ -68,13 +69,14 @@ export default function FlashcardSet({
     if (userId) {
       fetchMinds();
     }
-  }, [userId]);
+  }, [flashcardSetId, setAreMindsLoading, setMinds, setUserId, toast, userId]);
 
   const handleOpenFlashcardScreen = async () => {
     setIsOpenFlashcardScreen(true);
     setStartTime(Date.now());
     setCurrentCard(1);
     setFinished(false);
+    setUserId(userId);
   };
 
   return (

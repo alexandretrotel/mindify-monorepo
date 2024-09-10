@@ -455,3 +455,29 @@ export async function getUserDueMindsFromDeck(userId: UUID, minds: Tables<"minds
 
   return dueMinds;
 }
+
+export async function postUserLearningSession(
+  totalTime: number,
+  totalLength: number,
+  inactiveTime: number,
+  userId: UUID
+) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("learning_sessions")
+    .insert({
+      user_id: userId,
+      total_time: totalTime,
+      total_length: totalLength,
+      inactive_time: inactiveTime
+    })
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de poster la session d'apprentissage.");
+  }
+
+  return data;
+}

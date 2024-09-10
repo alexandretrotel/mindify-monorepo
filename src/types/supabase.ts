@@ -109,6 +109,41 @@ export type Database = {
           },
         ]
       }
+      learning_sessions: {
+        Row: {
+          created_at: string
+          id: number
+          inactive_time: number
+          total_length: number
+          total_time: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          inactive_time: number
+          total_length: number
+          total_time: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          inactive_time?: number
+          total_length?: number
+          total_time?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learning_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       minds: {
         Row: {
           created_at: string
