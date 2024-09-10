@@ -165,20 +165,27 @@ export async function userUpdateAvatar(formData: FormData, userId: UUID) {
 }
 
 export async function getUsersData(usersIds: UUID[]) {
-  const users: User[] = await Promise.all(
-    usersIds.map(async (userId) => {
-      const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
+  const users: (User | null)[] = await Promise.all(
+    usersIds?.map(async (userId) => {
+      try {
+        const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
 
-      if (error) {
-        console.error(error);
-        throw new Error("Impossible de récupérer les amis.");
+        if (error) {
+          console.error(`Erreur en récupérant l'utilisateur ${userId}:`, error);
+          return null;
+        }
+
+        return data?.user || null;
+      } catch (err) {
+        console.error(`Erreur en récupérant l'utilisateur ${userId}:`, err);
+        return null;
       }
-
-      return data?.user;
     })
   );
 
-  return users;
+  const filteredUsers = users?.filter((user) => user !== null) as User[];
+
+  return filteredUsers;
 }
 
 export async function getUserReadingStreak(userId: UUID) {
