@@ -121,10 +121,6 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
                     </div>
                   </div>
                 </div>
-
-                {isConnected && (
-                  <FlashcardsButton pulsate={false}>Découvrir les MINDS</FlashcardsButton>
-                )}
               </div>
 
               <div className="flex flex-col gap-8 lg:hidden">
