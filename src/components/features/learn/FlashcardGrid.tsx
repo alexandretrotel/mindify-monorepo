@@ -28,7 +28,6 @@ export default async function flashcardGrid({ userId }: { userId: UUID }) {
       <FlashcardSet
         title={savedMinds.title}
         description={savedMinds.description}
-        totalLength={savedMinds.totalLength}
         flashcardSetId={savedMinds.flashcardSetId}
         userId={userId}
       />
