@@ -47,6 +47,9 @@ export default function FlashcardSet({
           const mindsIds = await getUserSavedMindsIds(userId);
           const dueMinds = await getUserDueMindsFromMindsIds(userId, mindsIds);
 
+          // if due minds don't exist, generate an empty card for each mind that is not initialized (in one request)
+          // if each mind exists in due srs_data, then if no due minds, it's okay
+
           setMinds(dueMinds);
         } catch (error) {
           console.error(error);

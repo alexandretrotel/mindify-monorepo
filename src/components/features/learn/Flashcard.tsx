@@ -74,9 +74,10 @@ const Flashcard = ({
   };
 
   const handleRateCard = async (grade: Grade) => {
+    handleNext();
+
     try {
       await handleUpdateCardSrsData(userId, grade);
-      handleNext();
     } catch (error) {
       console.error("Erreur lors de la mise à jour des données", error);
       toast({
@@ -84,6 +85,10 @@ const Flashcard = ({
         description: "Impossible de mettre à jour les données.",
         variant: "destructive"
       });
+
+      if (currentCard > 0) {
+        setCurrentCard(currentCard - 1);
+      }
     }
   };
 

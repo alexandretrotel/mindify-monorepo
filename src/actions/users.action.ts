@@ -10,6 +10,7 @@ import type { User } from "@supabase/supabase-js";
 import { summary } from "date-streaks";
 import type { Tables } from "@/types/supabase";
 import { supabaseAdmin } from "@/utils/supabase/admin";
+import { type Card, createEmptyCard } from "ts-fsrs";
 
 export async function deleteUser(userId: UUID) {
   const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(userId);
@@ -443,22 +444,59 @@ export async function getUserSavedMindsIds(userId: UUID) {
   return savedMindsIds;
 }
 
-export async function getUserDueMindsFromMindsIds(userId: UUID, minds: number[]) {
+export async function getUserDueMindsFromMindsIds(userId: UUID, mindsIds: number[]) {
   const supabase = createClient();
 
   const { data: dueMindsData, error } = await supabase
     .from("srs_data")
     .select("*, minds(*, summaries(*, topics(*), authors(*)))")
     .eq("user_id", userId)
-    .lte("due", new Date().toISOString())
-    .in("mind_id", minds);
+    .in("mind_id", mindsIds);
 
   if (error) {
     console.error(error);
     throw new Error("Impossible de récupérer les minds en attente.");
   }
 
-  const dueMinds = dueMindsData?.map((dueMind) => ({
+  const existingMindIds = dueMindsData?.map((item) => item?.minds?.id);
+  const missingMindIds = mindsIds?.filter((mindId) => !existingMindIds.includes(mindId));
+
+  const emptyCard: Card = createEmptyCard();
+
+  const cardsArray: Tables<"srs_data">[] = missingMindIds?.map((mindId) => ({
+    user_id: userId,
+    mind_id: mindId,
+    due: emptyCard.due.toISOString(),
+    stability: emptyCard.stability,
+    difficulty: emptyCard.difficulty,
+    elapsed_days: emptyCard.elapsed_days,
+    scheduled_days: emptyCard.scheduled_days,
+    reps: emptyCard.reps,
+    lapses: emptyCard.lapses,
+    state: emptyCard.state
+  })) as Tables<"srs_data">[];
+
+  if (missingMindIds.length > 0) {
+    const { error: insertError } = await supabase.from("srs_data").insert(cardsArray);
+
+    if (insertError) {
+      console.error(insertError);
+      throw new Error("Impossible d'insérer les minds manquants.");
+    }
+  }
+
+  const { data: fullMindsData, error: fetchError } = await supabase
+    .from("srs_data")
+    .select("*, minds(*,summaries(*, topics(*), authors(*)))")
+    .in("mind_id", mindsIds)
+    .lte("due", new Date().toISOString());
+
+  if (fetchError) {
+    console.error(fetchError);
+    throw new Error("Impossible de récupérer les minds.");
+  }
+
+  const dueMinds = fullMindsData?.map((dueMind) => ({
     ...dueMind?.minds,
     summaries: {
       ...dueMind?.minds?.summaries,
