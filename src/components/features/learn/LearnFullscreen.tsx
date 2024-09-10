@@ -23,6 +23,9 @@ export default function LearnFullscreen({
   userName: string;
   isConnected: boolean;
 }>) {
+  const [isMounted, setIsMounted] = React.useState(false);
+  const [initialTotalLength, setInitialTotalLength] = React.useState(0);
+
   const {
     isOpenFlashcardScreen,
     setIsOpenFlashcardScreen,
@@ -34,7 +37,12 @@ export default function LearnFullscreen({
     totalTime
   } = React.useContext(FlashcardContext);
 
-  const initialTotalLength = React.useRef(totalLength);
+  React.useEffect(() => {
+    if (!isMounted) {
+      setInitialTotalLength(totalLength);
+      setIsMounted(true);
+    }
+  }, [isMounted, totalLength]);
 
   if (areMindsLoading) {
     return (
@@ -43,11 +51,11 @@ export default function LearnFullscreen({
       >
         <div className="flex items-center justify-between gap-4">
           <Semibold>
-            {currentCard}/{initialTotalLength.current}
+            {currentCard}/{initialTotalLength}
           </Semibold>
 
           <Progress
-            value={currentCard === 1 ? 0 : (currentCard / initialTotalLength.current) * 100}
+            value={currentCard === 1 ? 0 : (currentCard / initialTotalLength) * 100}
             className="h-3 max-w-5xl"
           />
 
@@ -76,13 +84,10 @@ export default function LearnFullscreen({
     >
       <div className="flex items-center justify-between gap-4">
         <Semibold>
-          {currentCard}/{initialTotalLength.current}
+          {currentCard}/{initialTotalLength}
         </Semibold>
 
-        <Progress
-          value={(currentCard / initialTotalLength.current) * 100}
-          className="h-3 max-w-5xl"
-        />
+        <Progress value={(currentCard / initialTotalLength) * 100} className="h-3 max-w-5xl" />
 
         <button
           onClick={() => setIsOpenFlashcardScreen(false)}
@@ -107,7 +112,7 @@ export default function LearnFullscreen({
               </Semibold>{" "}
               à scroller sur les réseaux. Mais c&apos;est{" "}
               <Semibold primaryColor size="lg">
-                {initialTotalLength.current}
+                {initialTotalLength}
               </Semibold>{" "}
               MINDS que vous avez appris.
             </Muted>
