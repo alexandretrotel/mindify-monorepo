@@ -13,8 +13,18 @@ import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@/utils/supabase/client";
 
 export const NotificationContext = React.createContext({
-  notifications: [] as Tables<"notifications">[],
-  setNotifications: (notifications: Tables<"notifications">[]) => {},
+  notifications: [] as (Tables<"notifications"> & {
+    summaries: Tables<"summaries"> & {
+      authors: Tables<"authors">;
+    };
+  })[],
+  setNotifications: (
+    notifications: (Tables<"notifications"> & {
+      summaries: Tables<"summaries"> & {
+        authors: Tables<"authors">;
+      };
+    })[]
+  ) => {},
   areNotificationsLoading: true,
   setAreNotificationsLoading: (isLoading: boolean) => {},
   markAsReadNotif: (notificationId: number) => {},
@@ -25,7 +35,13 @@ export const NotificationContext = React.createContext({
 export default function NotificationsProvider({
   children
 }: Readonly<{ children: React.ReactNode }>) {
-  const [notifications, setNotifications] = React.useState<Tables<"notifications">[]>([]);
+  const [notifications, setNotifications] = React.useState<
+    (Tables<"notifications"> & {
+      summaries: Tables<"summaries"> & {
+        authors: Tables<"authors">;
+      };
+    })[]
+  >([]);
   const [areNotificationsLoading, setAreNotificationsLoading] = React.useState(true);
 
   const { toast } = useToast();
@@ -70,7 +86,11 @@ export default function NotificationsProvider({
           table: "notifications"
         },
         (payload) => {
-          const newNotification = payload.new as Tables<"notifications">;
+          const newNotification = payload.new as Tables<"notifications"> & {
+            summaries: Tables<"summaries"> & {
+              authors: Tables<"authors">;
+            };
+          };
 
           const orderedNotifications = [newNotification, ...notifications]?.sort((a, b) => {
             return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
