@@ -858,7 +858,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      notify_due_minds: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      send_pending_friend_request_notifications: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       bugs: "display" | "features" | "performance" | "misc"
@@ -869,7 +876,12 @@ export type Database = {
         | "notifications"
         | "security"
         | "misc"
-      notifications_type: "flashcards_due" | "new_summary" | "friend_request"
+      notifications_type:
+        | "flashcards_due"
+        | "new_summary"
+        | "friend_request"
+        | "friend_read_summary"
+        | "friend_saved_summary"
       plan: "free" | "pro"
       source: "article" | "podcast" | "video" | "book"
       support_status: "not_started" | "in_progress" | "finished"
