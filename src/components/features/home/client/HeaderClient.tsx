@@ -68,11 +68,11 @@ export default function HeaderClient() {
             <NavigationMenuList>
               {navigation.map((item) => (
                 <NavigationMenuItem key={item.name}>
-                  <Link href={`/${item.href}`} legacyBehavior passHref>
+                  <a href={`${item.href}`}>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                       {item.name}
                     </NavigationMenuLink>
-                  </Link>
+                  </a>
                 </NavigationMenuItem>
               ))}
             </NavigationMenuList>

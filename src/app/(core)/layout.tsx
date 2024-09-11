@@ -1,6 +1,7 @@
 import Footer from "@/components/features/home/Footer";
 import AccountDropdown from "@/components/global/AccountDropdown";
 import AppHeader from "@/components/global/AppHeader";
+import MobileNavbar from "@/components/global/MobileNavbar";
 import { createClient } from "@/utils/supabase/server";
 import type { UserMetadata } from "@supabase/supabase-js";
 import type { UUID } from "crypto";
@@ -29,6 +30,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
       </main>
 
       <Footer userId={userId} isConnected={isConnected} />
+      <MobileNavbar userId={userId} isConnected={isConnected} />
     </React.Fragment>
   );
 };
