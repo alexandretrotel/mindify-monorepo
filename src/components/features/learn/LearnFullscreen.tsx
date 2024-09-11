@@ -38,7 +38,7 @@ export default function LearnFullscreen({
   } = React.useContext(FlashcardContext);
 
   React.useEffect(() => {
-    if (!isMounted) {
+    if (totalLength > 0 && !isMounted) {
       setInitialTotalLength(totalLength);
       setIsMounted(true);
     }
