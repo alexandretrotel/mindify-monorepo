@@ -34,7 +34,7 @@ const BookCover = ({
       className={`${heightFull ? "h-full" : ""}`}
     >
       <div
-        className={`w-full overflow-hidden rounded-lg border hover:border-primary active:border-black ${heightFull ? "h-full" : ""}`}
+        className={`w-full overflow-hidden rounded-lg border hover:border-primary active:border-black ${heightFull ? "h-full max-h-48" : ""}`}
       >
         {features.summaryImageIsVisible && (
           <React.Fragment>

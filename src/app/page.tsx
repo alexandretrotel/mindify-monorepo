@@ -26,6 +26,7 @@ const Home = async () => {
     return (
       <React.Fragment>
         <HeaderClient />
+
         <main className="flex-1">
           <Hero />
           <Features />
@@ -34,6 +35,7 @@ const Home = async () => {
           <Faq />
           <TakeACoffee />
         </main>
+
         <Footer userId={userId} isConnected={isConnected} />
       </React.Fragment>
     );

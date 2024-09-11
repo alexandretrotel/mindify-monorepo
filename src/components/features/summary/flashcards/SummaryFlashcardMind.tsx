@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import type { Tables } from "@/types/supabase";
 import React from "react";
 import ReactCardFlip from "react-card-flip";
-import { saveMind, unsaveMind } from "@/actions/minds";
+import { saveMind, unsaveMind } from "@/actions/minds.action";
 import { useToast } from "@/components/ui/use-toast";
 import type { UUID } from "crypto";
 
@@ -52,6 +52,7 @@ const SummaryFlashcardMind = ({
         totalLength={totalLength}
         onFlip={showBack}
         handleFullscreen={handleFullscreen}
+        handleNext={handleNext}
       />
       <Back
         mind={mind}
@@ -73,7 +74,8 @@ function Front({
   index,
   totalLength,
   onFlip,
-  handleFullscreen
+  handleFullscreen,
+  handleNext
 }: Readonly<{
   mind: Tables<"minds"> & {
     summaries: Tables<"summaries"> & {
@@ -85,6 +87,7 @@ function Front({
   totalLength: number;
   onFlip: () => void;
   handleFullscreen: () => void;
+  handleNext: () => void;
 }>) {
   return (
     <Card className="flex w-full min-w-80 max-w-md flex-col md:min-w-[28rem]">
@@ -107,10 +110,16 @@ function Front({
         </CardContent>
 
         <CardFooter>
-          <div className="grid w-full grid-cols-2 gap-4">
-            <Button variant="outline" onClick={handleFullscreen}>
-              Passer au résumé
-            </Button>
+          <div className="flex w-full flex-col gap-4">
+            <div className="grid w-full grid-cols-2 gap-4">
+              <Button variant="ghost" onClick={handleFullscreen}>
+                Passer au résumé
+              </Button>
+              <Button variant="ghost" onClick={handleNext}>
+                Passer au MIND suivant
+              </Button>
+            </div>
+
             <Button className="w-full" onClick={onFlip}>
               Afficher le MIND
             </Button>

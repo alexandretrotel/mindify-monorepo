@@ -6,7 +6,7 @@ import type { Tables } from "@/types/supabase";
 import { Button } from "@/components/ui/button";
 import Span from "@/components/typography/span";
 import Semibold from "@/components/typography/semibold";
-import { approveSummaryRequest, rejectSummaryRequest } from "@/actions/admin/validate";
+import { approveSummaryRequest, rejectSummaryRequest } from "@/actions/admin/validate.action";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2Icon } from "lucide-react";
 

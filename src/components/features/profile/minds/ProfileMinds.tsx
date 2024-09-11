@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import ProfileMindsClient from "@/components/features/profile/minds/client/ProfileMindsClient";
 import type { UUID } from "crypto";
-import { areMindsSaved, getMindsFromUserId } from "@/actions/minds";
+import { areMindsSaved, getMindsFromUserId } from "@/actions/minds.action";
 import type { Tables } from "@/types/supabase";
 import ProfileMindsSkeleton from "@/components/features/profile/minds/skeleton/ProfileMindsSkeleton";
 

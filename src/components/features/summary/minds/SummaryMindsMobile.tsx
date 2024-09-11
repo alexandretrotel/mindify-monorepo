@@ -1,4 +1,4 @@
-import { areMindsSaved, getMindsFromSummaryId } from "@/actions/minds";
+import { areMindsSaved, getMindsFromSummaryId } from "@/actions/minds.action";
 import Mind from "@/components/global/Mind";
 import type { Tables } from "@/types/supabase";
 import { UUID } from "crypto";

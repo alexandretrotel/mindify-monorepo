@@ -3,7 +3,7 @@ import type { UUID } from "crypto";
 import { redirect } from "next/navigation";
 import React from "react";
 import MyAccountClient from "@/app/(core)/my-account/client/MyAccountClient";
-import { getUserTopics } from "@/actions/users";
+import { getUserTopics } from "@/actions/users.action";
 import { getAvatar } from "@/utils/users";
 import type { Tables } from "@/types/supabase";
 import { BellRingIcon, CreditCardIcon, LockIcon, SettingsIcon, UserPenIcon } from "lucide-react";

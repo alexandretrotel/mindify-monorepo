@@ -13,7 +13,7 @@ const Playlist = async ({
   return (
     <div
       key={playlist.id}
-      className={`flex flex-col justify-between gap-8 rounded-lg bg-primary p-6 ${heightFull ? "h-full" : ""}`}
+      className={`flex flex-col justify-between gap-8 rounded-lg bg-primary p-6 ${heightFull ? "h-full max-h-72" : ""}`}
     >
       <span className="text-4xl font-semibold text-primary-foreground">{playlist?.title}</span>
 

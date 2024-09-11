@@ -132,7 +132,7 @@ export async function areMindsSaved(mindIds: number[], userId: UUID) {
 
   const { data, error } = await supabase
     .from("saved_minds")
-    .select("*")
+    .select("mind_id")
     .eq("user_id", userId)
     .in("mind_id", mindIds);
 

@@ -2,7 +2,7 @@ import React from "react";
 import H3 from "@/components/typography/h3";
 import { Muted } from "@/components/typography/muted";
 import { UUID } from "crypto";
-import { getAllRandomMindsPlaylists } from "@/actions/playlists";
+import { getAllRandomMindsPlaylists } from "@/actions/playlists.action";
 import MindsPlaylistsClient from "@/components/global/MindsPlaylistsClient";
 
 const RandomMindsPlaylists = async ({

@@ -17,7 +17,7 @@ import {
   AlertDialogCancel
 } from "@/components/ui/alert-dialog";
 import type { UUID } from "crypto";
-import { deleteUser } from "@/actions/users";
+import { deleteUser } from "@/actions/users.action";
 import { Muted } from "@/components/typography/muted";
 
 const DeleteAccount = ({ userId }: { userId: UUID }) => {

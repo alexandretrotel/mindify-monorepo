@@ -1,7 +1,7 @@
 import React from "react";
 import FlashcardFullscreenClient from "@/components/features/summary/flashcards/client/FlashcardFullscreenClient";
 import type { Tables } from "@/types/supabase";
-import { areMindsSaved, getMindsFromSummaryId } from "@/actions/minds";
+import { areMindsSaved, getMindsFromSummaryId } from "@/actions/minds.action";
 import type { UUID } from "crypto";
 
 const FlashcardFullscreen = async ({

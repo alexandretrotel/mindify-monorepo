@@ -1,5 +1,5 @@
-import { areMindsSaved } from "@/actions/minds";
-import { getMindsFromPlaylistSlug } from "@/actions/playlists";
+import { areMindsSaved } from "@/actions/minds.action";
+import { getMindsFromPlaylistSlug } from "@/actions/playlists.action";
 import Mind from "@/components/global/Mind";
 import H2 from "@/components/typography/h2";
 import H3Span from "@/components/typography/h3AsSpan";

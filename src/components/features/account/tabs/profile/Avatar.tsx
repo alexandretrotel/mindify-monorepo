@@ -18,7 +18,7 @@ import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { userUpdateAvatar } from "@/actions/users";
+import { userUpdateAvatar } from "@/actions/users.action";
 import { LoadingButton } from "@/components/global/buttons/LoadingButton";
 import { Loader2Icon, UserRoundIcon } from "lucide-react";
 import { Muted } from "@/components/typography/muted";

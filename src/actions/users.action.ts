@@ -10,6 +10,7 @@ import type { User } from "@supabase/supabase-js";
 import { summary } from "date-streaks";
 import type { Tables } from "@/types/supabase";
 import { supabaseAdmin } from "@/utils/supabase/admin";
+import { type Card, createEmptyCard } from "ts-fsrs";
 
 export async function deleteUser(userId: UUID) {
   const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(userId);
@@ -164,20 +165,27 @@ export async function userUpdateAvatar(formData: FormData, userId: UUID) {
 }
 
 export async function getUsersData(usersIds: UUID[]) {
-  const users: User[] = await Promise.all(
-    usersIds.map(async (userId) => {
-      const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
+  const users: (User | null)[] = await Promise.all(
+    usersIds?.map(async (userId) => {
+      try {
+        const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
 
-      if (error) {
-        console.error(error);
-        throw new Error("Impossible de récupérer les amis.");
+        if (error) {
+          console.error(`Erreur en récupérant l'utilisateur ${userId}:`, error);
+          return null;
+        }
+
+        return data?.user || null;
+      } catch (err) {
+        console.error(`Erreur en récupérant l'utilisateur ${userId}:`, err);
+        return null;
       }
-
-      return data?.user;
     })
   );
 
-  return users;
+  const filteredUsers = users?.filter((user) => user !== null) as User[];
+
+  return filteredUsers;
 }
 
 export async function getUserReadingStreak(userId: UUID) {
@@ -393,4 +401,159 @@ export async function getTopUsers() {
   const topUsers = await getUsersData(sortedUsers);
 
   return topUsers;
+}
+
+export async function getUserSavedMinds(userId: UUID) {
+  const supabase = createClient();
+
+  const { data: savedMindsData, error } = await supabase
+    .from("saved_minds")
+    .select("*, minds(*, summaries(*, topics(*), authors(*)))")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les minds enregistrés.");
+  }
+
+  const savedMinds = savedMindsData?.map((savedMind) => ({
+    ...savedMind?.minds,
+    summaries: {
+      ...savedMind?.minds?.summaries,
+      topic: savedMind?.minds?.summaries?.topics?.name,
+      author_slug: savedMind?.minds?.summaries?.authors?.slug
+    }
+  })) as (Tables<"minds"> & {
+    summaries: Tables<"summaries"> & { topic: string; author_slug: string } & {
+      topics: Tables<"topics">;
+      authors: Tables<"authors">;
+    };
+  })[];
+
+  return savedMinds;
+}
+
+export async function getUserSavedMindsIds(userId: UUID) {
+  const supabase = createClient();
+
+  const { data: savedMindsData, error } = await supabase
+    .from("saved_minds")
+    .select("minds(id)")
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les minds enregistrés.");
+  }
+
+  const savedMindsIds = savedMindsData?.map((savedMind) => savedMind?.minds?.id) as number[];
+
+  return savedMindsIds;
+}
+
+export async function getUserDueMindsFromMindsIds(userId: UUID, mindsIds: number[]) {
+  const supabase = createClient();
+
+  const { data: dueMindsData, error } = await supabase
+    .from("srs_data")
+    .select("*, minds(*, summaries(*, topics(*), authors(*)))")
+    .eq("user_id", userId)
+    .in("mind_id", mindsIds);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de récupérer les minds en attente.");
+  }
+
+  const existingMindIds = dueMindsData?.map((item) => item?.minds?.id);
+  const missingMindIds = mindsIds?.filter((mindId) => !existingMindIds.includes(mindId));
+
+  const emptyCard: Card = createEmptyCard();
+
+  const cardsArray: Tables<"srs_data">[] = missingMindIds?.map((mindId) => ({
+    user_id: userId,
+    mind_id: mindId,
+    due: emptyCard.due.toISOString(),
+    stability: emptyCard.stability,
+    difficulty: emptyCard.difficulty,
+    elapsed_days: emptyCard.elapsed_days,
+    scheduled_days: emptyCard.scheduled_days,
+    reps: emptyCard.reps,
+    lapses: emptyCard.lapses,
+    state: emptyCard.state
+  })) as Tables<"srs_data">[];
+
+  if (missingMindIds.length > 0) {
+    const { error: insertError } = await supabase.from("srs_data").insert(cardsArray);
+
+    if (insertError) {
+      console.error(insertError);
+      throw new Error("Impossible d'insérer les minds manquants.");
+    }
+  }
+
+  const { data: fullMindsData, error: fetchError } = await supabase
+    .from("srs_data")
+    .select("*, minds(*,summaries(*, topics(*), authors(*)))")
+    .in("mind_id", mindsIds)
+    .lte("due", new Date().toISOString());
+
+  if (fetchError) {
+    console.error(fetchError);
+    throw new Error("Impossible de récupérer les minds.");
+  }
+
+  const dueMinds = fullMindsData?.map((dueMind) => ({
+    ...dueMind?.minds,
+    summaries: {
+      ...dueMind?.minds?.summaries,
+      topic: dueMind?.minds?.summaries?.topics?.name,
+      author_slug: dueMind?.minds?.summaries?.authors?.slug
+    }
+  })) as (Tables<"minds"> & {
+    summaries: Tables<"summaries"> & { topic: string; author_slug: string } & {
+      topics: Tables<"topics">;
+      authors: Tables<"authors">;
+    };
+  })[];
+
+  return dueMinds;
+}
+
+export async function postUserLearningSession(
+  totalTime: number,
+  totalLength: number,
+  inactiveTime: number,
+  userId: UUID
+) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("learning_sessions")
+    .insert({
+      user_id: userId,
+      total_time: totalTime,
+      total_length: totalLength,
+      inactive_time: inactiveTime
+    })
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Impossible de poster la session d'apprentissage.");
+  }
+
+  return data;
+}
+
+export async function getUserId() {
+  const supabase = createClient();
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  const userId = user?.id as UUID;
+
+  return userId;
 }

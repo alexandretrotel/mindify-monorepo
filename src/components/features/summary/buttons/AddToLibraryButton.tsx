@@ -1,6 +1,6 @@
 import React from "react";
 import { UUID } from "crypto";
-import { hasUserSavedSummary } from "@/actions/users";
+import { hasUserSavedSummary } from "@/actions/users.action";
 import AddToLibraryButtonClient from "@/components/features/summary/buttons/client/AddToLibraryButtonClient";
 
 const AddToLibraryButton = async ({ summaryId, userId }: { summaryId: number; userId: UUID }) => {

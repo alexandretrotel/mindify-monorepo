@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select";
 import type { Enums } from "@/types/supabase";
 import type { UUID } from "crypto";
-import { createFeatureRequest } from "@/actions/support";
+import { createFeatureRequest } from "@/actions/support.action";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2Icon } from "lucide-react";
 
@@ -94,7 +94,7 @@ const FeaturesDialog = ({
         Demander une fonctionnalité
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="max-w-xs md:max-w-lg">
         <DialogHeader>
           <DialogTitle>Demander une fonctionnalité</DialogTitle>
 
@@ -104,7 +104,7 @@ const FeaturesDialog = ({
         </DialogHeader>
 
         <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <Input
               placeholder="Titre de la fonctionnalité"
               type="text"

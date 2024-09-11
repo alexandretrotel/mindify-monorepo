@@ -1,7 +1,7 @@
 import React from "react";
 import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
 import type { User } from "@supabase/supabase-js";
-import { getFriendsData } from "@/actions/friends";
+import { getFriendsData } from "@/actions/friends.action";
 import type { UUID } from "crypto";
 
 const CommonFriends = async ({ userId, friends }: { userId: UUID; friends: User[] }) => {

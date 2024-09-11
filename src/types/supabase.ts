@@ -109,6 +109,41 @@ export type Database = {
           },
         ]
       }
+      learning_sessions: {
+        Row: {
+          created_at: string
+          id: number
+          inactive_time: number
+          total_length: number
+          total_time: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          inactive_time: number
+          total_length: number
+          total_time: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          inactive_time?: number
+          total_length?: number
+          total_time?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learning_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       minds: {
         Row: {
           created_at: string
@@ -206,6 +241,106 @@ export type Database = {
             columns: ["user_playlist_id"]
             isOneToOne: false
             referencedRelation: "users_playlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          friend_id: string | null
+          id: number
+          is_read: boolean
+          message: string
+          mind_id: number | null
+          summary_id: number | null
+          title: string
+          type: Database["public"]["Enums"]["notifications_type"]
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          friend_id?: string | null
+          id?: number
+          is_read?: boolean
+          message: string
+          mind_id?: number | null
+          summary_id?: number | null
+          title: string
+          type: Database["public"]["Enums"]["notifications_type"]
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          friend_id?: string | null
+          id?: number
+          is_read?: boolean
+          message?: string
+          mind_id?: number | null
+          summary_id?: number | null
+          title?: string
+          type?: Database["public"]["Enums"]["notifications_type"]
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_friend_id_fkey"
+            columns: ["friend_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_mind_id_fkey"
+            columns: ["mind_id"]
+            isOneToOne: false
+            referencedRelation: "minds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_summary_id_fkey"
+            columns: ["summary_id"]
+            isOneToOne: false
+            referencedRelation: "summaries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      onboarding: {
+        Row: {
+          created_at: string
+          id: number
+          onboarded: boolean
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          onboarded?: boolean
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          onboarded?: boolean
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboarding_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -329,6 +464,66 @@ export type Database = {
             columns: ["summary_id"]
             isOneToOne: false
             referencedRelation: "summaries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      srs_data: {
+        Row: {
+          created_at: string
+          difficulty: number
+          due: string
+          elapsed_days: number
+          lapses: number
+          last_review: string | null
+          mind_id: number
+          reps: number
+          scheduled_days: number
+          stability: number
+          state: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          difficulty: number
+          due: string
+          elapsed_days: number
+          lapses: number
+          last_review?: string | null
+          mind_id?: number
+          reps: number
+          scheduled_days: number
+          stability: number
+          state: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          difficulty?: number
+          due?: string
+          elapsed_days?: number
+          lapses?: number
+          last_review?: string | null
+          mind_id?: number
+          reps?: number
+          scheduled_days?: number
+          stability?: number
+          state?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "srs_data_mind_id_fkey"
+            columns: ["mind_id"]
+            isOneToOne: false
+            referencedRelation: "minds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "srs_data_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -674,6 +869,7 @@ export type Database = {
         | "notifications"
         | "security"
         | "misc"
+      notifications_type: "flashcards_due" | "new_summary" | "friend_request"
       plan: "free" | "pro"
       source: "article" | "podcast" | "video" | "book"
       support_status: "not_started" | "in_progress" | "finished"

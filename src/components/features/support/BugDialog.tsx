@@ -26,7 +26,7 @@ import {
 import type { Enums } from "@/types/supabase";
 import { Loader2Icon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { createBugReport } from "@/actions/support";
+import { createBugReport } from "@/actions/support.action";
 import type { UUID } from "crypto";
 
 const BugDialog = ({
@@ -94,7 +94,7 @@ const BugDialog = ({
         Signaler un problème
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="max-w-xs md:max-w-lg">
         <DialogHeader>
           <DialogTitle>Signaler un problème</DialogTitle>
 
@@ -105,7 +105,7 @@ const BugDialog = ({
         </DialogHeader>
 
         <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
             <Input
               placeholder="Titre du bug"
               type="text"

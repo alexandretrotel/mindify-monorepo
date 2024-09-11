@@ -43,6 +43,7 @@ import AccountAvatar from "@/components/features/account/tabs/profile/Avatar";
 import AccountName from "@/components/features/account/tabs/profile/Name";
 import AccountBiography from "@/components/features/account/tabs/profile/Biography";
 import FriendsTabsSkeleton from "@/components/features/profile/friends/skeleton/FriendsTabsSkeleton";
+import MobileNavbar from "@/components/global/MobileNavbar";
 
 export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
   const profileId = params.uuid;
@@ -116,7 +117,7 @@ const Page = async ({
 
   return (
     <React.Fragment>
-      <AppHeader isNotTransparent isNotFixed>
+      <AppHeader userId={userId} isNotTransparent isNotFixed>
         <AccountDropdown userId={userId} userMetadata={userMetadata} isConnected={isConnected} />
       </AppHeader>
 
@@ -304,6 +305,7 @@ const Page = async ({
       </main>
 
       <Footer userId={userId} isConnected={isConnected} />
+      <MobileNavbar userId={userId} isConnected={isConnected} />
     </React.Fragment>
   );
 };

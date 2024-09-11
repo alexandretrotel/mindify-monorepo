@@ -3,7 +3,7 @@ import H3 from "@/components/typography/h3";
 import React, { Suspense } from "react";
 import SummariesByTopicSkeleton from "@/components/features/topic/skeleton/SummariesByTopicSkeleton";
 import { createClient } from "@/utils/supabase/server";
-import { getAdminTopicFromTopicSlug } from "@/actions/topics";
+import { getAdminTopicFromTopicSlug } from "@/actions/topics.action";
 import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 import type { Metadata, ResolvingMetadata } from "next";

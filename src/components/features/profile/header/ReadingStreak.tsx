@@ -1,5 +1,5 @@
 import { UUID } from "crypto";
-import { getUserReadingStreak } from "@/actions/users";
+import { getUserReadingStreak } from "@/actions/users.action";
 
 import React from "react";
 import Semibold from "@/components/typography/semibold";

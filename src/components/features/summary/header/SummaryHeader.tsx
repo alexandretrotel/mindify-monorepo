@@ -16,7 +16,10 @@ const SummaryHeader = async ({
         <Link href={`/topic/${summary?.topics?.slug}`} className="hover:underline">
           {summary?.topics?.name}
         </Link>{" "}
-        • {sourceToString(summary?.source_type)}
+        •{" "}
+        <Link href={`/library?source=${summary.source_type}`} className="hover:underline">
+          {sourceToString(summary?.source_type)}
+        </Link>
       </Span>
       <H1>{summary?.title}</H1>
       <H3Span muted>Par {summary?.authors?.name}</H3Span>

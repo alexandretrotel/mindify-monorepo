@@ -1,4 +1,4 @@
-import { getFirstSummaries } from "@/actions/summaries";
+import { getFirstSummaries } from "@/actions/summaries.action";
 import React from "react";
 import type { Tables } from "@/types/supabase";
 import CardsMarqueeClient from "@/components/features/home/client/CardsMarqueeClient";

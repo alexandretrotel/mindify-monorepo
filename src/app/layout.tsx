@@ -1,3 +1,7 @@
+// Import global styles
+import "./globals.css";
+import "@radix-ui/themes/styles.css";
+
 import type { Metadata, Viewport } from "next";
 import { cn } from "@/lib/utils";
 import { Inter as FontSans } from "next/font/google";
@@ -12,12 +16,10 @@ import StripeClient from "@/app/StripeClient";
 import Loading from "@/app/loading";
 import { Suspense } from "react";
 import { GoogleAnalytics } from "@next/third-parties/google";
-
-// Import global styles
-import "./globals.css";
-import "@radix-ui/themes/styles.css";
 import Script from "next/script";
 import FlashcardProvider from "@/providers/FlashcardProvider";
+import OnboardingProvider from "@/providers/OnboardingProvider";
+import NotificationsProvider from "@/providers/NotificationsProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -124,7 +126,7 @@ export const viewport: Viewport = {
 
 export const stripePromise = loadStripe(process.env.STRIPE_SECRET_KEY!);
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
@@ -141,14 +143,18 @@ export default function RootLayout({
 
         <Suspense fallback={<Loading />}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <FlashcardProvider>
-              <StripeClient stripePromise={stripePromise}>
-                {children}
+            <NotificationsProvider>
+              <OnboardingProvider>
+                <FlashcardProvider>
+                  <StripeClient stripePromise={stripePromise}>
+                    {children}
 
-                <Sonner />
-                <Toaster />
-              </StripeClient>
-            </FlashcardProvider>
+                    <Sonner />
+                    <Toaster />
+                  </StripeClient>
+                </FlashcardProvider>
+              </OnboardingProvider>
+            </NotificationsProvider>
           </ThemeProvider>
         </Suspense>
 

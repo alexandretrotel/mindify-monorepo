@@ -1,4 +1,4 @@
-import { areMindsSaved, getMindsFromSummaryId } from "@/actions/minds";
+import { areMindsSaved, getMindsFromSummaryId } from "@/actions/minds.action";
 import MindsClient from "@/components/global/MindsClient";
 import H2 from "@/components/typography/h2";
 import type { Tables } from "@/types/supabase";

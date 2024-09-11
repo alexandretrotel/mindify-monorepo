@@ -1,4 +1,4 @@
-import { getAllBugs, getAllFeatures } from "@/actions/support";
+import { getAllBugs, getAllFeatures } from "@/actions/support.action";
 import { columns } from "@/components/features/support/Columns";
 import DataTable from "@/components/features/support/DataTable";
 import H2 from "@/components/typography/h2";

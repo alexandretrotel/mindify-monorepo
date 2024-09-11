@@ -3,56 +3,17 @@ import "server-only";
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { z } from "zod";
-
+import { loginFormSchema, signupFormSchema, updatePasswordFormSchema } from "@/schema/auth.schema";
 import { createClient } from "@/utils/supabase/server";
 import { SocialProvider } from "@/types/auth";
 import { headers } from "next/headers";
-
-const formDataSchema = z.object({
-  email: z
-    .string({
-      invalid_type_error: "Adresse e-mail invalide"
-    })
-    .email(),
-  password: z
-    .string({
-      invalid_type_error: "Mot de passe invalide"
-    })
-    .min(8, "Le mot de passe doit contenir au moins 8 caractères")
-    .max(100, "Le mot de passe ne doit pas dépasser 100 caractères")
-    .regex(/[a-z]/, "Le mot de passe doit contenir au moins une minuscule")
-    .regex(/\d/, "Le mot de passe doit contenir au moins un chiffre")
-});
-
-const formDataSignupSchema = z.object({
-  email: z
-    .string({
-      invalid_type_error: "Adresse e-mail invalide"
-    })
-    .email(),
-  password: z
-    .string({
-      invalid_type_error: "Mot de passe invalide"
-    })
-    .min(8, "Le mot de passe doit contenir au moins 8 caractères")
-    .max(100, "Le mot de passe ne doit pas dépasser 100 caractères")
-    .regex(/[a-z]/, "Le mot de passe doit contenir au moins une minuscule")
-    .regex(/\d/, "Le mot de passe doit contenir au moins un chiffre"),
-  firstName: z.string({
-    invalid_type_error: "Prénom invalide"
-  }),
-  lastName: z.string({
-    invalid_type_error: "Nom invalide"
-  })
-});
 
 export async function signUpWithPassword(formData: FormData) {
   const supabase = createClient();
 
   let data;
   try {
-    data = formDataSignupSchema.parse({
+    data = signupFormSchema.parse({
       email: formData.get("email") as string,
       password: formData.get("password") as string,
       firstName: formData.get("firstName") as string,
@@ -90,7 +51,7 @@ export async function signInWithPassword(formData: FormData) {
 
   let data;
   try {
-    data = formDataSchema.parse({
+    data = loginFormSchema.parse({
       email: formData.get("email") as string,
       password: formData.get("password") as string
     });
@@ -174,25 +135,6 @@ export async function resetPassword(email: string, origin: string) {
   redirect("/auth/check-email");
 }
 
-const formDataUpdatePasswordSchema = z
-  .object({
-    newPassword: z
-      .string({
-        invalid_type_error: "Mot de passe invalide"
-      })
-      .min(8, "Le mot de passe doit contenir au moins 8 caractères")
-      .max(100, "Le mot de passe ne doit pas dépasser 100 caractères")
-      .regex(/[a-z]/, "Le mot de passe doit contenir au moins une minuscule")
-      .regex(/\d/, "Le mot de passe doit contenir au moins un chiffre"),
-    confirmPassword: z.string({
-      invalid_type_error: "Mot de passe invalide"
-    })
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Les mots de passe ne correspondent pas",
-    path: ["confirmPassword"]
-  });
-
 export async function updatePassword(newPassword: string, confirmPassword: string) {
   const supabase = createClient();
 
@@ -202,7 +144,7 @@ export async function updatePassword(newPassword: string, confirmPassword: strin
 
   let data;
   try {
-    data = formDataUpdatePasswordSchema.parse({
+    data = updatePasswordFormSchema.parse({
       newPassword,
       confirmPassword
     });

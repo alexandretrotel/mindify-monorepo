@@ -1,7 +1,7 @@
 import React from "react";
 import H3 from "@/components/typography/h3";
 import { Muted } from "@/components/typography/muted";
-import { areMindsSaved, getRandomMinds } from "@/actions/minds";
+import { areMindsSaved, getRandomMinds } from "@/actions/minds.action";
 import MindsClient from "@/components/global/MindsClient";
 import { UUID } from "crypto";
 

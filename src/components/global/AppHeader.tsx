@@ -17,11 +17,14 @@ import {
   BookIcon,
   BookmarkIcon,
   EyeIcon,
+  GraduationCapIcon,
   HomeIcon,
   LibraryIcon,
   UsersRoundIcon,
   VideoIcon
 } from "lucide-react";
+import Notifications from "@/components/features/notifications/Notifications";
+import type { UUID } from "crypto";
 
 const links: {
   label: string;
@@ -43,6 +46,12 @@ const links: {
         label: "Votre feed",
         description: "Laissez vous guider par nos recommandations",
         icon: <HomeIcon className="h-4 w-4" />
+      },
+      {
+        href: "/learn",
+        label: "Apprendre",
+        description: "Révisez vos connaissances à l'aide de nos flashcards",
+        icon: <GraduationCapIcon className="h-4 w-4" />
       },
       {
         href: "/discover/users",
@@ -136,11 +145,13 @@ ListItem.displayName = "ListItem";
 const AppHeader = ({
   children,
   isNotTransparent,
-  isNotFixed
+  isNotFixed,
+  userId
 }: {
   children: React.ReactNode;
   isNotTransparent?: boolean;
   isNotFixed?: boolean;
+  userId: UUID;
 }) => {
   return (
     <header
@@ -180,7 +191,11 @@ const AppHeader = ({
           ))}
         </NavigationMenuList>
 
-        <div className="flex items-center gap-4">{children}</div>
+        <div className="flex items-center gap-4">
+          <Notifications userId={userId} />
+
+          {children}
+        </div>
       </NavigationMenu>
     </header>
   );

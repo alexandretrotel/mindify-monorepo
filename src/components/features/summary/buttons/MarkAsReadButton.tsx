@@ -1,6 +1,6 @@
 import React from "react";
 import { UUID } from "crypto";
-import { hasUserReadSummary } from "@/actions/users";
+import { hasUserReadSummary } from "@/actions/users.action";
 import MarkAsReadButtonClient from "@/components/features/summary/buttons/client/MarkAsReadButtonClient";
 
 const MarkAsReadButton = async ({ summaryId, userId }: { summaryId: number; userId: UUID }) => {
