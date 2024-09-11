@@ -6,11 +6,11 @@ import type { Tables } from "@/types/supabase";
 import {
   archiveNotification,
   deleteNotification,
-  getDueFlashcardsNotifications,
   getNotifications,
   markNotificationAsRead
 } from "@/actions/notifications.action";
 import { useToast } from "@/components/ui/use-toast";
+import { createClient } from "@/utils/supabase/client";
 
 export const NotificationContext = React.createContext({
   notifications: [] as Tables<"notifications">[],
@@ -55,33 +55,32 @@ export default function NotificationsProvider({
   }, []);
 
   React.useEffect(() => {
-    const fetchDueFlashcardsNotifications = async () => {
-      const flashcardsNotifications = await getDueFlashcardsNotifications();
+    const supabase = createClient();
 
-      if (flashcardsNotifications?.length === 0) {
-        return;
-      }
+    const notificationsChanges = supabase
+      .channel("notifications")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "notifications"
+        },
+        (payload) => {
+          const newNotification = payload.new as Tables<"notifications">;
 
-      const finalNotifications = [...notifications, ...flashcardsNotifications];
-      const filteredNotifications = finalNotifications.filter(
-        (notification, index, self) =>
-          index === self.findIndex((t) => t.id === notification.id && t.type === notification.type)
-      );
+          const orderedNotifications = [newNotification, ...notifications]?.sort((a, b) => {
+            return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+          });
 
-      const orderedNotifications = [...filteredNotifications]?.sort((a, b) => {
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-      });
+          setNotifications(orderedNotifications);
+        }
+      )
+      .subscribe();
 
-      setNotifications(orderedNotifications);
+    return () => {
+      supabase.removeChannel(notificationsChanges);
     };
-
-    const interval = setInterval(() => {
-      fetchDueFlashcardsNotifications();
-    }, 300000); // 5 minutes
-
-    fetchDueFlashcardsNotifications();
-
-    return () => clearInterval(interval);
   }, [notifications]);
 
   const markAsReadNotif = React.useCallback(

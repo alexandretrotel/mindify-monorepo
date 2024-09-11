@@ -41,24 +41,6 @@ export async function archiveNotification(notificationId: number) {
   }
 }
 
-export async function getDueFlashcardsNotifications() {
-  const supabase = createClient();
-
-  const { data: notifications, error } = await supabase
-    .from("notifications")
-    .select("*")
-    .eq("type", "flashcards_due")
-    .eq("is_archived", false)
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error(error);
-    throw new Error("Une erreur est survenue lors de la récupération des notifications");
-  }
-
-  return notifications;
-}
-
 export async function getNotifications() {
   const supabase = createClient();
 
