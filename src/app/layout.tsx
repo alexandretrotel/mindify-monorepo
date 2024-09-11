@@ -19,6 +19,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
 import FlashcardProvider from "@/providers/FlashcardProvider";
 import OnboardingProvider from "@/providers/OnboardingProvider";
+import NotificationsProvider from "@/providers/NotificationsProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -142,16 +143,18 @@ export default async function RootLayout({
 
         <Suspense fallback={<Loading />}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <OnboardingProvider>
-              <FlashcardProvider>
-                <StripeClient stripePromise={stripePromise}>
-                  {children}
+            <NotificationsProvider>
+              <OnboardingProvider>
+                <FlashcardProvider>
+                  <StripeClient stripePromise={stripePromise}>
+                    {children}
 
-                  <Sonner />
-                  <Toaster />
-                </StripeClient>
-              </FlashcardProvider>
-            </OnboardingProvider>
+                    <Sonner />
+                    <Toaster />
+                  </StripeClient>
+                </FlashcardProvider>
+              </OnboardingProvider>
+            </NotificationsProvider>
           </ThemeProvider>
         </Suspense>
 
