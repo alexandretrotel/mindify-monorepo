@@ -94,7 +94,7 @@ const BugDialog = ({
         Signaler un problème
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="max-w-xs md:max-w-lg">
         <DialogHeader>
           <DialogTitle>Signaler un problème</DialogTitle>
 
@@ -105,7 +105,7 @@ const BugDialog = ({
         </DialogHeader>
 
         <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-4">
             <Input
               placeholder="Titre du bug"
               type="text"

@@ -61,26 +61,28 @@ export default function MobileNavbar({
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background shadow-md">
-      <ul className="flex justify-around pb-6 pt-2">
-        {menuItems.map((item, index) => {
-          if (item.condition === false) {
-            return null;
-          }
+    <div className="pt-24">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 border-t bg-background shadow-md">
+        <ul className="flex justify-around pb-6 pt-2">
+          {menuItems.map((item, index) => {
+            if (item.condition === false) {
+              return null;
+            }
 
-          return (
-            <li key={index} className="flex flex-col items-center">
-              <Link
-                href={item.href}
-                className={`flex flex-col items-center gap-0.5 ${pathname === item.href ? "text-foreground" : "text-muted-foreground"} hover:text-foreground`}
-              >
-                {item.icon}
-                <span className="text-xs">{item.name}</span>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+            return (
+              <li key={index} className="flex flex-col items-center">
+                <Link
+                  href={item.href}
+                  className={`flex flex-col items-center gap-0.5 ${pathname === item.href ? "text-foreground" : "text-muted-foreground"} hover:text-foreground`}
+                >
+                  {item.icon}
+                  <span className="text-xs">{item.name}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </div>
   );
 }
