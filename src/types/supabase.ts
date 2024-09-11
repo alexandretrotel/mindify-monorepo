@@ -251,7 +251,6 @@ export type Database = {
           friend_id: string | null
           id: number
           is_read: boolean
-          link_url: string | null
           message: string
           mind_id: number | null
           summary_id: number | null
@@ -265,7 +264,6 @@ export type Database = {
           friend_id?: string | null
           id?: number
           is_read?: boolean
-          link_url?: string | null
           message: string
           mind_id?: number | null
           summary_id?: number | null
@@ -279,7 +277,6 @@ export type Database = {
           friend_id?: string | null
           id?: number
           is_read?: boolean
-          link_url?: string | null
           message?: string
           mind_id?: number | null
           summary_id?: number | null
