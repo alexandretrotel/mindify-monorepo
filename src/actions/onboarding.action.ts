@@ -4,14 +4,8 @@ import "server-only";
 import type { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 
-export async function hasBeenOnboarded(): Promise<boolean> {
+export async function hasBeenOnboarded(userId: UUID): Promise<boolean> {
   const supabase = createClient();
-
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-
-  const userId = user?.id as UUID;
 
   const { data, error } = await supabase
     .from("onboarding")

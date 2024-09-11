@@ -545,3 +545,15 @@ export async function postUserLearningSession(
 
   return data;
 }
+
+export async function getUserId() {
+  const supabase = createClient();
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  const userId = user?.id as UUID;
+
+  return userId;
+}
