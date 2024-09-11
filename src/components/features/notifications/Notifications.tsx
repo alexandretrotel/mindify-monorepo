@@ -32,7 +32,7 @@ import type { UUID } from "crypto";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 
-export default function Notifications({ userId }: { userId: UUID }) {
+export default function Notifications({ userId }: Readonly<{ userId: UUID }>) {
   const [filter, setFilter] = React.useState<"all" | "unread">("all");
 
   const { notifications } = React.useContext(NotificationContext);
@@ -57,7 +57,7 @@ export default function Notifications({ userId }: { userId: UUID }) {
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="mr-4 max-w-xs md:min-w-96 md:max-w-lg">
+      <PopoverContent className="mr-4 min-w-[20rem] max-w-xs md:min-w-[36rem] md:max-w-[36rem]">
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between gap-4 md:gap-16">
             <Semibold>Notifications</Semibold>
@@ -141,8 +141,8 @@ function NotificationItem({
 
   const notificationCategory: Enums<"notifications_type"> = notification.type;
   const friendId = notification?.friend_id as UUID;
-  const authorSlug = notification?.summaries?.authors?.slug as string;
-  const summarySlug = notification?.summaries?.slug as string;
+  const authorSlug = notification?.summaries?.authors?.slug;
+  const summarySlug = notification?.summaries?.slug;
 
   const formattedDate = formatDistanceToNow(parseISO(notification.created_at), {
     addSuffix: true,
@@ -176,144 +176,144 @@ function NotificationItem({
   };
 
   return (
-    <div
-      className={`flex flex-col gap-4 rounded-lg p-3 px-4 ${!notification.is_read ? "bg-muted/50" : ""}`}
-    >
-      <div className="flex flex-col gap-2">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex flex-col">
-            <Semibold size="sm">{notification.title}</Semibold>
-            <P size="sm">{notification.message}</P>
-          </div>
+    <Popover>
+      <PopoverTrigger asChild>
+        <div
+          className={`flex cursor-pointer flex-col gap-4 rounded-lg p-3 px-4 ${!notification.is_read ? "bg-muted/50" : ""}`}
+        >
+          <div className="flex flex-col gap-2">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col">
+                <Semibold size="sm">{notification.title}</Semibold>
+                <P size="sm">{notification.message}</P>
+              </div>
 
-          <Popover>
-            <PopoverTrigger asChild>
               <button>
                 <EllipsisIcon className="h-4 w-4 fill-muted hover:fill-muted-foreground" />
               </button>
-            </PopoverTrigger>
+            </div>
 
-            <PopoverContent className="-mr-8 max-w-fit p-2" align="start">
-              <div className="flex flex-col items-start gap-2">
-                {notificationCategory === "friend_request" && (
-                  <React.Fragment>
-                    <Button
-                      variant="ghost"
-                      className="flex w-full items-center justify-start gap-2"
-                      size="sm"
-                      asChild
-                    >
-                      <Link href={`/profile/${friendId}`}>
-                        <UserIcon className="h-4 w-4" />
-                        Voir l&apos;utilisateur
-                      </Link>
-                    </Button>
-
-                    <Button
-                      variant="ghost"
-                      className="flex w-full items-center justify-start gap-2"
-                      size="sm"
-                      onClick={acceptFriend}
-                    >
-                      <CheckIcon className="h-4 w-4" />
-                      Accepter la demande
-                    </Button>
-
-                    <Button
-                      variant="ghost"
-                      className="flex w-full items-center justify-start gap-2"
-                      size="sm"
-                      onClick={rejectFriend}
-                    >
-                      <XIcon className="h-4 w-4" />
-                      Refuser la demande
-                    </Button>
-                  </React.Fragment>
-                )}
-
-                {(notificationCategory === "new_summary" ||
-                  notificationCategory === "friend_read_summary" ||
-                  notificationCategory === "friend_saved_summary") && (
-                  <Button
-                    variant="ghost"
-                    className="flex w-full items-center justify-start gap-2"
-                    size="sm"
-                    asChild
-                  >
-                    <Link href={`/summary/${authorSlug}/${summarySlug}`}>
-                      <BookIcon className="h-4 w-4" />
-                      Lire le résumé
-                    </Link>
-                  </Button>
-                )}
-
-                {(notificationCategory === "friend_saved_summary" ||
-                  notificationCategory === "friend_read_summary") && (
-                  <Button
-                    variant="ghost"
-                    className="flex w-full items-center justify-start gap-2"
-                    size="sm"
-                    asChild
-                  >
-                    <Link href={`/profile/${friendId}`}>
-                      <UserIcon className="h-4 w-4" />
-                      Voir votre ami
-                    </Link>
-                  </Button>
-                )}
-
-                {notificationCategory === "flashcards_due" && (
-                  <Button
-                    variant="ghost"
-                    className="flex w-full items-center justify-start gap-2"
-                    size="sm"
-                    asChild
-                  >
-                    <Link href={`/learn`}>
-                      <GraduationCapIcon className="h-4 w-4" />
-                      Apprendre
-                    </Link>
-                  </Button>
-                )}
-
-                {!notification.is_read ? (
-                  <Button
-                    variant="ghost"
-                    className="flex w-full items-center justify-start gap-2"
-                    size="sm"
-                    onClick={() => markAsReadNotif(notification.id)}
-                  >
-                    <EyeIcon className="h-4 w-4" />
-                    Marquer comme lu
-                  </Button>
-                ) : (
-                  <Button
-                    variant="ghost"
-                    className="flex w-full items-center justify-start gap-2"
-                    size="sm"
-                    onClick={() => markAsUnreadNotif(notification.id)}
-                  >
-                    <EyeOffIcon className="h-4 w-4" />
-                    Marquer comme non lu
-                  </Button>
-                )}
-
-                <Button
-                  variant="ghost"
-                  className="flex w-full items-center justify-start gap-2"
-                  size="sm"
-                  onClick={() => deleteNotif(notification.id)}
-                >
-                  <TrashIcon className="h-4 w-4" />
-                  Supprimer
-                </Button>
-              </div>
-            </PopoverContent>
-          </Popover>
+            <Muted size="xs">{formattedDate}</Muted>
+          </div>
         </div>
+      </PopoverTrigger>
 
-        <Muted size="xs">{formattedDate}</Muted>
-      </div>
-    </div>
+      <PopoverContent className="-mr-8 max-w-fit p-2" align="start">
+        <div className="flex flex-col items-start gap-2">
+          {notificationCategory === "friend_request" && (
+            <React.Fragment>
+              <Button
+                variant="ghost"
+                className="flex w-full items-center justify-start gap-2"
+                size="sm"
+                asChild
+              >
+                <Link href={`/profile/${friendId}`}>
+                  <UserIcon className="h-4 w-4" />
+                  Voir l&apos;utilisateur
+                </Link>
+              </Button>
+
+              <Button
+                variant="ghost"
+                className="flex w-full items-center justify-start gap-2"
+                size="sm"
+                onClick={acceptFriend}
+              >
+                <CheckIcon className="h-4 w-4" />
+                Accepter la demande
+              </Button>
+
+              <Button
+                variant="ghost"
+                className="flex w-full items-center justify-start gap-2"
+                size="sm"
+                onClick={rejectFriend}
+              >
+                <XIcon className="h-4 w-4" />
+                Refuser la demande
+              </Button>
+            </React.Fragment>
+          )}
+
+          {(notificationCategory === "new_summary" ||
+            notificationCategory === "friend_read_summary" ||
+            notificationCategory === "friend_saved_summary") && (
+            <Button
+              variant="ghost"
+              className="flex w-full items-center justify-start gap-2"
+              size="sm"
+              asChild
+            >
+              <Link href={`/summary/${authorSlug}/${summarySlug}`}>
+                <BookIcon className="h-4 w-4" />
+                Lire le résumé
+              </Link>
+            </Button>
+          )}
+
+          {(notificationCategory === "friend_saved_summary" ||
+            notificationCategory === "friend_read_summary") && (
+            <Button
+              variant="ghost"
+              className="flex w-full items-center justify-start gap-2"
+              size="sm"
+              asChild
+            >
+              <Link href={`/profile/${friendId}`}>
+                <UserIcon className="h-4 w-4" />
+                Voir votre ami
+              </Link>
+            </Button>
+          )}
+
+          {notificationCategory === "flashcards_due" && (
+            <Button
+              variant="ghost"
+              className="flex w-full items-center justify-start gap-2"
+              size="sm"
+              asChild
+            >
+              <Link href={`/learn`}>
+                <GraduationCapIcon className="h-4 w-4" />
+                Apprendre
+              </Link>
+            </Button>
+          )}
+
+          {!notification.is_read ? (
+            <Button
+              variant="ghost"
+              className="flex w-full items-center justify-start gap-2"
+              size="sm"
+              onClick={() => markAsReadNotif(notification.id)}
+            >
+              <EyeIcon className="h-4 w-4" />
+              Marquer comme lu
+            </Button>
+          ) : (
+            <Button
+              variant="ghost"
+              className="flex w-full items-center justify-start gap-2"
+              size="sm"
+              onClick={() => markAsUnreadNotif(notification.id)}
+            >
+              <EyeOffIcon className="h-4 w-4" />
+              Marquer comme non lu
+            </Button>
+          )}
+
+          <Button
+            variant="ghost"
+            className="flex w-full items-center justify-start gap-2"
+            size="sm"
+            onClick={() => deleteNotif(notification.id)}
+          >
+            <TrashIcon className="h-4 w-4" />
+            Supprimer
+          </Button>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
