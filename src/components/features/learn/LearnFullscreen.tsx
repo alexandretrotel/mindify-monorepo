@@ -38,11 +38,17 @@ export default function LearnFullscreen({
   } = React.useContext(FlashcardContext);
 
   React.useEffect(() => {
-    if (totalLength > 0 && (isOpenFlashcardScreen || !isMounted)) {
+    if (totalLength > 0 && !isMounted) {
       setInitialTotalLength(totalLength);
       setIsMounted(true);
     }
-  }, [isMounted, totalLength, isOpenFlashcardScreen]);
+  }, [isMounted, totalLength]);
+
+  React.useEffect(() => {
+    if (!isOpenFlashcardScreen) {
+      setIsMounted(false);
+    }
+  }, [isOpenFlashcardScreen]);
 
   if (areMindsLoading) {
     return (
