@@ -49,7 +49,7 @@ export default function MobileNavbar({
       icon: <BookIcon />
     },
     {
-      name: "Profile",
+      name: "Profil",
       href: `/profile/${userId}`,
       icon: <UserIcon />,
       condition: isConnected
