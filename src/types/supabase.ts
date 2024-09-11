@@ -245,6 +245,80 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          created_at: string
+          friend_id: string | null
+          id: number
+          is_archived: boolean
+          is_read: boolean
+          link_url: string | null
+          message: string
+          mind_id: number | null
+          summary_id: number | null
+          type: Database["public"]["Enums"]["notifications_type"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          friend_id?: string | null
+          id?: number
+          is_archived: boolean
+          is_read?: boolean
+          link_url?: string | null
+          message: string
+          mind_id?: number | null
+          summary_id?: number | null
+          type: Database["public"]["Enums"]["notifications_type"]
+          updated_at: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          friend_id?: string | null
+          id?: number
+          is_archived?: boolean
+          is_read?: boolean
+          link_url?: string | null
+          message?: string
+          mind_id?: number | null
+          summary_id?: number | null
+          type?: Database["public"]["Enums"]["notifications_type"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_friend_id_fkey"
+            columns: ["friend_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_mind_id_fkey"
+            columns: ["mind_id"]
+            isOneToOne: false
+            referencedRelation: "minds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_summary_id_fkey"
+            columns: ["summary_id"]
+            isOneToOne: false
+            referencedRelation: "summaries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       onboarding: {
         Row: {
           created_at: string
@@ -798,6 +872,7 @@ export type Database = {
         | "notifications"
         | "security"
         | "misc"
+      notifications_type: "flashcards_due" | "new_summary" | "friend_request"
       plan: "free" | "pro"
       source: "article" | "podcast" | "video" | "book"
       support_status: "not_started" | "in_progress" | "finished"
