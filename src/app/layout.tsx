@@ -1,3 +1,7 @@
+// Import global styles
+import "./globals.css";
+import "@radix-ui/themes/styles.css";
+
 import type { Metadata, Viewport } from "next";
 import { cn } from "@/lib/utils";
 import { Inter as FontSans } from "next/font/google";
@@ -14,10 +18,7 @@ import { Suspense } from "react";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
 import FlashcardProvider from "@/providers/FlashcardProvider";
-
-// Import global styles
-import "./globals.css";
-import "@radix-ui/themes/styles.css";
+import OnboardingProvider from "@/providers/OnboardingProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -141,14 +142,16 @@ export default async function RootLayout({
 
         <Suspense fallback={<Loading />}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <FlashcardProvider>
-              <StripeClient stripePromise={stripePromise}>
-                {children}
+            <OnboardingProvider>
+              <FlashcardProvider>
+                <StripeClient stripePromise={stripePromise}>
+                  {children}
 
-                <Sonner />
-                <Toaster />
-              </StripeClient>
-            </FlashcardProvider>
+                  <Sonner />
+                  <Toaster />
+                </StripeClient>
+              </FlashcardProvider>
+            </OnboardingProvider>
           </ThemeProvider>
         </Suspense>
 
