@@ -193,9 +193,7 @@ function NotificationItem({
               </button>
             </PopoverTrigger>
 
-            <PopoverContent className="-mr-8 flex max-w-fit flex-col gap-2 p-2" align="start">
-              <Semibold size="sm">Actions</Semibold>
-
+            <PopoverContent className="-mr-8 max-w-fit p-2" align="start">
               <div className="flex flex-col items-start gap-2">
                 {notificationCategory === "friend_request" && (
                   <React.Fragment>

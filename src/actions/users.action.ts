@@ -171,7 +171,6 @@ export async function getUsersData(usersIds: UUID[]) {
         const { data, error } = await supabaseAdmin.auth.admin.getUserById(userId);
 
         if (error) {
-          console.error(`Erreur en récupérant l'utilisateur ${userId}:`, error);
           return null;
         }
 
