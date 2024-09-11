@@ -193,9 +193,7 @@ function NotificationItem({
               </button>
             </PopoverTrigger>
 
-            <PopoverContent className="-mr-8 flex max-w-fit flex-col gap-2 p-2" align="start">
-              <Semibold size="sm">Actions</Semibold>
-
+            <PopoverContent className="-mr-8 max-w-fit p-2" align="start">
               <div className="flex flex-col items-start gap-2">
                 {notificationCategory === "friend_request" && (
                   <React.Fragment>
@@ -233,7 +231,9 @@ function NotificationItem({
                   </React.Fragment>
                 )}
 
-                {notificationCategory === "new_summary" && (
+                {(notificationCategory === "new_summary" ||
+                  notificationCategory === "friend_read_summary" ||
+                  notificationCategory === "friend_saved_summary") && (
                   <Button
                     variant="ghost"
                     className="flex w-full items-center justify-start gap-2"
@@ -243,6 +243,21 @@ function NotificationItem({
                     <Link href={`/summary/${authorSlug}/${summarySlug}`}>
                       <BookIcon className="h-4 w-4" />
                       Lire le résumé
+                    </Link>
+                  </Button>
+                )}
+
+                {(notificationCategory === "friend_saved_summary" ||
+                  notificationCategory === "friend_read_summary") && (
+                  <Button
+                    variant="ghost"
+                    className="flex w-full items-center justify-start gap-2"
+                    size="sm"
+                    asChild
+                  >
+                    <Link href={`/profile/${friendId}`}>
+                      <UserIcon className="h-4 w-4" />
+                      Voir votre ami
                     </Link>
                   </Button>
                 )}
