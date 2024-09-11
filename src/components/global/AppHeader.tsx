@@ -24,6 +24,7 @@ import {
   VideoIcon
 } from "lucide-react";
 import Notifications from "@/components/features/notifications/Notifications";
+import type { UUID } from "crypto";
 
 const links: {
   label: string;
@@ -144,11 +145,13 @@ ListItem.displayName = "ListItem";
 const AppHeader = ({
   children,
   isNotTransparent,
-  isNotFixed
+  isNotFixed,
+  userId
 }: {
   children: React.ReactNode;
   isNotTransparent?: boolean;
   isNotFixed?: boolean;
+  userId: UUID;
 }) => {
   return (
     <header
@@ -189,7 +192,7 @@ const AppHeader = ({
         </NavigationMenuList>
 
         <div className="flex items-center gap-4">
-          <Notifications />
+          <Notifications userId={userId} />
 
           {children}
         </div>

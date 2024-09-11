@@ -117,7 +117,7 @@ const Page = async ({
 
   return (
     <React.Fragment>
-      <AppHeader isNotTransparent isNotFixed>
+      <AppHeader userId={userId} isNotTransparent isNotFixed>
         <AccountDropdown userId={userId} userMetadata={userMetadata} isConnected={isConnected} />
       </AppHeader>
 

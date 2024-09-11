@@ -21,7 +21,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <React.Fragment>
-      <AppHeader>
+      <AppHeader userId={userId}>
         <AccountDropdown userId={userId} userMetadata={userMetadata} isConnected={isConnected} />
       </AppHeader>
 
