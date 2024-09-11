@@ -4,10 +4,10 @@ import "client-only";
 import React from "react";
 import type { Tables } from "@/types/supabase";
 import {
-  archiveNotification,
   deleteNotification,
   getNotifications,
-  markNotificationAsRead
+  markNotificationAsRead,
+  markNotificationAsUnread
 } from "@/actions/notifications.action";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@/utils/supabase/client";
@@ -16,7 +16,10 @@ export const NotificationContext = React.createContext({
   notifications: [] as Tables<"notifications">[],
   setNotifications: (notifications: Tables<"notifications">[]) => {},
   areNotificationsLoading: true,
-  setAreNotificationsLoading: (isLoading: boolean) => {}
+  setAreNotificationsLoading: (isLoading: boolean) => {},
+  markAsReadNotif: (notificationId: number) => {},
+  markAsUnreadNotif: (notificationId: number) => {},
+  deleteNotif: (notificationId: number) => {}
 });
 
 export default function NotificationsProvider({
@@ -87,7 +90,25 @@ export default function NotificationsProvider({
     async (notificationId: number) => {
       try {
         await markNotificationAsRead(notificationId);
+        setNotifications((notifications) =>
+          notifications.map((notification) => {
+            if (notification.id === notificationId) {
+              return { ...notification, is_read: true };
+            }
+
+            return notification;
+          })
+        );
       } catch (error) {
+        setNotifications((notifications) =>
+          notifications.map((notification) => {
+            if (notification.id === notificationId) {
+              return { ...notification, is_read: false };
+            }
+
+            return notification;
+          })
+        );
         toast({
           title: "Erreur",
           description: "Une erreur est survenue lors de la mise à jour de la notification",
@@ -98,14 +119,32 @@ export default function NotificationsProvider({
     [toast]
   );
 
-  const archiveNotif = React.useCallback(
+  const markAsUnreadNotif = React.useCallback(
     async (notificationId: number) => {
       try {
-        await archiveNotification(notificationId);
+        await markNotificationAsUnread(notificationId);
+        setNotifications((notifications) =>
+          notifications.map((notification) => {
+            if (notification.id === notificationId) {
+              return { ...notification, is_read: false };
+            }
+
+            return notification;
+          })
+        );
       } catch (error) {
+        setNotifications((notifications) =>
+          notifications.map((notification) => {
+            if (notification.id === notificationId) {
+              return { ...notification, is_read: true };
+            }
+
+            return notification;
+          })
+        );
         toast({
           title: "Erreur",
-          description: "Une erreur est survenue lors de l'archivage de la notification",
+          description: "Une erreur est survenue lors de la mise à jour de la notification",
           variant: "destructive"
         });
       }
@@ -117,7 +156,19 @@ export default function NotificationsProvider({
     async (notificationId: number) => {
       try {
         await deleteNotification(notificationId);
+        setNotifications((notifications) =>
+          notifications.filter((notification) => notification.id !== notificationId)
+        );
       } catch (error) {
+        setNotifications((notifications) =>
+          notifications.map((notification) => {
+            if (notification.id === notificationId) {
+              return { ...notification, is_archived: false };
+            }
+
+            return notification;
+          })
+        );
         toast({
           title: "Erreur",
           description: "Une erreur est survenue lors de la suppression de la notification",
@@ -135,10 +186,10 @@ export default function NotificationsProvider({
       areNotificationsLoading,
       setAreNotificationsLoading,
       markAsReadNotif,
-      archiveNotif,
-      deleteNotif
+      deleteNotif,
+      markAsUnreadNotif
     }),
-    [notifications, areNotificationsLoading, markAsReadNotif, archiveNotif, deleteNotif]
+    [notifications, areNotificationsLoading, markAsReadNotif, markAsUnreadNotif, deleteNotif]
   );
 
   return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;

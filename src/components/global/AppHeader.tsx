@@ -23,6 +23,7 @@ import {
   UsersRoundIcon,
   VideoIcon
 } from "lucide-react";
+import Notifications from "@/components/features/notifications/Notifications";
 
 const links: {
   label: string;
@@ -187,7 +188,11 @@ const AppHeader = ({
           ))}
         </NavigationMenuList>
 
-        <div className="flex items-center gap-4">{children}</div>
+        <div className="flex items-center gap-4">
+          <Notifications />
+
+          {children}
+        </div>
       </NavigationMenu>
     </header>
   );
