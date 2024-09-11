@@ -46,9 +46,10 @@ export async function getNotifications() {
 
   const { data: notifications, error } = await supabase
     .from("notifications")
-    .select("*")
-    .eq("is_archived", false)
+    .select("*, summaries(title, authors(name), topics(name))")
     .order("created_at", { ascending: false });
+
+  console.log(notifications);
 
   if (error) {
     console.error(error);

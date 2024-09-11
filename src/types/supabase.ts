@@ -250,42 +250,42 @@ export type Database = {
           created_at: string
           friend_id: string | null
           id: number
-          is_archived: boolean
           is_read: boolean
           link_url: string | null
           message: string
           mind_id: number | null
           summary_id: number | null
+          title: string
           type: Database["public"]["Enums"]["notifications_type"]
-          updated_at: string
+          updated_at: string | null
           user_id: string
         }
         Insert: {
           created_at?: string
           friend_id?: string | null
           id?: number
-          is_archived: boolean
           is_read?: boolean
           link_url?: string | null
           message: string
           mind_id?: number | null
           summary_id?: number | null
+          title: string
           type: Database["public"]["Enums"]["notifications_type"]
-          updated_at: string
+          updated_at?: string | null
           user_id: string
         }
         Update: {
           created_at?: string
           friend_id?: string | null
           id?: number
-          is_archived?: boolean
           is_read?: boolean
           link_url?: string | null
           message?: string
           mind_id?: number | null
           summary_id?: number | null
+          title?: string
           type?: Database["public"]["Enums"]["notifications_type"]
-          updated_at?: string
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: [
