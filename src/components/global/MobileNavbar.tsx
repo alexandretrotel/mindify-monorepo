@@ -35,7 +35,7 @@ export default function MobileNavbar({
   const menuItems = [
     {
       name: "Accueil",
-      href: "/",
+      href: !isConnected ? "/" : "/discover",
       icon: <HomeIcon />
     },
     {
