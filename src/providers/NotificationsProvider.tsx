@@ -27,9 +27,9 @@ export const NotificationContext = React.createContext({
   ) => {},
   areNotificationsLoading: true,
   setAreNotificationsLoading: (isLoading: boolean) => {},
-  markAsReadNotif: (notificationId: number) => {},
-  markAsUnreadNotif: (notificationId: number) => {},
-  deleteNotif: (notificationId: number) => {}
+  markAsReadNotif: async (notificationId: number) => {},
+  markAsUnreadNotif: async (notificationId: number) => {},
+  deleteNotif: async (notificationId: number) => {}
 });
 
 export default function NotificationsProvider({
