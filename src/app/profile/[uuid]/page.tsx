@@ -163,7 +163,7 @@ const Page = async ({
               <div className="flex items-center gap-2">
                 <div className="block md:hidden">
                   <Popover>
-                    <PopoverTrigger>
+                    <PopoverTrigger asChild>
                       <Button size="sm" variant="outline">
                         <EllipsisIcon className="h-4 w-4" />
                       </Button>
@@ -191,7 +191,7 @@ const Page = async ({
                   />
                 ) : (
                   <Dialog>
-                    <DialogTrigger>
+                    <DialogTrigger asChild>
                       <Button size="sm" disabled={!isConnected}>
                         Modifier mon profil
                       </Button>

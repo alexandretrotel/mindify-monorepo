@@ -20,7 +20,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
         </div>
 
         <TabsContent value="reads" className="w-full">
-          {profileReadsSummaries.length > 0 ? (
+          {profileReadsSummaries?.length > 0 ? (
             <LibrarySnippetClient summaries={profileReadsSummaries} />
           ) : (
             <div className="flex h-72 flex-col items-center justify-center gap-4 text-center">
@@ -30,7 +30,7 @@ const LibrarySnippet = async ({ profileId }: { profileId: UUID }) => {
         </TabsContent>
 
         <TabsContent value="saved">
-          {profileSavedSummaries.length > 0 ? (
+          {profileSavedSummaries?.length > 0 ? (
             <LibrarySnippetClient summaries={profileSavedSummaries} />
           ) : (
             <div className="flex h-72 flex-col items-center justify-center gap-4 text-center">

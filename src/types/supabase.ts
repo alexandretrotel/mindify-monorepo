@@ -882,6 +882,7 @@ export type Database = {
         | "friend_request"
         | "friend_read_summary"
         | "friend_saved_summary"
+        | "friend_request_accepted"
       plan: "free" | "pro"
       source: "article" | "podcast" | "video" | "book"
       support_status: "not_started" | "in_progress" | "finished"

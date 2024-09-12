@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 
-export default async function FlashcardSkeleton() {
+export default function FlashcardSkeleton() {
   return (
     <Card className="flex w-full min-w-80 max-w-md flex-col md:min-w-[28rem]">
       <div className="flex h-full min-h-96 flex-col justify-between gap-4">
