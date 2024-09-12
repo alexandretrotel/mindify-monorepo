@@ -32,7 +32,10 @@ import type { UUID } from "crypto";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 
-export default function Notifications({ userId }: Readonly<{ userId: UUID }>) {
+export default function Notifications({
+  userId,
+  isConnected
+}: Readonly<{ userId: UUID; isConnected: boolean }>) {
   const [filter, setFilter] = React.useState<"all" | "unread">("all");
 
   const { notifications } = React.useContext(NotificationContext);
@@ -43,7 +46,7 @@ export default function Notifications({ userId }: Readonly<{ userId: UUID }>) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="icon" className="relative">
+        <Button variant="outline" size="icon" className="relative" disabled={!isConnected}>
           <BellIcon className="h-4 w-4" />
           {unreadCount > 0 && (
             <Badge

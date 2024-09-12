@@ -146,12 +146,14 @@ const AppHeader = ({
   children,
   isNotTransparent,
   isNotFixed,
-  userId
+  userId,
+  isConnected
 }: {
   children: React.ReactNode;
   isNotTransparent?: boolean;
   isNotFixed?: boolean;
   userId: UUID;
+  isConnected: boolean;
 }) => {
   return (
     <header
@@ -192,7 +194,7 @@ const AppHeader = ({
         </NavigationMenuList>
 
         <div className="flex items-center gap-4">
-          <Notifications userId={userId} />
+          <Notifications userId={userId} isConnected={isConnected} />
 
           {children}
         </div>

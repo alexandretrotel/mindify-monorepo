@@ -38,7 +38,8 @@ export default function GlobalError({
             <Span primaryColor>Erreur</Span>
             <H1>Une erreur est survenue</H1>
             <Muted>Essayez de recharger la page ou revenez plus tard.</Muted>
-            <div className="mt-10 flex items-center justify-center gap-6">
+
+            <div className="mt-10 grid grid-cols-2 gap-4">
               <Button onClick={reset}>Réessayer</Button>
 
               <Button variant="secondary">

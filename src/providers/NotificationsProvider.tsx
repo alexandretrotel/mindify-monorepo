@@ -11,6 +11,8 @@ import {
 } from "@/actions/notifications.action";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@/utils/supabase/client";
+import type { UUID } from "crypto";
+import { getUserId } from "@/actions/users.action";
 
 export const NotificationContext = React.createContext({
   notifications: [] as (Tables<"notifications"> & {
@@ -43,8 +45,18 @@ export default function NotificationsProvider({
     })[]
   >([]);
   const [areNotificationsLoading, setAreNotificationsLoading] = React.useState(true);
+  const [userId, setUserId] = React.useState<UUID | undefined>(undefined);
 
   const { toast } = useToast();
+
+  React.useEffect(() => {
+    const fetchUserId = async () => {
+      const userId = await getUserId();
+      setUserId(userId);
+    };
+
+    fetchUserId();
+  }, []);
 
   React.useEffect(() => {
     const fetchNotifications = async () => {
@@ -70,8 +82,10 @@ export default function NotificationsProvider({
       }
     };
 
-    fetchNotifications();
-  }, []);
+    if (userId) {
+      fetchNotifications();
+    }
+  }, [userId]);
 
   React.useEffect(() => {
     const supabase = createClient();
