@@ -188,9 +188,7 @@ function NotificationItem({
                 <P size="sm">{notification.message}</P>
               </div>
 
-              <button>
-                <EllipsisIcon className="h-4 w-4 fill-muted hover:fill-muted-foreground" />
-              </button>
+              <EllipsisIcon className="h-4 w-4 fill-muted hover:fill-muted-foreground" />
             </div>
 
             <Muted size="xs">{formattedDate}</Muted>

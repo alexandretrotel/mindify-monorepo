@@ -39,9 +39,7 @@ export default function GlobalError({
             <H1>Une erreur est survenue</H1>
             <Muted>Essayez de recharger la page ou revenez plus tard.</Muted>
             <div className="mt-10 flex items-center justify-center gap-6">
-              <Button asChild onClick={reset}>
-                Réessayer
-              </Button>
+              <Button onClick={reset}>Réessayer</Button>
 
               <Button variant="secondary">
                 <Link href="/">Retour à l&apos;accueil</Link>

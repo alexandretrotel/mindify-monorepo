@@ -40,7 +40,7 @@ const ResponsiveTooltip = ({
 
       <div className="block md:hidden">
         <Popover>
-          <PopoverTrigger>{children}</PopoverTrigger>
+          <PopoverTrigger asChild>{children}</PopoverTrigger>
           <PopoverContent side={side} align={align} className="max-w-sm">
             <Muted>{text}</Muted>
           </PopoverContent>
