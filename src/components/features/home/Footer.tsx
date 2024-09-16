@@ -19,10 +19,7 @@ export default function Footer({
   isConnected
 }: Readonly<{ userId: UUID; isConnected: boolean }>) {
   const navigation = {
-    discover: [
-      { name: "Accueil", href: "/" },
-      { name: "Utilisateurs", href: "/users" }
-    ],
+    discover: [{ name: "Utilisateurs", href: "/users" }],
     support: [
       {
         component: (
