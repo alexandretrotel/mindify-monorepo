@@ -86,7 +86,7 @@ export default function Pricing({ isConnected }: Readonly<{ isConnected: boolean
             <CardFooter>
               {isConnected ? (
                 <Button className="w-full" variant={"outline"} asChild>
-                  <Link href="/discover">Découvrir des résumés</Link>
+                  <Link href="/library">Découvrir les résumés</Link>
                 </Button>
               ) : (
                 <Button className="w-full" variant={"outline"} asChild>

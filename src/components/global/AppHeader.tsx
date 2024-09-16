@@ -29,6 +29,7 @@ import type { UUID } from "crypto";
 const links: {
   label: string;
   trigger?: boolean;
+  enabled?: boolean;
   href?: string;
   children?: {
     href: string;
@@ -40,6 +41,7 @@ const links: {
   {
     label: "Découvrir",
     trigger: true,
+    enabled: false,
     children: [
       {
         href: "/discover",
@@ -64,6 +66,7 @@ const links: {
   {
     label: "Librairie",
     trigger: true,
+    enabled: false,
     children: [
       {
         href: "/library",
@@ -96,7 +99,9 @@ const links: {
         icon: <BookmarkIcon className="h-4 w-4" />
       }
     ]
-  }
+  },
+  { label: "Librairie", href: "/library", enabled: true },
+  { label: "Apprendre", href: "/learn", enabled: true }
 ];
 
 type ListItemProps = {
@@ -163,31 +168,35 @@ const AppHeader = ({
         <NavigationMenuList>
           {links?.map((link) => (
             <NavigationMenuItem key={link.label}>
-              {link.trigger ? (
+              {link.enabled && (
                 <React.Fragment>
-                  <NavigationMenuTrigger>{link.label}</NavigationMenuTrigger>
-                  <NavigationMenuContent className="max-w-xs md:max-w-2xl">
-                    <ul className="grid w-full gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                      {link.children?.map((child, index) => (
-                        <ListItem
-                          key={child.href}
-                          href={child.href}
-                          title={child.label}
-                          icon={child.icon}
-                          lastItem={index === (link?.children?.length as number) - 1}
-                        >
-                          {child.description}
-                        </ListItem>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
+                  {link.trigger ? (
+                    <React.Fragment>
+                      <NavigationMenuTrigger>{link.label}</NavigationMenuTrigger>
+                      <NavigationMenuContent className="max-w-xs md:max-w-2xl">
+                        <ul className="grid w-full gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                          {link.children?.map((child, index) => (
+                            <ListItem
+                              key={child.href}
+                              href={child.href}
+                              title={child.label}
+                              icon={child.icon}
+                              lastItem={index === (link?.children?.length as number) - 1}
+                            >
+                              {child.description}
+                            </ListItem>
+                          ))}
+                        </ul>
+                      </NavigationMenuContent>
+                    </React.Fragment>
+                  ) : (
+                    <Link key={link.label} href={link?.href ?? ""} legacyBehavior passHref>
+                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                        {link.label}
+                      </NavigationMenuLink>
+                    </Link>
+                  )}
                 </React.Fragment>
-              ) : (
-                <Link key={link.label} href={link?.href ?? ""} legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    {link.label}
-                  </NavigationMenuLink>
-                </Link>
               )}
             </NavigationMenuItem>
           ))}
