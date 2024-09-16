@@ -35,7 +35,6 @@ export default function GlobalError({
       <body>
         <main className="flex h-screen min-h-full items-center justify-center px-4">
           <div className="text-center">
-            <Span primaryColor>Erreur</Span>
             <H1>Une erreur est survenue</H1>
             <Muted>Essayez de recharger la page ou revenez plus tard.</Muted>
 
