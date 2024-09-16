@@ -44,11 +44,6 @@ export default function MobileNavbar({
       icon: <GraduationCapIcon />
     },
     {
-      name: "Librairie",
-      href: "/library",
-      icon: <BookIcon />
-    },
-    {
       name: "Profil",
       href: `/profile/${userId}`,
       icon: <UserIcon />,
