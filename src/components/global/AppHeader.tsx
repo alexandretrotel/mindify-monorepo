@@ -31,6 +31,7 @@ const links: {
   trigger?: boolean;
   enabled?: boolean;
   href?: string;
+  icon?: React.ReactNode;
   children?: {
     href: string;
     label: string;
@@ -100,8 +101,13 @@ const links: {
       }
     ]
   },
-  { label: "Librairie", href: "/library", enabled: true },
-  { label: "Apprendre", href: "/learn", enabled: true }
+  { label: "Librairie", href: "/library", enabled: true, icon: <BookIcon className="h-4 w-4" /> },
+  {
+    label: "Apprendre",
+    href: "/learn",
+    enabled: true,
+    icon: <GraduationCapIcon className="h-4 w-4" />
+  }
 ];
 
 type ListItemProps = {
@@ -192,7 +198,10 @@ const AppHeader = ({
                   ) : (
                     <Link key={link.label} href={link?.href ?? ""} legacyBehavior passHref>
                       <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                        {link.label}
+                        <span className="flex items-center gap-1">
+                          {link.icon}
+                          {link.label}
+                        </span>
                       </NavigationMenuLink>
                     </Link>
                   )}
