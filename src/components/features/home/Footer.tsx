@@ -19,6 +19,10 @@ export default function Footer({
   isConnected
 }: Readonly<{ userId: UUID; isConnected: boolean }>) {
   const navigation = {
+    discover: [
+      { name: "Accueil", href: "/" },
+      { name: "Utilisateurs", href: "/users" }
+    ],
     support: [
       {
         component: (
@@ -128,6 +132,22 @@ export default function Footer({
           </div>
 
           <div className="flex w-full flex-col items-start justify-evenly gap-8 md:flex-row md:gap-16">
+            <div className="flex flex-col gap-4">
+              <Semibold>Découvrir</Semibold>
+              <ul className="flex flex-col gap-4">
+                {navigation.discover.map((item, index) => (
+                  <li key={index}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-muted-foreground hover:text-black dark:hover:text-white"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <div className="flex flex-col gap-4">
               <Semibold>Support</Semibold>
               <ul className="flex flex-col gap-4">
