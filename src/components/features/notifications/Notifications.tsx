@@ -26,7 +26,7 @@ import P from "@/components/typography/p";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Muted } from "@/components/typography/muted";
-import { useToast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 import { acceptFriendRequest, rejectFriendRequest } from "@/actions/friends.action";
 import type { UUID } from "crypto";
 import Link from "next/link";
@@ -38,10 +38,25 @@ export default function Notifications({
 }: Readonly<{ userId: UUID; isConnected: boolean }>) {
   const [filter, setFilter] = React.useState<"all" | "unread">("all");
 
-  const { notifications } = React.useContext(NotificationContext);
+  const { toast } = useToast();
+
+  const { notifications, markAllNotifAsRead } = React.useContext(NotificationContext);
 
   const unreadNotifications = notifications?.filter((n) => !n.is_read);
   const unreadCount = notifications?.filter((n) => !n.is_read).length;
+
+  const markAllAsRead = async () => {
+    try {
+      await markAllNotifAsRead();
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la mise à jour des notifications",
+        variant: "destructive"
+      });
+    }
+  };
 
   return (
     <Popover>
@@ -64,6 +79,17 @@ export default function Notifications({
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between gap-4 md:gap-16">
             <Semibold>Notifications</Semibold>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              className="flex items-center gap-2 text-xs"
+              onClick={() => {
+                markAllAsRead();
+              }}
+            >
+              Marquer tout comme lu
+            </Button>
           </div>
 
           <Tabs

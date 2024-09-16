@@ -65,3 +65,14 @@ export async function getNotifications() {
 
   return notifications;
 }
+
+export async function markAllNotificationsAsRead() {
+  const supabase = createClient();
+
+  const { error } = await supabase.from("notifications").update({ is_read: true });
+
+  if (error) {
+    console.error(error);
+    throw new Error("Une erreur est survenue lors de la mise à jour des notifications");
+  }
+}
