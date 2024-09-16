@@ -57,7 +57,7 @@ const links: {
         icon: <GraduationCapIcon className="h-4 w-4" />
       },
       {
-        href: "/discover/users",
+        href: "/users",
         label: "Utilisateurs",
         description: "Cherchez vos amis et découvrez leurs lectures",
         icon: <UsersRoundIcon className="h-4 w-4" />
