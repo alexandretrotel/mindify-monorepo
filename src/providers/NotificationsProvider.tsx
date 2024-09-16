@@ -31,7 +31,8 @@ export const NotificationContext = React.createContext({
   setAreNotificationsLoading: (isLoading: boolean) => {},
   markAsReadNotif: async (notificationId: number) => {},
   markAsUnreadNotif: async (notificationId: number) => {},
-  deleteNotif: async (notificationId: number) => {}
+  deleteNotif: async (notificationId: number) => {},
+  markAllNotifAsRead: async () => {}
 });
 
 export default function NotificationsProvider({
@@ -213,6 +214,29 @@ export default function NotificationsProvider({
     [toast]
   );
 
+  const markAllNotifAsRead = React.useCallback(async () => {
+    try {
+      markAllNotifAsRead();
+
+      setNotifications((notifications) =>
+        notifications.map((notification) => {
+          return { ...notification, is_read: true };
+        })
+      );
+    } catch (error) {
+      setNotifications((notifications) =>
+        notifications.map((notification) => {
+          return { ...notification, is_read: false };
+        })
+      );
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la mise à jour des notifications",
+        variant: "destructive"
+      });
+    }
+  }, [toast]);
+
   const value = React.useMemo(
     () => ({
       notifications,
@@ -221,9 +245,17 @@ export default function NotificationsProvider({
       setAreNotificationsLoading,
       markAsReadNotif,
       deleteNotif,
-      markAsUnreadNotif
+      markAsUnreadNotif,
+      markAllNotifAsRead
     }),
-    [notifications, areNotificationsLoading, markAsReadNotif, markAsUnreadNotif, deleteNotif]
+    [
+      notifications,
+      areNotificationsLoading,
+      markAsReadNotif,
+      deleteNotif,
+      markAsUnreadNotif,
+      markAllNotifAsRead
+    ]
   );
 
   return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;

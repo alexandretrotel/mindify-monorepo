@@ -41,7 +41,7 @@ const Home = async () => {
     );
   }
 
-  redirect("/discover");
+  redirect("/library");
 };
 
 export default Home;

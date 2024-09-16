@@ -75,7 +75,7 @@ export async function signInWithPassword(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/discover");
+  redirect("/library");
 }
 
 export async function signInWithSocials(provider: SocialProvider) {

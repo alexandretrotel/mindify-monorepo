@@ -35,18 +35,13 @@ export default function MobileNavbar({
   const menuItems = [
     {
       name: "Accueil",
-      href: !isConnected ? "/" : "/discover",
+      href: !isConnected ? "/" : "/library",
       icon: <HomeIcon />
     },
     {
       name: "Apprendre",
       href: "/learn",
       icon: <GraduationCapIcon />
-    },
-    {
-      name: "Librairie",
-      href: "/library",
-      icon: <BookIcon />
     },
     {
       name: "Profil",
