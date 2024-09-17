@@ -1,26 +1,49 @@
 "use client";
 import "client-only";
 
-import { BookIcon, SearchIcon } from "lucide-react";
+import {
+  BookIcon,
+  GraduationCapIcon,
+  LaptopIcon,
+  MoonIcon,
+  SearchIcon,
+  SunIcon
+} from "lucide-react";
 import React from "react";
-import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import type { Tables } from "@/types/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { searchSummaries, searchUsers } from "@/actions/search.action";
-import Link from "next/link";
 import Span from "@/components/typography/span";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Command,
   CommandInput,
   CommandList,
   CommandEmpty,
   CommandGroup,
   CommandItem,
-  CommandSeparator
+  CommandSeparator,
+  CommandDialog
 } from "@/components/ui/command";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
+
+const links = [
+  { label: "Librairie", href: "/library", enabled: true, icon: <BookIcon className="h-4 w-4" /> },
+  {
+    label: "Apprendre",
+    href: "/learn",
+    enabled: true,
+    icon: <GraduationCapIcon className="h-4 w-4" />
+  },
+  {
+    label: "Utilisateurs",
+    href: "/users",
+    enabled: true,
+    icon: <GraduationCapIcon className="h-4 w-4" />
+  }
+];
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = React.useState<T>(value);
@@ -41,25 +64,26 @@ function useDebounce<T>(value: T, delay: number): T {
 export default function SearchBarHeader() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [searchResults, setSearchResults] = React.useState<{
-    users: { id: string; name: string; email: string; avatar: string }[];
+    users: { id: string; name: string; avatar: string }[];
     summaries: (Tables<"summaries"> & { authors: Tables<"authors"> })[];
   }>({
     users: [],
     summaries: []
   });
   const [isOpen, setIsOpen] = React.useState(false);
-
-  const searchRef = React.useRef<HTMLDivElement>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const [isSearching, setIsSearching] = React.useState(false);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   const { toast } = useToast();
   const router = useRouter();
+  const { setTheme } = useTheme();
 
   React.useEffect(() => {
     const performSearch = async () => {
       if (debouncedSearchQuery) {
+        setIsSearching(true);
+
         try {
           const [users, summaries] = await Promise.all([
             searchUsers(debouncedSearchQuery),
@@ -75,10 +99,11 @@ export default function SearchBarHeader() {
             description: "Une erreur est survenue lors de la recherche",
             variant: "destructive"
           });
+        } finally {
+          setIsSearching(false);
         }
       } else {
         setSearchResults({ users: [], summaries: [] });
-        setIsOpen(false);
       }
     };
 
@@ -86,104 +111,148 @@ export default function SearchBarHeader() {
   }, [debouncedSearchQuery, toast]);
 
   React.useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (searchRef.current && !(searchRef.current as HTMLElement).contains(event.target as Node)) {
-        setIsOpen(false);
+    const down = (e: KeyboardEvent) => {
+      if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || e.key === "/") {
+        if (
+          (e.target instanceof HTMLElement && e.target.isContentEditable) ||
+          e.target instanceof HTMLInputElement ||
+          e.target instanceof HTMLTextAreaElement ||
+          e.target instanceof HTMLSelectElement
+        ) {
+          return;
+        }
+
+        e.preventDefault();
+        setIsOpen((open) => !open);
       }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [searchRef]);
 
-  const handleOpenChange = (open: boolean) => {
-    setIsOpen(open);
-    if (open && inputRef.current) {
-      inputRef.current.focus();
-    }
-  };
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
 
   const runCommand = React.useCallback((command: () => unknown) => {
     setIsOpen(false);
     command();
   }, []);
 
-  return (
-    <div className="flex w-full items-center justify-center" ref={searchRef}>
-      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-        <DialogTrigger asChild>
-          <div className="relative w-full md:max-w-[400px] lg:max-w-[500px]">
-            <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Rechercher un résumé, un utilisateur, un auteur, etc..."
-              className="w-full rounded-lg bg-background pl-8"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              ref={inputRef}
-            />
-          </div>
-        </DialogTrigger>
+  React.useEffect(() => {
+    console.log(searchResults);
+  }, [searchResults]);
 
-        <DialogContent className="w-[400px] max-w-xs p-0 md:max-w-lg">
-          <Command>
-            <CommandInput
-              placeholder="Rechercher un résumé, un utilisateur, etc..."
-              value={searchQuery}
-              onValueChange={setSearchQuery}
-            />
-            <CommandList>
-              {searchResults.users.length === 0 && searchResults.summaries.length === 0 ? (
-                <CommandEmpty>Aucun résultat</CommandEmpty>
-              ) : (
-                <React.Fragment>
-                  {searchResults.users.length > 0 && (
-                    <CommandGroup heading="Utilisateurs">
-                      {searchResults.users.map((user) => (
+  return (
+    <div className="flex w-full items-center justify-center">
+      <Button
+        variant="outline"
+        className={cn(
+          "relative h-8 w-full justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none sm:pr-12"
+        )}
+        onClick={() => setIsOpen(true)}
+      >
+        <SearchIcon className="mr-2 h-4 w-4" />
+        <span className="hidden lg:inline-flex">Rechercher un résumé, un utilisateur, etc...</span>
+        <span className="inline-flex lg:hidden">Rechercher...</span>
+        <kbd className="pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+          <span className="text-xs">⌘</span>K
+        </kbd>
+      </Button>
+
+      <CommandDialog open={isOpen} onOpenChange={setIsOpen}>
+        <CommandInput
+          placeholder="Rechercher un résumé, un utilisateur, etc..."
+          value={searchQuery}
+          onValueChange={setSearchQuery}
+        />
+
+        {isSearching ? (
+          <div className="flex h-20 w-full items-center justify-center">
+            <Span size="sm">Recherche en cours...</Span>
+          </div>
+        ) : (
+          <CommandList>
+            <CommandGroup heading="Navigation">
+              {links?.map((link) => {
+                if (!link.enabled) return null;
+
+                return (
+                  <CommandItem
+                    key={link.label}
+                    onSelect={() => runCommand(() => router.push(link.href))}
+                    className="flex items-center gap-2"
+                  >
+                    {link.icon}
+                    <Span size="sm">{link.label}</Span>
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+
+            {searchResults.users.length === 0 && searchResults.summaries.length === 0 ? (
+              <CommandEmpty>Aucun résultat</CommandEmpty>
+            ) : (
+              <React.Fragment>
+                {searchResults.users.length > 0 && (
+                  <CommandGroup heading="Utilisateurs">
+                    {searchResults.users.map((user) => (
+                      <CommandItem
+                        key={user.id}
+                        value={user.name}
+                        onSelect={() => runCommand(() => router.push(`/profile/${user.id}`))}
+                        className="flex items-center gap-2"
+                      >
+                        <Avatar className="h-6 w-6">
+                          <AvatarImage src={user.avatar} alt={user.name} />
+                          <AvatarFallback>{user.name[0]}</AvatarFallback>
+                        </Avatar>
+                        <Span size="sm">{user.name}</Span>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                )}
+
+                {searchResults.summaries.length > 0 && (
+                  <React.Fragment>
+                    <CommandSeparator />
+                    <CommandGroup heading="Résumés">
+                      {searchResults.summaries.map((summary) => (
                         <CommandItem
-                          key={user.id}
-                          onSelect={() => runCommand(() => router.push(`/profile/${user.id}`))}
+                          key={summary.id}
+                          value={summary.title}
+                          onSelect={() =>
+                            runCommand(() =>
+                              router.push(`/summary/${summary.authors.slug}/${summary.slug}`)
+                            )
+                          }
                           className="flex items-center gap-2"
                         >
-                          <Avatar className="h-6 w-6">
-                            <AvatarImage src={user.avatar} alt={user.name} />
-                            <AvatarFallback>{user.name[0]}</AvatarFallback>
-                          </Avatar>
-                          <Span size="sm">{user.name}</Span>
+                          <BookIcon className="h-4 w-4" />
+                          <Span size="sm">{summary.title}</Span>
                         </CommandItem>
                       ))}
                     </CommandGroup>
-                  )}
+                  </React.Fragment>
+                )}
+              </React.Fragment>
+            )}
 
-                  {searchResults.summaries.length > 0 && (
-                    <>
-                      <CommandSeparator />
-                      <CommandGroup heading="Résumés">
-                        {searchResults.summaries.map((summary) => (
-                          <CommandItem
-                            key={summary.id}
-                            onSelect={() =>
-                              runCommand(() =>
-                                router.push(`/summary/${summary.authors.slug}/${summary.slug}`)
-                              )
-                            }
-                            className="flex items-center gap-2"
-                          >
-                            <BookIcon className="h-4 w-4" />
-                            <Span size="sm">{summary.title}</Span>
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </>
-                  )}
-                </React.Fragment>
-              )}
-            </CommandList>
-          </Command>
-        </DialogContent>
-      </Dialog>
+            <CommandSeparator />
+            <CommandGroup heading="Apparence">
+              <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
+                <SunIcon className="mr-2 h-4 w-4" />
+                Light
+              </CommandItem>
+              <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
+                <MoonIcon className="mr-2 h-4 w-4" />
+                Dark
+              </CommandItem>
+              <CommandItem onSelect={() => runCommand(() => setTheme("system"))}>
+                <LaptopIcon className="mr-2 h-4 w-4" />
+                System
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        )}
+      </CommandDialog>
     </div>
   );
 }

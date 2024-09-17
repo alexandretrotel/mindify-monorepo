@@ -13,7 +13,7 @@ export async function searchUsers(query: string) {
     return [];
   }
 
-  const users = data as { id: string; name: string; email: string; avatar: string }[];
+  const users = data as { id: string; name: string; avatar: string }[];
 
   return users;
 }

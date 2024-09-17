@@ -869,7 +869,6 @@ export type Database = {
         Returns: {
           id: string
           name: string
-          email: string
           avatar: string
         }[]
       }
