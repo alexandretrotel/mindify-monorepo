@@ -31,6 +31,8 @@ import { acceptFriendRequest, rejectFriendRequest } from "@/actions/friends.acti
 import type { UUID } from "crypto";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { useSwipeable } from "react-swipeable";
+import { motion } from "framer-motion";
 
 export default function Notifications({
   userId,
@@ -164,8 +166,9 @@ function NotificationItem({
   };
   userId: UUID;
 }>) {
-  const { markAsReadNotif, markAsUnreadNotif, deleteNotif } = React.useContext(NotificationContext);
+  const [swipeDirection, setSwipeDirection] = React.useState<"left" | "right" | null>(null);
 
+  const { markAsReadNotif, markAsUnreadNotif, deleteNotif } = React.useContext(NotificationContext);
   const { toast } = useToast();
 
   const notificationCategory: Enums<"notifications_type"> = notification.type;
@@ -204,133 +207,177 @@ function NotificationItem({
     }
   };
 
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      setSwipeDirection("left");
+      setTimeout(() => {
+        markAsReadNotif(notification.id);
+        setSwipeDirection(null);
+      }, 300);
+    },
+    onSwipedRight: () => {
+      setSwipeDirection("right");
+      setTimeout(() => {
+        deleteNotif(notification.id);
+        setSwipeDirection(null);
+      }, 300);
+    },
+    trackMouse: true
+  });
+
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <div
-          className={`flex cursor-pointer flex-col gap-4 rounded-lg p-3 px-4 ${!notification.is_read ? "bg-muted/50" : ""}`}
-        >
-          <div className="flex flex-col gap-2">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex flex-col">
-                <Semibold size="sm">{notification.title}</Semibold>
-                <P size="sm">{notification.message}</P>
+    <div {...handlers} className="relative">
+      <motion.div
+        className="absolute inset-0 flex items-center justify-end bg-green-500 px-4"
+        initial={{ x: "100%" }}
+        animate={{ x: swipeDirection === "left" ? "0%" : "100%" }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        <EyeIcon className="h-6 w-6 text-white" />
+      </motion.div>
+
+      <motion.div
+        className="absolute inset-0 flex items-center justify-start bg-red-500 px-4"
+        initial={{ x: "-100%" }}
+        animate={{ x: swipeDirection === "right" ? "0%" : "-100%" }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        <TrashIcon className="h-6 w-6 text-white" />
+      </motion.div>
+
+      <motion.div
+        className={`relative ${notification.is_read ? "bg-popover" : "bg-muted"} rounded-lg p-3 px-4`}
+        animate={{
+          x: swipeDirection === "left" ? -75 : swipeDirection === "right" ? 75 : 0
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        <Popover>
+          <PopoverTrigger asChild>
+            <div className={`flex cursor-pointer flex-col gap-4`}>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-col">
+                    <Semibold size="sm">{notification.title}</Semibold>
+                    <P size="sm">{notification.message}</P>
+                  </div>
+
+                  <EllipsisIcon className="h-4 w-4 fill-muted hover:fill-muted-foreground" />
+                </div>
+
+                <Muted size="xs">{formattedDate}</Muted>
               </div>
-
-              <EllipsisIcon className="h-4 w-4 fill-muted hover:fill-muted-foreground" />
             </div>
+          </PopoverTrigger>
 
-            <Muted size="xs">{formattedDate}</Muted>
-          </div>
-        </div>
-      </PopoverTrigger>
+          <PopoverContent className="-mr-8 max-w-fit p-2" align="start">
+            <div className="flex flex-col items-start gap-2">
+              {(notificationCategory === "friend_saved_summary" ||
+                notificationCategory === "friend_read_summary" ||
+                notificationCategory === "friend_request" ||
+                notificationCategory === "friend_request_accepted") && (
+                <Button
+                  variant="ghost"
+                  className="flex w-full items-center justify-start gap-2"
+                  size="sm"
+                  asChild
+                >
+                  <Link href={`/profile/${friendId}`}>
+                    <UserIcon className="h-4 w-4" />
+                    Voir votre ami
+                  </Link>
+                </Button>
+              )}
 
-      <PopoverContent className="-mr-8 max-w-fit p-2" align="start">
-        <div className="flex flex-col items-start gap-2">
-          {(notificationCategory === "friend_saved_summary" ||
-            notificationCategory === "friend_read_summary" ||
-            notificationCategory === "friend_request" ||
-            notificationCategory === "friend_request_accepted") && (
-            <Button
-              variant="ghost"
-              className="flex w-full items-center justify-start gap-2"
-              size="sm"
-              asChild
-            >
-              <Link href={`/profile/${friendId}`}>
-                <UserIcon className="h-4 w-4" />
-                Voir votre ami
-              </Link>
-            </Button>
-          )}
+              {notificationCategory === "friend_request" && (
+                <React.Fragment>
+                  <Button
+                    variant="ghost"
+                    className="flex w-full items-center justify-start gap-2"
+                    size="sm"
+                    onClick={acceptFriend}
+                  >
+                    <CheckIcon className="h-4 w-4" />
+                    Accepter la demande
+                  </Button>
 
-          {notificationCategory === "friend_request" && (
-            <React.Fragment>
+                  <Button
+                    variant="ghost"
+                    className="flex w-full items-center justify-start gap-2"
+                    size="sm"
+                    onClick={rejectFriend}
+                  >
+                    <XIcon className="h-4 w-4" />
+                    Refuser la demande
+                  </Button>
+                </React.Fragment>
+              )}
+
+              {(notificationCategory === "new_summary" ||
+                notificationCategory === "friend_read_summary" ||
+                notificationCategory === "friend_saved_summary") && (
+                <Button
+                  variant="ghost"
+                  className="flex w-full items-center justify-start gap-2"
+                  size="sm"
+                  asChild
+                >
+                  <Link href={`/summary/${authorSlug}/${summarySlug}`}>
+                    <BookIcon className="h-4 w-4" />
+                    Lire le résumé
+                  </Link>
+                </Button>
+              )}
+
+              {notificationCategory === "flashcards_due" && (
+                <Button
+                  variant="ghost"
+                  className="flex w-full items-center justify-start gap-2"
+                  size="sm"
+                  asChild
+                >
+                  <Link href={`/learn`}>
+                    <GraduationCapIcon className="h-4 w-4" />
+                    Apprendre
+                  </Link>
+                </Button>
+              )}
+
+              {!notification.is_read ? (
+                <Button
+                  variant="ghost"
+                  className="flex w-full items-center justify-start gap-2"
+                  size="sm"
+                  onClick={() => markAsReadNotif(notification.id)}
+                >
+                  <EyeIcon className="h-4 w-4" />
+                  Marquer comme lu
+                </Button>
+              ) : (
+                <Button
+                  variant="ghost"
+                  className="flex w-full items-center justify-start gap-2"
+                  size="sm"
+                  onClick={() => markAsUnreadNotif(notification.id)}
+                >
+                  <EyeOffIcon className="h-4 w-4" />
+                  Marquer comme non lu
+                </Button>
+              )}
+
               <Button
                 variant="ghost"
                 className="flex w-full items-center justify-start gap-2"
                 size="sm"
-                onClick={acceptFriend}
+                onClick={() => deleteNotif(notification.id)}
               >
-                <CheckIcon className="h-4 w-4" />
-                Accepter la demande
+                <TrashIcon className="h-4 w-4" />
+                Supprimer
               </Button>
-
-              <Button
-                variant="ghost"
-                className="flex w-full items-center justify-start gap-2"
-                size="sm"
-                onClick={rejectFriend}
-              >
-                <XIcon className="h-4 w-4" />
-                Refuser la demande
-              </Button>
-            </React.Fragment>
-          )}
-
-          {(notificationCategory === "new_summary" ||
-            notificationCategory === "friend_read_summary" ||
-            notificationCategory === "friend_saved_summary") && (
-            <Button
-              variant="ghost"
-              className="flex w-full items-center justify-start gap-2"
-              size="sm"
-              asChild
-            >
-              <Link href={`/summary/${authorSlug}/${summarySlug}`}>
-                <BookIcon className="h-4 w-4" />
-                Lire le résumé
-              </Link>
-            </Button>
-          )}
-
-          {notificationCategory === "flashcards_due" && (
-            <Button
-              variant="ghost"
-              className="flex w-full items-center justify-start gap-2"
-              size="sm"
-              asChild
-            >
-              <Link href={`/learn`}>
-                <GraduationCapIcon className="h-4 w-4" />
-                Apprendre
-              </Link>
-            </Button>
-          )}
-
-          {!notification.is_read ? (
-            <Button
-              variant="ghost"
-              className="flex w-full items-center justify-start gap-2"
-              size="sm"
-              onClick={() => markAsReadNotif(notification.id)}
-            >
-              <EyeIcon className="h-4 w-4" />
-              Marquer comme lu
-            </Button>
-          ) : (
-            <Button
-              variant="ghost"
-              className="flex w-full items-center justify-start gap-2"
-              size="sm"
-              onClick={() => markAsUnreadNotif(notification.id)}
-            >
-              <EyeOffIcon className="h-4 w-4" />
-              Marquer comme non lu
-            </Button>
-          )}
-
-          <Button
-            variant="ghost"
-            className="flex w-full items-center justify-start gap-2"
-            size="sm"
-            onClick={() => deleteNotif(notification.id)}
-          >
-            <TrashIcon className="h-4 w-4" />
-            Supprimer
-          </Button>
-        </div>
-      </PopoverContent>
-    </Popover>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </motion.div>
+    </div>
   );
 }

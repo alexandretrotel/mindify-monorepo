@@ -29,7 +29,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
-import { DialogTitle } from "@/components/ui/dialog";
+import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 const links = [
@@ -139,6 +139,10 @@ export default function SearchBarHeader() {
     command();
   }, []);
 
+  React.useEffect(() => {
+    console.log(searchResults);
+  }, [searchResults]);
+
   return (
     <div className="flex w-full items-center justify-center">
       <Button
@@ -159,6 +163,7 @@ export default function SearchBarHeader() {
       <CommandDialog open={isOpen} onOpenChange={setIsOpen}>
         <VisuallyHidden>
           <DialogTitle>Rechercher</DialogTitle>
+          <DialogDescription>Rechercher un résumé, un utilisateur, etc...</DialogDescription>
         </VisuallyHidden>
         <CommandInput
           placeholder="Rechercher un résumé, un utilisateur, etc..."
@@ -166,105 +171,107 @@ export default function SearchBarHeader() {
           onValueChange={setSearchQuery}
         />
 
-        {isSearching ? (
-          <div className="flex h-20 w-full items-center justify-center">
-            <Span size="sm">Recherche en cours...</Span>
-          </div>
-        ) : (
-          <CommandList>
-            <CommandGroup heading="Navigation">
-              {links?.map((link) => {
-                if (!link.enabled) return null;
+        <CommandList>
+          {isSearching ? (
+            <div className="flex h-16 w-full items-center justify-center">
+              <Span size="sm">Recherche en cours...</Span>
+            </div>
+          ) : (
+            <React.Fragment>
+              <CommandGroup heading="Navigation">
+                {links?.map((link) => {
+                  if (!link.enabled) return null;
 
-                return (
-                  <CommandItem
-                    key={link.label}
-                    onSelect={() => runCommand(() => router.push(link.href))}
-                    className="!pointer-events-auto flex !cursor-pointer items-center gap-2 !opacity-100"
-                  >
-                    {link.icon}
-                    <Span size="sm">{link.label}</Span>
-                  </CommandItem>
-                );
-              })}
-            </CommandGroup>
+                  return (
+                    <CommandItem
+                      key={link.label}
+                      onSelect={() => runCommand(() => router.push(link.href))}
+                      className="!pointer-events-auto flex !cursor-pointer items-center gap-2 !opacity-100"
+                    >
+                      {link.icon}
+                      <Span size="sm">{link.label}</Span>
+                    </CommandItem>
+                  );
+                })}
+              </CommandGroup>
 
-            {searchResults.users.length === 0 && searchResults.summaries.length === 0 ? (
-              <CommandEmpty>Aucun résultat</CommandEmpty>
-            ) : (
-              <React.Fragment>
-                {searchResults.users.length > 0 && (
-                  <CommandGroup heading="Utilisateurs">
-                    {searchResults.users.map((user) => (
-                      <CommandItem
-                        key={user.id}
-                        value={user.name}
-                        onSelect={() => runCommand(() => router.push(`/profile/${user.id}`))}
-                        className="!pointer-events-auto flex !cursor-pointer items-center gap-2 !opacity-100"
-                      >
-                        <Avatar className="h-6 w-6">
-                          <AvatarImage src={user.avatar} alt={user.name} />
-                          <AvatarFallback>
-                            <UserIcon className="h-4 w-4" />
-                          </AvatarFallback>
-                        </Avatar>
-                        <Span size="sm">{user.name}</Span>
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                )}
-
-                {searchResults.summaries.length > 0 && (
-                  <React.Fragment>
-                    <CommandSeparator />
-                    <CommandGroup heading="Résumés">
-                      {searchResults.summaries.map((summary) => (
+              {searchResults?.users?.length === 0 && searchResults?.summaries?.length === 0 ? (
+                <CommandEmpty>Aucun résultat</CommandEmpty>
+              ) : (
+                <React.Fragment>
+                  {searchResults?.users?.length > 0 && (
+                    <CommandGroup heading="Utilisateurs">
+                      {searchResults?.users?.map((user) => (
                         <CommandItem
-                          key={summary.id}
-                          value={summary.title}
-                          onSelect={() =>
-                            runCommand(() =>
-                              router.push(`/summary/${summary.authors.slug}/${summary.slug}`)
-                            )
-                          }
+                          key={user.id}
+                          value={user.name}
+                          onSelect={() => runCommand(() => router.push(`/profile/${user.id}`))}
                           className="!pointer-events-auto flex !cursor-pointer items-center gap-2 !opacity-100"
                         >
-                          <BookIcon className="h-4 w-4" />
-                          <Span size="sm">{summary.title}</Span>
+                          <Avatar className="h-6 w-6">
+                            <AvatarImage src={user.avatar} alt={user.name} />
+                            <AvatarFallback>
+                              <UserIcon className="h-4 w-4" />
+                            </AvatarFallback>
+                          </Avatar>
+                          <Span size="sm">{user.name}</Span>
                         </CommandItem>
                       ))}
                     </CommandGroup>
-                  </React.Fragment>
-                )}
-              </React.Fragment>
-            )}
+                  )}
 
-            <CommandSeparator />
-            <CommandGroup heading="Apparence">
-              <CommandItem
-                onSelect={() => runCommand(() => setTheme("light"))}
-                className="!pointer-events-auto !cursor-pointer !opacity-100"
-              >
-                <SunIcon className="mr-2 h-4 w-4" />
-                Clair
-              </CommandItem>
-              <CommandItem
-                onSelect={() => runCommand(() => setTheme("dark"))}
-                className="!pointer-events-auto !cursor-pointer !opacity-100"
-              >
-                <MoonIcon className="mr-2 h-4 w-4" />
-                Sombre
-              </CommandItem>
-              <CommandItem
-                onSelect={() => runCommand(() => setTheme("system"))}
-                className="!pointer-events-auto !cursor-pointer !opacity-100"
-              >
-                <LaptopIcon className="mr-2 h-4 w-4" />
-                Système
-              </CommandItem>
-            </CommandGroup>
-          </CommandList>
-        )}
+                  {searchResults?.summaries?.length > 0 && (
+                    <React.Fragment>
+                      <CommandSeparator />
+                      <CommandGroup heading="Résumés">
+                        {searchResults?.summaries?.map((summary) => (
+                          <CommandItem
+                            key={summary.id}
+                            value={summary.title}
+                            onSelect={() =>
+                              runCommand(() =>
+                                router.push(`/summary/${summary.authors.slug}/${summary.slug}`)
+                              )
+                            }
+                            className="!pointer-events-auto flex !cursor-pointer items-center gap-2 !opacity-100"
+                          >
+                            <BookIcon className="h-4 w-4" />
+                            <Span size="sm">{summary.title}</Span>
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </React.Fragment>
+                  )}
+                </React.Fragment>
+              )}
+
+              <CommandSeparator />
+              <CommandGroup heading="Apparence">
+                <CommandItem
+                  onSelect={() => runCommand(() => setTheme("light"))}
+                  className="!pointer-events-auto !cursor-pointer !opacity-100"
+                >
+                  <SunIcon className="mr-2 h-4 w-4" />
+                  Clair
+                </CommandItem>
+                <CommandItem
+                  onSelect={() => runCommand(() => setTheme("dark"))}
+                  className="!pointer-events-auto !cursor-pointer !opacity-100"
+                >
+                  <MoonIcon className="mr-2 h-4 w-4" />
+                  Sombre
+                </CommandItem>
+                <CommandItem
+                  onSelect={() => runCommand(() => setTheme("system"))}
+                  className="!pointer-events-auto !cursor-pointer !opacity-100"
+                >
+                  <LaptopIcon className="mr-2 h-4 w-4" />
+                  Système
+                </CommandItem>
+              </CommandGroup>
+            </React.Fragment>
+          )}
+        </CommandList>
       </CommandDialog>
     </div>
   );
