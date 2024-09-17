@@ -862,6 +862,17 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      search_users: {
+        Args: {
+          search_query: string
+        }
+        Returns: {
+          id: string
+          name: string
+          email: string
+          avatar: string
+        }[]
+      }
       send_pending_friend_request_notifications: {
         Args: Record<PropertyKey, never>
         Returns: undefined
