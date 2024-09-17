@@ -20,11 +20,11 @@ export default function Span({
 }>) {
   return (
     <span
-      className={`${!!semibold && "font-semibold"} ${
+      className={`${semibold ? "font-semibold" : ""} ${
         isRed
           ? "text-red-500"
           : getPrimaryColor(primaryColor as boolean, onPrimaryBackground as boolean)
-      } ${!!center && "text-center"} ${getTextSizeClass(size as string)}`}
+      } ${center ? "text-center" : ""} ${getTextSizeClass(size as string)}`}
     >
       {children}
     </span>

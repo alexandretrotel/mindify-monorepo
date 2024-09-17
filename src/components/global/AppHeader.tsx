@@ -9,11 +9,11 @@ import {
   NavigationMenuLink,
   NavigationMenuList
 } from "@/components/ui/navigation-menu";
-import { BookIcon, GraduationCapIcon, SearchIcon } from "lucide-react";
+import { BookIcon, GraduationCapIcon } from "lucide-react";
 import Notifications from "@/components/features/notifications/Notifications";
 import type { UUID } from "crypto";
 import { usePathname } from "next/navigation";
-import { Input } from "@/components/ui/input";
+import SearchBarHeader from "@/components/global/SearchBarHeader";
 
 const links: {
   label: string;
@@ -78,18 +78,7 @@ const AppHeader = ({
             </NavigationMenuList>
           </div>
 
-          <div className="flex w-full items-center justify-center">
-            <div className="relative w-full md:max-w-[400px] lg:max-w-[500px]">
-              <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Rechercher un résumé, un utilisateur, un auteur, etc..."
-                disabled
-                aria-disabled="true"
-                className="w-full rounded-lg bg-background pl-8"
-              />
-            </div>
-          </div>
+          <SearchBarHeader />
 
           <div className="flex items-center justify-end gap-4">
             <Notifications userId={userId} isConnected={isConnected} />

@@ -26,7 +26,7 @@ import P from "@/components/typography/p";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Muted } from "@/components/typography/muted";
-import { toast, useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { acceptFriendRequest, rejectFriendRequest } from "@/actions/friends.action";
 import type { UUID } from "crypto";
 import Link from "next/link";

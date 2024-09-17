@@ -7,7 +7,8 @@ import {
   deleteNotification,
   getNotifications,
   markNotificationAsRead,
-  markNotificationAsUnread
+  markNotificationAsUnread,
+  markAllNotificationsAsRead
 } from "@/actions/notifications.action";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@/utils/supabase/client";
@@ -124,7 +125,6 @@ export default function NotificationsProvider({
   const markAsReadNotif = React.useCallback(
     async (notificationId: number) => {
       try {
-        await markNotificationAsRead(notificationId);
         setNotifications((notifications) =>
           notifications.map((notification) => {
             if (notification.id === notificationId) {
@@ -134,6 +134,7 @@ export default function NotificationsProvider({
             return notification;
           })
         );
+        await markNotificationAsRead(notificationId);
       } catch (error) {
         setNotifications((notifications) =>
           notifications.map((notification) => {
@@ -157,7 +158,6 @@ export default function NotificationsProvider({
   const markAsUnreadNotif = React.useCallback(
     async (notificationId: number) => {
       try {
-        await markNotificationAsUnread(notificationId);
         setNotifications((notifications) =>
           notifications.map((notification) => {
             if (notification.id === notificationId) {
@@ -167,6 +167,7 @@ export default function NotificationsProvider({
             return notification;
           })
         );
+        await markNotificationAsUnread(notificationId);
       } catch (error) {
         setNotifications((notifications) =>
           notifications.map((notification) => {
@@ -190,10 +191,10 @@ export default function NotificationsProvider({
   const deleteNotif = React.useCallback(
     async (notificationId: number) => {
       try {
-        await deleteNotification(notificationId);
         setNotifications((notifications) =>
           notifications.filter((notification) => notification.id !== notificationId)
         );
+        await deleteNotification(notificationId);
       } catch (error) {
         setNotifications((notifications) =>
           notifications.map((notification) => {
@@ -215,14 +216,16 @@ export default function NotificationsProvider({
   );
 
   const markAllNotifAsRead = React.useCallback(async () => {
-    try {
-      markAllNotifAsRead();
+    if (!userId) return;
 
+    try {
       setNotifications((notifications) =>
         notifications.map((notification) => {
           return { ...notification, is_read: true };
         })
       );
+
+      await markAllNotificationsAsRead(userId);
     } catch (error) {
       setNotifications((notifications) =>
         notifications.map((notification) => {
@@ -235,7 +238,7 @@ export default function NotificationsProvider({
         variant: "destructive"
       });
     }
-  }, [toast]);
+  }, [toast, userId]);
 
   const value = React.useMemo(
     () => ({

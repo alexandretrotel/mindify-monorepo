@@ -3,6 +3,7 @@ import "server-only";
 
 import type { Tables } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
+import type { UUID } from "crypto";
 
 export async function markNotificationAsRead(notificationId: number) {
   const supabase = createClient();
@@ -66,10 +67,13 @@ export async function getNotifications() {
   return notifications;
 }
 
-export async function markAllNotificationsAsRead() {
+export async function markAllNotificationsAsRead(userId: UUID) {
   const supabase = createClient();
 
-  const { error } = await supabase.from("notifications").update({ is_read: true });
+  const { error } = await supabase
+    .from("notifications")
+    .update({ is_read: true })
+    .eq("user_id", userId);
 
   if (error) {
     console.error(error);
