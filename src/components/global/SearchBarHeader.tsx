@@ -7,7 +7,8 @@ import {
   LaptopIcon,
   MoonIcon,
   SearchIcon,
-  SunIcon
+  SunIcon,
+  UserIcon
 } from "lucide-react";
 import React from "react";
 import type { Tables } from "@/types/supabase";
@@ -202,7 +203,9 @@ export default function SearchBarHeader() {
                       >
                         <Avatar className="h-6 w-6">
                           <AvatarImage src={user.avatar} alt={user.name} />
-                          <AvatarFallback>{user.name[0]}</AvatarFallback>
+                          <AvatarFallback>
+                            <UserIcon className="h-4 w-4" />
+                          </AvatarFallback>
                         </Avatar>
                         <Span size="sm">{user.name}</Span>
                       </CommandItem>
