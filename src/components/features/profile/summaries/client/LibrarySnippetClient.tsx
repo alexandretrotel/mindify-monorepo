@@ -81,7 +81,7 @@ const LibrarySnippetClient = ({
           </button>
 
           <PaginationContent>
-            {Array.from({ length: totalPages }).map((_, index) => {
+            {Array.from({ length: totalPages ?? 0 }).map((_, index) => {
               const isStart = index < 3;
               const isEnd = index >= totalPages - 1;
               const isCurrent = currentPage === index + 1;

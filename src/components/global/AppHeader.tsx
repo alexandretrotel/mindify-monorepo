@@ -2,7 +2,6 @@
 import "client-only";
 
 import React from "react";
-import Link from "next/link";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -65,13 +64,12 @@ const AppHeader = ({
 
                 return (
                   <NavigationMenuItem key={link.label}>
-                    <Link key={link.label} href={link.href}>
-                      <NavigationMenuLink
-                        className={`flex items-center gap-2 text-sm font-semibold hover:text-foreground ${pathname === link.href ? "text-foreground" : "text-muted-foreground"}`}
-                      >
-                        {link.label}
-                      </NavigationMenuLink>
-                    </Link>
+                    <NavigationMenuLink
+                      href={link.href}
+                      className={`flex items-center gap-2 text-sm font-semibold hover:text-foreground ${pathname === link.href ? "text-foreground" : "text-muted-foreground"}`}
+                    >
+                      {link.label}
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
                 );
               })}

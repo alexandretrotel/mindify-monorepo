@@ -29,6 +29,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import { DialogTitle } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 const links = [
   { label: "Librairie", href: "/library", enabled: true, icon: <BookIcon className="h-4 w-4" /> },
@@ -137,10 +139,6 @@ export default function SearchBarHeader() {
     command();
   }, []);
 
-  React.useEffect(() => {
-    console.log(searchResults);
-  }, [searchResults]);
-
   return (
     <div className="flex w-full items-center justify-center">
       <Button
@@ -159,6 +157,9 @@ export default function SearchBarHeader() {
       </Button>
 
       <CommandDialog open={isOpen} onOpenChange={setIsOpen}>
+        <VisuallyHidden>
+          <DialogTitle>Rechercher</DialogTitle>
+        </VisuallyHidden>
         <CommandInput
           placeholder="Rechercher un résumé, un utilisateur, etc..."
           value={searchQuery}
@@ -245,21 +246,21 @@ export default function SearchBarHeader() {
                 className="!pointer-events-auto !cursor-pointer !opacity-100"
               >
                 <SunIcon className="mr-2 h-4 w-4" />
-                Light
+                Clair
               </CommandItem>
               <CommandItem
                 onSelect={() => runCommand(() => setTheme("dark"))}
                 className="!pointer-events-auto !cursor-pointer !opacity-100"
               >
                 <MoonIcon className="mr-2 h-4 w-4" />
-                Dark
+                Sombre
               </CommandItem>
               <CommandItem
                 onSelect={() => runCommand(() => setTheme("system"))}
                 className="!pointer-events-auto !cursor-pointer !opacity-100"
               >
                 <LaptopIcon className="mr-2 h-4 w-4" />
-                System
+                Système
               </CommandItem>
             </CommandGroup>
           </CommandList>

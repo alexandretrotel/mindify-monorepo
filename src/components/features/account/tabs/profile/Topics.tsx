@@ -22,7 +22,9 @@ const Topics = ({
   topics: Tables<"topics">[];
   userTopics: Tables<"topics">[];
 }) => {
-  const [isLoading, setIsLoading] = useState(Array.from({ length: topics.length }, () => false));
+  const [isLoading, setIsLoading] = useState(
+    Array.from({ length: topics.length ?? 0 }, () => false)
+  );
   const [optimisticUserTopics, setOptimisticUserTopics] = useOptimistic<Tables<"topics">[], number>(
     userTopics,
     (state, topicId) => {
