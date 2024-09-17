@@ -178,7 +178,7 @@ export default function SearchBarHeader() {
                   <CommandItem
                     key={link.label}
                     onSelect={() => runCommand(() => router.push(link.href))}
-                    className="!cusor-pointer !pointer-events-auto flex items-center gap-2 !opacity-100"
+                    className="!pointer-events-auto flex !cursor-pointer items-center gap-2 !opacity-100"
                   >
                     {link.icon}
                     <Span size="sm">{link.label}</Span>
