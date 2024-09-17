@@ -178,7 +178,7 @@ export default function SearchBarHeader() {
                   <CommandItem
                     key={link.label}
                     onSelect={() => runCommand(() => router.push(link.href))}
-                    className="flex items-center gap-2"
+                    className="!cusor-pointer !pointer-events-auto flex items-center gap-2 !opacity-100"
                   >
                     {link.icon}
                     <Span size="sm">{link.label}</Span>
@@ -198,7 +198,7 @@ export default function SearchBarHeader() {
                         key={user.id}
                         value={user.name}
                         onSelect={() => runCommand(() => router.push(`/profile/${user.id}`))}
-                        className="flex items-center gap-2"
+                        className="!pointer-events-auto flex !cursor-pointer items-center gap-2 !opacity-100"
                       >
                         <Avatar className="h-6 w-6">
                           <AvatarImage src={user.avatar} alt={user.name} />
@@ -223,7 +223,7 @@ export default function SearchBarHeader() {
                               router.push(`/summary/${summary.authors.slug}/${summary.slug}`)
                             )
                           }
-                          className="flex items-center gap-2"
+                          className="!pointer-events-auto flex !cursor-pointer items-center gap-2 !opacity-100"
                         >
                           <BookIcon className="h-4 w-4" />
                           <Span size="sm">{summary.title}</Span>
@@ -237,15 +237,24 @@ export default function SearchBarHeader() {
 
             <CommandSeparator />
             <CommandGroup heading="Apparence">
-              <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
+              <CommandItem
+                onSelect={() => runCommand(() => setTheme("light"))}
+                className="!pointer-events-auto !cursor-pointer !opacity-100"
+              >
                 <SunIcon className="mr-2 h-4 w-4" />
                 Light
               </CommandItem>
-              <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
+              <CommandItem
+                onSelect={() => runCommand(() => setTheme("dark"))}
+                className="!pointer-events-auto !cursor-pointer !opacity-100"
+              >
                 <MoonIcon className="mr-2 h-4 w-4" />
                 Dark
               </CommandItem>
-              <CommandItem onSelect={() => runCommand(() => setTheme("system"))}>
+              <CommandItem
+                onSelect={() => runCommand(() => setTheme("system"))}
+                className="!pointer-events-auto !cursor-pointer !opacity-100"
+              >
                 <LaptopIcon className="mr-2 h-4 w-4" />
                 System
               </CommandItem>
