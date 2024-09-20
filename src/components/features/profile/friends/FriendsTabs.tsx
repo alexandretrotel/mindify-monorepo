@@ -3,6 +3,7 @@ import { UUID } from "crypto";
 import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { User } from "@supabase/supabase-js";
+import { FriendRequestObject } from "@/components/features/profile/friends/Friends";
 
 const FriendsTabs = async ({
   profileId,
@@ -26,12 +27,7 @@ const FriendsTabs = async ({
     requestedFriendsData: User[];
   };
   requestedFriends: User[];
-  friendRequestObject: {
-    userId: UUID;
-    isConnected: boolean;
-    pendingFriends: User[];
-    requestedFriends: User[];
-  };
+  friendRequestObject: FriendRequestObject;
   commonFriends: User[];
 }) => {
   const pendingFriends = friendRequestObject?.pendingFriends;

@@ -4,6 +4,13 @@ import type { UUID } from "crypto";
 import { getFriendsData } from "@/actions/friends.action";
 import type { User } from "@supabase/supabase-js";
 
+export type FriendRequestObject = {
+  userId: UUID;
+  isConnected: boolean;
+  pendingFriends: User[];
+  requestedFriends: User[];
+};
+
 export default async function ProfileFriends({
   profileId,
   profileName,
@@ -39,14 +46,7 @@ export default async function ProfileFriends({
 
   const requestedFriends = userFriends?.requestedFriendsData;
 
-  let friendRequestObject:
-    | {
-        userId: UUID;
-        isConnected: boolean;
-        pendingFriends: User[];
-        requestedFriends: User[];
-      }
-    | undefined = undefined;
+  let friendRequestObject: FriendRequestObject | undefined = undefined;
   let commonFriends: User[] = [];
   if (isMyProfile) {
     const pendingFriends = userFriends?.askedFriendsData;
@@ -76,14 +76,7 @@ export default async function ProfileFriends({
       userId={userId}
       profileFriends={profileFriends}
       requestedFriends={requestedFriends}
-      friendRequestObject={
-        friendRequestObject as {
-          userId: UUID;
-          isConnected: boolean;
-          pendingFriends: User[];
-          requestedFriends: User[];
-        }
-      }
+      friendRequestObject={friendRequestObject as FriendRequestObject}
       commonFriends={commonFriends}
     />
   );
