@@ -1,13 +1,10 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { getFriendsData } from "@/actions/friends.action";
 import { UUID } from "crypto";
 import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import FriendsSkeleton from "@/components/features/profile/friends/skeleton/FriendsSkeleton";
-import CommonFriends from "@/components/features/profile/friends/CommonFriends";
-import PendingFriends from "@/components/features/profile/friends/PendingFriends";
 
-const Friends = async ({
+const FriendsTabs = async ({
   profileId,
   profileName,
   isConnected,
@@ -38,44 +35,68 @@ const Friends = async ({
     );
   }
 
+  const userFriends = await getFriendsData(userId);
+
+  if (isMyProfile) {
+    const requestedFriends = userFriends?.requestedFriendsData;
+    const pendingFriends = userFriends?.askedFriendsData;
+
+    const requestedAndPendingFriends = requestedFriends.concat(pendingFriends);
+
+    const friendRequestObject = isMyProfile
+      ? {
+          userId,
+          isConnected,
+          pendingFriends,
+          requestedFriends
+        }
+      : undefined;
+
+    return (
+      <Tabs className="flex flex-col gap-4" defaultValue="all">
+        <TabsList className="flex w-fit">
+          <TabsTrigger value="all">Tous les amis</TabsTrigger>
+          <TabsTrigger value="pending">En attente</TabsTrigger>
+        </TabsList>
+
+        <div className="flex flex-col">
+          <TabsContent value="all">
+            <FriendsClient friends={profileFriends?.friendsData} />
+          </TabsContent>
+
+          <TabsContent value="pending">
+            <FriendsClient
+              friends={requestedAndPendingFriends}
+              friendRequestObject={friendRequestObject}
+            />
+          </TabsContent>
+        </div>
+      </Tabs>
+    );
+  }
+
+  const commonFriends = profileFriends?.friendsData?.filter((friend) => {
+    return userFriends?.friendsData?.find((userFriend) => userFriend?.id === friend?.id);
+  });
+
   return (
     <Tabs className="flex flex-col gap-4" defaultValue="all">
       <TabsList className="flex w-fit">
         <TabsTrigger value="all">Tous les amis</TabsTrigger>
-        {!isMyProfile && <TabsTrigger value="common">En commun</TabsTrigger>}
-        {isMyProfile && <TabsTrigger value="pending">En attente</TabsTrigger>}
+        <TabsTrigger value="common">En commun</TabsTrigger>
       </TabsList>
 
       <div className="flex flex-col">
         <TabsContent value="all">
-          <Suspense fallback={<FriendsSkeleton />}>
-            <FriendsClient friends={profileFriends?.friendsData} />
-          </Suspense>
+          <FriendsClient friends={profileFriends?.friendsData} />
         </TabsContent>
 
-        {!isMyProfile && (
-          <TabsContent value="common">
-            <Suspense fallback={<FriendsSkeleton />}>
-              <CommonFriends userId={userId} friends={profileFriends?.friendsData} />
-            </Suspense>
-          </TabsContent>
-        )}
-
-        {isMyProfile && (
-          <TabsContent value="pending">
-            <Suspense fallback={<FriendsSkeleton />}>
-              <PendingFriends
-                userId={userId}
-                userFriends={profileFriends}
-                isConnected={isConnected}
-                isMyProfile={isMyProfile}
-              />
-            </Suspense>
-          </TabsContent>
-        )}
+        <TabsContent value="common">
+          <FriendsClient friends={commonFriends} />
+        </TabsContent>
       </div>
     </Tabs>
   );
 };
 
-export default Friends;
+export default FriendsTabs;

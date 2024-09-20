@@ -5,7 +5,7 @@ import { UUID } from "crypto";
 import React, { Suspense } from "react";
 import Image from "next/image";
 import FriendshipButton from "@/components/features/profile/header/FriendshipButton";
-import Friends from "@/components/features/profile/friends/FriendsTabs";
+import FriendsTabs from "@/components/features/profile/friends/FriendsTabs";
 import ReadingStreak from "@/components/features/profile/header/ReadingStreak";
 import LibrarySnippet from "@/components/features/profile/summaries/LibrarySnippet";
 import LibrarySnippetSkeleton from "@/components/features/profile/summaries/skeleton/LibrarySnippetSkeleton";
@@ -291,7 +291,7 @@ const Page = async ({
               </Suspense>
 
               <Suspense fallback={<FriendsTabsSkeleton isMyProfile={isMyProfile} />}>
-                <Friends
+                <FriendsTabs
                   profileId={profileId}
                   profileName={profileMetadata?.name}
                   isConnected={isConnected}
