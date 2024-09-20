@@ -334,7 +334,10 @@ export async function getUserReadSummaries(userId: UUID) {
     author_slug: readData?.summaries?.authors?.slug
   }));
 
-  return userReadSummaries;
+  return userReadSummaries as (Tables<"summaries"> & { topic: string; author_slug: string } & {
+    topics: Tables<"topics">;
+    authors: Tables<"authors">;
+  })[];
 }
 
 export async function getUserSavedSummaries(userId: UUID) {
@@ -353,7 +356,10 @@ export async function getUserSavedSummaries(userId: UUID) {
     author_slug: readData?.summaries?.authors?.slug
   }));
 
-  return userSavedSummaries;
+  return userSavedSummaries as (Tables<"summaries"> & { topic: string; author_slug: string } & {
+    topics: Tables<"topics">;
+    authors: Tables<"authors">;
+  })[];
 }
 
 export async function getUserTopics(user_id: UUID) {

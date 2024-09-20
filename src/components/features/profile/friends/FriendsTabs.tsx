@@ -1,26 +1,17 @@
 import React from "react";
-import { UUID } from "crypto";
 import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { User } from "@supabase/supabase-js";
 import { FriendRequestObject } from "@/components/features/profile/friends/Friends";
 
 const FriendsTabs = async ({
-  profileId,
-  profileName,
-  isConnected,
   isMyProfile,
-  userId,
   profileFriends,
   requestedFriends,
   friendRequestObject,
   commonFriends
 }: {
-  profileId: UUID;
-  profileName: string;
-  isConnected: boolean;
   isMyProfile: boolean;
-  userId: UUID;
   profileFriends: {
     friendsData: User[];
     askedFriendsData: User[];

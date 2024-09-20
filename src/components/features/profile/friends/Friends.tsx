@@ -69,11 +69,7 @@ export default async function ProfileFriends({
 
   return (
     <FriendsTabs
-      profileId={profileId}
-      profileName={profileName}
-      isConnected={isConnected}
       isMyProfile={isMyProfile}
-      userId={userId}
       profileFriends={profileFriends}
       requestedFriends={requestedFriends}
       friendRequestObject={friendRequestObject as FriendRequestObject}

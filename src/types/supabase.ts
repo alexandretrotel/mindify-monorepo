@@ -858,6 +858,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      fetch_user_metadata: {
+        Args: {
+          user_id: string
+        }
+        Returns: Json
+      }
       notify_due_minds: {
         Args: Record<PropertyKey, never>
         Returns: undefined
