@@ -1,57 +1,43 @@
 import React from "react";
-import { getFriendsData } from "@/actions/friends.action";
 import { UUID } from "crypto";
 import FriendsClient from "@/components/features/profile/friends/client/FriendsClient";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { User } from "@supabase/supabase-js";
 
 const FriendsTabs = async ({
   profileId,
   profileName,
   isConnected,
   isMyProfile,
-  userId
+  userId,
+  profileFriends,
+  requestedFriends,
+  friendRequestObject,
+  commonFriends
 }: {
   profileId: UUID;
   profileName: string;
   isConnected: boolean;
   isMyProfile: boolean;
   userId: UUID;
+  profileFriends: {
+    friendsData: User[];
+    askedFriendsData: User[];
+    requestedFriendsData: User[];
+  };
+  requestedFriends: User[];
+  friendRequestObject: {
+    userId: UUID;
+    isConnected: boolean;
+    pendingFriends: User[];
+    requestedFriends: User[];
+  };
+  commonFriends: User[];
 }) => {
-  if (!isConnected) {
-    return (
-      <div className="flex h-72 flex-col items-center justify-center gap-4 text-center text-2xl font-semibold">
-        Connectez-vous pour voir les amis de {profileName}.
-      </div>
-    );
-  }
-
-  const profileFriends = await getFriendsData(profileId);
-
-  if (!profileFriends || profileFriends?.friendsData?.length === 0) {
-    return (
-      <div className="flex h-72 flex-col items-center justify-center gap-4 text-center text-2xl font-semibold">
-        Aucun ami
-      </div>
-    );
-  }
-
-  const userFriends = await getFriendsData(userId);
+  const pendingFriends = friendRequestObject?.pendingFriends;
+  const requestedAndPendingFriends = requestedFriends.concat(pendingFriends);
 
   if (isMyProfile) {
-    const requestedFriends = userFriends?.requestedFriendsData;
-    const pendingFriends = userFriends?.askedFriendsData;
-
-    const requestedAndPendingFriends = requestedFriends.concat(pendingFriends);
-
-    const friendRequestObject = isMyProfile
-      ? {
-          userId,
-          isConnected,
-          pendingFriends,
-          requestedFriends
-        }
-      : undefined;
-
     return (
       <Tabs className="flex flex-col gap-4" defaultValue="all">
         <TabsList className="flex w-fit">
@@ -74,10 +60,6 @@ const FriendsTabs = async ({
       </Tabs>
     );
   }
-
-  const commonFriends = profileFriends?.friendsData?.filter((friend) => {
-    return userFriends?.friendsData?.find((userFriend) => userFriend?.id === friend?.id);
-  });
 
   return (
     <Tabs className="flex flex-col gap-4" defaultValue="all">

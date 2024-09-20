@@ -30,13 +30,6 @@ const FriendsClient = ({
   };
 }) => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
-  const [totalPages, setTotalPages] = React.useState<number>(0);
-
-  React.useEffect(() => {
-    if (friends) {
-      setTotalPages(Math.ceil(friends?.length / itemsPerPage));
-    }
-  }, [friends]);
 
   if (!friends || friends?.length === 0) {
     return (
@@ -45,6 +38,8 @@ const FriendsClient = ({
       </div>
     );
   }
+
+  const totalPages = Math.ceil(friends?.length / itemsPerPage);
 
   const paginatedFriends = friends?.slice(
     (currentPage - 1) * itemsPerPage,
