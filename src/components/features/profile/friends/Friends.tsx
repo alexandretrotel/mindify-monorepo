@@ -74,6 +74,8 @@ export default async function ProfileFriends({
       requestedFriends={requestedFriends}
       friendRequestObject={friendRequestObject as FriendRequestObject}
       commonFriends={commonFriends}
+      userId={userId}
+      isConnected={isConnected}
     />
   );
 }

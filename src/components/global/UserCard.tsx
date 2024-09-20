@@ -26,44 +26,40 @@ import { acceptFriendRequest, cancelFriendRequest } from "@/actions/friends.acti
 import { useToast } from "@/components/ui/use-toast";
 import type { FriendStatus } from "@/types/friends";
 
+type FriendRequestObjectWithDisplayButtons = {
+  userId: UUID;
+  friendId: UUID;
+  isConnected: boolean;
+  requestedFriends?: User[];
+  pendingFriends?: User[];
+  displayRequestButton: boolean;
+  displayCancelButton: boolean;
+  friendStatus?: FriendStatus;
+};
+
 const UserCard = ({
   user,
   userPicture,
   heightFull,
-  friendRequestObject
+  friendRequestObject,
+  setFriendStatuses
 }: {
   user: User;
   userPicture: string;
   heightFull?: boolean;
-  friendRequestObject?: {
-    userId: UUID;
-    friendId: UUID;
-    isConnected: boolean;
-    pendingFriends?: User[];
-    requestedFriends?: User[];
-    displayRequestButton: boolean;
-    displayCancelButton: boolean;
-  };
+  friendRequestObject?: FriendRequestObjectWithDisplayButtons;
+  setFriendStatuses: React.Dispatch<React.SetStateAction<FriendStatus[]>>;
 }) => {
-  const [friendStatus, setFriendStatus] = React.useState<FriendStatus>("none");
-
-  React.useEffect(() => {
-    if (friendRequestObject?.requestedFriends?.find((friend) => friend.id === user.id)) {
-      setFriendStatus("requested");
-    }
-
-    if (friendRequestObject?.pendingFriends?.find((friend) => friend.id === user.id)) {
-      setFriendStatus("pending");
-    }
-  }, [friendRequestObject, user]);
-
   const { toast } = useToast();
 
-  if (friendRequestObject?.displayCancelButton && friendStatus !== "pending") {
+  if (friendRequestObject?.displayCancelButton && friendRequestObject?.friendStatus !== "pending") {
     return null;
   }
 
-  if (friendRequestObject?.displayRequestButton && friendStatus !== "requested") {
+  if (
+    friendRequestObject?.displayRequestButton &&
+    friendRequestObject?.friendStatus !== "requested"
+  ) {
     return null;
   }
 
@@ -99,17 +95,8 @@ const UserCard = ({
           <div className="grid w-full grid-cols-1 gap-4">
             <RenderFriendRequestButton
               userId={user?.id as UUID}
-              friendRequestObject={
-                friendRequestObject as {
-                  userId: UUID;
-                  friendId: UUID;
-                  isConnected: boolean;
-                  requestedFriends?: User[];
-                  displayRequestButton: boolean;
-                  displayCancelButton: boolean;
-                }
-              }
-              setFriendStatus={setFriendStatus}
+              friendRequestObject={friendRequestObject as FriendRequestObjectWithDisplayButtons}
+              setFriendStatuses={setFriendStatuses}
               toast={toast}
             />
           </div>
@@ -122,7 +109,7 @@ const UserCard = ({
 function RenderFriendRequestButton({
   userId,
   friendRequestObject,
-  setFriendStatus,
+  setFriendStatuses,
   toast
 }: Readonly<{
   userId: UUID;
@@ -134,14 +121,14 @@ function RenderFriendRequestButton({
     displayRequestButton: boolean;
     displayCancelButton: boolean;
   };
-  setFriendStatus: React.Dispatch<React.SetStateAction<FriendStatus>>;
+  setFriendStatuses: React.Dispatch<React.SetStateAction<FriendStatus[]>>;
   toast: ReturnType<typeof useToast>["toast"];
 }>) {
   if (friendRequestObject?.displayCancelButton) {
     return (
       <CancelButton
         friendRequestObject={friendRequestObject}
-        setFriendStatus={setFriendStatus}
+        setFriendStatuses={setFriendStatuses}
         toast={toast}
       />
     );
@@ -151,7 +138,7 @@ function RenderFriendRequestButton({
     return (
       <RequestedButtons
         friendRequestObject={friendRequestObject}
-        setFriendStatus={setFriendStatus}
+        setFriendStatuses={setFriendStatuses}
         toast={toast}
       />
     );
@@ -164,9 +151,9 @@ function RenderFriendRequestButton({
   );
 }
 
-async function CancelButton({
+function CancelButton({
   friendRequestObject,
-  setFriendStatus,
+  setFriendStatuses,
   toast
 }: Readonly<{
   friendRequestObject: {
@@ -177,11 +164,11 @@ async function CancelButton({
     displayRequestButton: boolean;
     displayCancelButton: boolean;
   };
-  setFriendStatus: React.Dispatch<React.SetStateAction<FriendStatus>>;
+  setFriendStatuses: React.Dispatch<React.SetStateAction<FriendStatus[]>>;
   toast: ReturnType<typeof useToast>["toast"];
 }>) {
   const handleCancelFriendRequest = async (userId: UUID, profileId: UUID) => {
-    setFriendStatus("none");
+    setFriendStatuses((prev) => prev.filter((status) => status !== "pending"));
 
     try {
       await cancelFriendRequest(userId, profileId);
@@ -192,7 +179,7 @@ async function CancelButton({
       });
     } catch (error) {
       console.error(error);
-      setFriendStatus("pending");
+      setFriendStatuses((prev) => [...prev, "pending"]);
       toast({
         title: "Erreur",
         description: "Impossible d'annuler la demande d'ami.",
@@ -245,9 +232,9 @@ async function CancelButton({
   );
 }
 
-async function RequestedButtons({
+function RequestedButtons({
   friendRequestObject,
-  setFriendStatus,
+  setFriendStatuses,
   toast
 }: Readonly<{
   friendRequestObject: {
@@ -258,11 +245,11 @@ async function RequestedButtons({
     displayRequestButton: boolean;
     displayCancelButton: boolean;
   };
-  setFriendStatus: React.Dispatch<React.SetStateAction<FriendStatus>>;
+  setFriendStatuses: React.Dispatch<React.SetStateAction<FriendStatus[]>>;
   toast: ReturnType<typeof useToast>["toast"];
 }>) {
   const handleAcceptFriendRequest = async (userId: UUID, profileId: UUID) => {
-    setFriendStatus("accepted");
+    setFriendStatuses((prev) => prev.filter((status) => status !== "pending"));
 
     try {
       await acceptFriendRequest(userId, profileId);
@@ -273,7 +260,7 @@ async function RequestedButtons({
       });
     } catch (error) {
       console.error(error);
-      setFriendStatus("pending");
+      setFriendStatuses((prev) => [...prev, "pending"]);
       toast({
         title: "Erreur",
         description: "Impossible d'accepter la demande d'ami.",
@@ -283,7 +270,7 @@ async function RequestedButtons({
   };
 
   const handleRejectFriendRequest = async (userId: UUID, profileId: UUID) => {
-    setFriendStatus("rejected");
+    setFriendStatuses((prev) => prev.filter((status) => status !== "pending"));
 
     try {
       await cancelFriendRequest(userId, profileId);
@@ -294,7 +281,7 @@ async function RequestedButtons({
       });
     } catch (error) {
       console.error(error);
-      setFriendStatus("pending");
+      setFriendStatuses((prev) => [...prev, "pending"]);
       toast({
         title: "Erreur",
         description: "Impossible de refuser la demande d'ami.",
