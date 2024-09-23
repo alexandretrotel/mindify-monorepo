@@ -71,7 +71,6 @@ export default async function ProfileFriends({
     <FriendsTabs
       isMyProfile={isMyProfile}
       profileFriends={profileFriends}
-      requestedFriends={requestedFriends}
       friendRequestObject={friendRequestObject as FriendRequestObject}
       commonFriends={commonFriends}
       userId={userId}
