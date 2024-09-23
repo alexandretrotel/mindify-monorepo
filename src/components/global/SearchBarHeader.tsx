@@ -139,10 +139,6 @@ export default function SearchBarHeader() {
     command();
   }, []);
 
-  React.useEffect(() => {
-    console.log(searchResults);
-  }, [searchResults]);
-
   return (
     <div className="flex w-full items-center justify-center">
       <Button

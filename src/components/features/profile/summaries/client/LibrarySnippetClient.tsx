@@ -21,9 +21,6 @@ const LibrarySnippetClient = ({
   summaries: (Tables<"summaries"> & {
     authors: Tables<"authors">;
     topics: Tables<"topics">;
-    author_slug: string;
-    topic: string;
-    image_url: string;
   })[];
 }) => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
@@ -61,10 +58,10 @@ const LibrarySnippetClient = ({
               key={summary.id}
               title={summary.title}
               author={summary.authors.name}
-              category={summary.topic}
+              category={summary.topics.name}
               source={summary.source_type}
-              image={summary.image_url}
-              authorSlug={summary.author_slug}
+              image={summary.image_url as string}
+              authorSlug={summary.authors.slug}
               summarySlug={summary.slug}
               heightFull
             />

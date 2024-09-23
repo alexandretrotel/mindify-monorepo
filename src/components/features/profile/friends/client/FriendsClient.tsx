@@ -14,12 +14,16 @@ import {
 } from "@/components/ui/pagination";
 import type { UUID } from "crypto";
 import { getAvatar } from "@/utils/users";
+import { FriendRequestObject } from "@/components/features/profile/friends/Friends";
+import { FriendStatus } from "@/types/friends";
 
 const itemsPerPage = 8;
 
 const FriendsClient = ({
   friends,
-  friendRequestObject
+  friendRequestObject,
+  friendStatuses,
+  setFriendStatuses
 }: {
   friends: User[];
   friendRequestObject?: {
@@ -28,15 +32,10 @@ const FriendsClient = ({
     pendingFriends: User[];
     requestedFriends: User[];
   };
+  friendStatuses?: FriendStatus[];
+  setFriendStatuses?: React.Dispatch<React.SetStateAction<FriendStatus[]>>;
 }) => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
-  const [totalPages, setTotalPages] = React.useState<number>(0);
-
-  React.useEffect(() => {
-    if (friends) {
-      setTotalPages(Math.ceil(friends?.length / itemsPerPage));
-    }
-  }, [friends]);
 
   if (!friends || friends?.length === 0) {
     return (
@@ -45,6 +44,8 @@ const FriendsClient = ({
       </div>
     );
   }
+
+  const totalPages = Math.ceil(friends?.length / itemsPerPage);
 
   const paginatedFriends = friends?.slice(
     (currentPage - 1) * itemsPerPage,
@@ -69,19 +70,15 @@ const FriendsClient = ({
         {paginatedFriends?.map((friend, index) => {
           const picture = getAvatar(friend?.user_metadata);
           const friendRequestObjectCard = {
-            ...(friendRequestObject as {
-              userId: UUID;
-              isConnected: boolean;
-              pendingFriends: User[];
-              requestedFriends: User[];
-            }),
+            ...(friendRequestObject as FriendRequestObject),
             displayCancelButton: friendRequestObject?.pendingFriends?.some(
               (pendingFriend) => pendingFriend.id === friend?.id
             ) as boolean,
             displayRequestButton: friendRequestObject?.requestedFriends?.some(
               (requestedFriend) => requestedFriend.id === friend?.id
             ) as boolean,
-            friendId: friend?.id as UUID
+            friendId: friend?.id as UUID,
+            friendStatus: friendStatuses?.[index]
           };
 
           return (
@@ -90,6 +87,9 @@ const FriendsClient = ({
               user={friend}
               userPicture={picture}
               friendRequestObject={friendRequestObjectCard}
+              setFriendStatuses={
+                setFriendStatuses as React.Dispatch<React.SetStateAction<FriendStatus[]>>
+              }
             />
           );
         })}
