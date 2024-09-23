@@ -96,7 +96,9 @@ const UserCard = ({
             <RenderFriendRequestButton
               userId={user?.id as UUID}
               friendRequestObject={friendRequestObject as FriendRequestObjectWithDisplayButtons}
-              setFriendStatuses={setFriendStatuses}
+              setFriendStatuses={
+                setFriendStatuses as React.Dispatch<React.SetStateAction<FriendStatus[]>>
+              }
               toast={toast}
             />
           </div>
