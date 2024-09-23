@@ -48,7 +48,7 @@ const UserCard = ({
   userPicture: string;
   heightFull?: boolean;
   friendRequestObject?: FriendRequestObjectWithDisplayButtons;
-  setFriendStatuses: React.Dispatch<React.SetStateAction<FriendStatus[]>>;
+  setFriendStatuses?: React.Dispatch<React.SetStateAction<FriendStatus[]>>;
 }) => {
   const { toast } = useToast();
 
