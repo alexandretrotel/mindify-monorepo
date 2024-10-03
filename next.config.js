@@ -6,10 +6,18 @@ const withPWA = require("next-pwa")({
   disable: process.env.NODE_ENV !== "production"
 });
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+const withMDX = require("@next/mdx")({});
 
-module.exports = withPWA({});
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"]
+};
+
+module.exports = withMDX(
+  withPWA({
+    ...nextConfig
+  })
+);
 
 // Injected content via Sentry wizard below
 

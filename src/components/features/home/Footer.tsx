@@ -42,6 +42,7 @@ export default function Footer({
     ],
     legal: [
       { name: "Politique de confidentialité", href: "/privacy-policy" },
+      { name: "Politique de cookies", href: "/cookies" },
       { name: "Conditions d'utilisation", href: "/terms-of-service" }
     ],
     social: [

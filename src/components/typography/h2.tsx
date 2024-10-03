@@ -1,9 +1,17 @@
+import { cn } from "@/lib/utils";
+
 export default function H2({
   children,
-  center
+  center,
+  className
 }: Readonly<{
   children: React.ReactNode;
   center?: boolean;
+  className?: string;
 }>) {
-  return <h2 className={`text-3xl font-semibold ${!!center && "text-center"}`}>{children}</h2>;
+  return (
+    <h2 className={cn(`text-3xl font-semibold ${!!center && "text-center"}`, className)}>
+      {children}
+    </h2>
+  );
 }

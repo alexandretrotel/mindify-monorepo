@@ -1,3 +1,8 @@
-export default function H5({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <h5 className="text-md font-semibold">{children}</h5>;
+import { cn } from "@/lib/utils";
+
+export default function H5({
+  children,
+  className
+}: Readonly<{ children: React.ReactNode; className?: string }>) {
+  return <h5 className={cn("text-md font-semibold", className)}>{children}</h5>;
 }
