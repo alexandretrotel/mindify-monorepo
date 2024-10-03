@@ -1,3 +1,8 @@
-export default function H4({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <h4 className="text-xl font-semibold">{children}</h4>;
+import { cn } from "@/lib/utils";
+
+export default function H4({
+  children,
+  className
+}: Readonly<{ children: React.ReactNode; className?: string }>) {
+  return <h4 className={cn("text-xl font-semibold", className)}>{children}</h4>;
 }

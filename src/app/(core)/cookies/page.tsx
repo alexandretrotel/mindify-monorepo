@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import React from "react";
-import PrivacyContent from "@/markdown/PrivacyContent.mdx";
+import CookiesContent from "@/markdown/CookiesContent.mdx";
 
 export const metadata: Metadata = {
-  title: "Politique de confidentialité | Mindify"
+  title: "Politique de cookies | Mindify"
 };
 
 export default function PrivacyPolicy() {
   return (
     <div className="container mx-auto max-w-4xl px-4">
-      <PrivacyContent />
+      <CookiesContent />
     </div>
   );
 }
