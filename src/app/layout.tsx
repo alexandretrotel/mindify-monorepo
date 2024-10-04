@@ -4,7 +4,7 @@ import "@radix-ui/themes/styles.css";
 
 import type { Metadata, Viewport } from "next";
 import { cn } from "@/lib/utils";
-import { Inter as FontSans } from "next/font/google";
+import { DM_Sans as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -23,7 +23,8 @@ import NotificationsProvider from "@/providers/NotificationsProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
-  variable: "--font-sans"
+  variable: "--font-sans",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
 });
 
 export const metadata: Metadata = {
