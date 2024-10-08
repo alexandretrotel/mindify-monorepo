@@ -108,6 +108,14 @@ export default function AuthProviders({ isSignup }: Readonly<{ isSignup: boolean
       >
         {isSignup ? "S'inscrire" : "Se connecter"} avec Google
       </Button>
+
+      <Button
+        variant="outline"
+        onClick={() => handleSignInWithSocials("apple")}
+        disabled={isLoading}
+      >
+        {isSignup ? "S'inscrire" : "Se connecter"} avec Apple
+      </Button>
     </div>
   );
 }
