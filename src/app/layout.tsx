@@ -3,11 +3,8 @@ import "./globals.css";
 import "@radix-ui/themes/styles.css";
 
 import type { Metadata, Viewport } from "next";
-import { cn } from "@/lib/utils";
 import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/providers/ThemeProvider";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster as Sonner } from "sonner";
 import { Toaster } from "@/components/ui/toaster";
@@ -15,11 +12,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import StripeClient from "@/app/StripeClient";
 import Loading from "@/app/loading";
 import { Suspense } from "react";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import Script from "next/script";
 import FlashcardProvider from "@/providers/FlashcardProvider";
 import OnboardingProvider from "@/providers/OnboardingProvider";
 import NotificationsProvider from "@/providers/NotificationsProvider";
+import AnalyticsProvider from "@/providers/AnalyticsProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -134,12 +130,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body
-        className={cn(
-          "min-h-screen min-w-full bg-background font-sans antialiased",
-          fontSans.variable
-        )}
-      >
+      <AnalyticsProvider fontSans={fontSans}>
         <NextTopLoader color="#1FA856" showSpinner={false} />
 
         <Suspense fallback={<Loading />}>
@@ -158,23 +149,7 @@ export default async function RootLayout({
             </NotificationsProvider>
           </ThemeProvider>
         </Suspense>
-
-        <Analytics />
-        <SpeedInsights />
-      </body>
-
-      <Script id="hotjar" strategy="lazyOnload">
-        {`(function(h,o,t,j,a,r){
-            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:5123190,hjsv:6};
-            a=o.getElementsByTagName('head')[0];
-            r=o.createElement('script');r.async=1;
-            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-            a.appendChild(r);
-          })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`}
-      </Script>
-
-      <GoogleAnalytics gaId="G-K3J5KW3Q3R" />
+      </AnalyticsProvider>
     </html>
   );
 }
