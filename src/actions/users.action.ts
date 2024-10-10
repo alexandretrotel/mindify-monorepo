@@ -122,12 +122,12 @@ export async function userUpdateAvatar(formData: FormData, userId: UUID) {
     throw new Error("L'image doit être de type jpeg, jpg, png, tiff, webp ou avif.");
   }
 
-  const fileName = `${userId}/avatar.webp`;
+  const fileName = `${userId}/avatar.jpeg`;
 
   const imageBuffer = await avatarData.image.arrayBuffer();
   const processedImageBuffer = await sharp(Buffer.from(imageBuffer))
     .resize(200, 200)
-    .toFormat("webp")
+    .toFormat("jpeg")
     .toBuffer();
 
   const { error: updateAvatarError } = await supabase.storage
@@ -135,7 +135,7 @@ export async function userUpdateAvatar(formData: FormData, userId: UUID) {
     .upload(fileName, processedImageBuffer, {
       cacheControl: "3600",
       upsert: true,
-      contentType: "image/webp"
+      contentType: "image/jpeg"
     });
 
   if (updateAvatarError) {
