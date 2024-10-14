@@ -76,16 +76,7 @@ const LibraryClient = ({
 
   const fuse = React.useMemo(() => {
     return new Fuse(summaries, {
-      keys: [
-        "title",
-        "author",
-        "slug",
-        "author_slug",
-        "topic",
-        "source_type",
-        "introduction",
-        "conclusion"
-      ],
+      keys: ["title", "author", "slug", "author_slug", "topic", "source_type"],
       threshold: 0.3
     });
   }, [summaries]);

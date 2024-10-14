@@ -11,23 +11,13 @@ const TableOfContentsMobile = async ({ chapters }: { chapters: Tables<"chapters"
       </div>
 
       <ul className="flex flex-col gap-2 text-lg">
-        <li>
-          <Link href="#introduction" className="text-primary hover:underline">
-            1. Introduction
-          </Link>
-        </li>
         {chapters?.titles?.map((title, index) => (
           <li key={title}>
             <Link href={"#chapter" + String(index + 1)} className="text-primary hover:underline">
-              {index + 2}. {title}
+              {index + 1}. {title}
             </Link>
           </li>
         ))}
-        <li>
-          <Link href="#conclusion" className="text-primary hover:underline">
-            {chapters?.titles?.length ? chapters?.titles?.length + 2 : 2}. Conclusion
-          </Link>
-        </li>
       </ul>
     </div>
   );

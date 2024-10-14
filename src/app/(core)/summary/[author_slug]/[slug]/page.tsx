@@ -52,7 +52,7 @@ export async function generateMetadata({
     title,
     openGraph: {
       title: `${summary?.title} | Mindify`,
-      description: summary?.introduction?.slice(0, 200) + "...",
+      description: summary?.authors?.description as string,
       images: [
         {
           url: summary?.image_url ?? "/open-graph/og-image.png"
@@ -64,7 +64,7 @@ export async function generateMetadata({
     twitter: {
       title: `${summary?.title} | Mindify`,
       card: "summary_large_image",
-      description: summary?.introduction?.slice(0, 200) + "...",
+      description: summary?.authors?.description as string,
       images: [
         {
           url: summary?.image_url ?? "/open-graph/og-image.png"
@@ -138,12 +138,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
                       </Suspense>
 
                       <Suspense fallback={<ChaptersSkeleton />}>
-                        <Chapters
-                          chapters={summary?.chapters}
-                          introduction={summary?.introduction}
-                          conclusion={summary?.conclusion}
-                          isConnected={isConnected}
-                        />
+                        <Chapters chapters={summary?.chapters} isConnected={isConnected} />
                       </Suspense>
 
                       {isConnected && (
@@ -179,12 +174,7 @@ const Page = async ({ params }: { params: { author_slug: string; slug: string } 
               <div className="hidden w-full flex-row justify-between gap-16 lg:flex">
                 <div className="flex min-w-0 max-w-3xl grow flex-col gap-8">
                   <Suspense fallback={<ChaptersSkeleton />}>
-                    <Chapters
-                      chapters={summary?.chapters}
-                      introduction={summary?.introduction}
-                      conclusion={summary?.conclusion}
-                      isConnected={isConnected}
-                    />
+                    <Chapters chapters={summary?.chapters} isConnected={isConnected} />
                   </Suspense>
 
                   {isConnected && (

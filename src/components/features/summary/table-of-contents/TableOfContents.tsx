@@ -22,23 +22,13 @@ const TableOfContents = async ({ chapters }: { chapters: Tables<"chapters"> }) =
         <CollapsibleContent>
           <CardContent>
             <ul className="flex flex-col gap-2">
-              <li>
-                <a href="#introduction" className="text-primary hover:underline">
-                  1. Introduction
-                </a>
-              </li>
               {chapters?.titles?.map((title, index) => (
                 <li key={title}>
                   <a href={"#chapter" + String(index + 1)} className="text-primary hover:underline">
-                    {index + 2}. {title}
+                    {index + 1}. {title}
                   </a>
                 </li>
               ))}
-              <li>
-                <a href="#conclusion" className="text-primary hover:underline">
-                  {chapters?.titles?.length ? chapters?.titles?.length + 2 : 2}. Conclusion
-                </a>
-              </li>
             </ul>
           </CardContent>
         </CollapsibleContent>

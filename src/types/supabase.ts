@@ -109,11 +109,39 @@ export type Database = {
           },
         ]
       }
+      leaderboard: {
+        Row: {
+          created_at: string
+          updated_at: string | null
+          user_id: string
+          xp: number
+        }
+        Insert: {
+          created_at?: string
+          updated_at?: string | null
+          user_id: string
+          xp: number
+        }
+        Update: {
+          created_at?: string
+          updated_at?: string | null
+          user_id?: string
+          xp?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leaderboard_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       learning_sessions: {
         Row: {
           created_at: string
           id: number
-          inactive_time: number
           total_length: number
           total_time: number
           user_id: string
@@ -121,7 +149,6 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: number
-          inactive_time: number
           total_length: number
           total_time: number
           user_id: string
@@ -129,7 +156,6 @@ export type Database = {
         Update: {
           created_at?: string
           id?: number
-          inactive_time?: number
           total_length?: number
           total_time?: number
           user_id?: string
@@ -137,6 +163,39 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "learning_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      liked_minds: {
+        Row: {
+          created_at: string
+          mind_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          mind_id: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          mind_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "liked_minds_mind_id_fkey"
+            columns: ["mind_id"]
+            isOneToOne: false
+            referencedRelation: "minds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "liked_minds_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -532,11 +591,9 @@ export type Database = {
         Row: {
           author_id: number
           chapters_id: number | null
-          conclusion: string
           created_at: string
           id: number
           image_url: string | null
-          introduction: string
           mindify_ai: boolean | null
           reading_time: number | null
           slug: string
@@ -548,11 +605,9 @@ export type Database = {
         Insert: {
           author_id: number
           chapters_id?: number | null
-          conclusion: string
           created_at?: string
           id?: number
           image_url?: string | null
-          introduction: string
           mindify_ai?: boolean | null
           reading_time?: number | null
           slug: string
@@ -564,11 +619,9 @@ export type Database = {
         Update: {
           author_id?: number
           chapters_id?: number | null
-          conclusion?: string
           created_at?: string
           id?: number
           image_url?: string | null
-          introduction?: string
           mindify_ai?: boolean | null
           reading_time?: number | null
           slug?: string
@@ -601,7 +654,7 @@ export type Database = {
           },
         ]
       }
-      summaries_ratings: {
+      summary_ratings: {
         Row: {
           created_at: string
           rating: number
@@ -765,6 +818,7 @@ export type Database = {
         Row: {
           black_icon: string | null
           created_at: string
+          emoji: string | null
           id: number
           name: string
           slug: string
@@ -773,6 +827,7 @@ export type Database = {
         Insert: {
           black_icon?: string | null
           created_at?: string
+          emoji?: string | null
           id?: number
           name: string
           slug: string
@@ -781,6 +836,7 @@ export type Database = {
         Update: {
           black_icon?: string | null
           created_at?: string
+          emoji?: string | null
           id?: number
           name?: string
           slug?: string
@@ -858,11 +914,55 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      clean_unused_chapters: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      delete_user: {
+        Args: {
+          user_id: string
+        }
+        Returns: undefined
+      }
       fetch_user_metadata: {
         Args: {
           user_id: string
         }
         Returns: Json
+      }
+      get_friends_metadata: {
+        Args: {
+          p_user_id: string
+        }
+        Returns: {
+          friend_id: string
+          created_at: string
+          raw_user_meta_data: Json
+        }[]
+      }
+      get_leaderboard: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          user_id: string
+          name: string
+          metadata: Json
+          xp: number
+          level: number
+          xp_for_next_level: number
+          progression: number
+        }[]
+      }
+      get_user_level: {
+        Args: {
+          user_id: string
+        }
+        Returns: {
+          xp: number
+          level: number
+          xp_for_next_level: number
+          xp_of_current_level: number
+          progression: number
+        }[]
       }
       notify_due_minds: {
         Args: Record<PropertyKey, never>
@@ -879,6 +979,10 @@ export type Database = {
         }[]
       }
       send_pending_friend_request_notifications: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      update_leaderboard: {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
