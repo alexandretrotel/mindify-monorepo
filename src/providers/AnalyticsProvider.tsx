@@ -4,6 +4,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
 import CookieConsent from "@/components/global/CookieConsent";
+import { PHProvider } from "@/providers/PHProvider";
+import PostHogPageView from "@/app/PostHogPageView";
 
 export default function AnalyticsProvider({
   children,
@@ -16,22 +18,31 @@ export default function AnalyticsProvider({
 
   return (
     <>
-      <body
-        className={cn(
-          "min-h-screen min-w-full bg-background font-sans antialiased",
-          fontSans.variable
-        )}
-      >
-        {children}
-
-        {isCookieConsent && (
-          <>
+      {isCookieConsent ? (
+        <PHProvider>
+          <body
+            className={cn(
+              "min-h-screen min-w-full bg-background font-sans antialiased",
+              fontSans.variable
+            )}
+          >
+            {children}
+            <PostHogPageView />
             <Analytics />
             <SpeedInsights />
-          </>
-        )}
-        {!isCookieConsent && <CookieConsent />}
-      </body>
+          </body>
+        </PHProvider>
+      ) : (
+        <body
+          className={cn(
+            "min-h-screen min-w-full bg-background font-sans antialiased",
+            fontSans.variable
+          )}
+        >
+          {children}
+          <CookieConsent />
+        </body>
+      )}
 
       {isCookieConsent && (
         <>
