@@ -33,12 +33,6 @@ Pour chaque chapitre :
 5. Assure-toi d'avoir autant de sous-titres que de chapitres (de 5 à 8 chapitres au total).  
 6. Rends le texte dynamique, engageant et facile à lire, environ 200 mots par chapitre.
 
-Introduction et Conclusion :  
-
-- Rédige une introduction et une conclusion, chacune d’environ 200 mots.  
-- Dans l’introduction, incite à la découverte des leçons du livre à travers un style narratif engageant, sans mentionner directement qu'il s'agit d'un livre. Utilise des variantes créatives (ne commence pas par "imaginez").  
-- La conclusion doit réitérer les apprentissages clés et l'impact potentiel sur le lecteur, toujours en restant dans une approche narrative et inspirante.
-
 Détails supplémentaires :
 
 - La longueur totale du texte doit avoisiner les 2000 mots (+/- 200 mots).  
@@ -179,8 +173,6 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
             schemaName: "SummarySchema",
             schemaDescription: "Schema for generating book summaries",
             schema: z.object({
-              introduction: z.string(),
-              conclusion: z.string(),
               readingTime: z.number(),
               chaptersTitle: z.string().array(),
               chaptersText: z.string().array()
@@ -213,8 +205,6 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
               author_id: authorDataGlobal?.id as number,
               chapters_id: chaptersData?.id,
               source_type: summaryRequest.source,
-              introduction: summaryResult?.object?.introduction,
-              conclusion: summaryResult?.object?.conclusion,
               reading_time: summaryResult?.object?.readingTime,
               mindify_ai: true
             })

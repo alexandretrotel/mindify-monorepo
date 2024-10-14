@@ -10,37 +10,22 @@ import Link from "next/link";
 
 const Chapters = async ({
   chapters,
-  introduction,
-  conclusion,
   isConnected
 }: {
   chapters: Tables<"chapters">;
-  introduction: string;
-  conclusion: string;
   isConnected: boolean;
 }) => {
   return (
     <React.Fragment>
-      <div id="introduction" className="flex flex-col gap-4">
-        <H2>1. Introduction</H2>
-        <P size="lg">{introduction}</P>
-      </div>
-
       {isConnected ? (
-        <React.Fragment>
-          <div className="flex flex-col gap-8">
-            {chapters?.titles?.map((title, index) => (
-              <div key={title} id={"chapter" + String(index + 1)} className="flex flex-col gap-4">
-                <H2>{index + 2 + ". " + title}</H2>
-                <P size="lg">{chapters?.texts[index]}</P>
-              </div>
-            ))}
-          </div>
-          <div id="conclusion" className="flex flex-col gap-4">
-            <H2>{chapters?.titles?.length + 2 + ". Conclusion"}</H2>
-            <P size="lg">{conclusion}</P>
-          </div>
-        </React.Fragment>
+        <div className="flex flex-col gap-8">
+          {chapters?.titles?.map((title, index) => (
+            <div key={title} id={"chapter" + String(index + 1)} className="flex flex-col gap-4">
+              <H2>{index + 1 + ". " + title}</H2>
+              <P size="lg">{chapters?.texts[index]}</P>
+            </div>
+          ))}
+        </div>
       ) : (
         <Card>
           <CardHeader>
