@@ -22,15 +22,7 @@ export type Database = {
           created_at?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "admins_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       authors: {
         Row: {
@@ -99,15 +91,7 @@ export type Database = {
           friend_id?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "user_friends_user_id_fkey1"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       leaderboard: {
         Row: {
@@ -128,15 +112,7 @@ export type Database = {
           user_id?: string
           xp?: number
         }
-        Relationships: [
-          {
-            foreignKeyName: "leaderboard_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       learning_sessions: {
         Row: {
@@ -160,15 +136,7 @@ export type Database = {
           total_time?: number
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "learning_sessions_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       liked_minds: {
         Row: {
@@ -194,13 +162,6 @@ export type Database = {
             referencedRelation: "minds"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "liked_minds_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       minds: {
@@ -209,7 +170,7 @@ export type Database = {
           id: number
           mindify_ai: boolean | null
           question: string | null
-          summary_id: number
+          summary_id: number | null
           text: string
         }
         Insert: {
@@ -217,7 +178,7 @@ export type Database = {
           id?: number
           mindify_ai?: boolean | null
           question?: string | null
-          summary_id: number
+          summary_id?: number | null
           text: string
         }
         Update: {
@@ -225,7 +186,7 @@ export type Database = {
           id?: number
           mindify_ai?: boolean | null
           question?: string | null
-          summary_id?: number
+          summary_id?: number | null
           text?: string
         }
         Relationships: [
@@ -346,13 +307,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "notifications_friend_id_fkey"
-            columns: ["friend_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "notifications_mind_id_fkey"
             columns: ["mind_id"]
             isOneToOne: false
@@ -364,13 +318,6 @@ export type Database = {
             columns: ["summary_id"]
             isOneToOne: false
             referencedRelation: "summaries"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "notifications_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -394,15 +341,7 @@ export type Database = {
           onboarded?: boolean
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "onboarding_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       playlists: {
         Row: {
@@ -452,13 +391,6 @@ export type Database = {
             referencedRelation: "summaries"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "user_reads_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       saved_minds: {
@@ -485,13 +417,6 @@ export type Database = {
             referencedRelation: "minds"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "saved_minds_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       saved_summaries: {
@@ -511,13 +436,6 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "user_library_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "user_summaries_summary_id_fkey"
             columns: ["summary_id"]
@@ -576,13 +494,6 @@ export type Database = {
             columns: ["mind_id"]
             isOneToOne: false
             referencedRelation: "minds"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "srs_data_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -681,13 +592,6 @@ export type Database = {
             referencedRelation: "summaries"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "user_ratings_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       summary_requests: {
@@ -729,13 +633,6 @@ export type Database = {
             referencedRelation: "topics"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "summary_requests_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       support_bugs: {
@@ -766,15 +663,7 @@ export type Database = {
           title?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "support_bugs_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       support_features: {
         Row: {
@@ -804,15 +693,7 @@ export type Database = {
           title?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "support_features_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       topics: {
         Row: {
@@ -868,13 +749,6 @@ export type Database = {
             referencedRelation: "topics"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "user_topics_user_id_fkey1"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       users_playlists: {
@@ -899,15 +773,7 @@ export type Database = {
           title?: string
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "users_playlists_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
@@ -954,9 +820,10 @@ export type Database = {
       }
       get_user_level: {
         Args: {
-          user_id: string
+          input_user_id: string
         }
         Returns: {
+          user_id: string
           xp: number
           level: number
           xp_for_next_level: number
@@ -1093,4 +960,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never

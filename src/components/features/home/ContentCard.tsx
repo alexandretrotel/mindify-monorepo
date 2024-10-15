@@ -21,9 +21,7 @@ const ContentCard = ({
   const image = summary.image_url;
 
   return (
-    <div
-      className={`ml-4 w-96 overflow-hidden rounded-lg border bg-card`}
-    >
+    <div className={`ml-4 w-96 overflow-hidden rounded-lg border bg-card`}>
       {features.summaryImageIsVisible && (
         <React.Fragment>
           {image ? (
