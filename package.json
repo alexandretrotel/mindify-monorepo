@@ -10,6 +10,10 @@
     "format": "npm run prettier --write .",
     "update-types": "sh ./scripts/update-database-types.sh"
   },
+  "simple-git-hooks": {
+    "pre-commit": "npm run lint",
+    "pre-push": "npm run format && npm run update-types"
+  },
   "dependencies": {
     "@ai-sdk/google": "^0.0.46",
     "@headlessui/react": "^2.1.9",
@@ -91,6 +95,7 @@
     "eslint-config-next": "^14.2.14",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "3.3.3",
+    "simple-git-hooks": "^2.11.1",
     "tailwindcss": "^3.4.13",
     "typescript": "^5.6.2"
   }
