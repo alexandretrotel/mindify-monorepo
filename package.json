@@ -11,8 +11,8 @@
     "update-types": "sh ./scripts/update-database-types.sh"
   },
   "simple-git-hooks": {
-    "pre-commit": "npm run lint",
-    "pre-push": "npm run format && npm run update-types"
+    "pre-commit": "npm run update-types && npm run lint",
+    "pre-push": "npm run format"
   },
   "dependencies": {
     "@ai-sdk/google": "^0.0.46",
