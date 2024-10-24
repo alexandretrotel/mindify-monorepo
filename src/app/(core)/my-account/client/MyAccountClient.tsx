@@ -2,7 +2,7 @@
 import "client-only";
 
 import Account from "@/components/global/Account";
-import React from "react";
+import React, { type JSX } from "react";
 import type { UserMetadata } from "@supabase/supabase-js";
 import type { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";

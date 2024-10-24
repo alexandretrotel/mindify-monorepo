@@ -6,7 +6,7 @@ import type { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 
 export async function getMindsFromSummaryId(summaryId: number) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: mindsData, error } = await supabase
     .from("minds")
@@ -31,7 +31,7 @@ interface SavedMindsCounts {
 }
 
 export async function getMostSavedMinds() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: savedMindsData, error } = await supabase
     .from("saved_minds")
@@ -79,7 +79,7 @@ export async function getMostSavedMinds() {
 }
 
 export async function getMindsFromUserId(userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: mindsData, error } = await supabase
     .from("saved_minds")
@@ -99,7 +99,7 @@ export async function getMindsFromUserId(userId: UUID) {
 }
 
 export async function saveMind(mindId: number, userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase.from("saved_minds").insert({
     user_id: userId,
@@ -113,7 +113,7 @@ export async function saveMind(mindId: number, userId: UUID) {
 }
 
 export async function unsaveMind(mindId: number, userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase
     .from("saved_minds")
@@ -128,7 +128,7 @@ export async function unsaveMind(mindId: number, userId: UUID) {
 }
 
 export async function areMindsSaved(mindIds: number[], userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("saved_minds")
@@ -145,7 +145,7 @@ export async function areMindsSaved(mindIds: number[], userId: UUID) {
 }
 
 export async function getRandomMinds() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: mindsData, error } = await supabase
     .from("minds")

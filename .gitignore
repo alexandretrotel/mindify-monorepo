@@ -44,3 +44,6 @@ workbox-*.js.map
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# Lockfiles
+package-lock.json

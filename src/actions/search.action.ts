@@ -19,7 +19,7 @@ export async function searchUsers(query: string) {
 }
 
 export async function searchSummaries(query: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("summaries")

@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
 
 export async function markNotificationAsRead(notificationId: number) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase
     .from("notifications")
@@ -20,7 +20,7 @@ export async function markNotificationAsRead(notificationId: number) {
 }
 
 export async function markNotificationAsUnread(notificationId: number) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase
     .from("notifications")
@@ -34,7 +34,7 @@ export async function markNotificationAsUnread(notificationId: number) {
 }
 
 export async function deleteNotification(notificationId: number) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase.from("notifications").delete().eq("id", notificationId);
 
@@ -45,7 +45,7 @@ export async function deleteNotification(notificationId: number) {
 }
 
 export async function getNotifications() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("notifications")
@@ -68,7 +68,7 @@ export async function getNotifications() {
 }
 
 export async function markAllNotificationsAsRead(userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase
     .from("notifications")

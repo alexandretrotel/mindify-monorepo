@@ -9,7 +9,7 @@ import { SocialProvider } from "@/types/auth";
 import { headers } from "next/headers";
 
 export async function signUpWithPassword(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   let data;
   try {
@@ -47,7 +47,7 @@ export async function signUpWithPassword(formData: FormData) {
 }
 
 export async function signInWithPassword(formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   let data;
   try {
@@ -79,9 +79,9 @@ export async function signInWithPassword(formData: FormData) {
 }
 
 export async function signInWithSocials(provider: SocialProvider) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
-  const origin = headers().get("origin");
+  const origin = (await headers()).get("origin");
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider,
@@ -107,7 +107,7 @@ export async function signInWithSocials(provider: SocialProvider) {
 }
 
 export async function signOut() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase.auth.signOut({ scope: "local" });
 
@@ -120,7 +120,7 @@ export async function signOut() {
 }
 
 export async function resetPassword(email: string, origin: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${origin}/my-account?tab=security`
@@ -136,7 +136,7 @@ export async function resetPassword(email: string, origin: string) {
 }
 
 export async function updatePassword(newPassword: string, confirmPassword: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   if (newPassword !== confirmPassword) {
     throw new Error("Les mots de passe ne correspondent pas");

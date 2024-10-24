@@ -1,6 +1,8 @@
 "use client";
 import "client-only";
 
+import styles from "@/styles/CardStackClient.module.css";
+
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Semibold from "@/components/typography/semibold";
@@ -58,9 +60,20 @@ export const CardStackClient = ({
         return (
           <motion.div
             key={card.id}
-            className="absolute flex h-60 w-full flex-col justify-between rounded-lg border bg-card p-4 shadow-lg md:h-60 md:w-96"
             style={{
-              transformOrigin: "top center"
+              transformOrigin: "top center",
+              position: "absolute",
+              display: "flex",
+              height: "15rem",
+              width: "100%",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              borderRadius: "0.5rem",
+              border: "1px solid",
+              borderColor: resolvedTheme === "light" ? "#e4e4e7" : "#27272a",
+              padding: "1rem",
+              backgroundColor: resolvedTheme === "light" ? "white" : "#1c1917",
+              boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
             }}
             animate={{
               top: index * -CARD_OFFSET,

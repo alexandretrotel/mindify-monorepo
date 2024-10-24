@@ -5,7 +5,7 @@ import type { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 
 const Library = async ({ userId }: { userId: UUID }) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: summariesData } = await supabase
     .from("summaries")

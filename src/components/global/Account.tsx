@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type JSX } from "react";
 import H3Span from "@/components/typography/h3AsSpan";
 import { Separator } from "@/components/ui/separator";
 import Navigation from "@/components/features/account/Navigation";

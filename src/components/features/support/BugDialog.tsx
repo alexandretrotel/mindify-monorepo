@@ -105,7 +105,7 @@ const BugDialog = ({
         </DialogHeader>
 
         <div className="flex flex-col gap-4">
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <Input
               placeholder="Titre du bug"
               type="text"

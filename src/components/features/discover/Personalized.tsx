@@ -14,7 +14,7 @@ import type { UUID } from "crypto";
 import { Muted } from "@/components/typography/muted";
 
 const Personalized = async ({ userId }: { userId: UUID }) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const summariesMatchingUserTopics = await getUserPersonalizedSummariesFromInterests(userId);
 

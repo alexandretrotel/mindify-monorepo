@@ -7,7 +7,7 @@ import { FSRS, FSRSParameters, generatorParameters, type Grade } from "ts-fsrs";
 import { revalidatePath } from "next/cache";
 
 export async function updateSrsData(mindId: number, userId: UUID, grade: Grade) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: srsData, error: srsError } = await supabase
     .from("srs_data")

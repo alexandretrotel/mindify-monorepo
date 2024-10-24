@@ -5,7 +5,7 @@ import H3 from "@/components/typography/h3";
 import { CardDescription, CardTitle } from "@/components/ui/card";
 
 const MyActivity = async ({ userId }: { userId: UUID }) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userReadsData } = await supabase
     .from("read_summaries")

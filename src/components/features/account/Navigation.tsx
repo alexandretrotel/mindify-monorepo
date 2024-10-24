@@ -9,6 +9,8 @@ import type { UserMetadata } from "@supabase/supabase-js";
 import { UUID } from "crypto";
 import type { Tables } from "@/types/supabase";
 
+import type { JSX } from "react";
+
 export default function Navigation({
   userId,
   userMetadata,

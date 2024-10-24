@@ -50,7 +50,14 @@ export function AnimatedListItem({ children }: Readonly<{ children: React.ReactN
   };
 
   return (
-    <motion.div {...animations} layout className="mx-auto w-full">
+    <motion.div
+      {...animations}
+      layout
+      style={{
+        width: "100%",
+        margin: "0 auto"
+      }}
+    >
       {children}
     </motion.div>
   );

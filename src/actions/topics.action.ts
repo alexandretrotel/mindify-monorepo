@@ -8,7 +8,7 @@ import type { Tables } from "@/types/supabase";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function addTopic(user_id: UUID, topic_id: number) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase.from("user_topics").insert({
     user_id,
@@ -25,7 +25,7 @@ export async function addTopic(user_id: UUID, topic_id: number) {
 }
 
 export async function removeTopic(user_id: UUID, topic_id: number) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase
     .from("user_topics")

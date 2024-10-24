@@ -8,7 +8,7 @@ import type { UUID } from "crypto";
 import React from "react";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user }

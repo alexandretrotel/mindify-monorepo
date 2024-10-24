@@ -8,7 +8,7 @@ import { getUsersData } from "@/actions/users.action";
 import type { FriendStatus } from "@/types/friends";
 
 export async function askForFriend(userId: UUID, profileId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     if (userId === profileId) {
@@ -29,7 +29,7 @@ export async function askForFriend(userId: UUID, profileId: UUID) {
 }
 
 export async function cancelFriendRequest(userId: UUID, profileId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     await supabase.from("friends").delete().eq("user_id", userId).eq("friend_id", profileId);
@@ -43,7 +43,7 @@ export async function cancelFriendRequest(userId: UUID, profileId: UUID) {
 }
 
 export async function acceptFriendRequest(userId: UUID, profileId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     await supabase.from("friends").upsert({
@@ -60,7 +60,7 @@ export async function acceptFriendRequest(userId: UUID, profileId: UUID) {
 }
 
 export async function rejectFriendRequest(userId: UUID, profileId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     await supabase.from("friends").delete().eq("user_id", profileId).eq("friend_id", userId);
@@ -75,7 +75,7 @@ export async function rejectFriendRequest(userId: UUID, profileId: UUID) {
 }
 
 export async function removeFriend(userId: UUID, profileId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     await supabase.from("friends").delete().eq("user_id", userId).eq("friend_id", profileId);
@@ -90,7 +90,7 @@ export async function removeFriend(userId: UUID, profileId: UUID) {
 }
 
 export async function getFriendsIds(userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userToFriendData, error: userToFriendError } = await supabase
     .from("friends")
@@ -137,7 +137,7 @@ export async function getFriendsIds(userId: UUID) {
 }
 
 export async function getPendingFriendsIds(userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userToFriendData, error: userToFriendError } = await supabase
     .from("friends")
@@ -186,7 +186,7 @@ export async function getPendingFriendsData(userId: UUID) {
 }
 
 export async function getFriendStatus(userId: UUID, profileId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userToFriendData, error: userToFriendError } = await supabase
     .from("friends")

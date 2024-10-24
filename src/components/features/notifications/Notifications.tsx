@@ -166,8 +166,6 @@ function NotificationItem({
   };
   userId: UUID;
 }>) {
-  const [swipeDirection, setSwipeDirection] = React.useState<"left" | "right" | null>(null);
-
   const { markAsReadNotif, markAsUnreadNotif, deleteNotif } = React.useContext(NotificationContext);
   const { toast } = useToast();
 
@@ -207,50 +205,10 @@ function NotificationItem({
     }
   };
 
-  const handlers = useSwipeable({
-    onSwipedLeft: () => {
-      setSwipeDirection("left");
-      setTimeout(() => {
-        markAsReadNotif(notification.id);
-        setSwipeDirection(null);
-      }, 300);
-    },
-    onSwipedRight: () => {
-      setSwipeDirection("right");
-      setTimeout(() => {
-        deleteNotif(notification.id);
-        setSwipeDirection(null);
-      }, 300);
-    },
-    trackMouse: true
-  });
-
   return (
-    <div {...handlers} className="relative">
-      <motion.div
-        className="absolute inset-0 flex items-center justify-end bg-green-500 px-4"
-        initial={{ x: "100%" }}
-        animate={{ x: swipeDirection === "left" ? "0%" : "100%" }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      >
-        <EyeIcon className="h-6 w-6 text-white" />
-      </motion.div>
-
-      <motion.div
-        className="absolute inset-0 flex items-center justify-start bg-red-500 px-4"
-        initial={{ x: "-100%" }}
-        animate={{ x: swipeDirection === "right" ? "0%" : "-100%" }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      >
-        <TrashIcon className="h-6 w-6 text-white" />
-      </motion.div>
-
-      <motion.div
+    <div className="relative">
+      <div
         className={`relative ${notification.is_read ? "bg-popover" : "bg-muted"} rounded-lg p-3 px-4`}
-        animate={{
-          x: swipeDirection === "left" ? -75 : swipeDirection === "right" ? 75 : 0
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
         <Popover>
           <PopoverTrigger asChild>
@@ -377,7 +335,7 @@ function NotificationItem({
             </div>
           </PopoverContent>
         </Popover>
-      </motion.div>
+      </div>
     </div>
   );
 }

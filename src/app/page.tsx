@@ -12,7 +12,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const Home = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user }
