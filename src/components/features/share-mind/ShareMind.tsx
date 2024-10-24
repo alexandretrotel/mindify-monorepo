@@ -25,7 +25,7 @@ const ShareMind = async ({
   userId: UUID;
   userName: string;
 }) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: mind } = (await supabase
     .from("minds")

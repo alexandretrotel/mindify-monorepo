@@ -6,7 +6,9 @@ import type { UUID } from "crypto";
 import { Metadata } from "next";
 import React, { Suspense } from "react";
 
-export async function generateMetadata(props: { params: Promise<{ id: number }> }): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Promise<{ id: number }>;
+}): Promise<Metadata> {
   const params = await props.params;
   const { id } = params;
 
@@ -49,18 +51,16 @@ export async function generateMetadata(props: { params: Promise<{ id: number }> 
   };
 }
 
-const MindPage = async (
-  props: {
-    params: Promise<{ id: number }>;
-    searchParams: Promise<{ sharedBy: UUID }>;
-  }
-) => {
+const MindPage = async (props: {
+  params: Promise<{ id: number }>;
+  searchParams: Promise<{ sharedBy: UUID }>;
+}) => {
   const searchParams = await props.searchParams;
   const params = await props.params;
   const { id } = params;
   const sharedByUserId = searchParams.sharedBy;
 
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user }

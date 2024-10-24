@@ -5,7 +5,7 @@ import type { UUID } from "crypto";
 import React, { Suspense } from "react";
 
 const LibraryPage = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user }

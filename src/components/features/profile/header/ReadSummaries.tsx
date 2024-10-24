@@ -13,7 +13,7 @@ import type { UUID } from "crypto";
 import React from "react";
 
 const ReadSummaries = async ({ userId, userName }: { userId: UUID; userName: string }) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { count: readSummariesCount } = await supabase
     .from("read_summaries")

@@ -17,7 +17,7 @@ import type { Tables } from "@/types/supabase";
 import { Muted } from "@/components/typography/muted";
 
 const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: boolean }) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   let sortedUserTopics: Tables<"topics">[] = [];
   if (isConnected) {

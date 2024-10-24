@@ -5,7 +5,7 @@ import type { UUID } from "crypto";
 import CreateFlashcardSet from "@/components/features/learn/CreateFlashcardSet";
 
 export default async function flashcardGrid({ userId }: { userId: UUID }) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { count: savedMindsCount, error } = await supabase
     .from("saved_minds")

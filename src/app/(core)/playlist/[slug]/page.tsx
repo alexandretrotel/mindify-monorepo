@@ -48,7 +48,7 @@ const PlaylistPage = async (props: { params: Promise<{ slug: string }> }) => {
   const params = await props.params;
   const { slug } = params;
 
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user }

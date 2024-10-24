@@ -5,7 +5,7 @@ import type { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 
 const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user }

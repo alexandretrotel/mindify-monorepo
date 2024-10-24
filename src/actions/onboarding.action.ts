@@ -5,7 +5,7 @@ import type { UUID } from "crypto";
 import { createClient } from "@/utils/supabase/server";
 
 export async function hasBeenOnboarded(userId: UUID): Promise<boolean> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("onboarding")

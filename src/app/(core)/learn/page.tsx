@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 
 export default async function LearnPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user }

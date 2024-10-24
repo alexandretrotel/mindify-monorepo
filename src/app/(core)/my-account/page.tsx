@@ -42,7 +42,7 @@ const tabs = [
 ];
 
 const MyAccount = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user },

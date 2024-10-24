@@ -11,7 +11,7 @@ export default async function FeaturesCounter({
     return null;
   }
 
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { count, error } = await supabase
     .from("support_features")

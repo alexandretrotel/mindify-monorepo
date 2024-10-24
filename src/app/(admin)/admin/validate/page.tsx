@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const ValidatePage = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user }

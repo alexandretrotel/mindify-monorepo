@@ -19,7 +19,7 @@ export async function createBugReport(
   type: Enums<"bugs">,
   description: string
 ) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   let finalTitle, finalType, finalDescription;
   try {
@@ -72,7 +72,7 @@ export async function createFeatureRequest(
   type: Enums<"features">,
   description: string
 ) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   let finalTitle, finalType, finalDescription;
   try {
@@ -114,7 +114,7 @@ export async function createFeatureRequest(
 }
 
 export async function getAllBugs() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.from("support_bugs").select("*");
 
@@ -127,7 +127,7 @@ export async function getAllBugs() {
 }
 
 export async function getAllFeatures() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.from("support_features").select("*");
 

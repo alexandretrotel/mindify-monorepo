@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import "server-only";
 
 export async function getAllRandomMindsPlaylists() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: randomMindsPlaylists, error } = await supabase
     .from("playlists")
@@ -18,7 +18,7 @@ export async function getAllRandomMindsPlaylists() {
 }
 
 export async function getMindsFromPlaylistSlug(playlistSlug: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: playlist, error } = await supabase
     .from("playlists")

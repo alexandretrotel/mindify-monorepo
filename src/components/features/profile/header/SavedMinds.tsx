@@ -13,7 +13,7 @@ import type { UUID } from "crypto";
 import React from "react";
 
 const SavedMinds = async ({ userId, userName }: { userId: UUID; userName: string }) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { count: savedMindsCount } = await supabase
     .from("saved_minds")

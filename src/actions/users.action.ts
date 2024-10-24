@@ -32,7 +32,7 @@ const nameSchema = z.object({
 });
 
 export async function userUpdateName(name: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   let nameData;
   try {
@@ -64,7 +64,7 @@ const bioSchema = z.object({
 });
 
 export async function userUpdateBiography(biography: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   let bioData;
   try {
@@ -110,7 +110,7 @@ const avatarSchema = z.object({
 });
 
 export async function userUpdateAvatar(formData: FormData, userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   let avatarData;
   try {
@@ -188,7 +188,7 @@ export async function getUsersData(usersIds: UUID[]) {
 }
 
 export async function getUserReadingStreak(userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("read_summaries")
@@ -209,7 +209,7 @@ export async function getUserReadingStreak(userId: UUID) {
 }
 
 export async function getUserReadsIds(userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("read_summaries")
@@ -227,7 +227,7 @@ export async function getUserReadsIds(userId: UUID) {
 }
 
 export async function hasUserSavedSummary(userId: UUID, summaryId: number) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userLibraryData } = await supabase
     .from("saved_summaries")
@@ -240,7 +240,7 @@ export async function hasUserSavedSummary(userId: UUID, summaryId: number) {
 }
 
 export async function hasUserReadSummary(userId: UUID, summaryId: number) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userReadsData } = await supabase
     .from("read_summaries")
@@ -253,7 +253,7 @@ export async function hasUserReadSummary(userId: UUID, summaryId: number) {
 }
 
 export async function getUserPersonalizedSummariesFromInterests(userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userTopicsData } = await supabase
     .from("user_topics")
@@ -288,7 +288,7 @@ export async function getUserPersonalizedSummariesFromInterests(userId: UUID) {
 }
 
 export async function getUserSummariesFromLibrary(userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: userLibraryData } = await supabase
     .from("saved_summaries")
@@ -319,7 +319,7 @@ const removeDuplicates = (array: any[]) => {
 };
 
 export async function getUserReadSummaries(userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: profileReadsData } = await supabase
     .from("read_summaries")
@@ -341,7 +341,7 @@ export async function getUserReadSummaries(userId: UUID) {
 }
 
 export async function getUserSavedSummaries(userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: profileLibraryData } = await supabase
     .from("saved_summaries")
@@ -363,7 +363,7 @@ export async function getUserSavedSummaries(userId: UUID) {
 }
 
 export async function getUserTopics(user_id: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("user_topics")
@@ -381,7 +381,7 @@ export async function getUserTopics(user_id: UUID) {
 }
 
 export async function getTopUsers() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: usersData } = await supabase.from("read_summaries").select("user_id");
 
@@ -409,7 +409,7 @@ export async function getTopUsers() {
 }
 
 export async function getUserSavedMinds(userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: savedMindsData, error } = await supabase
     .from("saved_minds")
@@ -439,7 +439,7 @@ export async function getUserSavedMinds(userId: UUID) {
 }
 
 export async function getUserSavedMindsIds(userId: UUID) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: savedMindsData, error } = await supabase
     .from("saved_minds")
@@ -457,7 +457,7 @@ export async function getUserSavedMindsIds(userId: UUID) {
 }
 
 export async function getUserDueMindsFromMindsIds(userId: UUID, mindsIds: number[]) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: dueMindsData, error } = await supabase
     .from("srs_data")
@@ -531,7 +531,7 @@ export async function postUserLearningSession(
   inactiveTime: number,
   userId: UUID
 ) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("learning_sessions")
@@ -552,7 +552,7 @@ export async function postUserLearningSession(
 }
 
 export async function getUserId() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const {
     data: { user }
