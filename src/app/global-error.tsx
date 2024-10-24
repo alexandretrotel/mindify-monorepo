@@ -1,8 +1,6 @@
 "use client";
 import "client-only";
 
-import * as Sentry from "@sentry/nextjs";
-import NextError from "next/error";
 import { useEffect } from "react";
 import H1 from "@/components/typography/h1";
 import { Button } from "@/components/ui/button";
@@ -11,17 +9,13 @@ import { useToast } from "@/components/ui/use-toast";
 import { Muted } from "@/components/typography/muted";
 
 export default function GlobalError({
-  error,
-  reset
+  error
 }: Readonly<{
   error: Error & { digest?: string };
-  reset: () => void;
 }>) {
   const { toast } = useToast();
 
   useEffect(() => {
-    Sentry.captureException(error);
-
     toast({
       title: error.name,
       description: error.message,
