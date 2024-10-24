@@ -32,11 +32,12 @@ import { Muted } from "@/components/typography/muted";
 import P from "@/components/typography/p";
 import { Separator } from "@/components/ui/separator";
 
-export async function generateMetadata({
-  params
-}: {
-  params: { author_slug: string; slug: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ author_slug: string; slug: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   const { slug, author_slug } = params;
 
   const summary = await getAdminSummaryFromSlugs(author_slug, slug);
@@ -74,7 +75,8 @@ export async function generateMetadata({
   };
 }
 
-const Page = async ({ params }: { params: { author_slug: string; slug: string } }) => {
+const Page = async (props: { params: Promise<{ author_slug: string; slug: string }> }) => {
+  const params = await props.params;
   const { slug, author_slug } = params;
 
   const supabase = createClient();

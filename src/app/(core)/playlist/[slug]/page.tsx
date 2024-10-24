@@ -8,13 +8,12 @@ import type { Metadata, ResolvingMetadata } from "next";
 import React, { Suspense } from "react";
 
 export async function generateMetadata(
-  {
-    params
-  }: {
-    params: { slug: string };
+  props: {
+    params: Promise<{ slug: string }>;
   },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
+  const params = await props.params;
   const { slug } = params;
 
   const playlist = await getMindsFromPlaylistSlug(slug);
@@ -45,7 +44,8 @@ export async function generateMetadata(
   };
 }
 
-const PlaylistPage = async ({ params }: { params: { slug: string } }) => {
+const PlaylistPage = async (props: { params: Promise<{ slug: string }> }) => {
+  const params = await props.params;
   const { slug } = params;
 
   const supabase = createClient();

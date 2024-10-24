@@ -81,7 +81,7 @@ export async function signInWithPassword(formData: FormData) {
 export async function signInWithSocials(provider: SocialProvider) {
   const supabase = createClient();
 
-  const origin = headers().get("origin");
+  const origin = (await headers()).get("origin");
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider,

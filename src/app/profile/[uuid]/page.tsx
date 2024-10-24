@@ -45,7 +45,8 @@ import FriendsTabsSkeleton from "@/components/features/profile/friends/skeleton/
 import MobileNavbar from "@/components/global/MobileNavbar";
 import ProfileFriends from "@/components/features/profile/friends/Friends";
 
-export async function generateMetadata({ params }: { params: { uuid: UUID } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ uuid: UUID }> }): Promise<Metadata> {
+  const params = await props.params;
   const profileId = params.uuid;
 
   const { data: userData } = await supabaseAdmin.auth.admin.getUserById(profileId);
@@ -80,15 +81,16 @@ export async function generateMetadata({ params }: { params: { uuid: UUID } }): 
 
 export type UserTab = "summaries" | "minds" | "statistics" | "friends";
 
-const Page = async ({
-  params,
-  searchParams
-}: {
-  params: { uuid: UUID };
-  searchParams: {
-    tab: UserTab;
-  };
-}) => {
+const Page = async (
+  props: {
+    params: Promise<{ uuid: UUID }>;
+    searchParams: Promise<{
+      tab: UserTab;
+    }>;
+  }
+) => {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const profileId = params.uuid;
   const tab = searchParams.tab;
 

@@ -9,13 +9,12 @@ import { Muted } from "@/components/typography/muted";
 import type { Metadata, ResolvingMetadata } from "next";
 
 export async function generateMetadata(
-  {
-    params
-  }: {
-    params: { slug: string };
+  props: {
+    params: Promise<{ slug: string }>;
   },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
+  const params = await props.params;
   const { slug } = params;
 
   const topic = await getAdminTopicFromTopicSlug(slug);
@@ -46,7 +45,8 @@ export async function generateMetadata(
   };
 }
 
-const Page = async ({ params }: { params: { slug: string } }) => {
+const Page = async (props: { params: Promise<{ slug: string }> }) => {
+  const params = await props.params;
   const { slug } = params;
 
   const supabase = createClient();
