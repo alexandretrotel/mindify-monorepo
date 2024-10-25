@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "H44V62KMS7.com.mindify.app",
-        "paths": ["/app/*"]
+        "paths": ["/*"]
       }
     ]
   },
