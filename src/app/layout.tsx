@@ -111,7 +111,10 @@ export const metadata: Metadata = {
       }
     ]
   },
-  category: "education"
+  category: "education",
+  other: {
+    "apple-itunes-app": "app-id=6736653377"
+  }
 };
 
 export const viewport: Viewport = {
