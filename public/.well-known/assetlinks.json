@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.mindify.app",
+      "sha256_cert_fingerprints": [
+        "32:CD:95:DD:98:52:E8:49:86:C8:F2:5B:BE:EA:F0:4C:F9:D6:E5:54:4A:C8:29:24:9B:E1:91:DF:1B:3A:F2:47"
+      ]
+    }
+  }
+]

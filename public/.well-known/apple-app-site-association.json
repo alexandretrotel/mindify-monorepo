@@ -1,0 +1,17 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "H44V62KMS7.com.mindify.app",
+        "paths": ["/app/*"]
+      }
+    ]
+  },
+  "activitycontinuation": {
+    "apps": ["H44V62KMS7.com.mindify.app"]
+  },
+  "webcredentials": {
+    "apps": ["H44V62KMS7.com.mindify.app"]
+  }
+}
