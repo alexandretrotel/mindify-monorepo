@@ -27,11 +27,10 @@ export async function addTopic(user_id: UUID, topic_id: number) {
 export async function removeTopic(user_id: UUID, topic_id: number) {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from("user_topics")
-    .delete()
-    .eq("user_id", user_id)
-    .eq("topic_id", topic_id);
+  const { error } = await supabase.from("user_topics").delete().match({
+    user_id,
+    topic_id
+  });
 
   if (error) {
     console.error(error);
@@ -46,7 +45,7 @@ export async function getAdminTopicFromTopicSlug(slug: string) {
   const { data, error } = await supabaseAdmin
     .from("topics")
     .select("*")
-    .eq("slug", slug)
+    .match({ slug, production: true })
     .maybeSingle();
 
   if (error) {

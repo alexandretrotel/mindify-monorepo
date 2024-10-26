@@ -7,7 +7,8 @@ export async function getAllRandomMindsPlaylists() {
 
   const { data: randomMindsPlaylists, error } = await supabase
     .from("playlists")
-    .select("*, minds(*)");
+    .select("*, minds(*)")
+    .eq("production", true);
 
   if (error) {
     console.error(error);
@@ -23,7 +24,7 @@ export async function getMindsFromPlaylistSlug(playlistSlug: string) {
   const { data: playlist, error } = await supabase
     .from("playlists")
     .select("*, minds(*, summaries(*, topics(*), authors(*)))")
-    .eq("slug", playlistSlug)
+    .match({ slug: playlistSlug, production: true })
     .maybeSingle();
 
   if (error) {

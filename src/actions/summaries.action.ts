@@ -83,8 +83,7 @@ export async function getSummaryFromSlugs(author_slug: string, slug: string) {
   const { data, error } = await supabase
     .from("summaries")
     .select("*, authors(*), topics(*), chapters(*)")
-    .eq("slug", slug)
-    .eq("authors.slug", author_slug)
+    .match({ slug, "authors.slug": author_slug, production: true })
     .maybeSingle();
 
   if (error) {
@@ -99,8 +98,7 @@ export async function getAdminSummaryFromSlugs(author_slug: string, slug: string
   const { data, error } = await supabaseAdmin
     .from("summaries")
     .select("*, authors(*), topics(*)")
-    .eq("slug", slug)
-    .eq("authors.slug", author_slug)
+    .match({ slug, "authors.slug": author_slug, production: true })
     .maybeSingle();
 
   if (error) {
@@ -156,7 +154,7 @@ export async function getMostPopularSummariesFromSameTopic(
   const { data: userReadsData, error } = await supabase
     .from("read_summaries")
     .select("*, summaries(*, topics(*), authors(*))")
-    .eq("summaries.topic_id", topicId)
+    .match({ "summaries.topic_id": topicId, "summaries.production": true })
     .neq("summary_id", summary.id);
 
   if (error) {
@@ -189,7 +187,8 @@ export async function getMostPopularSummariesFromSameTopic(
           topic_id: read?.summaries?.topic_id as number,
           topics: read?.summaries?.topics as Tables<"topics">,
           authors: read?.summaries?.authors as Tables<"authors">,
-          mindify_ai: read?.summaries?.mindify_ai as boolean
+          mindify_ai: read?.summaries?.mindify_ai as boolean,
+          production: read?.summaries?.production as boolean
         }
       };
     }
@@ -218,7 +217,8 @@ export async function getMostPopularSummaries() {
 
   const { data: userReadsData, error } = await supabase
     .from("read_summaries")
-    .select("*, summaries(*, topics(*), authors(*))");
+    .select("*, summaries(*, topics(*), authors(*))")
+    .eq("summaries.production", true);
 
   if (error) {
     console.error(error);
@@ -248,7 +248,8 @@ export async function getMostPopularSummaries() {
           topic_id: read?.summaries?.topic_id as number,
           topics: read?.summaries?.topics as Tables<"topics">,
           authors: read?.summaries?.authors as Tables<"authors">,
-          mindify_ai: read?.summaries?.mindify_ai as boolean
+          mindify_ai: read?.summaries?.mindify_ai as boolean,
+          production: read?.summaries?.production as boolean
         }
       };
     }
@@ -278,7 +279,7 @@ export async function countSummariesByTopicId(topicId: number) {
   const { count, error } = await supabase
     .from("summaries")
     .select("*", { count: "exact", head: true })
-    .eq("topic_id", topicId);
+    .match({ topic_id: topicId, production: true });
 
   if (error) {
     console.error(error);
@@ -294,6 +295,7 @@ export async function getFirstSummaries(number: number) {
   const { data: summaries, error } = await supabase
     .from("summaries")
     .select("*, topics(*), authors(*)")
+    .eq("production", true)
     .limit(number);
 
   if (error) {
