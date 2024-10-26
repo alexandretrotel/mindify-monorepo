@@ -37,9 +37,9 @@ Détails supplémentaires :
 
 - La longueur totale du texte doit avoisiner les 2000 mots (+/- 200 mots).  
 - Fournis également une estimation du temps de lecture global.
-- Ne mets pas de liens externes dans le texte ni de caractères spéciaux (comme des emojis, des guillemets, des retours à la ligne, etc.).
-- Évite les retours à la ligne car cela provoque des erreurs de parsing ([Symbol(vercel.ai.error.AI_JSONParseError)]: true).
-- La sortie n'est pas en markdown, donc ne mets pas de balises markdown dans le texte.
+- Ne mets pas de liens externes dans le texte ni de caractères spéciaux.
+- Évite les retours à la ligne car cela provoque des erreurs de parsing.
+- Ne fais pas de markdown, donc ne mets pas de balises markdown dans le texte. Juste du texte brut.
 
 Objectif : Offrir une expérience de lecture immersive et instructive, en capturant l’essence de "${title}" tout en facilitant la compréhension des concepts pour un public large.
     `;
