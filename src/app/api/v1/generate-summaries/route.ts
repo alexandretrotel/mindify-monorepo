@@ -12,7 +12,7 @@ const google = createGoogleGenerativeAI({
   apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY!
 });
 
-const model = google("gemini-1.5-flash-latest");
+const model = google("gemini-1.5-pro-latest");
 
 // TODO: support prompts other summaries than books
 const getAuthorPrompt = (authorName: string): string => {
@@ -27,7 +27,7 @@ Mission : Résumer le concept et les leçons de "${title}" de ${authorName} en 5
 
 Pour chaque chapitre :
 
-1. Choisis un sous-titre accrocheur, formé d'une seule phrase exprimant une action ou une émotion (évite d'utiliser le signe “:” pour ne pas casser le rythme).  
+1. Choisis un sous-titre accrocheur, formé d'une seule phrase exprimant une action ou une émotion (évite d'utiliser le signe “:” pour ne pas casser le rythme et ne fait pas de markdown, ne mets pas non plus "Chapitre (nombre)").  
 2. Essaye de raconter le chapitre sous forme d'une histoire afin de vulgariser.
 3. Utilise du storytelling et des exemples concrets pour simplifier et vulgariser les concepts abordés au sein des chapitres plutôt que de faire du contenu théorique.   
 5. Assure-toi d'avoir autant de sous-titres que de chapitres (de 5 à 8 chapitres au total).  
@@ -36,7 +36,10 @@ Pour chaque chapitre :
 Détails supplémentaires :
 
 - La longueur totale du texte doit avoisiner les 2000 mots (+/- 200 mots).  
-- Fournis également une estimation du temps de lecture global.  
+- Fournis également une estimation du temps de lecture global.
+- Ne mets pas de liens externes dans le texte ni de caractères spéciaux.
+- Évite les retours à la ligne car cela provoque des erreurs de parsing.
+- Ne fais pas de markdown, donc ne mets pas de balises markdown dans le texte. Juste du texte brut.
 
 Objectif : Offrir une expérience de lecture immersive et instructive, en capturant l’essence de "${title}" tout en facilitant la compréhension des concepts pour un public large.
     `;
@@ -85,6 +88,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
   const supabaseAdmin = createClient<Database>(supabaseURL, supabaseServiceRoleKey);
 
   try {
+    console.log("Fetching summary requests...");
     const { data, error } = await supabaseAdmin
       .from("summary_requests")
       .select("*")
@@ -95,6 +99,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
     }
 
     if (!data || data.length === 0) {
+      console.log("No summary requests found.");
       return new Response("No summary request to generate", { status: 200 });
     }
 
@@ -102,7 +107,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
       console.log("Generating summary for request", summaryRequest);
 
       try {
-        // checks if the author already exists in the database
+        console.log("Checking if author exists:", summaryRequest.author);
         const { data: authorDataCheck, error: authorErrorCheck } = await supabaseAdmin
           .from("authors")
           .select("*")
@@ -115,20 +120,22 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
 
         let authorDataGlobal;
         if (!authorDataCheck) {
-          // generate all the content from the request
+          console.log("Author not found, generating author data...");
           const authorPrompt = getAuthorPrompt(summaryRequest.author);
 
           const authorResult = await generateObject({
             model,
             prompt: authorPrompt,
             schemaName: "AuthorSchema",
-            schemaDescription: "Schema for generating author descriptions",
+            schemaDescription:
+              "Schema for generating author descriptions,don't use markdown at all, just plain text",
             schema: z.object({
               description: z.string()
             })
           });
 
           const authorSlug = toSlug(summaryRequest.author);
+          console.log("Inserting new author data:", authorSlug);
 
           const { data: authorData, error: authorError } = await supabaseAdmin
             .from("authors")
@@ -147,10 +154,11 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
 
           authorDataGlobal = authorData;
         } else {
+          console.log("Author found:", authorDataCheck);
           authorDataGlobal = authorDataCheck;
         }
 
-        // checks if the summary already exists in the database
+        console.log("Checking if summary exists:", summaryRequest.title);
         const { data: summaryDataCheck, error: summaryErrorCheck } = await supabaseAdmin
           .from("summaries")
           .select("*")
@@ -163,25 +171,32 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
 
         let summaryDataGlobal;
         if (!summaryDataCheck) {
+          console.log("Summary not found, generating summary data...");
           const summaryPrompt = getSummaryPrompt(summaryRequest.title, summaryRequest.author);
 
           const summaryResult = await generateObject({
             model,
             prompt: summaryPrompt,
             schemaName: "SummarySchema",
-            schemaDescription: "Schema for generating book summaries",
+            schemaDescription:
+              "Schema for generating book summaries, don't use markdown at all, just plain text",
             schema: z.object({
               readingTime: z.number(),
-              chaptersTitle: z.string().array(),
-              chaptersText: z.string().array()
+              chapter: z
+                .object({
+                  title: z.string(),
+                  text: z.string()
+                })
+                .array()
             })
           });
 
+          console.log("Inserting chapters data...");
           const { data: chaptersData, error: chaptersError } = await supabaseAdmin
             .from("chapters")
             .insert({
-              titles: summaryResult?.object?.chaptersTitle,
-              texts: summaryResult?.object?.chaptersText,
+              titles: summaryResult?.object?.chapter.map((elt) => elt.title),
+              texts: summaryResult?.object?.chapter.map((elt) => elt.text),
               mindify_ai: true
             })
             .select()
@@ -193,6 +208,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
           }
 
           const summaryTitleSlug = toSlug(summaryRequest.title);
+          console.log("Inserting new summary data:", summaryTitleSlug);
 
           const { data: summaryData, error: summaryError } = await supabaseAdmin
             .from("summaries")
@@ -215,29 +231,36 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
 
           summaryDataGlobal = summaryData;
         } else {
+          console.log("Summary found:", summaryDataCheck);
           summaryDataGlobal = summaryDataCheck;
         }
 
+        console.log("Generating minds for summary:", summaryDataGlobal?.title);
         const mindsPrompt = getMindsPrompt(summaryRequest.title, summaryRequest.author);
 
         const mindsResult = await generateObject({
           model,
           prompt: mindsPrompt,
           schemaName: "MindsSchema",
-          schemaDescription: "Schema for generating minds based on the book",
-          schema: z.object({
-            minds: z.string().array(),
-            questions: z.string().array()
-          })
+          schemaDescription:
+            "Schema for generating minds based on the book, don't use markdown at all, just plain text",
+          schema: z
+            .object({
+              minds: z.string(),
+              questions: z.string()
+            })
+            .array()
         });
 
+        console.log("Inserting minds data...");
         if (mindsResult?.object) {
-          for (const mind of mindsResult.object.minds) {
+          for (const elt of mindsResult.object) {
             try {
               const { error: mindsError } = await supabaseAdmin.from("minds").insert({
-                text: mind,
+                text: elt.minds,
                 summary_id: summaryDataGlobal?.id as number,
-                question: mindsResult.object.questions[mindsResult.object.minds.indexOf(mind)]
+                question: elt.questions,
+                mindify_ai: true
               });
 
               if (mindsError) {
@@ -250,6 +273,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
           }
         }
 
+        console.log("Deleting summary request...");
         const { error: deleteError } = await supabaseAdmin
           .from("summary_requests")
           .delete()
@@ -258,6 +282,8 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
         if (deleteError) {
           throw new Error("Error while deleting summary request");
         }
+
+        console.log("Successfully generated minds for summary request", summaryRequest);
       } catch (error) {
         console.error("Error while generating summary", error);
         continue;
