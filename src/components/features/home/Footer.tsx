@@ -13,13 +13,16 @@ import FeaturesCounterSkeleton from "@/components/features/support/skeleton/Feat
 import FeaturesCounter from "@/components/features/support/counter/FeaturesCounter";
 import BugsCounter from "@/components/features/support/counter/BugsCounter";
 import BugsCounterSkeleton from "@/components/features/support/skeleton/BugsCounterSkeleton";
+import { features } from "@/data/features";
 
 export default function Footer({
   userId,
   isConnected
 }: Readonly<{ userId: UUID; isConnected: boolean }>) {
+  const discover = [...(features.canLogIn ? [{ name: "Découvrir", href: "/discover" }] : [])];
+
   const navigation = {
-    discover: [{ name: "Utilisateurs", href: "/users" }],
+    discover,
     support: [
       {
         component: (
