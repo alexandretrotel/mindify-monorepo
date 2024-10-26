@@ -17,8 +17,8 @@ const SavedMinds = async ({ userId, userName }: { userId: UUID; userName: string
 
   const { count: savedMindsCount } = await supabase
     .from("saved_minds")
-    .select("*", { count: "exact", head: true })
-    .eq("user_id", userId);
+    .select("*, minds(production)", { count: "exact", head: true })
+    .match({ user_id: userId, "minds.production": true });
 
   return (
     <Dialog>

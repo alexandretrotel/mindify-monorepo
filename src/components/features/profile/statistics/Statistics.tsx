@@ -10,7 +10,7 @@ const Statistics = async ({ userId }: { userId: UUID }) => {
   const { data: userReadsData } = await supabase
     .from("read_summaries")
     .select("*, summaries(*, authors(*), topics(*))")
-    .eq("user_id", userId);
+    .match({ user_id: userId, "summaries.production": true });
 
   const userReads = userReadsData;
   const readSummaries = userReadsData?.map((item) => item?.summaries) as (Tables<"summaries"> & {

@@ -9,24 +9,25 @@ const Library = async ({ userId }: { userId: UUID }) => {
 
   const { data: summariesData } = await supabase
     .from("summaries")
-    .select("*, authors(*), topics(*)");
+    .select("*, authors(*), topics(*)")
+    .eq("production", true);
   const summaries = summariesData?.map((summary) => ({
     ...summary,
     topic: summary.topics?.name as string,
     author_slug: summary.authors?.slug as string
   }));
 
-  const { data: topicsData } = await supabase.from("topics").select("*");
+  const { data: topicsData } = await supabase.from("topics").select("*").eq("production", true);
 
   const { data: userReadsData } = await supabase
     .from("read_summaries")
-    .select("*")
-    .eq("user_id", userId);
+    .select("*, summaries(production)")
+    .match({ user_id: userId, "summaries.production": true });
 
   const { data: userLibraryData } = await supabase
     .from("saved_summaries")
-    .select("*")
-    .eq("user_id", userId);
+    .select("*, summaries(production)")
+    .match({ user_id: userId, "summaries.production": true });
 
   return (
     <LibraryClient

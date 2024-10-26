@@ -53,7 +53,8 @@ const Page = async (props: { params: Promise<{ slug: string }> }) => {
 
   const { data: summariesData } = await supabase
     .from("summaries")
-    .select("*, topics(*), authors(*)");
+    .select("*, topics(*), authors(*)")
+    .eq("production", true);
   const topic = summariesData?.find((summary) => summary?.topics?.slug === slug)?.topics;
 
   const filteredSummariesData = summariesData?.filter((summary) => summary?.topics?.slug === slug);

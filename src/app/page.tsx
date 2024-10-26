@@ -6,6 +6,7 @@ import Hero from "@/components/features/home/Hero";
 import Pricing from "@/components/features/home/Pricing";
 import TakeACoffee from "@/components/features/home/TakeACoffee";
 import Testimonials from "@/components/features/home/Testimonials";
+import { features } from "@/data/features";
 import { createClient } from "@/utils/supabase/server";
 import type { UUID } from "crypto";
 import { redirect } from "next/navigation";
@@ -22,7 +23,7 @@ const Home = async () => {
 
   const isConnected = !!user;
 
-  if (!isConnected) {
+  if (!isConnected || !features.canLogIn) {
     return (
       <React.Fragment>
         <HeaderClient />
@@ -41,7 +42,9 @@ const Home = async () => {
     );
   }
 
-  redirect("/library");
+  if (features.canLogIn && isConnected) {
+    redirect("/library");
+  }
 };
 
 export default Home;
