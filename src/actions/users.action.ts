@@ -213,8 +213,8 @@ export async function getUserReadsIds(userId: UUID) {
 
   const { data, error } = await supabase
     .from("read_summaries")
-    .select("summary_id")
-    .eq("user_id", userId);
+    .select("summary_id, summaries(production)")
+    .match({ user_id: userId, "summaries.production": true });
 
   const reads = data?.map((read) => read.summary_id);
 
@@ -231,8 +231,8 @@ export async function hasUserSavedSummary(userId: UUID, summaryId: number) {
 
   const { data: userLibraryData } = await supabase
     .from("saved_summaries")
-    .select("*")
-    .eq("user_id", userId);
+    .select("*, summaries(production)")
+    .match({ user_id: userId, "summaries.production": true });
 
   if (userLibraryData?.some((library) => library.summary_id === summaryId)) {
     return true;
@@ -244,8 +244,8 @@ export async function hasUserReadSummary(userId: UUID, summaryId: number) {
 
   const { data: userReadsData } = await supabase
     .from("read_summaries")
-    .select("*")
-    .eq("user_id", userId);
+    .select("*, summaries(production)")
+    .match({ user_id: userId, "summaries.production": true });
 
   if (userReadsData?.some((read) => read.summary_id === summaryId)) {
     return true;
@@ -258,7 +258,7 @@ export async function getUserPersonalizedSummariesFromInterests(userId: UUID) {
   const { data: userTopicsData } = await supabase
     .from("user_topics")
     .select("topics(*)")
-    .eq("user_id", userId);
+    .match({ user_id: userId, "topics.production": true });
   const userTopics = userTopicsData?.flatMap((data) => data?.topics);
 
   const { data: summariesData } = await supabase
@@ -293,7 +293,7 @@ export async function getUserSummariesFromLibrary(userId: UUID) {
   const { data: userLibraryData } = await supabase
     .from("saved_summaries")
     .select("summaries(*, authors(*), topics(*))")
-    .eq("user_id", userId);
+    .match({ user_id: userId, "summaries.production": true });
 
   const userLibrarySummaries = userLibraryData?.map((libraryData) => ({
     ...libraryData?.summaries,
@@ -324,7 +324,7 @@ export async function getUserReadSummaries(userId: UUID) {
   const { data: profileReadsData } = await supabase
     .from("read_summaries")
     .select("*, summaries(*, topics(*), authors(*))")
-    .eq("user_id", userId);
+    .match({ user_id: userId, "summaries.production": true });
 
   const uniqueProfileReadsData = removeDuplicates(profileReadsData as any[]);
 
@@ -346,7 +346,7 @@ export async function getUserSavedSummaries(userId: UUID) {
   const { data: profileLibraryData } = await supabase
     .from("saved_summaries")
     .select("*, summaries(*, topics(*), authors(*))")
-    .eq("user_id", userId);
+    .match({ user_id: userId, "summaries.production": true });
 
   const uniqueProfileLibraryData = removeDuplicates(profileLibraryData as any[]);
 
@@ -368,7 +368,7 @@ export async function getUserTopics(user_id: UUID) {
   const { data, error } = await supabase
     .from("user_topics")
     .select("topics(*)")
-    .eq("user_id", user_id);
+    .match({ user_id, "topics.production": true });
 
   if (error) {
     console.error(error);
@@ -383,7 +383,10 @@ export async function getUserTopics(user_id: UUID) {
 export async function getTopUsers() {
   const supabase = await createClient();
 
-  const { data: usersData } = await supabase.from("read_summaries").select("user_id");
+  const { data: usersData } = await supabase
+    .from("read_summaries")
+    .select("user_id, summaries(production)")
+    .eq("summaries.production", true);
 
   if (!usersData) {
     return [];
@@ -414,7 +417,7 @@ export async function getUserSavedMinds(userId: UUID) {
   const { data: savedMindsData, error } = await supabase
     .from("saved_minds")
     .select("*, minds(*, summaries(*, topics(*), authors(*)))")
-    .eq("user_id", userId);
+    .match({ user_id: userId, "minds.production": true });
 
   if (error) {
     console.error(error);
@@ -443,8 +446,8 @@ export async function getUserSavedMindsIds(userId: UUID) {
 
   const { data: savedMindsData, error } = await supabase
     .from("saved_minds")
-    .select("minds(id)")
-    .eq("user_id", userId);
+    .select("minds(id, production)")
+    .match({ user_id: userId, "minds.production": true });
 
   if (error) {
     console.error(error);
@@ -462,7 +465,7 @@ export async function getUserDueMindsFromMindsIds(userId: UUID, mindsIds: number
   const { data: dueMindsData, error } = await supabase
     .from("srs_data")
     .select("*, minds(*, summaries(*, topics(*), authors(*)))")
-    .eq("user_id", userId)
+    .match({ user_id: userId, "minds.production": true })
     .in("mind_id", mindsIds);
 
   if (error) {
@@ -500,6 +503,7 @@ export async function getUserDueMindsFromMindsIds(userId: UUID, mindsIds: number
   const { data: fullMindsData, error: fetchError } = await supabase
     .from("srs_data")
     .select("*, minds(*,summaries(*, topics(*), authors(*)))")
+    .match({ user_id: userId, "minds.production": true })
     .in("mind_id", mindsIds)
     .lte("due", new Date().toISOString());
 

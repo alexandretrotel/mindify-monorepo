@@ -11,7 +11,7 @@ export async function getMindsFromSummaryId(summaryId: number) {
   const { data: mindsData, error } = await supabase
     .from("minds")
     .select("*, summaries(*, authors(*), topics(*))")
-    .eq("summary_id", summaryId);
+    .match({ summary_id: summaryId, production: true });
 
   if (error) {
     console.error(error);
@@ -35,7 +35,8 @@ export async function getMostSavedMinds() {
 
   const { data: savedMindsData, error } = await supabase
     .from("saved_minds")
-    .select("*, minds(*, summaries(*, topics(*), authors(*)))");
+    .select("*, minds(*, summaries(*, topics(*), authors(*)))")
+    .eq("production", true);
 
   if (error) {
     console.error(error);
@@ -55,7 +56,8 @@ export async function getMostSavedMinds() {
           summary_id: read?.minds?.summary_id as number,
           created_at: read?.minds?.created_at as string,
           mindify_ai: read?.minds?.mindify_ai as boolean,
-          question: read?.minds?.question as string
+          question: read?.minds?.question as string,
+          production: read?.minds?.production as boolean
         }
       };
     }
@@ -84,7 +86,7 @@ export async function getMindsFromUserId(userId: UUID) {
   const { data: mindsData, error } = await supabase
     .from("saved_minds")
     .select("*, minds(*, summaries(*, topics(*), authors(*)))")
-    .eq("user_id", userId);
+    .match({ user_id: userId, production: true });
 
   if (error) {
     console.error(error);
@@ -132,8 +134,8 @@ export async function areMindsSaved(mindIds: number[], userId: UUID) {
 
   const { data, error } = await supabase
     .from("saved_minds")
-    .select("mind_id")
-    .eq("user_id", userId)
+    .select("mind_id, minds(production)")
+    .match({ production: true, user_id: userId })
     .in("mind_id", mindIds);
 
   if (error) {
@@ -149,7 +151,8 @@ export async function getRandomMinds() {
 
   const { data: mindsData, error } = await supabase
     .from("minds")
-    .select("*, summaries(*, topics(*), authors(*))");
+    .select("*, summaries(*, topics(*), authors(*))")
+    .eq("production", true);
 
   if (error) {
     console.error(error);

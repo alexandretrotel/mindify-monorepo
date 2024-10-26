@@ -26,7 +26,8 @@ export async function searchSummaries(query: string) {
     .select("*, authors(*)")
     .textSearch("title", query, {
       type: "websearch"
-    });
+    })
+    .eq("production", true);
 
   if (error) {
     console.error("Error searching summaries:", error);

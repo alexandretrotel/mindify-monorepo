@@ -40,7 +40,8 @@ const Topics = ({
             white_icon: topics.find((topic) => topic.id === topicId)?.white_icon ?? null,
             created_at: new Date().toISOString(),
             slug: topics.find((topic) => topic.id === topicId)?.slug as string,
-            emoji: topics.find((topic) => topic.id === topicId)?.emoji ?? null
+            emoji: topics.find((topic) => topic.id === topicId)?.emoji ?? null,
+            production: topics.find((topic) => topic.id === topicId)?.production ?? false
           }
         ];
       }
