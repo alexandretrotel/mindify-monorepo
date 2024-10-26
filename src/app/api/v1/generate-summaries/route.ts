@@ -259,7 +259,8 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
               const { error: mindsError } = await supabaseAdmin.from("minds").insert({
                 text: elt.minds,
                 summary_id: summaryDataGlobal?.id as number,
-                question: elt.questions
+                question: elt.questions,
+                mindify_ai: true
               });
 
               if (mindsError) {
