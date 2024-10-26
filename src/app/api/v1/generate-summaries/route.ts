@@ -12,7 +12,7 @@ const google = createGoogleGenerativeAI({
   apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY!
 });
 
-const model = google("gemini-1.5-flash-latest");
+const model = google("gemini-1.5-pro-latest");
 
 // TODO: support prompts other summaries than books
 const getAuthorPrompt = (authorName: string): string => {
