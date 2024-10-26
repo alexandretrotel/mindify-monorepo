@@ -182,8 +182,12 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
               "Schema for generating book summaries, don't use markdown at all, just plain text",
             schema: z.object({
               readingTime: z.number(),
-              chaptersTitle: z.string().array(),
-              chaptersText: z.string().array()
+              chapter: z
+                .object({
+                  title: z.string(),
+                  text: z.string()
+                })
+                .array()
             })
           });
 
@@ -191,8 +195,8 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
           const { data: chaptersData, error: chaptersError } = await supabaseAdmin
             .from("chapters")
             .insert({
-              titles: summaryResult?.object?.chaptersTitle,
-              texts: summaryResult?.object?.chaptersText,
+              titles: summaryResult?.object?.chapter.map((elt) => elt.title),
+              texts: summaryResult?.object?.chapter.map((elt) => elt.text),
               mindify_ai: true
             })
             .select()
@@ -240,20 +244,22 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
           schemaName: "MindsSchema",
           schemaDescription:
             "Schema for generating minds based on the book, don't use markdown at all, just plain text",
-          schema: z.object({
-            minds: z.string().array(),
-            questions: z.string().array()
-          })
+          schema: z
+            .object({
+              minds: z.string(),
+              questions: z.string()
+            })
+            .array()
         });
 
         console.log("Inserting minds data...");
         if (mindsResult?.object) {
-          for (const mind of mindsResult.object.minds) {
+          for (const elt of mindsResult.object) {
             try {
               const { error: mindsError } = await supabaseAdmin.from("minds").insert({
-                text: mind,
+                text: elt.minds,
                 summary_id: summaryDataGlobal?.id as number,
-                question: mindsResult.object.questions[mindsResult.object.minds.indexOf(mind)]
+                question: elt.questions
               });
 
               if (mindsError) {
