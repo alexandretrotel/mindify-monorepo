@@ -27,7 +27,7 @@ Mission : Résumer le concept et les leçons de "${title}" de ${authorName} en 5
 
 Pour chaque chapitre :
 
-1. Choisis un sous-titre accrocheur, formé d'une seule phrase exprimant une action ou une émotion (évite d'utiliser le signe “:” pour ne pas casser le rythme).  
+1. Choisis un sous-titre accrocheur, formé d'une seule phrase exprimant une action ou une émotion (évite d'utiliser le signe “:” pour ne pas casser le rythme et ne fait pas de markdown, ne mets pas non plus "Chapitre (nombre)").  
 2. Essaye de raconter le chapitre sous forme d'une histoire afin de vulgariser.
 3. Utilise du storytelling et des exemples concrets pour simplifier et vulgariser les concepts abordés au sein des chapitres plutôt que de faire du contenu théorique.   
 5. Assure-toi d'avoir autant de sous-titres que de chapitres (de 5 à 8 chapitres au total).  
@@ -127,7 +127,8 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
             model,
             prompt: authorPrompt,
             schemaName: "AuthorSchema",
-            schemaDescription: "Schema for generating author descriptions",
+            schemaDescription:
+              "Schema for generating author descriptions,don't use markdown at all, just plain text",
             schema: z.object({
               description: z.string()
             })
@@ -177,7 +178,8 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
             model,
             prompt: summaryPrompt,
             schemaName: "SummarySchema",
-            schemaDescription: "Schema for generating book summaries",
+            schemaDescription:
+              "Schema for generating book summaries, don't use markdown at all, just plain text",
             schema: z.object({
               readingTime: z.number(),
               chaptersTitle: z.string().array(),
@@ -236,7 +238,8 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
           model,
           prompt: mindsPrompt,
           schemaName: "MindsSchema",
-          schemaDescription: "Schema for generating minds based on the book",
+          schemaDescription:
+            "Schema for generating minds based on the book, don't use markdown at all, just plain text",
           schema: z.object({
             minds: z.string().array(),
             questions: z.string().array()
