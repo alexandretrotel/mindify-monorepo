@@ -33,6 +33,7 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { useSwipeable } from "react-swipeable";
 import { motion } from "framer-motion";
+import { features } from "@/data/features";
 
 export default function Notifications({
   userId,
@@ -59,6 +60,10 @@ export default function Notifications({
       });
     }
   };
+
+  if (!features.canLogIn) {
+    return null;
+  }
 
   return (
     <Popover>

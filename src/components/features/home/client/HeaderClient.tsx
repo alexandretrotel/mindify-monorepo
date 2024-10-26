@@ -17,6 +17,7 @@ import ToggleTheme from "@/components/global/ToggleTheme";
 import H2 from "@/components/typography/h2";
 import Logo from "@/../public/logos/mindify-square.svg";
 import Image from "next/image";
+import { features } from "@/data/features";
 
 const navigation = [
   { name: "Accueil", href: "#home" },
@@ -80,9 +81,11 @@ export default function HeaderClient() {
           </NavigationMenu>
         </div>
         <div className="hidden gap-4 lg:flex lg:flex-1 lg:justify-end">
-          <Button asChild>
-            <Link href="/auth/login">Se connecter</Link>
-          </Button>
+          {features.canLogIn && (
+            <Button asChild>
+              <Link href="/auth/login">Se connecter</Link>
+            </Button>
+          )}
           <ToggleTheme />
         </div>
       </nav>
@@ -123,11 +126,13 @@ export default function HeaderClient() {
                   </button>
                 ))}
               </div>
-              <div className="py-6">
-                <Button asChild>
-                  <Link href="/auth/login">Se connecter</Link>
-                </Button>
-              </div>
+              {features.canLogIn && (
+                <div className="py-6">
+                  <Button asChild>
+                    <Link href="/auth/login">Se connecter</Link>
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </DialogPanel>

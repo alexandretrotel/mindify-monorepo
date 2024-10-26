@@ -26,6 +26,7 @@ import type { UserMetadata } from "@supabase/supabase-js";
 import type { UUID } from "crypto";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { features } from "@/data/features";
 
 const AccountDropdownClient = ({
   userMetadata,
@@ -50,11 +51,13 @@ const AccountDropdownClient = ({
           </Avatar>
         </DropdownMenuTrigger>
       ) : (
-        <Button size="sm" asChild>
-          <Link href={`/auth/login`} className="flex items-center gap-2">
-            Se connecter
-          </Link>
-        </Button>
+        features.canLogIn && (
+          <Button size="sm" asChild>
+            <Link href={`/auth/login`} className="flex items-center gap-2">
+              Se connecter
+            </Link>
+          </Button>
+        )
       )}
 
       <DropdownMenuContent side="bottom" className="mx-4">
