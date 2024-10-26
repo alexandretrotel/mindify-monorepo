@@ -36,7 +36,8 @@ Pour chaque chapitre :
 Détails supplémentaires :
 
 - La longueur totale du texte doit avoisiner les 2000 mots (+/- 200 mots).  
-- Fournis également une estimation du temps de lecture global.  
+- Fournis également une estimation du temps de lecture global.
+- Ne mets pas de liens externes dans le texte ni de caractères spéciaux (comme des emojis, des guillemets, des retours à la ligne, etc.).
 
 Objectif : Offrir une expérience de lecture immersive et instructive, en capturant l’essence de "${title}" tout en facilitant la compréhension des concepts pour un public large.
     `;
@@ -85,6 +86,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
   const supabaseAdmin = createClient<Database>(supabaseURL, supabaseServiceRoleKey);
 
   try {
+    console.log("Fetching summary requests...");
     const { data, error } = await supabaseAdmin
       .from("summary_requests")
       .select("*")
@@ -95,6 +97,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
     }
 
     if (!data || data.length === 0) {
+      console.log("No summary requests found.");
       return new Response("No summary request to generate", { status: 200 });
     }
 
@@ -102,7 +105,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
       console.log("Generating summary for request", summaryRequest);
 
       try {
-        // checks if the author already exists in the database
+        console.log("Checking if author exists:", summaryRequest.author);
         const { data: authorDataCheck, error: authorErrorCheck } = await supabaseAdmin
           .from("authors")
           .select("*")
@@ -115,7 +118,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
 
         let authorDataGlobal;
         if (!authorDataCheck) {
-          // generate all the content from the request
+          console.log("Author not found, generating author data...");
           const authorPrompt = getAuthorPrompt(summaryRequest.author);
 
           const authorResult = await generateObject({
@@ -129,6 +132,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
           });
 
           const authorSlug = toSlug(summaryRequest.author);
+          console.log("Inserting new author data:", authorSlug);
 
           const { data: authorData, error: authorError } = await supabaseAdmin
             .from("authors")
@@ -147,10 +151,11 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
 
           authorDataGlobal = authorData;
         } else {
+          console.log("Author found:", authorDataCheck);
           authorDataGlobal = authorDataCheck;
         }
 
-        // checks if the summary already exists in the database
+        console.log("Checking if summary exists:", summaryRequest.title);
         const { data: summaryDataCheck, error: summaryErrorCheck } = await supabaseAdmin
           .from("summaries")
           .select("*")
@@ -163,6 +168,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
 
         let summaryDataGlobal;
         if (!summaryDataCheck) {
+          console.log("Summary not found, generating summary data...");
           const summaryPrompt = getSummaryPrompt(summaryRequest.title, summaryRequest.author);
 
           const summaryResult = await generateObject({
@@ -177,6 +183,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
             })
           });
 
+          console.log("Inserting chapters data...");
           const { data: chaptersData, error: chaptersError } = await supabaseAdmin
             .from("chapters")
             .insert({
@@ -193,6 +200,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
           }
 
           const summaryTitleSlug = toSlug(summaryRequest.title);
+          console.log("Inserting new summary data:", summaryTitleSlug);
 
           const { data: summaryData, error: summaryError } = await supabaseAdmin
             .from("summaries")
@@ -215,9 +223,11 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
 
           summaryDataGlobal = summaryData;
         } else {
+          console.log("Summary found:", summaryDataCheck);
           summaryDataGlobal = summaryDataCheck;
         }
 
+        console.log("Generating minds for summary:", summaryDataGlobal?.title);
         const mindsPrompt = getMindsPrompt(summaryRequest.title, summaryRequest.author);
 
         const mindsResult = await generateObject({
@@ -231,6 +241,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
           })
         });
 
+        console.log("Inserting minds data...");
         if (mindsResult?.object) {
           for (const mind of mindsResult.object.minds) {
             try {
@@ -250,6 +261,7 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
           }
         }
 
+        console.log("Deleting summary request...");
         const { error: deleteError } = await supabaseAdmin
           .from("summary_requests")
           .delete()
@@ -258,6 +270,8 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
         if (deleteError) {
           throw new Error("Error while deleting summary request");
         }
+
+        console.log("Successfully generated minds for summary request", summaryRequest);
       } catch (error) {
         console.error("Error while generating summary", error);
         continue;
