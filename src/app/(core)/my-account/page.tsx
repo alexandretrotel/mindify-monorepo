@@ -56,7 +56,7 @@ const MyAccount = async () => {
   const userId = user?.id as UUID;
   const userMetadata = user?.user_metadata;
 
-  const { data: topicsData } = await supabase.from("topics").select("*");
+  const { data: topicsData } = await supabase.from("topics").select("*").eq("production", true);
 
   const userTopics = await getUserTopics(userId);
   const userPicture = getAvatar(userMetadata);

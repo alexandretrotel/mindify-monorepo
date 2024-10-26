@@ -135,7 +135,7 @@ export async function areMindsSaved(mindIds: number[], userId: UUID) {
   const { data, error } = await supabase
     .from("saved_minds")
     .select("mind_id, minds(production)")
-    .match({ production: true, user_id: userId })
+    .match({ "minds.production": true, user_id: userId })
     .in("mind_id", mindIds);
 
   if (error) {

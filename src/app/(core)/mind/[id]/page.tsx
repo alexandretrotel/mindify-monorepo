@@ -15,7 +15,7 @@ export async function generateMetadata(props: {
   const { data: mind } = await supabaseAdmin
     .from("minds")
     .select("*, summaries(*, authors(*))")
-    .eq("id", id)
+    .match({ id, production: true, "summaries.production": true })
     .maybeSingle();
 
   let title;
