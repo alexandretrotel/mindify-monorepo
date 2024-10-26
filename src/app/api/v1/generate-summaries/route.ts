@@ -48,7 +48,7 @@ const getMindsPrompt = (title: string, authorName: string): string => {
   const prompt = `
 Un MIND est une idée extraite d’un média assez courte et concise sous la forme d'une citation (entre 200 et 500 caractères). Il s’agit plus précisément du résumé d’une notion ou d’un concept clé du média source. Ainsi, les utilisateurs peuvent lire des MINDS, les sauvegarder dans leur librairie et les garder en mémoire pour les réviser. Les utilisateurs premium seuls auront accès à cette fonctionnalité de révision qui se fera sous forme de flashcards. Il est écrit du point de vue de l'auteur.
 
-Pour chaque MIND, écrit une question qui invite à la réflexion et à la discussion. Cette question doit être pertinente et en lien avec le MIND puisqu’elle servira de base pour la création des flashcards.
+Pour chaque MIND, écrit une question qui invite à la réflexion et à la discussion. Cette question doit être pertinente et en lien avec le MIND puisqu’elle servira de base pour la création des flashcards. Enfaite, la question doit pouvoir servir dans le cadre d'une flashcard donc on doit pouvoir y répondre en se basant sur le MIND. Par exemple, si le MIND est "La vie est un long fleuve tranquille", la question pourrait être "Quelle est la métaphore utilisée pour décrire la vie dans (titre du livre) ?".
 
 Écrit entre 6 et 10 minds en français sur le livre ${title} de ${authorName} mais ne donne que le texte du mind et la question associée. Pas besoin de redonner le nom de l'auteur ou le titre du livre et ne formatte pas le texte comme une citation.
     `;
@@ -85,7 +85,10 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
   const supabaseAdmin = createClient<Database>(supabaseURL, supabaseServiceRoleKey);
 
   try {
-    const { data, error } = await supabaseAdmin.from("summary_requests").select("*");
+    const { data, error } = await supabaseAdmin
+      .from("summary_requests")
+      .select("*")
+      .eq("validated", true);
 
     if (error) {
       throw new Error("Error while fetching summary requests");
@@ -96,11 +99,6 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
     }
 
     for (const summaryRequest of data) {
-      // filter to keep only validated requests
-      if (!summaryRequest?.validated) {
-        continue;
-      }
-
       console.log("Generating summary for request", summaryRequest);
 
       try {

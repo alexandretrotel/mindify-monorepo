@@ -4,6 +4,7 @@ import { z } from "zod";
 import type { NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/types/supabase";
+import { features } from "@/data/features";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,10 @@ const google = createGoogleGenerativeAI({
 const model = google("gemini-1.5-flash-latest");
 
 export async function GET(request: NextRequest) {
+  if (!features.canAISuggest) {
+    return new Response("Forbidden", { status: 403 });
+  }
+
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response("Unauthorized", {
