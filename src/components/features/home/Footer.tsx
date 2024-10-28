@@ -23,6 +23,10 @@ export default function Footer({
     discover: [{ name: "Utilisateurs", href: "/users" }],
     support: [
       {
+        name: "Contacter le support",
+        href: "/support"
+      },
+      {
         component: (
           <BugDialog userId={userId} isConnected={isConnected}>
             <Suspense fallback={<BugsCounterSkeleton />}>
@@ -152,9 +156,22 @@ export default function Footer({
             <div className="flex flex-col gap-4">
               <Semibold>Support</Semibold>
               <ul className="flex flex-col gap-4">
-                {navigation.support.map((item, index) => (
-                  <li key={index}>{item?.component}</li>
-                ))}
+                {navigation.support.map((item, index) => {
+                  if (item.name) {
+                    return (
+                      <li key={index}>
+                        <Link
+                          href={item.href}
+                          className="text-sm text-muted-foreground hover:text-black dark:hover:text-white"
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    );
+                  }
+
+                  return <li key={index}>{item.component}</li>;
+                })}
               </ul>
             </div>
 

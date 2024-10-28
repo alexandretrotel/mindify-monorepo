@@ -20,11 +20,11 @@ import Image from "next/image";
 import { features } from "@/data/features";
 
 const navigation = [
-  { name: "Accueil", href: "#home" },
-  { name: "Nos services", href: "#features" },
-  { name: "Témoignages", href: "#testimonials" },
-  { name: "Offres", href: "#pricing" },
-  { name: "FAQ", href: "#faq" }
+  { name: "Accueil", href: "/#home" },
+  { name: "Nos services", href: "/#features" },
+  { name: "Témoignages", href: "/#testimonials" },
+  { name: "Offres", href: "/#pricing" },
+  { name: "FAQ", href: "/#faq" }
 ];
 
 export default function HeaderClient() {

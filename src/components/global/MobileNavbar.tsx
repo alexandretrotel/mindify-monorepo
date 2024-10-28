@@ -6,6 +6,7 @@ import { HomeIcon, GraduationCapIcon, BookIcon, UserIcon } from "lucide-react";
 import type { UUID } from "crypto";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { features } from "@/data/features";
 
 export default function MobileNavbar({
   userId,
@@ -51,7 +52,7 @@ export default function MobileNavbar({
     }
   ];
 
-  if (!isMobile) {
+  if (!isMobile || !features.canLogIn) {
     return null;
   }
 
