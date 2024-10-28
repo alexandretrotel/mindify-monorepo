@@ -9,6 +9,7 @@ import Link from "next/link";
 import { features } from "@/data/features";
 import Span from "@/components/typography/span";
 import { sourceToString } from "@/utils/topics";
+import { CTA_URL } from "@/data/constants";
 
 const ContentCard = ({
   summary
