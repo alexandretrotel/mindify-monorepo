@@ -5,6 +5,7 @@ import PulsatingButton from "@/components/magicui/pulsating-button";
 import Pencil from "@/../public/landing/pencil.svg";
 import Image from "next/image";
 import H1 from "@/components/typography/h1";
+import { CTA_URL } from "@/data/constants";
 
 const Hero = async () => {
   return (
@@ -33,7 +34,7 @@ const Hero = async () => {
               pulseColor="#16a34a"
               className="w-fit bg-primary px-12 text-lg hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90"
             >
-              <Link href="/auth/signup">Commencer gratuitement</Link>
+              <Link href={CTA_URL}>Commencer gratuitement</Link>
             </PulsatingButton>
           </div>
         </div>

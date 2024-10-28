@@ -51,7 +51,7 @@ const ContentCard = ({
           className="w-full hover:border-transparent hover:bg-primary hover:text-primary-foreground"
           asChild
         >
-          <Link href={`/auth/signup`}>Lire dès maintenant</Link>
+          <Link href={CTA_URL}>Lire dès maintenant</Link>
         </Button>
       </div>
     </div>
