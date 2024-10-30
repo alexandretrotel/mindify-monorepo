@@ -19,6 +19,7 @@ import Section from "@/components/global/Section";
 import H2 from "@/components/typography/h2";
 import Link from "next/link";
 import { Muted } from "@/components/typography/muted";
+import { CTA_URL } from "@/data/constants";
 
 const discount = 25; // discount per year subscription
 const proPricePerMonth = 3; // in eur
@@ -90,7 +91,7 @@ export default function Pricing({ isConnected }: Readonly<{ isConnected: boolean
                 </Button>
               ) : (
                 <Button className="w-full" variant={"outline"} asChild>
-                  <Link href="/auth/signup">S&apos;inscrire</Link>
+                  <Link href={CTA_URL}>S&apos;inscrire</Link>
                 </Button>
               )}
             </CardFooter>

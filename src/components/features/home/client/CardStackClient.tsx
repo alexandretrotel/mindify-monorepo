@@ -13,6 +13,7 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { CTA_URL } from "@/data/constants";
 
 let interval: any;
 
@@ -93,7 +94,7 @@ export const CardStackClient = ({
             <Semibold>{card.content}</Semibold>
 
             <Button className="w-full" disabled asChild>
-              <Link href="/auth/signup">Afficher le MIND</Link>
+              <Link href={CTA_URL}>Afficher le MIND</Link>
             </Button>
           </motion.div>
         );

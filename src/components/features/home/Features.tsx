@@ -7,6 +7,7 @@ import PulsatingButton from "@/components/magicui/pulsating-button";
 import H2 from "@/components/typography/h2";
 import { QuestionCardsStackClient } from "@/components/features/home/client/QuestionCardsStackClient";
 import { NotificationsClient } from "@/components/features/home/client/NotificationsClient";
+import { CTA_URL } from "@/data/constants";
 
 const Features = async () => {
   return (
@@ -29,7 +30,7 @@ const Features = async () => {
                       pulseColor="#16a34a"
                       className="w-full bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 md:w-fit"
                     >
-                      <Link href="/auth/signup">Accède à un savoir infini</Link>
+                      <Link href={CTA_URL}>Accède à un savoir infini</Link>
                     </PulsatingButton>
                   </div>
                 </div>
@@ -60,7 +61,7 @@ const Features = async () => {
                     pulseColor="#16a34a"
                     className="w-full bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 md:w-fit"
                   >
-                    <Link href="/auth/signup">Commence à apprendre</Link>
+                    <Link href={CTA_URL}>Commence à apprendre</Link>
                   </PulsatingButton>
                 </div>
               </div>
@@ -82,7 +83,7 @@ const Features = async () => {
                     pulseColor="#16a34a"
                     className="w-full bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 md:w-fit"
                   >
-                    <Link href="/auth/signup">Retiens réellement</Link>
+                    <Link href={CTA_URL}>Retiens réellement</Link>
                   </PulsatingButton>
                 </div>
               </div>

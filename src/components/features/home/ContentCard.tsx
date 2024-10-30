@@ -9,6 +9,7 @@ import Link from "next/link";
 import { features } from "@/data/features";
 import Span from "@/components/typography/span";
 import { sourceToString } from "@/utils/topics";
+import { CTA_URL } from "@/data/constants";
 
 const ContentCard = ({
   summary
@@ -51,7 +52,7 @@ const ContentCard = ({
           className="w-full hover:border-transparent hover:bg-primary hover:text-primary-foreground"
           asChild
         >
-          <Link href={`/auth/signup`}>Lire dès maintenant</Link>
+          <Link href={CTA_URL}>Lire dès maintenant</Link>
         </Button>
       </div>
     </div>
