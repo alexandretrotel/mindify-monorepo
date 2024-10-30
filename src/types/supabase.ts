@@ -170,6 +170,67 @@ export type Database = {
           },
         ]
       }
+      mindify_ai_chats: {
+        Row: {
+          created_at: string
+          id: number
+          summary_id: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          summary_id?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          summary_id?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mindify_ai_chats_summary_id_fkey"
+            columns: ["summary_id"]
+            isOneToOne: false
+            referencedRelation: "summaries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mindify_ai_messages: {
+        Row: {
+          chat_id: number
+          content: string
+          created_at: string
+          id: string
+          sender: Database["public"]["Enums"]["sender"]
+        }
+        Insert: {
+          chat_id: number
+          content: string
+          created_at?: string
+          id?: string
+          sender: Database["public"]["Enums"]["sender"]
+        }
+        Update: {
+          chat_id?: number
+          content?: string
+          created_at?: string
+          id?: string
+          sender?: Database["public"]["Enums"]["sender"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mindify_ai_messages_chat_id_fkey"
+            columns: ["chat_id"]
+            isOneToOne: false
+            referencedRelation: "mindify_ai_chats"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       minds: {
         Row: {
           created_at: string
@@ -630,31 +691,31 @@ export type Database = {
       summary_requests: {
         Row: {
           author: string
-          created_at: string
+          created_at: string | null
           id: number
-          source: Database["public"]["Enums"]["source"]
+          source: Database["public"]["Enums"]["source"] | null
           title: string
-          topic_id: number
+          topic_id: number | null
           user_id: string | null
           validated: boolean
         }
         Insert: {
           author: string
-          created_at?: string
+          created_at?: string | null
           id?: number
-          source: Database["public"]["Enums"]["source"]
+          source?: Database["public"]["Enums"]["source"] | null
           title: string
-          topic_id: number
+          topic_id?: number | null
           user_id?: string | null
           validated?: boolean
         }
         Update: {
           author?: string
-          created_at?: string
+          created_at?: string | null
           id?: number
-          source?: Database["public"]["Enums"]["source"]
+          source?: Database["public"]["Enums"]["source"] | null
           title?: string
-          topic_id?: number
+          topic_id?: number | null
           user_id?: string | null
           validated?: boolean
         }
@@ -907,6 +968,7 @@ export type Database = {
         | "friend_saved_summary"
         | "friend_request_accepted"
       plan: "free" | "pro"
+      sender: "AI" | "user"
       source: "article" | "podcast" | "video" | "book"
       support_status: "not_started" | "in_progress" | "finished"
     }

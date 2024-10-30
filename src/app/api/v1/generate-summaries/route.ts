@@ -3,8 +3,7 @@ import { generateObject } from "ai";
 import { z } from "zod";
 import { toSlug } from "@/utils/string";
 import type { NextRequest } from "next/server";
-import type { Database } from "@/types/supabase";
-import { createClient } from "@supabase/supabase-js";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export const dynamic = "force-dynamic";
 
@@ -71,7 +70,7 @@ export async function GET(request: NextRequest) {
   const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
   try {
-    const response = await generateSummaries(supabaseURL, supabaseServiceRoleKey);
+    const response = await generateSummaries();
 
     if (!response) {
       return new Response("Summary generation done", { status: 200 });
@@ -84,9 +83,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: string) {
-  const supabaseAdmin = createClient<Database>(supabaseURL, supabaseServiceRoleKey);
-
+async function generateSummaries() {
   try {
     console.log("Fetching summary requests...");
     const { data, error } = await supabaseAdmin
@@ -212,7 +209,9 @@ async function generateSummaries(supabaseURL: string, supabaseServiceRoleKey: st
 
           const { data: summaryData, error: summaryError } = await supabaseAdmin
             .from("summaries")
+
             .insert({
+              // @ts-ignore: Ignore the type error for the title property
               title: summaryRequest.title,
               slug: summaryTitleSlug,
               topic_id: summaryRequest.topic_id,
