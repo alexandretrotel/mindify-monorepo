@@ -34,7 +34,6 @@ const Home = async () => {
           <Testimonials />
           <Pricing isConnected={isConnected} />
           <Faq />
-          <TakeACoffee />
         </main>
 
         <Footer userId={userId} isConnected={isConnected} />
