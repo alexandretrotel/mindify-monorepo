@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     const result = await streamText({
       model,
       system: MINDIFY_AI_SYSTEM_PROMPT,
-      messages: messages,
+      messages,
       async onFinish({ text }) {
         try {
           await saveUserChat(messages?.reverse()?.[0]?.content, chatId);

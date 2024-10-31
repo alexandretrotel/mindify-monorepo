@@ -4,5 +4,6 @@ export const features = {
   summaryImageIsVisible: false,
   onboardingIsVisible: false,
   canLogIn: false,
-  canAISuggest: false
+  canAISuggest: false,
+  showPricingSection: false
 };
