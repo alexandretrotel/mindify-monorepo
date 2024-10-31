@@ -34,7 +34,6 @@ const Home = async () => {
           <Testimonials />
           {features.showPricingSection && <Pricing isConnected={isConnected} />}
           <Faq />
-          <TakeACoffee />
         </main>
 
         <Footer userId={userId} isConnected={isConnected} />
