@@ -20,7 +20,7 @@ export async function POST(req: Request) {
   const result = await streamObject({
     model,
     system: MINDIFY_AI_SUGGESTIONS_PROMPT,
-    prompt: prompt,
+    prompt,
     schema: suggestionsSchema
   });
 

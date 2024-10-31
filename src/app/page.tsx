@@ -32,7 +32,7 @@ const Home = async () => {
           <Hero />
           <Features />
           <Testimonials />
-          <Pricing isConnected={isConnected} />
+          {features.showPricingSection && <Pricing isConnected={isConnected} />}
           <Faq />
         </main>
 
