@@ -31,7 +31,6 @@ export type Database = {
           id: number
           mindify_ai: boolean
           name: string
-          production: boolean
           slug: string
         }
         Insert: {
@@ -40,7 +39,6 @@ export type Database = {
           id?: number
           mindify_ai?: boolean
           name: string
-          production?: boolean
           slug: string
         }
         Update: {
@@ -49,7 +47,6 @@ export type Database = {
           id?: number
           mindify_ai?: boolean
           name?: string
-          production?: boolean
           slug?: string
         }
         Relationships: []
@@ -59,7 +56,6 @@ export type Database = {
           created_at: string
           id: number
           mindify_ai: boolean | null
-          production: boolean
           texts: string[]
           titles: string[]
         }
@@ -67,7 +63,6 @@ export type Database = {
           created_at?: string
           id?: number
           mindify_ai?: boolean | null
-          production?: boolean
           texts: string[]
           titles: string[]
         }
@@ -75,7 +70,6 @@ export type Database = {
           created_at?: string
           id?: number
           mindify_ai?: boolean | null
-          production?: boolean
           texts?: string[]
           titles?: string[]
         }
@@ -90,7 +84,7 @@ export type Database = {
         Insert: {
           created_at?: string
           friend_id: string
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -109,7 +103,7 @@ export type Database = {
         Insert: {
           created_at?: string
           updated_at?: string | null
-          user_id: string
+          user_id?: string
           xp: number
         }
         Update: {
@@ -133,7 +127,7 @@ export type Database = {
           id?: number
           total_length: number
           total_time: number
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -153,7 +147,7 @@ export type Database = {
         Insert: {
           created_at?: string
           mind_id: number
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -181,7 +175,7 @@ export type Database = {
           created_at?: string
           id?: number
           summary_id?: number | null
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -360,7 +354,7 @@ export type Database = {
           title: string
           type: Database["public"]["Enums"]["notifications_type"]
           updated_at?: string | null
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -403,7 +397,7 @@ export type Database = {
           created_at?: string
           id?: number
           onboarded?: boolean
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -446,7 +440,7 @@ export type Database = {
         Insert: {
           created_at?: string
           expo_push_token: string
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -466,7 +460,7 @@ export type Database = {
           created_at?: string
           read_at?: string
           summary_id: number
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -493,7 +487,7 @@ export type Database = {
         Insert: {
           created_at?: string
           mind_id: number
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -519,7 +513,7 @@ export type Database = {
         Insert: {
           created_at?: string
           summary_id: number
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -563,7 +557,7 @@ export type Database = {
           scheduled_days: number
           stability: number
           state: number
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -670,7 +664,7 @@ export type Database = {
           created_at?: string
           rating: number
           summary_id: number
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -746,7 +740,7 @@ export type Database = {
           id?: number
           status?: Database["public"]["Enums"]["support_status"]
           title: string
-          user_id: string
+          user_id?: string
         }
         Update: {
           bug_type?: Database["public"]["Enums"]["bugs"]
@@ -776,7 +770,7 @@ export type Database = {
           id?: number
           status?: Database["public"]["Enums"]["support_status"]
           title: string
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -796,7 +790,6 @@ export type Database = {
           emoji: string | null
           id: number
           name: string
-          production: boolean
           slug: string
           white_icon: string | null
         }
@@ -806,7 +799,6 @@ export type Database = {
           emoji?: string | null
           id?: number
           name: string
-          production?: boolean
           slug: string
           white_icon?: string | null
         }
@@ -816,7 +808,6 @@ export type Database = {
           emoji?: string | null
           id?: number
           name?: string
-          production?: boolean
           slug?: string
           white_icon?: string | null
         }
@@ -831,7 +822,7 @@ export type Database = {
         Insert: {
           created_at?: string
           topic_id: number
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
@@ -861,7 +852,7 @@ export type Database = {
           id?: number
           slug: string
           title: string
-          user_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
