@@ -5,7 +5,8 @@
       "namespace": "android_app",
       "package_name": "com.mindify.app",
       "sha256_cert_fingerprints": [
-        "32:CD:95:DD:98:52:E8:49:86:C8:F2:5B:BE:EA:F0:4C:F9:D6:E5:54:4A:C8:29:24:9B:E1:91:DF:1B:3A:F2:47"
+        "32:CD:95:DD:98:52:E8:49:86:C8:F2:5B:BE:EA:F0:4C:F9:D6:E5:54:4A:C8:29:24:9B:E1:91:DF:1B:3A:F2:47",
+        "FF:59:67:5B:FF:93:EC:D7:7E:AD:D9:D3:39:8C:06:B6:08:4A:6E:5C:14:8E:D5:A2:DD:8B:0E:95:EE:95:A3:FC"
       ]
     }
   }
