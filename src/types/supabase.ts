@@ -230,7 +230,6 @@ export type Database = {
           created_at: string
           id: number
           mindify_ai: boolean | null
-          production: boolean
           question: string | null
           summary_id: number | null
           text: string
@@ -239,7 +238,6 @@ export type Database = {
           created_at?: string
           id?: number
           mindify_ai?: boolean | null
-          production?: boolean
           question?: string | null
           summary_id?: number | null
           text: string
@@ -248,7 +246,6 @@ export type Database = {
           created_at?: string
           id?: number
           mindify_ai?: boolean | null
-          production?: boolean
           question?: string | null
           summary_id?: number | null
           text?: string

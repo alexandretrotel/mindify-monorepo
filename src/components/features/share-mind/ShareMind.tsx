@@ -30,7 +30,7 @@ const ShareMind = async ({
   const { data: mind } = (await supabase
     .from("minds")
     .select("*, summaries(*, authors(*), topics(*))")
-    .match({ id: mindId, production: true, "summaries.production": true })
+    .match({ id: mindId, "summaries.production": true })
     .maybeSingle()) as {
     data:
       | (Tables<"minds"> & {

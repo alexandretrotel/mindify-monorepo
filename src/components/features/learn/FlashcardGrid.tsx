@@ -9,8 +9,8 @@ export default async function flashcardGrid({ userId }: { userId: UUID }) {
 
   const { count: savedMindsCount, error } = await supabase
     .from("saved_minds")
-    .select("*, minds(production)", { count: "exact", head: true })
-    .match({ user_id: userId, "minds.production": true });
+    .select("*", { count: "exact", head: true })
+    .match({ user_id: userId });
 
   if (error) {
     console.error(error);

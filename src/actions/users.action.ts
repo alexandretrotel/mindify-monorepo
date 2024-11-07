@@ -258,7 +258,7 @@ export async function getUserPersonalizedSummariesFromInterests(userId: UUID) {
   const { data: userTopicsData } = await supabase
     .from("user_topics")
     .select("topics(*)")
-    .match({ user_id: userId, "topics.production": true });
+    .match({ user_id: userId });
   const userTopics = userTopicsData?.flatMap((data) => data?.topics);
 
   const { data: summariesData } = await supabase
@@ -365,10 +365,7 @@ export async function getUserSavedSummaries(userId: UUID) {
 export async function getUserTopics(user_id: UUID) {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
-    .from("user_topics")
-    .select("topics(*)")
-    .match({ user_id, "topics.production": true });
+  const { data, error } = await supabase.from("user_topics").select("topics(*)").match({ user_id });
 
   if (error) {
     console.error(error);
@@ -417,7 +414,7 @@ export async function getUserSavedMinds(userId: UUID) {
   const { data: savedMindsData, error } = await supabase
     .from("saved_minds")
     .select("*, minds(*, summaries(*, topics(*), authors(*)))")
-    .match({ user_id: userId, "minds.production": true });
+    .match({ user_id: userId });
 
   if (error) {
     console.error(error);
@@ -446,8 +443,8 @@ export async function getUserSavedMindsIds(userId: UUID) {
 
   const { data: savedMindsData, error } = await supabase
     .from("saved_minds")
-    .select("minds(id, production)")
-    .match({ user_id: userId, "minds.production": true });
+    .select("minds(id)")
+    .match({ user_id: userId });
 
   if (error) {
     console.error(error);
@@ -465,7 +462,7 @@ export async function getUserDueMindsFromMindsIds(userId: UUID, mindsIds: number
   const { data: dueMindsData, error } = await supabase
     .from("srs_data")
     .select("*, minds(*, summaries(*, topics(*), authors(*)))")
-    .match({ user_id: userId, "minds.production": true })
+    .match({ user_id: userId })
     .in("mind_id", mindsIds);
 
   if (error) {
@@ -503,7 +500,7 @@ export async function getUserDueMindsFromMindsIds(userId: UUID, mindsIds: number
   const { data: fullMindsData, error: fetchError } = await supabase
     .from("srs_data")
     .select("*, minds(*,summaries(*, topics(*), authors(*)))")
-    .match({ user_id: userId, "minds.production": true })
+    .match({ user_id: userId })
     .in("mind_id", mindsIds)
     .lte("due", new Date().toISOString());
 

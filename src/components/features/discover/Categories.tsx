@@ -33,7 +33,7 @@ const Categories = async ({ userId, isConnected }: { userId: UUID; isConnected: 
       : [];
   }
 
-  const { data: topicsData } = await supabase.from("topics").select("*").eq("production", true);
+  const { data: topicsData } = await supabase.from("topics").select("*");
   const sortedTopics = topicsData
     ? [...topicsData]?.sort((a, b) => a.name.localeCompare(b.name))
     : [];

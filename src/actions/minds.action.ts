@@ -36,7 +36,7 @@ export async function getMostSavedMinds() {
   const { data: savedMindsData, error } = await supabase
     .from("saved_minds")
     .select("*, minds(*, summaries(*, topics(*), authors(*)))")
-    .eq("production", true);
+    .eq("summaries.production", true);
 
   if (error) {
     console.error(error);
@@ -56,8 +56,7 @@ export async function getMostSavedMinds() {
           summary_id: read?.minds?.summary_id as number,
           created_at: read?.minds?.created_at as string,
           mindify_ai: read?.minds?.mindify_ai as boolean,
-          question: read?.minds?.question as string,
-          production: read?.minds?.production as boolean
+          question: read?.minds?.question as string
         }
       };
     }
@@ -86,7 +85,7 @@ export async function getMindsFromUserId(userId: UUID) {
   const { data: mindsData, error } = await supabase
     .from("saved_minds")
     .select("*, minds(*, summaries(*, topics(*), authors(*)))")
-    .match({ user_id: userId, production: true });
+    .match({ user_id: userId, "summaries.production": true });
 
   if (error) {
     console.error(error);
@@ -134,8 +133,8 @@ export async function areMindsSaved(mindIds: number[], userId: UUID) {
 
   const { data, error } = await supabase
     .from("saved_minds")
-    .select("mind_id, minds(production)")
-    .match({ "minds.production": true, user_id: userId })
+    .select("mind_id, minds(production, summaries(production))")
+    .match({ "summaries.production": true, user_id: userId })
     .in("mind_id", mindIds);
 
   if (error) {
@@ -152,7 +151,7 @@ export async function getRandomMinds() {
   const { data: mindsData, error } = await supabase
     .from("minds")
     .select("*, summaries(*, topics(*), authors(*))")
-    .eq("production", true);
+    .eq("summaries.production", true);
 
   if (error) {
     console.error(error);

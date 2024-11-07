@@ -45,7 +45,7 @@ export async function getAdminTopicFromTopicSlug(slug: string) {
   const { data, error } = await supabaseAdmin
     .from("topics")
     .select("*")
-    .match({ slug, production: true })
+    .match({ slug })
     .maybeSingle();
 
   if (error) {
