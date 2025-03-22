@@ -1,0 +1,166 @@
+{
+  "expo": {
+    "name": "Mindify",
+    "slug": "mindify",
+    "version": "1.0.4",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "mindify",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#16a34a"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mindify.app",
+      "usesAppleSignIn": true,
+      "associatedDomains": ["applinks:mindify.fr"],
+      "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.470926317546-6c0c9en1qv8vp3ucpajo1nkrshf4m672"
+            ]
+          }
+        ]
+      }
+    },
+    "android": {
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "*.mindify.fr",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive_icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.mindify.app",
+      "blockedPermissions": ["android.permission.RECORD_AUDIO"],
+      "permissions": ["com.google.android.gms.permission.AD_ID"],
+      "googleServicesFile": "./google-services.json"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-font",
+        {
+          "fonts": ["node_modules/@expo-google-fonts/inter/Inter_900Black.ttf"]
+        }
+      ],
+      [
+        "expo-quick-actions",
+        {
+          "iosActions": [
+            {
+              "id": "1",
+              "title": "Rechercher",
+              "icon": "symbol:magnifyingglass",
+              "params": {
+                "href": "/search"
+              }
+            },
+            {
+              "id": "2",
+              "title": "Découvrir des idées",
+              "icon": "symbol:wand.and.sparkles",
+              "params": {
+                "href": "/"
+              }
+            },
+            {
+              "id": "3",
+              "title": "Explorer du contenu",
+              "icon": "symbol:book",
+              "params": {
+                "href": "/library"
+              }
+            },
+            {
+              "id": "4",
+              "title": "Voir mes notifications",
+              "icon": "symbol:bell",
+              "params": {
+                "href": "/notifications"
+              }
+            }
+          ]
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.470926317546-6c0c9en1qv8vp3ucpajo1nkrshf4m672"
+        }
+      ],
+      [
+        "expo-asset",
+        {
+          "assets": [
+            "./assets/images/profile/default_banner.png",
+            "./assets/videos/blurred_audio_compressed_1.mp4",
+            "./assets/videos/blurred_audio_compressed_2.mp4",
+            "./assets/videos/blurred_audio_compressed_3.mp4",
+            "./assets/videos/blurred_audio_compressed_4.mp4",
+            "./assets/videos/blurred_audio_compressed_5.mp4",
+            "./assets/videos/blurred_audio_compressed_6.mp4",
+            "./assets/videos/blurred_audio_compressed_7.mp4",
+            "./assets/videos/blurred_audio_compressed_8.mp4",
+            "./assets/videos/blurred_audio_compressed_9.mp4",
+            "./assets/videos/blurred_audio_compressed_10.mp4"
+          ]
+        }
+      ],
+      "expo-video",
+      ["expo-apple-authentication"],
+      "expo-localization",
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "mindify",
+          "project": "mindify-mobile-app",
+          "url": "https://sentry.io/"
+        }
+      ],
+      "expo-quick-actions",
+      [
+        "expo-tracking-transparency",
+        {
+          "userTrackingPermission": "This identifier will be used to deliver personalized ads to you."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "46763c88-ea59-4245-a35f-a814848d4e15"
+      }
+    },
+    "owner": "mindify",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/46763c88-ea59-4245-a35f-a814848d4e15"
+    }
+  }
+}

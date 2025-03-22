@@ -1,0 +1,1 @@
+export const MUTE_SOUND_KEY = "VIDEO_MUTE_STATE";

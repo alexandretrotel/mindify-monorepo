@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "462967590842",
+    "project_id": "mindify-mobile-app",
+    "storage_bucket": "mindify-mobile-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462967590842:android:30b4835c1def8ea27f9783",
+        "android_client_info": {
+          "package_name": "com.mindify.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-t1Ug4cRFLqd_FAMBA_T7EWuat0NLUxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,15 @@
+export const mockSummaryService = {
+  getSummarySavedCount: jest.fn(),
+  getSummaryReadCount: jest.fn(),
+  getSummaryRating: jest.fn(),
+  getSummary: jest.fn(),
+  rateSummary: jest.fn(),
+  saveSummary: jest.fn(),
+  unsaveSummary: jest.fn(),
+  markSummaryAsRead: jest.fn(),
+  markSummaryAsUnread: jest.fn(),
+  isSummarySaved: jest.fn(),
+  isSummaryRead: jest.fn(),
+  getUserSummaryRating: jest.fn(),
+  getSummaryTitle: jest.fn(),
+};

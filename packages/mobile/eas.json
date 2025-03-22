@@ -1,0 +1,79 @@
+{
+  "cli": {
+    "appVersionSource": "remote"
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "track": "internal"
+      },
+      "ios": {
+        "appleId": "trotelalexandre@proton.me",
+        "ascAppId": "6736653377",
+        "appleTeamId": "H44V62KMS7",
+        "bundleIdentifier": "com.mindify.app"
+      }
+    },
+    "testflight": {
+      "extends": "production"
+    }
+  },
+  "build": {
+    "development-simulator": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_MINDIFY_ENV": "development"
+      },
+      "channel": "development-simulator"
+    },
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmZXV1emRnZW5jem52Y2p3eGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTk5OTU3ODQsImV4cCI6MjAzNTU3MTc4NH0.4z7Qgv3gEU0gi_C4gnipMwfwJqlUjW4-sv9yBIfuh2Y",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://ifeuuzdgencznvcjwxkz.supabase.co/",
+        "SUPABASE_PROJECT_ID": "ifeuuzdgencznvcjwxkz",
+        "EXPO_PUBLIC_MINDIFY_ENV": "production",
+        "SENTRY_AUTH_TOKEN": "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"
+      },
+      "channel": "production",
+      "autoIncrement": true
+    },
+    "development": {
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmZXV1emRnZW5jem52Y2p3eGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTk5OTU3ODQsImV4cCI6MjAzNTU3MTc4NH0.4z7Qgv3gEU0gi_C4gnipMwfwJqlUjW4-sv9yBIfuh2Y",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://ifeuuzdgencznvcjwxkz.supabase.co/",
+        "SUPABASE_PROJECT_ID": "ifeuuzdgencznvcjwxkz",
+        "EXPO_PUBLIC_MINDIFY_ENV": "development",
+        "SENTRY_AUTH_TOKEN": "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"
+      },
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development"
+    },
+    "preview": {
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmZXV1emRnZW5jem52Y2p3eGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTk5OTU3ODQsImV4cCI6MjAzNTU3MTc4NH0.4z7Qgv3gEU0gi_C4gnipMwfwJqlUjW4-sv9yBIfuh2Y",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://ifeuuzdgencznvcjwxkz.supabase.co/",
+        "SUPABASE_PROJECT_ID": "ifeuuzdgencznvcjwxkz",
+        "EXPO_PUBLIC_MINDIFY_ENV": "preview",
+        "SENTRY_AUTH_TOKEN": "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"
+      },
+      "distribution": "internal",
+      "channel": "preview"
+    },
+    "testflight": {
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlmZXV1emRnZW5jem52Y2p3eGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTk5OTU3ODQsImV4cCI6MjAzNTU3MTc4NH0.4z7Qgv3gEU0gi_C4gnipMwfwJqlUjW4-sv9yBIfuh2Y",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://ifeuuzdgencznvcjwxkz.supabase.co/",
+        "SUPABASE_PROJECT_ID": "ifeuuzdgencznvcjwxkz",
+        "EXPO_PUBLIC_MINDIFY_ENV": "production",
+        "SENTRY_AUTH_TOKEN": "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"
+      },
+      "distribution": "store",
+      "channel": "testflight"
+    }
+  }
+}

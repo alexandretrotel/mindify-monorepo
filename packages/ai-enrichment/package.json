@@ -1,0 +1,36 @@
+{
+  "name": "@mindify/ai-enrichment",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "author": "Alexandre Trotel",
+  "license": "ISC",
+  "scripts": {
+    "start": "node build/index.js",
+    "build": "babel src --out-dir build --extensions \".ts\"",
+    "update-types": "sh ./scripts/update-database-types.sh"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.0",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.8.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@ai-sdk/google": "^0.0.55",
+    "@ai-sdk/openai": "^0.0.72",
+    "@supabase/supabase-js": "^2.46.1",
+    "ai": "^3.4.33",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "tsconfig-paths": "^4.2.0",
+    "zod": "^3.23.8"
+  }
+}
